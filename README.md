@@ -9,5 +9,5 @@ npm i docsify-cli -g
 ## Preview
 
 ```bash
-docsify serve docs
+docsify serve docs -i index.dev.html
 ```
