@@ -1,0 +1,6 @@
+version: 1
+rules:
+  - expected: traP
+    specs:
+      - from: Trap
+        to: traP

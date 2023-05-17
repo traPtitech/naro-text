@@ -9,13 +9,27 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [{ text: "Home", link: "/" }],
 
-    sidebar: [
-      {
-        text: "第一部",
-        items: [{ text: "はじめに", link: "/chapter1/index" }],
-      },
-    ],
-
+    sidebar: {
+      "/chapter1/": [
+        {
+          text: "第一部",
+          items: [
+            { text: "はじめに", link: "/chapter1/index" },
+            {
+              text: "実習編",
+              collapsed: true,
+              items: [
+                { text: "環境構築", link: "/chapter1/section1/setup" },
+                {
+                  text: "Golang で Hello World",
+                  link: "/chapter1/section1/hello-world",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
     socialLinks: [
       { icon: "github", link: "https://github.com/traPtitech/naro-text" },
     ],

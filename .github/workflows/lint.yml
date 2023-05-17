@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  textlintm:
+  textlint:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
