@@ -1,0 +1,21 @@
+name: textlint
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  textlintm:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx textlint ./docs/**/*.md
