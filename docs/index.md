@@ -4,22 +4,10 @@ layout: home
 
 hero:
   name: "Webエンジニアになろう講習会"
-  text: "traP SysAd Webエンジニアになろう講習会のテキスト"
-  tagline: My great project tagline
-  actions:
-    - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
-
+  tagline: traP SysAd班
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 第一部
+    details: 基本的なWebアプリの開発を学びます。
+    link: /chapter1/index.md
 ---
 
