@@ -2,6 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: "/naro-text/",
   title: "なろう講習会",
   description: "Webエンジニアになろう講習会のテキスト",
   themeConfig: {
