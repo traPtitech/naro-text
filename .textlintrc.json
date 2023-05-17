@@ -1,0 +1,11 @@
+{
+  "plugins": {},
+  "filters": {},
+  "rules": {
+    "ja-no-abusage": true,
+    "ja-no-mixed-period": true,
+    "ja-simple-user-dictionary": true,
+    "no-doubled-conjunctive-particle-ga": true,
+    "no-mix-dearu-desumasu": true
+  }
+}
