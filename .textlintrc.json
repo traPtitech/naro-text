@@ -1,11 +1,29 @@
 {
   "plugins": {},
-  "filters": {},
+  "filters": {
+    "allowlist": {
+      "allow": [
+        ":::"
+      ]
+    }
+  },
   "rules": {
     "ja-no-abusage": true,
     "ja-no-mixed-period": true,
     "ja-simple-user-dictionary": true,
     "no-doubled-conjunctive-particle-ga": true,
-    "no-mix-dearu-desumasu": true
+    "preset-ja-technical-writing": true,
+    "no-mix-dearu-desumasu": true,
+    "preset-ja-spacing": {
+      "ja-space-between-half-and-full-width": {
+        "space": "always"
+      }
+    },
+    "spellcheck-tech-word": true,
+    "prh": {
+      "rulePaths": [
+        "./prh.yaml"
+      ]
+    }
   }
 }
