@@ -4,4 +4,4 @@
 
 [main.go](src/main.go ':include :type=code')
 
-[App.vue](src/App.vue ':include :type=code markup')
+[App.vue](src/App.vue?raw ':include :type=code markup')
