@@ -50,44 +50,31 @@ Run `npm audit` for details.
 
 //todo: 色やばい
 
-テンプレートは初期状態でビルド&配信できるようになっているんどえ、以下のコマンドを実行してブラウザで確認してみましょう。
+テンプレートは初期状態でビルド&配信できるようになっているので、以下のコマンドを実行してブラウザで確認してみましょう。
 
 `$ npm run dev`
 
 ```bash
-mehm8128@DESKTOP-6F4C0KI ~/naro-lecture/naro-template (main)$ npm run dev
+mehm8128@DESKTOP-6F4C0KI ~/naro-lecture/todolist (main)$ npm run dev
 
 > todolist@0.0.0 dev
 > vite
 
 
-  vite v2.9.9 dev server running at:
+  VITE v4.3.8  ready in 611 ms
 
-  > Local: http://localhost:3000/
-  > Network: use `--host` to expose
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h to show help
 
-  ready in 158ms.
 ```
 
-この状態で、ブラウザから http://localhost:3000/ にアクセスすると、以下のような画面が表示されるはずです。
+この状態で、ブラウザから http://localhost:5173/ にアクセスすると、以下のような画面が表示されるはずです。
 
 :::warning
 WSL2 を使う人は、最初に書いた WSL2 の設定についてを実行しないとアクセスできません。
-:::
 
-:::warning
-それでもアクセスできない場合は package.json の該当部分を以下のように変更してください。
-
-```diff
-"scripts": {
--    "dev": "vite",
-+    "dev": "vite --host",
-     "build": "vite build",
-     "serve": "vite preview"
-  }
-```
-
-その後、同様に起動し、今度は Network: に表示されるリンクを使ってアクセスしてみてください。
+//todo リンク
 :::
 
 ![](assets/03.png)
@@ -148,7 +135,7 @@ https://github.com/traPtitech/traQ_S-UI/blob/master/src/components/Main/MainView
 ├── src
 │   ├── App.vue             // main.jsから読まれる.vueファイル(Vueの処理開始点)
 │   ├── assets              // Vueで使用したい画像など
-│   │　　└── logo.png
+│   │　　└── logo.svg
 │   ├── components          // 各種コンポーネント
 │   │　　└── HelloWorld.vue
 │   └── main.ts　　　　　　　　// index.htmlから読まれるscript(TSの処理開始点)
@@ -184,7 +171,8 @@ HelloWorld コンポーネントを読み込み → 登録 → 描画してい�
 #### `src/components/HelloWorld.vue`
 
 ここと似たようなものをどんどん書いていきます。
-App.vue で呼び出されています。
+App.vue で呼び出されています。  
+※`components`内に他にも色々なコンポーネントがありますが、重要ではないので無視します。
 
 ## Vue.js を書く準備
 
@@ -261,7 +249,7 @@ VSCode の Vue3 向けの統合プラグイン。
 
 ##### src/components/HelloWorld.vue
 
-`script`タグ内で`ClickCounter.vue`を読み込み、`template`タグ内を大きく消してカウンターを配置します。
+`script`タグ内で`ClickCounter.vue`を読み込み、`template`タグ内にカウンターを配置します。
 
 <<< @/chapter1/section2/src/HelloWorld.vue
 
@@ -284,8 +272,6 @@ Vue のコンポーネントは一つのタグの中に収まっている必要�
 そのため、多くの場合 div タグで囲まれています。(`ClickCounter.vue`も)
 
 ##### 2 行目
-
-//todo: syntax highlight が効かない
 
 ```js
 import ClickCounter from "./ClickCounter.vue"
