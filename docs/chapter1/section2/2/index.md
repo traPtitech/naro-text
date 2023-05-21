@@ -49,14 +49,14 @@
 今は商品の追加ができないので、とりあえずダミーデータを入れておきます。
 
 参考: [Array | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array)  
-//todo: オブジェクトのリンクもほしいかも
+//todo: オブジェクトのリンクもほしい。
 
 <<< @/chapter1/section2/2/src/ItemList2.vue
 
 4~7 行目は TypeScript の記法で、`Item`という型を`interface`を用いて定義しています。  
 そして ref のジェネリクスに`Item[]`を渡すことで、`items`変数を`Item`型の配列の`ref`として扱えるようにしています。
 
-//todo: interface とジェネリクスの参考リンク
+//todo: interface とジェネリクスの参考リンク。
 
 ### 商品のリストデータを表示する
 
@@ -157,7 +157,7 @@ Vue.js では、ある特定の条件が満たされた時に class を追加す
 
 ### 商品の値段が 10000 円以上だったら「高額商品」と表示する
 
-Vue.js では、ある特定の条件を満たした場合のみ、対象コンポーネントを表示するという機能を`v-if`という構文を使って実現することができます。
+Vue.js では、ある特定の条件を満たした場合のみ、対象コンポーネントを表示するという機能を`v-if`という構文を使って実現できます。
 
 参考: [条件付きレンダリング | Vue.js](https://v3.ja.vuejs.org/guide/conditional.html#%E6%9D%A1%E4%BB%B6%E4%BB%98%E3%81%8D%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%99%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%99)
 

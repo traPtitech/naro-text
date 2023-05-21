@@ -15,28 +15,28 @@ Vite のようなバンドラーによって、
 など様々な処理を加えられた後、いい感じにブラウザ上で動作する生の HTML/CSS/JS として出力されます。
 
 ビルドによる成果物は`dist`ディレクトリの中に生成されています。  
-//todo: 画像貼る
+//todo: 画像貼る。
 
 ## 公開する
 
 それでは公開しましょう！
 
 早速 push して公開したいところですが、`.gitignore`をみてみると`dist`ディレクトリが ignore されていることがわかります。  
-//todo: 画像貼る
+//todo: 画像貼る。
 
 これは GitHub にはソースコードだけをアップロードし、そのソースコードから再現できるものは極力アップロードしない(Git のパフォーマンスに影響するため)という考えから来ているものです。
 
-`node_modules`も同じような理由で ignore されていることがわかると思います。
+`node_modules`も同じような理由で ignore されていることがわかります。
 
-ビルド済みの成果物を GitHub Pages などを用いて公開してもいいのですが、上記の考えに従い、今回は違ったサービスで公開しようと思います。
+ビルド済みの成果物を GitHub Pages などを用いて公開してもいいのですが、上記の考えに従い、今回は違ったサービスで公開します。
 
 ### Vercel で公開する
 
 [Vercel: Develop. Preview. Ship. For the best frontend teams](https://vercel.com/)
 
-Vercel を使うと、ビルドが必要なサイトも簡単に公開することができるので便利です。
+Vercel を使うと、ビルドが必要なサイトも簡単に公開できるので便利です。
 
-// todo:アカウント作るのめんどくさいので後回し
+// todo:アカウント作るのめんどくさいので後回し。
 
 1. Signup から以下の画面に進み、GitHub アカウントと連携してください。
    ![](https://md.trap.jp/uploads/upload_639f66f4a91154672e52ea41f770bc54.png)
@@ -48,7 +48,7 @@ Vercel を使うと、ビルドが必要なサイトも簡単に公開するこ�
 3. Install Vercel で自分のアカウントを選択し、==Only select repositories==から今回のリポジトリを連携(Install)してください。
    ![](https://md.trap.jp/uploads/upload_ea8c1ea5466ccaa56e072780f2b171ed.png)
 
-4. 連携できたら==PERSONAL ACCOUNT==を選択し、各種設定画面に進みます。
+4. 連携できたら==PERSONAL ACCOUNT==を選択し、各設定画面に進みます。
    ![](https://md.trap.jp/uploads/upload_5bd36633e407fa7ac8cf496d4ededfc3.png)
    ![](https://md.trap.jp/uploads/upload_b60e9f0a523d4c7afb91701a0124c3e0.png)
 
@@ -64,4 +64,4 @@ Vercel を使うと、ビルドが必要なサイトも簡単に公開するこ�
 - サイト：https://trap.jp
 - ソースコード：https://github.com/traPtitech
 
-//todo: 作ってリンク貼る
+//todo: 作ってリンク貼る。

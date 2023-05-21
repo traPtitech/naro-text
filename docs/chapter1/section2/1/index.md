@@ -4,7 +4,7 @@
 
 ## Vue テンプレートのクローン
 
-// todo: ts 対応したのを traPtitech に別で作る
+// todo: ts 対応したのを traPtitech に別で作る。
 
 予め設定等が準備されたテンプレートリポジトリを用いて TodoList を作っていきます。
 
@@ -12,7 +12,7 @@ https://github.com/hijiki51/naro-template にアクセスし、「Use this templ
 
 ![](assets/01.png)
 
-「Repository name」にリポジトリ名を入力、公開状態は TA が見れるように「Public」 にしてください。
+「Repository name」にリポジトリ名を入力、公開状態は TA が見られるように「Public」にしてください。
 
 ![](assets/02.png)
 
@@ -22,11 +22,11 @@ https://github.com/hijiki51/naro-template にアクセスし、「Use this templ
 :::warning
 `command not found`と出る場合にはパスが通っていないので、TA に聞いてください。
 
-// todo: リンクかなんか貼ってもよさそう
+// todo: リンクかなんか貼ってもよさそう。
 :::
 
 開いたプロジェクトの中に入っている`package.json`というファイルには npm に関する様々な設定が書かれています。
-この中には依存するパッケージ一覧も含まれており、以下のコマンドでそれらをインストールすることができます。
+この中には依存するパッケージ一覧も含まれており、以下のコマンドでそれらをインストールできます。
 
 `$ npm i`  
 もしくは  
@@ -48,7 +48,7 @@ To address all issues, run:
 Run `npm audit` for details.
 ```
 
-//todo: 色やばい
+//todo: 色やばい。
 
 テンプレートは初期状態でビルド&配信できるようになっているので、以下のコマンドを実行してブラウザで確認してみましょう。
 
@@ -94,15 +94,16 @@ traP では、Web フロントフレームワークとして最も多く使わ�
 
 Vue.js では`.vue`という拡張子で単一ファイルコンポーネント(SFC, Single File Component)を作ることができます。
 
-なろう講習会の言葉で言うと、Vue では、**一つの同じファイルに構造(HTML)・ロジック(JavaScript)・スタイル(CSS)**を記述することができます。それぞれを別の巨大なファイルに書くのではなく、**見た目に対応した要素ごとに分割して書く**ことで、それぞれの責任範囲をより直感的な形式で分けることができるわけです。このように分けられた要素をコンポーネントといいます。
+なろう講習会の言葉で言うと、Vue では、**1 つの同じファイルに構造(HTML)・ロジック(JavaScript)・スタイル(CSS)**を記述できます。それぞれを別の巨大なファイルに書くのではなく、**見た目に対応した要素ごとに分割して書く**ことで、それぞれの責任範囲をより直感的な形式で分けることができるわけです。このように分けられた要素をコンポーネントといいます。
 
 //todo: .html でも全部書けるのでは？
 
 ### Vue.js の書き方
 
-`<script>`タグ内にロジック
-`<template>`タグ内に構造
-`<style>`タグ内にスタイル
+- `<script>`タグ内にロジック
+- `<template>`タグ内に構造
+- `<style>`タグ内にスタイル
+
 を記述します。
 
 #### Sample.vue
@@ -111,7 +112,7 @@ Vue.js では`.vue`という拡張子で単一ファイルコンポーネント(
 
 #### 使用例
 
-traQ で一つ例を挙げると、メッセージの表示部分はコンポーネントとして定義されています。
+traQ で 1 つ例を挙げると、メッセージの表示部分はコンポーネントとして定義されています。
 メッセージも複数のコンポーネントから構成されています。
 
 https://github.com/traPtitech/traQ_S-UI/blob/master/src/components/Main/MainView/MessageElement/MessageElement.vue
@@ -120,7 +121,7 @@ https://github.com/traPtitech/traQ_S-UI/blob/master/src/components/Main/MainView
 - メッセージにスタンプをつける等のロジック(TypeScript)
 - それらのスタイルを記述するスタイル(Scss)
 
-が一つのファイルに纏められていることがわかります(このファイルはたった 130 行程度ですが、traQ にはコンポーネントが 300 個以上あります。 これがそれぞれの HTML、 CSS、 JavaScript のファイルに書かれていると想像してみると…)。
+が 1 つのファイルに纏められていることがわかります(このファイルはたった 130 行程度ですが、traQ にはコンポーネントが 300 個以上あります。 これがそれぞれの HTML、 CSS、 JavaScript のファイルに書かれていると想像してみると…)。
 
 ### プロジェクト構造
 
@@ -183,7 +184,7 @@ App.vue で呼び出されています。
 Chrome Devtool に Vue.js 向けのデバッグ機能を追加してくれます。  
 [Vue.js devtools - Chrome ウェブストア](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=ja)
 
-//todo: ほとんど使ったことないけどどう使うんだっけ
+//todo: ほとんど使ったことないけどどう使うんだっけ。
 
 #### ESLint
 
@@ -202,7 +203,7 @@ Chrome Devtool に Vue.js 向けのデバッグ機能を追加してくれます
 VSCode の Vue3 向けの統合プラグイン。  
 [Vue Language Features (Volar) - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=vue.volar)
 
-インストールが終わったら、反映させるために VSCode を一度閉じて開きなおしてください。
+インストールが終わったら、反映させるために VSCode を 1 度閉じて開きなおしてください。
 
 ### ソースコードの書き進め方
 
@@ -236,7 +237,7 @@ VSCode の Vue3 向けの統合プラグイン。
 
 :::info
 先にコードを書いてから解説を書いています。  
-意味がわからなくてもとりあえずコピペ or 写経しましょう。
+意味がわからなくてもとりあえずコピー&ペースト or 写経しましょう。
 :::
 
 #### ファイルの作成
@@ -249,7 +250,7 @@ VSCode の Vue3 向けの統合プラグイン。
 
 #### src/App.vue
 
-`style`タグを丸ごと消します
+`style`タグを丸ごと消します。
 
 <<< @/chapter1/section2/1/src/App.vue
 
@@ -274,7 +275,7 @@ VSCode の Vue3 向けの統合プラグイン。
 ##### 9~14 行目
 
 テンプレート部分です。  
-Vue のコンポーネントは一つのタグの中に収まっている必要があります。  
+Vue のコンポーネントは 1 つのタグの中に収まっている必要があります。  
 そのため、多くの場合 div タグで囲まれています。(`ClickCounter.vue`も)
 
 ##### 2 行目
