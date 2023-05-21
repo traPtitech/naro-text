@@ -247,6 +247,12 @@ VSCode の Vue3 向けの統合プラグイン。
 
 #### ソースコードの変更
 
+#### src/App.vue
+
+`style`タグを丸ごと消します
+
+<<< @/chapter1/section2/src/App.vue
+
 ##### src/components/HelloWorld.vue
 
 `script`タグ内で`ClickCounter.vue`を読み込み、`template`タグ内にカウンターを配置します。
@@ -363,7 +369,8 @@ Vue.js ならば、`HelloWorld.vue` の`<ClickCounter />`をコピーして増�
 
 商品リストをテーマに、Todo リストに必要な Vue.js に機能をピックアップしていきます。
 
-// todo: gif 貼る
+こんな感じのを作っていきます。
+![](assets/03.gif)
 
 ### 必要な要素を考える
 
@@ -381,8 +388,8 @@ Vue.js ならば、`HelloWorld.vue` の`<ClickCounter />`をコピーして増�
 
 ### 商品リストのコンポーネントを作る
 
-`components`ディレクトリに`ItemList.vue`というファイルを作成します。  
-//todo: 画像貼る
+`components`ディレクトリに`ItemList.vue`というファイルを作成します。
+![](assets/07.png)
 
 #### src/components/ItemList.vue
 
@@ -397,7 +404,7 @@ Vue.js ならば、`HelloWorld.vue` の`<ClickCounter />`をコピーして増�
 表示されました。
 こうすることで、後は`ItemList.vue`の中身を書き変えればよくなります。
 
-// todo: 画像貼る
+![](assets/08.png)
 
 ### 商品のリストデータを保存する
 
@@ -430,19 +437,19 @@ Vue.js ではリストデータを`template`タグ内で for 文のように書�
 <template>
   <div>
     <div>ItemList</div>
-    <div v-for="item in items" :key="item.name">
-      <div>
+    <ul>
+      <li v-for="item in items" :key="item.name">
         <div>名前: {{ item.name }}</div>
         <div>{{ item.price }} 円</div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 ```
 
 表示できました。
 
-//todo:画像貼る
+![](assets/09.png)
 
 ### 商品を追加する
 
@@ -457,7 +464,7 @@ Vue.js では入力欄に入力された文字列とコンポーネントの変�
 
 できました！
 
-//todo: gif 貼る
+![](assets/02.gif)
 
 :::info
 このままだとボタンを連打して商品の追加ができてしまいます。
@@ -480,12 +487,16 @@ Vue.js では、ある特定の条件が満たされた時に class を追加す
 <template>
 	<div>
 		<div>ItemList</div>
-		<div v-for="item in items" :key="item.name">
-			<div :class="{ over500: item.price >= 500 }">
+		<ul>
+			<li
+				v-for="item in items"
+				:key="item.name"
+				:class="{ over500: item.price >= 500 }"
+			>
 				<div>名前: {{ item.name }}</div>
 				<div>{{ item.price }} 円</div>
-			</div>
-		</div>
+			</li>
+		</ul>
 		<div>
 			<label>
 				名前
@@ -507,7 +518,7 @@ Vue.js では、ある特定の条件が満たされた時に class を追加す
 </style>
 ```
 
-//todo: 画像
+![](assets/10.png)
 
 ### 商品の値段が 10000 円以上だったら「高額商品」と表示する
 
@@ -521,19 +532,23 @@ Vue.js では、ある特定の条件を満たした場合のみ、対象コン�
 <template>
 	<div>
 		<div>ItemList</div>
-		<div v-for="item in items" :key="item.name">
-			<div :class="{ over500: item.price >= 500 }">
+		<ul>
+			<li
+				v-for="item in items"
+				:key="item.name"
+				:class="{ over500: item.price >= 500 }"
+			>
 				<div>名前: {{ item.name }}</div>
 				<div>{{ item.price }} 円</div>
 				<div v-if="item.price >= 10000">高額商品</div>
-			</div>
-		</div>
+			</li>
+		</ul>
 		==略==
 	</div>
 </template>
 ```
 
-//todo: 画像貼る
+![](assets/11.png)
 
 これで商品リストが完成しました！
 
