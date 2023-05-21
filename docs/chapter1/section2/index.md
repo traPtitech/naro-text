@@ -216,7 +216,7 @@ VSCode の Vue3 向けの統合プラグイン。
 
 ![](assets/05.png)
 
-設定で自動保存されるようにしておくと便利です。
+設定で自動保存されるようにしておくと便利です。  
 参考： [自動保存するように設定する](https://www.javadrive.jp/vscode/setting/index2.html)
 :::
 
@@ -235,7 +235,7 @@ VSCode の Vue3 向けの統合プラグイン。
 ### Vue.js を書く
 
 :::info
-先にコードを書いてから解説を書いています。
+先にコードを書いてから解説を書いています。  
 意味がわからなくてもとりあえずコピペ or 写経しましょう。
 :::
 
@@ -267,13 +267,13 @@ VSCode の Vue3 向けの統合プラグイン。
 
 ##### 9~14 行目
 
-テンプレート部分です。
-Vue のコンポーネントは一つのタグの中に収まっている必要があります。
+テンプレート部分です。  
+Vue のコンポーネントは一つのタグの中に収まっている必要があります。  
 そのため、多くの場合 div タグで囲まれています。(`ClickCounter.vue`も)
 
 ##### 2 行目
 
-```js
+```ts
 import ClickCounter from "./ClickCounter.vue"
 ```
 
@@ -281,14 +281,14 @@ import ClickCounter from "./ClickCounter.vue"
 
 ##### n 行目
 
-```js
+```ts
 defineProps<{
 	msg: string
 }>()
 ```
 
-`msg`props を`string`型で定義してる部分です。
-今回だと`App.vue`で `<HelloWorld msg="Hello Vue 3 + Vite" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。JavaScript でいう関数の引数のようなものです。
+`msg`props を`string`型で定義してる部分です。  
+今回だと`App.vue`で `<HelloWorld msg="Hello Vue 3 + Vite" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。 JavaScript でいう関数の引数のようなものです。
 
 参考: [プロパティ | Vue.js](https://ja.vuejs.org/guide/components/props.html)
 
@@ -305,19 +305,17 @@ defineProps<{
 ##### 4 行目
 
 コンポーネント内で利用する変数をこのように書きます。  
-ここでは`count`という名前の変数を`number`型で定義しています。
+ここでは`count`という名前の変数を`number`型で定義しています(実はこの程度なら TypeScript の型推論というものが効いて、初期値の`0`から自動で`count`変数は`number`型だと推論してくれます)。
 
-//todo: フォーマットバグってる
-
-```js
-const count = ref < number > 0
+```ts
+const count = ref<number>(0)
 ```
 
 参考: [ref によるリアクティブな変数 | Vue.js](https://v3.ja.vuejs.org/guide/composition-api-introduction.html#ref-%E3%81%AB%E3%82%88%E3%82%8B%E3%83%AA%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%95%E3%82%99%E3%81%AA%E5%A4%89%E6%95%B0)
 
 ##### 11・12 行目
 
-ボタンが押されたイベントに対する処理を書いています。
+ボタンが押されたイベントに対する処理を書いています。  
 `@click`の中には直接 JavaScript を書くこと(今回)も`<script setup>`内で定義した関数を指定することもできます。
 
 ```html
@@ -341,22 +339,285 @@ v-on:click のショートハンドとして@click という書き方ができ�
 
 ### Vue.js の嬉しさを実感する
 
-いかがでしょうか？
+いかがでしょうか？  
 この規模だと、ソースコードの行数としては生の HTML・JS で書いたほうが少ないですが、書く量を増やしてでも Vue を使う嬉しさがあります。
 
 #### 変数を操作するだけで表示が変わる
 
-生 JS ではボタンのクリックごとに表示を変更する必要があります。
+生 JS ではボタンのクリックごとに表示を変更する必要があります。  
 Vue ではコンポーネントの定義の時に表示と変数を関連付ける(5 行目・10 行目)ことで、変数を操作するだけで表示が自動で切り替わります。これが Vue.js の提供するリアクティビティです(コンポーネントが内部に保持している状態を変更したとき、その変更が Vue によって検知されて自動で HTML に反映されます)。
 
-今回は、変数を操作する箇所が少ないのでまだ追えますが、この変数が様々なところで変更されるものだった場合を考えてみましょう。
-生 HTML・JS ではその全ての場所で書き換えるコードを忘れることなく書かなければなりません。
-複数のプログラマでコードを書いた場合、それを忘れないようにするということはかなりのコストになってしまうので辛いです。
+今回は、変数を操作する箇所が少ないのでまだ追えますが、この変数が様々なところで変更されるものだった場合を考えてみましょう。  
+生 HTML・JS ではその全ての場所で書き換えるコードを忘れることなく書かなければなりません。  
+複数のプログラマでコードを書いた場合、それを忘れないようにするということはかなりのコストになってしまうので辛いです。  
 Vue.js ではそれがなくて嬉しいです。
 
 ### 一度コンポーネントを登録すれば使い回せる
 
-カウンターを 2 つ作りたくなった場合を考えます。
-生 HTML・JS が書ける人はちょっとチャレンジしてみてください。関数名や変数名をかぶらないようにしたり、セレクタの名前を変更したりと結構めんどくさいです。
-Vue.js ならば、`HelloWorld.vue` の`<click-counter />`をコピーして増やすだけで OK です。
+カウンターを 2 つ作りたくなった場合を考えます。  
+生 HTML・JS が書ける人はちょっとチャレンジしてみてください。関数名や変数名をかぶらないようにしたり、セレクタの名前を変更したりと結構めんどくさいです。  
+Vue.js ならば、`HelloWorld.vue` の`<ClickCounter />`をコピーして増やすだけで OK です。  
 これは traQ のように同じ要素を沢山利用するような Web アプリで大きな利点となります。
+
+## さらに Vue.js を書く
+
+商品リストをテーマに、Todo リストに必要な Vue.js に機能をピックアップしていきます。
+
+// todo: gif 貼る
+
+### 必要な要素を考える
+
+上の Gif のようなアプリを実現するためには何が必要か考えてみましょう。
+
+- 商品リストのコンポーネントを作る
+- 商品のリストデータを保存する
+- 商品のリストデータを表示する
+- 商品を追加できる
+- 商品の値段が 500 円以上だったら赤くする
+- 商品の値段が 1000 円以上だったら「高額商品」と表示する
+
+こんな感じでしょうか。  
+それでは上から順番に実装していきましょう。
+
+### 商品リストのコンポーネントを作る
+
+`components`ディレクトリに`ItemList.vue`というファイルを作成します。  
+//todo: 画像貼る
+
+#### src/components/ItemList.vue
+
+中身はコンポーネントに最低限必要な部分だけ書きます。
+
+<<< @/chapter1/section2/src/ItemList.vue
+
+#### HelloWorld.vue
+
+<<< @/chapter1/section2/src/HelloWorld2.vue
+
+表示されました。
+こうすることで、後は`ItemList.vue`の中身を書き変えればよくなります。
+
+// todo: 画像貼る
+
+### 商品のリストデータを保存する
+
+商品リストのデータを保存するのに適当な変数の型は何でしょうか？  
+商品「リスト」なので配列がよさそうです。  
+というわけで、配列を使ってデータを保持することにします。  
+今は商品の追加ができないので、とりあえずダミーデータを入れておきます。
+
+参考: [Array | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array)  
+//todo: オブジェクトのリンクもほしいかも
+
+<<< @/chapter1/section2/src/ItemList2.vue
+
+4~7 行目は TypeScript の記法で、`Item`という型を`interface`を用いて定義しています。  
+そして ref のジェネリクスに`Item[]`を渡すことで、`items`変数を`Item`型の配列の`ref`として扱えるようにしています。
+
+//todo: interface とジェネリクスの参考リンク
+
+### 商品のリストデータを表示する
+
+先ほど定義したリストの情報を表示していきます。  
+Vue.js ではリストデータを`template`タグ内で for 文のように書く `v-for` という構文があります。  
+`v-for` を使うときには`:key`を設定しなければいけません(理由(やや難): [key | Vue.js](https://v3.ja.vuejs.org/api/special-attributes.html#key))。
+
+参考: [リストレンダリング | Vue.js](https://v3.ja.vuejs.org/guide/list.html#%E3%83%AA%E3%82%B9%E3%83%88%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%99%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%99)
+
+これを使ってデータを表示してみます。
+
+```tsx
+<template>
+  <div>
+    <div>ItemList</div>
+    <div v-for="item in items" :key="item.name">
+      <div>
+        <div>名前: {{ item.name }}</div>
+        <div>{{ item.price }} 円</div>
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+表示できました。
+
+//todo:画像貼る
+
+### 商品を追加する
+
+Vue.js では入力欄に入力された文字列とコンポーネントの変数を結びつけることができます。  
+参考： [フォーム入力バインディング | Vue.js](https://v3.ja.vuejs.org/guide/forms.html#form-input-bindings)
+
+これを使って商品を追加できるようにしてみます。
+
+<<< @/chapter1/section2/src/ItemList3.vue
+
+参考: [アロー関数式 | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
+
+できました！
+
+//todo: gif 貼る
+
+:::info
+このままだとボタンを連打して商品の追加ができてしまいます。
+
+- ボタンを押したら入力欄を空にする機能
+- 入力欄が空だったらボタンを押しても追加されないようにする機能
+
+を追加してみましょう。
+:::
+
+### 商品の値段が 500 円以上だったら赤くする
+
+Vue.js では、ある特定の条件が満たされた時に class を追加するという機構を持たせることできます。  
+これを使って、条件が満たされたときだけ CSS を当てるといったことができます。
+
+参考: [CSS の基本 | MDN](https://developer.mozilla.org/ja/docs/Learn/Getting_started_with_the_web/CSS_basics)  
+参考: [オブジェクト構文 | Vue.js](https://v3.ja.vuejs.org/guide/class-and-style.html#%E3%82%AA%E3%83%95%E3%82%99%E3%82%B7%E3%82%99%E3%82%A7%E3%82%AF%E3%83%88%E6%A7%8B%E6%96%87)
+
+```vue
+<template>
+	<div>
+		<div>ItemList</div>
+		<div v-for="item in items" :key="item.name">
+			<div :class="{ over500: item.price >= 500 }">
+				<div>名前: {{ item.name }}</div>
+				<div>{{ item.price }} 円</div>
+			</div>
+		</div>
+		<div>
+			<label>
+				名前
+				<input v-model="newItemName" type="text" />
+			</label>
+			<label>
+				価格
+				<input v-model="newItemPrice" type="number" />
+			</label>
+			<button @click="addItem">add</button>
+		</div>
+	</div>
+</template>
+
+<style>
+.over500 {
+	color: red;
+}
+</style>
+```
+
+//todo: 画像
+
+### 商品の値段が 10000 円以上だったら「高額商品」と表示する
+
+Vue.js では、ある特定の条件を満たした場合のみ、対象コンポーネントを表示するという機能を`v-if`という構文を使って実現することができます。
+
+参考: [条件付きレンダリング | Vue.js](https://v3.ja.vuejs.org/guide/conditional.html#%E6%9D%A1%E4%BB%B6%E4%BB%98%E3%81%8D%E3%83%AC%E3%83%B3%E3%82%BF%E3%82%99%E3%83%AA%E3%83%B3%E3%82%AF%E3%82%99)
+
+これを使って商品の値段が 10000 円以上だったら「高額商品」と表示するという機能を実現してみましょう。
+
+```vue
+<template>
+	<div>
+		<div>ItemList</div>
+		<div v-for="item in items" :key="item.name">
+			<div :class="{ over500: item.price >= 500 }">
+				<div>名前: {{ item.name }}</div>
+				<div>{{ item.price }} 円</div>
+				<div v-if="item.price >= 10000">高額商品</div>
+			</div>
+		</div>
+		==略==
+	</div>
+</template>
+```
+
+//todo: 画像貼る
+
+これで商品リストが完成しました！
+
+## Todo リストを作る
+
+ここまで紹介してきた機能を使うことで Todo リストが作れるはずです。
+頑張りましょう！
+
+:::info
+Todo リストを作りましょう。
+
+必要な機能は以下の通りです。
+
+- タスクは未完または完了済みの状態を持つ
+- タスクはタスク名を持つ
+- 未完タスクのリストと完了済みタスクのリストが表示される
+- タスクを完了させることができる
+- タスクを追加することができる
+
+以上の機能が実現されていれば後は自由です。
+スタイルが気になる人は CSS なども書きましょう。
+:::
+
+## ビルドする
+
+`npm run build`でビルドを行うことができます。
+
+Vue.js などのフレームワークの記法に従って書かれたコードは、そのままではブラウザ上で動きません。  
+Vite のようなバンドラーによって、
+
+- 依存関係の解決
+- HTML/CSS/JS への変換
+- 圧縮
+- etc...
+
+など様々な処理を加えられた後、いい感じにブラウザ上で動作する生の HTML/CSS/JS として出力されます。
+
+ビルドによる成果物は`dist`ディレクトリの中に生成されています。
+//todo: 画像貼る
+
+## 公開する
+
+それでは公開しましょう！
+
+早速 push して公開したいところですが、`.gitignore`をみてみると`dist`ディレクトリが ignore されていることがわかります。
+//todo: 画像貼る
+
+これは GitHub にはソースコードだけをアップロードし、そのソースコードから再現できるものは極力アップロードしない(Git のパフォーマンスに影響するため)という考えから来ているものです。
+
+`node_modules`も同じような理由で ignore されていることがわかると思います。
+
+ビルド済みの成果物を GitHub Pages などを用いて公開してもいいのですが、上記の考えに従い、今回は違ったサービスで公開しようと思います。
+
+### Vercel で公開する
+
+[Vercel: Develop. Preview. Ship. For the best frontend teams](https://vercel.com/)
+
+Vercel を使うと、ビルドが必要なサイトも簡単に公開することができるので便利です。
+
+// todo:アカウント作るのめんどくさいので後回し
+
+1. Signup から以下の画面に進み、GitHub アカウントと連携してください。
+   ![](https://md.trap.jp/uploads/upload_639f66f4a91154672e52ea41f770bc54.png)
+
+2. [新規作成画面](https://vercel.com/new)から==Add GitHub Account==を選択してください。
+   ![](https://md.trap.jp/uploads/upload_2ca44b1f8fe1577bde24865b48b80f3c.png)
+   ![](https://md.trap.jp/uploads/upload_2fa1180866e85cac7268a40c25786ce5.png)
+
+3. Install Vercel で自分のアカウントを選択し、==Only select repositories==から今回のリポジトリを連携(Install)してください。
+   ![](https://md.trap.jp/uploads/upload_ea8c1ea5466ccaa56e072780f2b171ed.png)
+
+4. 連携できたら==PERSONAL ACCOUNT==を選択し、各種設定画面に進みます。
+   ![](https://md.trap.jp/uploads/upload_5bd36633e407fa7ac8cf496d4ededfc3.png)
+   ![](https://md.trap.jp/uploads/upload_b60e9f0a523d4c7afb91701a0124c3e0.png)
+
+5. 画像の通り設定を進めて、==Deploy==します。
+   ![](https://md.trap.jp/uploads/upload_16e092e8dfb72310897aeff26223e85e.png)
+   ![](https://md.trap.jp/uploads/upload_6b8fecd35ed5e6b5575ebcebf633005a.png)
+
+6. ログが流れる画面に遷移するので処理が終わるのを待ちます。ビルドが成功すると以下のような画面に遷移します。
+   ![](https://md.trap.jp/uploads/upload_fdea23fe0fa0f94656d6f12490629773.png)
+
+見本
+
+- サイト：https://trap.jp
+- ソースコード：https://github.com/traPtitech
+  //todo: 作ってリンク貼る
