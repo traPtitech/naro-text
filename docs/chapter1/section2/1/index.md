@@ -86,7 +86,7 @@ WSL2 を使う人は、最初に書いた WSL2 の設定についてを実行し
 ### Vue.js とは
 
 以下のリンクから公式ドキュメントに飛ぶことができます。
-[Vue.js](https://v3.ja.vuejs.org/)
+[Vue.js](https://ja.vuejs.org/)
 
 traP では、Web フロントフレームワークとして最も多く使われているフレームワークで、traQ、traPortal、Showcase、anke-to、knoQ などで使われています。
 
@@ -318,7 +318,7 @@ defineProps<{
 const count = ref<number>(0)
 ```
 
-参考: [ref によるリアクティブな変数 | Vue.js](https://v3.ja.vuejs.org/guide/composition-api-introduction.html#ref-%E3%81%AB%E3%82%88%E3%82%8B%E3%83%AA%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%95%E3%82%99%E3%81%AA%E5%A4%89%E6%95%B0)
+参考: [リアクティビティーの基礎 | Vue.js](https://ja.vuejs.org/guide/essentials/reactivity-fundamentals.html#reactive-variables-with-ref)]
 
 ##### 11・12 行目
 
@@ -331,7 +331,7 @@ const count = ref<number>(0)
 ```
 
 参考: [イベントへの入門 - ウェブ開発を学ぶ | MDN](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Building_blocks/Events)  
-参考: [イベントハンドリング | Vue.js](https://v3.ja.vuejs.org/guide/events.html)
+参考: [イベントハンドリング | Vue.js](https://ja.vuejs.org/guide/essentials/event-handling.html)
 
 :::tip
 v-on:click のショートハンドとして@click という書き方ができます(推奨)
@@ -345,8 +345,8 @@ v-on:click のショートハンドとして@click という書き方ができ�
 const countMessage = computed(() => "回数: " + count.value)
 ```
 
-参考: [テンプレート構文 | Vue.js](https://v3.ja.vuejs.org/guide/template-syntax.html#%E3%83%86%E3%83%B3%E3%83%95%E3%82%9A%E3%83%AC%E3%83%BC%E3%83%88%E6%A7%8B%E6%96%87)  
-参考: [算出プロパティ | Vue.js](https://v3.ja.vuejs.org/guide/reactivity-computed-watchers.html#%E7%AE%97%E5%87%BA%E3%83%95%E3%82%9A%E3%83%AD%E3%83%8F%E3%82%9A%E3%83%86%E3%82%A3)
+参考: [テンプレート構文 | Vue.js](https://ja.vuejs.org/guide/essentials/template-syntax.html)
+参考: [算出プロパティ | Vue.js](https://ja.vuejs.org/guide/essentials/computed.html#writable-computed)
 
 ### Vue.js の嬉しさを実感する
 
