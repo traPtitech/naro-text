@@ -8,7 +8,7 @@
 
 予め設定等が準備されたテンプレートリポジトリを用いて TodoList を作っていきます。
 
-https://github.com/hijiki51/naro-template にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
+[https://github.com/hijiki51/naro-template](https://github.com/hijiki51/naro-template) にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
 
 ![](assets/01.png)
 
@@ -69,7 +69,7 @@ mehm8128@DESKTOP-6F4C0KI ~/naro-lecture/todolist (main)$ npm run dev
 
 ```
 
-この状態で、ブラウザから <a href='http://localhost:5173/'>http://localhost:5173</a> にアクセスすると、以下のような画面が表示されるはずです。
+この状態で、ブラウザから http://localhost:5173/ にアクセスすると、以下のような画面が表示されるはずです。
 
 :::warning
 WSL2 を使う人は、最初に書いた WSL2 の設定についてを実行しないとアクセスできません。
@@ -115,7 +115,7 @@ Vue.js では`.vue`という拡張子で単一ファイルコンポーネント(
 traQ で 1 つ例を挙げると、メッセージの表示部分はコンポーネントとして定義されています。
 メッセージも複数のコンポーネントから構成されています。
 
-https://github.com/traPtitech/traQ_S-UI/blob/master/src/components/Main/MainView/MessageElement/MessageElement.vue
+[https://github.com/traPtitech/traQ_S-UI/blob/master/src/components/Main/MainView/MessageElement/MessageElement.vue](https://github.com/traPtitech/traQ_S-UI/blob/master/src/components/Main/MainView/MessageElement/MessageElement.vue)
 
 - メッセージ情報の表示(ユーザー名、画像、ファイル等)の構造(HTML)
 - メッセージにスタンプをつける等のロジック(TypeScript)
