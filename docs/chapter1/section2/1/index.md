@@ -69,7 +69,7 @@ mehm8128@DESKTOP-6F4C0KI ~/naro-lecture/todolist (main)$ npm run dev
 
 ```
 
-この状態で、ブラウザから http://localhost:5173/ にアクセスすると、以下のような画面が表示されるはずです。
+この状態で、ブラウザから <a href='http://localhost:5173/' target="_blank" rel="noopener noreferrer">localhost:5173</a> にアクセスすると、以下のような画面が表示されるはずです。
 
 :::warning
 WSL2 を使う人は、最初に書いた WSL2 の設定についてを実行しないとアクセスできません。
