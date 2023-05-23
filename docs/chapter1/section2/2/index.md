@@ -48,15 +48,16 @@
 というわけで、配列を使ってデータを保持することにします。  
 今は商品の追加ができないので、とりあえずダミーデータを入れておきます。
 
-参考: [Array | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array)  
-//todo: オブジェクトのリンクもほしい。
+参考: [Array | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array)
+
+<!-- todo: オブジェクトのリンクもほしい。-->
 
 <<< @/chapter1/section2/2/src/ItemList2.vue
 
 4~7 行目は TypeScript の記法で、`Item`という型を`interface`を用いて定義しています。  
 そして ref のジェネリクスに`Item[]`を渡すことで、`items`変数を`Item`型の配列の`ref`として扱えるようにしています。
 
-//todo: interface とジェネリクスの参考リンク。
+<!-- todo: interface とジェネリクスの参考リンク。-->
 
 ### 商品のリストデータを表示する
 

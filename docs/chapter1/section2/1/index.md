@@ -4,7 +4,7 @@
 
 ## Vue テンプレートのクローン
 
-// todo: ts 対応したのを traPtitech に別で作る。
+<!-- todo: ts 対応したのを traPtitech に別で作る。-->
 
 予め設定等が準備されたテンプレートリポジトリを用いて TodoList を作っていきます。
 
@@ -22,7 +22,8 @@
 :::warning
 `command not found`と出る場合にはパスが通っていないので、TA に聞いてください。
 
-// todo: リンクかなんか貼ってもよさそう。
+<!-- todo: リンクかなんか貼ってもよさそう。-->
+
 :::
 
 開いたプロジェクトの中に入っている`package.json`というファイルには npm に関する様々な設定が書かれています。
@@ -48,7 +49,7 @@ To address all issues, run:
 Run `npm audit` for details.
 ```
 
-//todo: 色やばい。
+<!-- todo: 色やばい-->
 
 テンプレートは初期状態でビルド&配信できるようになっているので、以下のコマンドを実行してブラウザで確認してみましょう。
 
@@ -74,8 +75,7 @@ mehm8128@DESKTOP-6F4C0KI ~/naro-lecture/todolist (main)$ npm run dev
 :::warning
 WSL2 を使う人は、最初に書いた WSL2 の設定についてを実行しないとアクセスできません。
 
-//todo リンク
-:::
+<!-- todo: リンク-->
 
 ![](assets/03.png)
 
@@ -96,7 +96,7 @@ Vue.js では`.vue`という拡張子で単一ファイルコンポーネント(
 
 なろう講習会の言葉で言うと、Vue では、**1 つの同じファイルに構造(HTML)・ロジック(JavaScript)・スタイル(CSS)**を記述できます。それぞれを別の巨大なファイルに書くのではなく、**見た目に対応した要素ごとに分割して書く**ことで、それぞれの責任範囲をより直感的な形式で分けることができるわけです。このように分けられた要素をコンポーネントといいます。
 
-//todo: .html でも全部書けるのでは？
+<!-- todo: .html でも全部書けるのでは？-->
 
 ### Vue.js の書き方
 
@@ -184,7 +184,7 @@ App.vue で呼び出されています。
 Chrome Devtool に Vue.js 向けのデバッグ機能を追加してくれます。  
 [Vue.js devtools - Chrome ウェブストア](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=ja)
 
-//todo: ほとんど使ったことないけどどう使うんだっけ。
+<!-- todo: ほとんど使ったことないけどどう使うんだっけ。-->
 
 #### ESLint
 
@@ -298,6 +298,26 @@ defineProps<{
 今回だと`App.vue`で `<HelloWorld msg="Hello Vue 3 + Vite" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。 JavaScript でいう関数の引数のようなものです。
 
 参考: [プロパティ | Vue.js](https://ja.vuejs.org/guide/components/props.html)
+
+:::tip
+今回は template 内でしか props の値を使っていないので`msg`で直接アクセスできていますが、script 内で使う場合は
+
+```ts
+const props = defineProps()
+```
+
+のようにして`props`を定義し、`props.msg`のようにアクセスする必要があります。  
+また、このとき
+
+```ts
+const { msg } = defineProps()
+```
+
+のように分割代入してしまうとリアクティビティ性が失われてしまうので、このような書き方はできません。
+
+<!-- todo: 分割代入のリンクとリアクティビティ性が失われるソースリンク貼る-->
+
+:::
 
 ##### 12 行目
 
