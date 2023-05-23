@@ -22,13 +22,16 @@ export default defineConfig({
                 { text: "環境構築", link: "/chapter1/section1/setup" },
                 {
                   text: "Golang で Hello World",
-                  link: "/chapter1/section1/hello-world"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  link: "/chapter1/section1/hello-world",
+                },
+                {
+                  text:"データベースを扱う準備", link: "/chapter1/section4/1_prepare/index"
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
     socialLinks: [{ icon: "github", link: "https://github.com/traPtitech/naro-text" }],
     search: {
