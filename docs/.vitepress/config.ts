@@ -25,7 +25,10 @@ export default defineConfig({
                   link: "/chapter1/section1/hello-world",
                 },
                 {
-                  text:"データベースを扱う準備", link: "/chapter1/section4/1_prepare/index"
+                  text:"データベースを扱う準備", link: "/chapter1/section4/1_prepare"
+                },
+                {
+                  text:"SQLで遊ぶ", link: "/chapter1/section4/2_sql"
                 },
               ],
             },
