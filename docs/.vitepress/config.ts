@@ -24,6 +24,9 @@ export default defineConfig({
                   text: "Golang で Hello World",
                   link: "/chapter1/section1/hello-world",
                 },
+                {
+                  text:"データベースを扱う準備", link: "/chapter1/section4/1_prepare/index"
+                },
               ],
             },
           ],
