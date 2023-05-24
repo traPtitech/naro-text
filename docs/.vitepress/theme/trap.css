@@ -6,6 +6,37 @@
  * instead because those are "Theme (light or dark)" dependant.
  * -------------------------------------------------------------------------- */
 
+ /* traQのカラーパレット*/
+:root {
+  --traq-light-accent-primary: #005BAC;
+  --traq-light-accent-notification: #F2994A;
+  --traq-light-accent-online: #28F0E4;
+  --traq-light-accent-error: #F26451;
+  --traq-light-accent-focus: #005BACC0;
+  --traq-light-background-primary: #FFFFFF;
+  --traq-light-background-secondary: #F0F2F5;
+  --traq-light-background-tertiary: #E2E5E9;
+  --traq-light-ui-primary: #49535B;
+  --traq-light-ui-secondary: #6B7D8A;
+  --traq-light-ui-tertiary: #CED6DB;
+  --traq-light-text-primary: #333333;
+  --traq-light-text-secondary: #79797A;
+
+  --traq-dark-accent-primary: #4899F9;
+  --traq-dark-accent-notification: #F2994A;
+  --traq-dark-accent-online: #28F0E4;
+  --traq-dark-accent-error: #F26451;
+  --traq-dark-accent-focus: #4899F9C0;
+  --traq-dark-background-primary: #242B33;
+  --traq-dark-background-secondary: #1E262E;
+  --traq-dark-background-tertiary: #1A242D;
+  --traq-dark-ui-primary: #F2F5F8;
+  --traq-dark-ui-secondary: #C7D0D9;
+  --traq-dark-ui-tertiary: #8795A3;
+  --traq-dark-text-primary: #FFFFFF;
+  --traq-dark-text-secondary: #BAC2C9;
+}
+
 :root {
   --vp-c-white: #ffffff;
   --vp-c-black: #000000;
