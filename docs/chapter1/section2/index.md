@@ -1,4 +1,4 @@
-# Vue.js で TodoList
+# Vue で TodoList
 
 - [準備編](./1.md)
 - [TodoList 編](./2.md)
