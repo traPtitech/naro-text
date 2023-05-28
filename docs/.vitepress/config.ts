@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress"
+import { section1SidebarItems } from "./configs/section1"
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -18,13 +19,7 @@ export default defineConfig({
             {
               text: "実習編",
               collapsed: true,
-              items: [
-                { text: "環境構築", link: "/chapter1/section1/setup" },
-                {
-                  text: "Golang で Hello World",
-                  link: "/chapter1/section1/hello-world"
-                }
-              ]
+              items: [...section1SidebarItems]
             }
           ]
         }
