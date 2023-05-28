@@ -765,13 +765,13 @@ SELECT * FROM country WHERE Name = "traP";
 UPDATE country SET IndepYear = 2015 WHERE Code = "TRP";
 ```
 
+`Code`で指定しなくても、国を 1 つに指定できれば他のカラムで条件式を作ってもよいです(`Name="traP"`など)。
+
 **確認用**
 
 ```sql
 SELECT * FROM country WHERE Code = "TRP";
 ```
-
-`Code`で指定しなくても、国を 1 つに指定できれば他のカラムで条件式を作ってもよいです(`Name="traP"`など)。
 
 **出力**
 
@@ -808,4 +808,137 @@ SELECT * FROM country WHERE Code = "TRP";
 Empty set (0.00 sec)
 ```
 
+:::
+
+### 応用編
+
+#### 2-1
+
+`country`に含まれる全ての国と、`city`テーブルに含まれる全ての都市を国と都市を紐づけて取得してください。`city`テーブルに都市が 1 つもない国もありますが、そのような国も出力してください。
+
+:::details **答え**
+
+```sql
+SELECT country.Name, city.Name FROM country LEFT JOIN city ON country.Code = city.CountryCode;
+```
+
+**出力**
+
+```txt
++----------------------------------------------+-----------------------------------+
+| Name                                         | Name                              |
++----------------------------------------------+-----------------------------------+
+| Aruba                                        | Oranjestad                        |
+| Afghanistan                                  | Kabul                             |
+| Afghanistan                                  | Qandahar                          |
+| Afghanistan                                  | Herat                             |
+| Afghanistan                                  | Mazar-e-Sharif                    |
+| Angola                                       | Luanda                            |
+| Angola                                       | Huambo                            |
+| Angola                                       | Lobito                            |
+| Angola                                       | Benguela                          |
+| Angola                                       | Namibe                            |
+| Anguilla                                     | South Hill                        |
+| Anguilla                                     | The Valley                        |
+| Albania                                      | Tirana                            |
+| Andorra                                      | Andorra la Vella                  |
+...省略
+...
+| Zimbabwe                                     | Gweru                             |
++----------------------------------------------+-----------------------------------+
+4086 rows in set (0.00 sec)
+```
+
+取得レコード数が正しいか確かめましょう。
+:::
+
+#### 2-2
+
+`country`テーブルから、人口の多い順に順位、国名、人口を取得してください。
+
+:::details **答え**
+
+```sql
+SELECT RANK() OVER (ORDER BY Population DESC), Name, Population FROM country LIMIT 10;
+```
+
+**出力**
+
+```txt
++----------------------------------------+--------------------+------------+
+| RANK() OVER (ORDER BY Population DESC) | Name               | Population |
++----------------------------------------+--------------------+------------+
+|                                      1 | China              | 1277558000 |
+|                                      2 | India              | 1013662000 |
+|                                      3 | United States      |  278357000 |
+|                                      4 | Indonesia          |  212107000 |
+|                                      5 | Brazil             |  170115000 |
+|                                      6 | Pakistan           |  156483000 |
+|                                      7 | Russian Federation |  146934000 |
+|                                      8 | Bangladesh         |  129155000 |
+|                                      9 | Japan              |  126714000 |
+|                                     10 | Nigeria            |  111506000 |
++----------------------------------------+--------------------+------------+
+10 rows in set (0.00 sec)
+```
+
+`Rank()`は Window 関数と呼ばれるものの 1 つで、 MySQL では 8.0 から使えるようになりました。
+https://dev.mysql.com/doc/refman/8.0/ja/window-functions.html
+
+:::
+
+#### 2-3
+
+`Velbert`という都市がある国の名前、大陸名(`Continent`)、地区名(`Region`)、人口を**1つのクエリで**取得してください。
+
+:::details **答え**
+
+```sql
+SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT CountryCode FROM city WHERE Name = "Velbert");
+```
+
+**出力**
+
+```txt
++---------+-----------+----------------+------------+
+| Name    | Continent | Region         | Population |
++---------+-----------+----------------+------------+
+| Germany | Europe    | Western Europe |   82164700 |
++---------+-----------+----------------+------------+
+1 row in set (0.01 sec)
+```
+
+:::
+
+#### 2-4
+
+話者が多い言語の上位 10 言語の順位(`Rank`)、言語名、話者数合計(`Speakers`)を取得してください。
+
+:::details **答え**
+
+```sql
+SELECT RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS "Rank", countrylanguage.Language, SUM(countrylanguage.Percentage*country.Population/100) AS "Speakers" FROM countrylanguage JOIN country ON countrylanguage.CountryCode = country.Code GROUP BY countrylanguage.Language ORDER BY Speakers DESC LIMIT 10;
+```
+
+**出力**
+
+```txt
++------+------------+------------------+
+| Rank | Language   | Speakers         |
++------+------------+------------------+
+|    1 | Chinese    | 1191843539.22187 |
+|    2 | Hindi      |  405633085.47466 |
+|    3 | Spanish    |  355029461.90782 |
+|    4 | English    |  347077860.65105 |
+|    5 | Arabic     |  233839240.44018 |
+|    6 | Bengali    |  209304713.12510 |
+|    7 | Portuguese |  177595269.43999 |
+|    8 | Russian    |  160807559.89702 |
+|    9 | Japanese   |  126814106.08493 |
+|   10 | Punjabi    |  104025371.70681 |
++------+------------+------------------+
+10 rows in set (0.02 sec)
+```
+
+割合を掛けているため、人数に小数が出てきます。
 :::
