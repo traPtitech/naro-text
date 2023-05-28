@@ -241,10 +241,10 @@ SELECT * FROM city WHERE Population >= 8000000 ORDER BY Population DESC;
 10 rows in set (0.01 sec)
 ```
 
-#### IN句
+#### IN演算子
 
 `SELECT カラム名 FROM テーブル名 WHERE カラム名 IN (データ1, データ2, ...)`のように書くことで、カラムの値が複数の値のうちどれかに当てはまるものを選ぶことができます。
-例えば、都市のうち都道府県(`District`)が四国(香川、徳島、愛媛、高知)に当てはまるものを選ぶ文はいかのようになります。
+例えば、都市のうち都道府県(`District`)が四国(香川、徳島、愛媛、高知)に当てはまるものを選ぶ文は下のようになります。
 
 ```sql
 mysql> SELECT * FROM city WHERE District IN ("Kagawa", "Tokushima", "Ehime", "Kochi");
@@ -324,6 +324,7 @@ mysql> SELECT country.Name, countrylanguage.Language FROM country JOIN countryla
 `country`テーブルの`Code`カラムの値と`countrylanguage`テーブルの`CountryCode`カラムが一致するように 2 つのテーブルをつなげています。`WHERE`句は`JOIN`句の後に書く必要があることに注意しましょう。
 
 JOIN 句にはいくつか種類があり、適切なものを使う必要があります。今回使ったものは`INNER JOIN`と呼ばれます。
+
 https://www.w3schools.com/sql/sql_join.asp
 
 #### AS句
@@ -352,7 +353,7 @@ mysql> SELECT Name, District AS "Prefecture" FROM city WHERE CountryCode = "JPN"
 ...省略
 ```
 
-`AS`はカラム名だけでなくテーブル名にも使うことができ、先ほどの`JOIN`の SQL は`AS`を使うとこのようにかけます。
+`AS`はカラム名だけでなくテーブル名にも使うことができ、先ほどの`JOIN`の SQL は`AS`を使うとこのように書けます。
 
 ```sql
 mysql> SELECT c.Name, cl.Language FROM country AS "c" JOIN countrylanguage AS "cl" ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
@@ -364,7 +365,7 @@ mysql> SELECT c.Name, cl.Language FROM country AS "c" JOIN countrylanguage AS "c
 mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
 ```
 
-#### COUNT式
+#### COUNT関数
 
 `SELECT COUNT(カラム名) FROM テーブル名;`でレコードの数を数えることができます。
 都市のうち国コード(`CountryCode`)が`JPN`のレコード数は下のようにして取得できます。
@@ -476,7 +477,7 @@ Empty set (0.00 sec)
 
 ## Adminerを使う
 
-Adminer(https://www.adminer.org/) はデータベースを GUI（マウスなど）を使って操作するためのソフトウェアです。traP 内では traQ などで使われています。同じようなソフトウェアとして PHPMyAdmin などがあります。これを使うことによって SQL を使わなくてもデータベースを操作できます。
+Adminer(https://www.adminer.org/) はデータベースを GUI（マウスなど）を使って操作するためのソフトウェアです。traP 内では traQ の開発などで使われています。同じようなソフトウェアとして PHPMyAdmin などがあります。これらを使うことで SQL を使わなくてもデータベースを操作できます。
 
 今回は`task up`を実行したときに Adminer が立ち上がるようになっています。 http://localhost:8080 にアクセスすると使えます。
 ログイン画面が出てくるはずなので、MySQL にログインするときと同様に、下の画像のように入力してログインしてください。パスワードは`password`です。
@@ -908,6 +909,7 @@ SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT Cou
 1 row in set (0.01 sec)
 ```
 
+このように 1 つの SQL 文の中にかっこでくくって別の SQL 文を書くような方法をサブクエリと言います。
 :::
 
 #### 2-4
@@ -917,7 +919,13 @@ SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT Cou
 :::details **答え**
 
 ```sql
-SELECT RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS "Rank", countrylanguage.Language, SUM(countrylanguage.Percentage*country.Population/100) AS "Speakers" FROM countrylanguage JOIN country ON countrylanguage.CountryCode = country.Code GROUP BY countrylanguage.Language ORDER BY Speakers DESC LIMIT 10;
+SELECT 
+  RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS "Rank", 
+  countrylanguage.Language,
+  SUM(countrylanguage.Percentage*country.Population/100) AS "Speakers" 
+FROM countrylanguage JOIN country ON countrylanguage.CountryCode = country.Code 
+GROUP BY countrylanguage.Language 
+ORDER BY Speakers DESC LIMIT 10;
 ```
 
 **出力**
