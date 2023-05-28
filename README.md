@@ -14,5 +14,5 @@ https://vitepress.dev/guide/markdown
   - tips: 発展的な内容、コラム
   - warning: 注意事項（気をつけないと正常に実行できないことがあるもの）
   - danger: 破壊的な事象（サーバーに負荷を与える操作など）
-  - 練習問題はheadingで区切って、container使用しない
+  - 練習問題はheadingで区切って、containerは使用しない
     - 答えを載せる場合はdetailsを使用して隠す
