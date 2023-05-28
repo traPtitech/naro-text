@@ -362,7 +362,7 @@ mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
 `AS`はカラム名だけでなくテーブル名にも使うことができ、先ほどの`JOIN`の SQL は`AS`を使うとこのように書けます。
 
 ```sql
-mysql> SELECT c.Name, cl.Language FROM country AS "c" JOIN countrylanguage AS "cl" ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
+mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
 ```
 
 #### COUNT関数
