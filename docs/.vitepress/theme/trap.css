@@ -6,35 +6,35 @@
  * instead because those are "Theme (light or dark)" dependant.
  * -------------------------------------------------------------------------- */
 
- /* traQのカラーパレット*/
+/* traQのカラーパレット*/
 :root {
-  --traq-light-accent-primary: #005BAC;
-  --traq-light-accent-notification: #F2994A;
-  --traq-light-accent-online: #28F0E4;
-  --traq-light-accent-error: #F26451;
-  --traq-light-accent-focus: #005BACC0;
-  --traq-light-background-primary: #FFFFFF;
-  --traq-light-background-secondary: #F0F2F5;
-  --traq-light-background-tertiary: #E2E5E9;
-  --traq-light-ui-primary: #49535B;
-  --traq-light-ui-secondary: #6B7D8A;
-  --traq-light-ui-tertiary: #CED6DB;
+  --traq-light-accent-primary: #005bac;
+  --traq-light-accent-notification: #f2994a;
+  --traq-light-accent-online: #28f0e4;
+  --traq-light-accent-error: #f26451;
+  --traq-light-accent-focus: #005bacc0;
+  --traq-light-background-primary: #ffffff;
+  --traq-light-background-secondary: #f0f2f5;
+  --traq-light-background-tertiary: #e2e5e9;
+  --traq-light-ui-primary: #49535b;
+  --traq-light-ui-secondary: #6b7d8a;
+  --traq-light-ui-tertiary: #ced6db;
   --traq-light-text-primary: #333333;
-  --traq-light-text-secondary: #79797A;
+  --traq-light-text-secondary: #79797a;
 
-  --traq-dark-accent-primary: #4899F9;
-  --traq-dark-accent-notification: #F2994A;
-  --traq-dark-accent-online: #28F0E4;
-  --traq-dark-accent-error: #F26451;
-  --traq-dark-accent-focus: #4899F9C0;
-  --traq-dark-background-primary: #242B33;
-  --traq-dark-background-secondary: #1E262E;
-  --traq-dark-background-tertiary: #1A242D;
-  --traq-dark-ui-primary: #F2F5F8;
-  --traq-dark-ui-secondary: #C7D0D9;
-  --traq-dark-ui-tertiary: #8795A3;
-  --traq-dark-text-primary: #FFFFFF;
-  --traq-dark-text-secondary: #BAC2C9;
+  --traq-dark-accent-primary: #4899f9;
+  --traq-dark-accent-notification: #f2994a;
+  --traq-dark-accent-online: #28f0e4;
+  --traq-dark-accent-error: #f26451;
+  --traq-dark-accent-focus: #4899f9c0;
+  --traq-dark-background-primary: #242b33;
+  --traq-dark-background-secondary: #1e262e;
+  --traq-dark-background-tertiary: #1a242d;
+  --traq-dark-ui-primary: #f2f5f8;
+  --traq-dark-ui-secondary: #c7d0d9;
+  --traq-dark-ui-tertiary: #8795a3;
+  --traq-dark-text-primary: #ffffff;
+  --traq-dark-text-secondary: #bac2c9;
 }
 
 :root {
@@ -117,7 +117,7 @@
 
   --vp-c-text-code: #476582;
 
-  --vp-c-brand: #005BAC;
+  --vp-c-brand: #005bac;
   --vp-c-brand-light: var(--vp-c-green-light);
   --vp-c-brand-lighter: var(--vp-c-green-lighter);
   --vp-c-brand-dark: var(--vp-c-green-dark);
@@ -174,12 +174,12 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-font-family-base: 'Chinese Quotes', 'Inter var', 'Inter', ui-sans-serif,
-    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --vp-font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco,
-    Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --vp-font-family-base: "Chinese Quotes", "Inter var", "Inter", ui-sans-serif, system-ui,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --vp-font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
 /**
@@ -229,7 +229,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --vp-header-anchor-symbol: '#';
+  --vp-header-anchor-symbol: "#";
 }
 
 /**
