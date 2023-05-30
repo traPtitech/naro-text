@@ -27,14 +27,14 @@ mysql> SHOW DATABASES;
 5 rows in set (0.00 sec)
 ```
 
-これは MySQL に含まれているデータベースの一覧です。今回は`world`というデータベースを使います。下のコマンドを入力してください。
+これは MySQL サーバーに存在するデータベースの一覧です。今回は`world`というデータベースを使います。下のコマンドを入力してください。
 
 ```sql
 mysql> USE world;
 ```
 
 他のデータベースは MySQL の設定などが含まれているデータベースです。
-`world`というデータベースは、 MySQL 公式が用意している学習用のデータベースで、さまざまな国や地域の情報が集まっています。
+`world`は、 MySQL 公式が用意している学習用のデータベースで、さまざまな国や地域の情報が集まっています。
 
 https://dev.mysql.com/doc/world-setup/en/
 
@@ -86,7 +86,7 @@ mysql> SHOW COLUMNS FROM city;
 
 ### SELECT 文
 
-`SELECT 対象カラム名 FROM 対象テーブル名;` で、テーブルから情報を取得できます。複数のカラムを取得したいときは`,`で区切ります。
+`SELECT {対象カラム名} FROM {対象テーブル名};` で、テーブルから情報を取得できます。複数のカラムを取得したいときは`,`で区切ります。
 
 ```sql
 mysql> SELECT Name, Population FROM city;
@@ -136,7 +136,7 @@ mysql> SELECT * FROM city;
 
 #### LIMIT句
 
-SELECT 文の後ろに`LIMIT 件数`を追加することで取得件数の上限を指定できます。
+SELECT 文の後ろに`LIMIT {件数}`を追加することで取得件数の上限を指定できます。
 
 ```sql
 mysql> SELECT * FROM city LIMIT 5;
@@ -157,7 +157,7 @@ mysql> SELECT * FROM city LIMIT 5;
 
 #### OFFSET句
 
-`OFFSET ずらす数`を LIMIT 句の後ろにつなげると、データを取得し始める位置をずらして指定できます。`LIMIT`を指定せずに`OFFSET`を指定できません。
+`OFFSET {ずらす数}`を LIMIT 句の後ろにつなげると、データを取得し始める位置をずらして指定できます。`LIMIT`を指定せずに`OFFSET`を指定できません。
 
 ```sql
 mysql> SELECT * FROM city LIMIT 5 OFFSET 10;
@@ -178,27 +178,27 @@ mysql> SELECT * FROM city LIMIT 5 OFFSET 10;
 
 #### WHERE句
 
-`SELECT カラム名 FROM テーブル名 WHERE 条件式;`で取得するレコードの条件を付けることができます。`AND`や`OR`を使うと条件を複数つけることができます。
+`SELECT {カラム名} FROM {テーブル名} WHERE {条件式};`で取得するレコードの条件を付けることができます。`AND`や`OR`を使うと条件を複数つけることができます。
 
 ```sql
 mysql> SELECT * FROM city WHERE Population >= 8000000;
 ```
 
 ```txt
-+------+------------------+-------------+------------------+------------+
-| ID   | Name             | CountryCode | District         | Population |
-+------+------------------+-------------+------------------+------------+
-|  206 | S�o Paulo        | BRA         | S�o Paulo        |    9968485 |
-|  939 | Jakarta          | IDN         | Jakarta Raya     |    9604900 |
-| 1024 | Mumbai (Bombay)  | IND         | Maharashtra      |   10500000 |
-| 1890 | Shanghai         | CHN         | Shanghai         |    9696300 |
-| 2331 | Seoul            | KOR         | Seoul            |    9981619 |
-| 2515 | Ciudad de M�xico | MEX         | Distrito Federal |    8591309 |
-| 2822 | Karachi          | PAK         | Sindh            |    9269265 |
-| 3357 | Istanbul         | TUR         | Istanbul         |    8787958 |
-| 3580 | Moscow           | RUS         | Moscow (City)    |    8389200 |
-| 3793 | New York         | USA         | New York         |    8008278 |
-+------+------------------+-------------+------------------+------------+
++------+-------------------+-------------+------------------+------------+
+| ID   | Name              | CountryCode | District         | Population |
++------+-------------------+-------------+------------------+------------+
+|  206 | São Paulo         | BRA         | São Paulo        |    9968485 |
+|  939 | Jakarta           | IDN         | Jakarta Raya     |    9604900 |
+| 1024 | Mumbai (Bombay)   | IND         | Maharashtra      |   10500000 |
+| 1890 | Shanghai          | CHN         | Shanghai         |    9696300 |
+| 2331 | Seoul             | KOR         | Seoul            |    9981619 |
+| 2515 | Ciudad de México  | MEX         | Distrito Federal |    8591309 |
+| 2822 | Karachi           | PAK         | Sindh            |    9269265 |
+| 3357 | Istanbul          | TUR         | Istanbul         |    8787958 |
+| 3580 | Moscow            | RUS         | Moscow (City)    |    8389200 |
+| 3793 | New York          | USA         | New York         |    8008278 |
++------+-------------------+-------------+------------------+------------+
 10 rows in set (0.01 sec)
 ```
 
@@ -217,7 +217,7 @@ mysql> SELECT * FROM city WHERE CountryCode = "JPN" AND Population > 5000000;
 
 #### ORDER BY 句
 
-`SELECT カラム名 FROM テーブル名 ORDERED BY 対象カラム名 並び順;`で結果を昇順・降順に並び替えて取得できます。`ASC`で昇順、`DESC`で降順です。
+`SELECT {カラム名} FROM {テーブル名} ORDER BY {対象カラム名} {並び順};`で結果を昇順・降順に並び替えて取得できます。`ASC`で昇順、`DESC`で降順です。`ORDER BY`を指定しない場合、取得するレコードの順番は保証されません。
 
 ```sql
 SELECT * FROM city WHERE Population >= 8000000 ORDER BY Population DESC;
@@ -243,7 +243,7 @@ SELECT * FROM city WHERE Population >= 8000000 ORDER BY Population DESC;
 
 #### IN演算子
 
-`SELECT カラム名 FROM テーブル名 WHERE カラム名 IN (データ1, データ2, ...)`のように書くことで、カラムの値が複数の値のうちどれかに当てはまるものを選ぶことができます。
+`SELECT {カラム名} FROM {テーブル名} WHERE {カラム名} IN ({値1}, {値2}, ...)`のように書くことで、カラムの値が複数の値のうちどれかに当てはまるものを選ぶことができます。
 例えば、都市のうち都道府県(`District`)が四国(香川、徳島、愛媛、高知)に当てはまるものを選ぶ文は下のようになります。
 
 ```sql
@@ -266,7 +266,7 @@ mysql> SELECT * FROM city WHERE District IN ("Kagawa", "Tokushima", "Ehime", "Ko
 
 #### JOIN句
 
-`SELECT カラム名 FROM テーブル名1 JOIN テーブル名2 ON 条件式;`で複数のテーブルを結合して、1 つのテーブルとして取得できます。
+`SELECT {カラム名} FROM {テーブル名1} JOIN {テーブル名2} ON {条件式};`で複数のテーブルを結合して、1 つのテーブルとして取得できます。
 条件式は、結合したいテーブルの特定のカラムの関係について書きます。
 
 中国語を使っている国の国名を知りたいときを考えましょう。
@@ -294,7 +294,7 @@ mysql> DESC countrylanguage;
 mysql> SELECT country.Name, countrylanguage.Language FROM country JOIN countrylanguage ON country.Code = countrylanguage.CountryCode WHERE countrylanguage.Language = "Chinese";
 ```
 
-```txt
+```
 +--------------------------+----------+
 | Name                     | Language |
 +--------------------------+----------+
@@ -312,7 +312,7 @@ mysql> SELECT country.Name, countrylanguage.Language FROM country JOIN countryla
 | Palau                    | Chinese  |
 | North Korea              | Chinese  |
 | French Polynesia         | Chinese  |
-| R�union                  | Chinese  |
+| Réunion                  | Chinese  |
 | Singapore                | Chinese  |
 | Thailand                 | Chinese  |
 | United States            | Chinese  |
@@ -329,7 +329,7 @@ https://www.w3schools.com/sql/sql_join.asp
 
 #### AS句
 
-`SELECT カラム名 AS 別名 FROM テーブル名`で、カラムに別名を付けて扱うことができます。
+`SELECT {カラム名} AS {別名} FROM {テーブル名}`で、カラムに別名を付けて扱うことができます。
 例えば日本の都市の名前(`Name`)と都道府県(`District`)を取得したいとき、`District`を`Prefecture`と表示したい場合は次のように書くことができます。
 
 ```sql
@@ -353,21 +353,21 @@ mysql> SELECT Name, District AS "Prefecture" FROM city WHERE CountryCode = "JPN"
 ...省略
 ```
 
+また、`AS`は省略でき、上の SQL は次のようにも書くことができます。
+
+```sql
+mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
+```
+
 `AS`はカラム名だけでなくテーブル名にも使うことができ、先ほどの`JOIN`の SQL は`AS`を使うとこのように書けます。
 
 ```sql
 mysql> SELECT c.Name, cl.Language FROM country AS "c" JOIN countrylanguage AS "cl" ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
 ```
 
-また、`AS`は省略できます。
-
-```sql
-mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
-```
-
 #### COUNT関数
 
-`SELECT COUNT(カラム名) FROM テーブル名;`でレコードの数を数えることができます。
+`SELECT COUNT({カラム名}) FROM {テーブル名};`でレコードの数を数えることができます。
 都市のうち国コード(`CountryCode`)が`JPN`のレコード数は下のようにして取得できます。
 
 ```sql
@@ -385,7 +385,7 @@ mysql> SELECT COUNT(*) FROM city WHERE CountyCode = "JPN";
 
 #### GROUP BY 句
 
-`GROUP BY カラム名`を付けることで、`COUNT`などの結果を共通の値でまとめることができます。
+`GROUP BY {カラム名}`を付けることで、`COUNT`などの結果を共通の値でまとめることができます。
 各国コードの都市数を数える SQL 文は下のようになります。
 
 ```sql
@@ -412,7 +412,7 @@ SELECT CountryCode, COUNT(*) FROM city GROUP BY CountryCode;
 
 ### INSERT文
 
-`INSERT INTO テーブル名 (カラム名1, カラム名2, ...) VALUES (値1, 値2, ...);`でテーブルにレコードを挿入できます。
+`INSERT INTO {テーブル名} ({カラム名1}, {カラム名2}, ...) VALUES ({値1}, {値2}, ...);`でテーブルにレコードを挿入できます。
 
 1. 挿入
 
@@ -437,7 +437,7 @@ mysql> SELECT * FROM city ORDER BY ID DESC LIMIT 1;
 
 ### UPDATE文
 
-`UPDATE テーブル名 SET カラム名 = 値 WHERE 条件式;`で条件に当てはまるレコードの値を変えることができます。
+`UPDATE {テーブル名} SET {カラム名} = {値} WHERE {条件式};`で条件に当てはまる **全ての** レコードの値を変えることができます。
 さっき追加した大岡山の情報を変えてみましょう。
 
 ```sql
@@ -456,7 +456,7 @@ mysql> SELECT * FROM city WHERE ID = 4080;
 
 ### DELETE文
 
-`DELETE FROM テーブル名 WHERE 条件式;`の構文で条件に合致するレコードを削除できます。
+`DELETE FROM {テーブル名} WHERE 条件式;`の構文で条件に合致するレコードを削除できます。
 大岡山を消してみましょう。
 
 ```sql
@@ -479,7 +479,7 @@ Empty set (0.00 sec)
 
 Adminer(https://www.adminer.org/) はデータベースを GUI（マウスなど）を使って操作するためのソフトウェアです。traP 内では traQ の開発などで使われています。同じようなソフトウェアとして PHPMyAdmin などがあります。これらを使うことで SQL を使わなくてもデータベースを操作できます。
 
-今回は`task up`を実行したときに Adminer が立ち上がるようになっています。 http://localhost:8080 にアクセスすると使えます。
+今回は`task up`を実行したときに Adminer が立ち上がるようになっています。ブラウザで http://localhost:8080 にアクセスすると使えます。
 ログイン画面が出てくるはずなので、MySQL にログインするときと同様に、下の画像のように入力してログインしてください。パスワードは`password`です。
 
 ![](assets/adminer_login.png)
@@ -501,7 +501,7 @@ SQL を実行するのは Adminer 上でも、`task db`を実行して MySQL に
 
 `country`テーブルから、日本(`Name`のカラムが`Japan`)の情報を全て取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT * FROM country WHERE Name = "Japan";
@@ -524,7 +524,7 @@ SELECT * FROM country WHERE Name = "Japan";
 
 `country`テーブルから、独立年（建国年）(`IndepYear`)が`0`以下の国の情報をすべて取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT * FROM country WHERE IndepYear <= 0;
@@ -549,7 +549,7 @@ SELECT * FROM country WHERE IndepYear <= 0;
 
 `country`テーブルから、大陸(`Continent`)がアジア(`Asia`)の国のうち、人口(`Population`)の上位 5 か国の国名(`Name`)と人口を多い順に取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT Name, Population FROM country WHERE Continent = "Asia" ORDER BY Population DESC LIMIT 5;
@@ -576,7 +576,7 @@ SELECT Name, Population FROM country WHERE Continent = "Asia" ORDER BY Populatio
 
 `country`テーブルから人口が多い順に 11 位から 15 位の国の情報をすべて取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT * FROM country ORDER BY Population DESC LIMIT 5 OFFSET 10;
@@ -601,9 +601,9 @@ SELECT * FROM country ORDER BY Population DESC LIMIT 5 OFFSET 10;
 
 #### 1-5
 
-`countrylanguage`テーブルから、言語(`Language`)が日本語(`Japanese`)である国を数えて、数を`Japanese`という項目名で取得してください。
+`countrylanguage`テーブルから、言語(`Language`)に日本語(`Japanese`)が含まれる国を数えて、数を`Japanese`という項目名で取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT COUNT(*) AS "Japanese" FROM countrylanguage WHERE Language = "Japanese";
@@ -626,7 +626,7 @@ SELECT COUNT(*) AS "Japanese" FROM countrylanguage WHERE Language = "Japanese";
 
 `country`テーブルから、大陸(`Continent`)ごとの国の数を数えて大陸ごとに取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT Continent, COUNT(*) FROM country GROUP BY Continent;
@@ -657,7 +657,7 @@ SELECT Continent, COUNT(*) FROM country GROUP BY Continent;
 
 ヒント：`country`テーブルの`Capital`カラムは、その国の首都の`city`テーブルでの`ID`を指しています。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT country.Name AS "Country", city.Name AS "Capital" FROM country JOIN city ON country.Capital = city.ID;
@@ -694,7 +694,7 @@ SELECT country.Name AS "Country", city.Name AS "Capital" FROM country JOIN city 
 
 `country`テーブルから、大陸(`Continent`)が北アメリカ(`North America`)または南アメリカ(`South America`)の国の情報をすべて取得してください。この問題は答えが 2 通りあります。余裕のある人は 2 つ考えてみましょう。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT * FROM country WHERE Continent = "North America" OR Continent = "South America";
@@ -731,7 +731,7 @@ SELECT * FROM country WHERE Continent IN ("North America", "South America");
 - 人口 `500`人
 - 2 文字国コード(`Code2`) `TP`
 
-:::details **答え**
+:::details 答え
 
 ```sql
 INSERT INTO country (Name, Code, Continent, Region, LocalName, GovernmentForm, Population, Code2) VALUES ("traP", "TRP", "Asia", "Eastern Asia", "traP", "Constitutional Monarchy", 500, "TP");
@@ -760,7 +760,7 @@ SELECT * FROM country WHERE Name = "traP";
 
 1-9 で作った国「`traP`」の独立年(`IndepYear`)を 2015 年にしましょう。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 UPDATE country SET IndepYear = 2015 WHERE Code = "TRP";
@@ -791,7 +791,7 @@ SELECT * FROM country WHERE Code = "TRP";
 
 `country`に追加した国「`traP`」を削除しましょう。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 DELETE FROM country WHERE Code = "TRP";
@@ -815,9 +815,9 @@ Empty set (0.00 sec)
 
 #### 2-1
 
-`country`に含まれる全ての国と、`city`テーブルに含まれる全ての都市を国と都市を紐づけて取得してください。`city`テーブルに都市が 1 つもない国もありますが、そのような国も出力してください。
+`country`に含まれる全ての国と、`city`テーブルに含まれる全ての都市を国と都市を紐づけて取得してください。 **`city`テーブルに都市が 1 つもない国もありますが、そのような国も出力してください。** 全部で 4086 行になるはずです。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT country.Name, city.Name FROM country LEFT JOIN city ON country.Code = city.CountryCode;
@@ -855,31 +855,31 @@ SELECT country.Name, city.Name FROM country LEFT JOIN city ON country.Code = cit
 
 #### 2-2
 
-`country`テーブルから、人口の多い順に順位、国名、人口を取得してください。
+`country`テーブルから、人口の多い順に順位(`Rank`)、国名、人口を取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
-SELECT RANK() OVER (ORDER BY Population DESC), Name, Population FROM country LIMIT 10;
+SELECT RANK() OVER (ORDER BY Population DESC) AS "Rank", Name, Population FROM country LIMIT 10;
 ```
 
 **出力**
 
 ```txt
-+----------------------------------------+--------------------+------------+
-| RANK() OVER (ORDER BY Population DESC) | Name               | Population |
-+----------------------------------------+--------------------+------------+
-|                                      1 | China              | 1277558000 |
-|                                      2 | India              | 1013662000 |
-|                                      3 | United States      |  278357000 |
-|                                      4 | Indonesia          |  212107000 |
-|                                      5 | Brazil             |  170115000 |
-|                                      6 | Pakistan           |  156483000 |
-|                                      7 | Russian Federation |  146934000 |
-|                                      8 | Bangladesh         |  129155000 |
-|                                      9 | Japan              |  126714000 |
-|                                     10 | Nigeria            |  111506000 |
-+----------------------------------------+--------------------+------------+
++------+--------------------+------------+
+| Rank | Name               | Population |
++------+--------------------+------------+
+|    1 | China              | 1277558000 |
+|    2 | India              | 1013662000 |
+|    3 | United States      |  278357000 |
+|    4 | Indonesia          |  212107000 |
+|    5 | Brazil             |  170115000 |
+|    6 | Pakistan           |  156483000 |
+|    7 | Russian Federation |  146934000 |
+|    8 | Bangladesh         |  129155000 |
+|    9 | Japan              |  126714000 |
+|   10 | Nigeria            |  111506000 |
++------+--------------------+------------+
 10 rows in set (0.00 sec)
 ```
 
@@ -892,7 +892,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/window-functions.html
 
 `Velbert`という都市がある国の名前、大陸名(`Continent`)、地区名(`Region`)、人口を**1つのクエリで**取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT CountryCode FROM city WHERE Name = "Velbert");
@@ -916,7 +916,7 @@ SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT Cou
 
 話者が多い言語の上位 10 言語の順位(`Rank`)、言語名、話者数合計(`Speakers`)を取得してください。
 
-:::details **答え**
+:::details 答え
 
 ```sql
 SELECT 
