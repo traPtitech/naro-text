@@ -3,7 +3,8 @@
   "filters": {
     "allowlist": {
       "allow": [
-        ":::"
+        ":::",
+        "答え"
       ]
     }
   },
