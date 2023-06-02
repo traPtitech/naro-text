@@ -1,5 +1,5 @@
 import { defineConfig } from "vitepress"
-import { section1SidebarItems } from "./configs/section1"
+import { chapter1SidebarItems } from "./sidebarConfigs/chapters/chapter1/chapter1"
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -11,19 +11,7 @@ export default defineConfig({
     nav: [{ text: "Home", link: "/" }],
 
     sidebar: {
-      "/chapter1/": [
-        {
-          text: "第一部",
-          items: [
-            { text: "はじめに", link: "/chapter1/index" },
-            {
-              text: "実習編",
-              collapsed: true,
-              items: [...section1SidebarItems]
-            }
-          ]
-        }
-      ]
+      "/chapter1/": chapter1SidebarItems
     },
     socialLinks: [{ icon: "github", link: "https://github.com/traPtitech/naro-text" }],
     search: {
