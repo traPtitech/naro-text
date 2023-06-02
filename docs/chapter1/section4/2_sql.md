@@ -294,7 +294,7 @@ mysql> DESCRIBE countrylanguage;
 mysql> SELECT country.Name, countrylanguage.Language FROM country JOIN countrylanguage ON country.Code = countrylanguage.CountryCode WHERE countrylanguage.Language = "Chinese";
 ```
 
-```
+```txt
 +--------------------------+----------+
 | Name                     | Language |
 +--------------------------+----------+
