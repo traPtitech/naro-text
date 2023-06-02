@@ -30,6 +30,9 @@ export default defineConfig({
                 {
                   text:"SQLで遊ぶ", link: "/chapter1/section4/2_sql"
                 },
+                {
+                  text:"SQL問題演習", link: "/chapter1/section4/3_sql_exercise"
+                },
               ],
             },
           ],
