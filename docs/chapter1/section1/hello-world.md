@@ -1,4 +1,4 @@
-# Golang で Hello World
+# Go で Hello World
 
 `~/go/src/hello`ディレクトリの中にプログラムを作成します。
 
