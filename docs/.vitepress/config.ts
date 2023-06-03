@@ -36,6 +36,9 @@ export default defineConfig({
                 {
                   text: "Goでデータベースを扱う", link: "/chapter1/section4/4_go_and_db"
                 },
+                {
+                  text: "サーバーからデータベースを扱う", link: "/chapter1/section4/5_server_and_db"
+                },
               ],
             },
           ],
