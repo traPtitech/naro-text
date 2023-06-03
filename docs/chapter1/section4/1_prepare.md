@@ -2,7 +2,7 @@
 
 ## リポジトリの準備
 
-なろう講習会のバックエンド用のリポジトリ、 https://github.com/traPtitech/naro-template-backend をフォークします。リンクから GitHub のリポジトリにアクセスしてください。右上の「Fork」と書かれたボタンをクリックし、「Create a new fork」から自分のアカウントにフォークします。
+なろう講習会のバックエンド用のリポジトリ、[https://github.com/traPtitech/naro-template-backend](https://github.com/traPtitech/naro-template-backend) をフォークします。リンクから GitHub のリポジトリにアクセスしてください。右上の「Fork」と書かれたボタンをクリックし、「Create a new fork」から自分のアカウントにフォークします。
 ![](assets/fork.png)
 これができたら自分の手元にリポジトリをクローンし、`cd`コマンドでクローンしたリポジトリを開きましょう。
 
@@ -16,8 +16,9 @@
 
 Task は、Go 言語で動いているタスクランナーです。これによって長いコマンドを短くできたり、複数のコマンドを 1 回で実行できたりと、開発においてとても便利なツールです。テンプレートリポジトリに`Taskfile.yaml`というファイルがありますが、このファイルによってコマンドの設定しています。公式ドキュメントは英語しかありませんが、興味のある人は目を通してみてください。
 
-task 公式ドキュメント https://taskfile.dev/
-     GitHub https://github.com/go-task/task
+Task 公式ドキュメント [https://taskfile.dev/](https://taskfile.dev/)
+
+Task GitHub [https://github.com/go-task/task](https://github.com/go-task/task)
 
 :::
 

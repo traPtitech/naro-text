@@ -36,7 +36,7 @@ mysql> USE world;
 他のデータベースは MySQL の設定などが含まれているデータベースです。
 `world`は、 MySQL 公式が用意している学習用のデータベースで、さまざまな国や地域の情報が集まっています。
 
-https://dev.mysql.com/doc/world-setup/en/
+[https://dev.mysql.com/doc/world-setup/en/](https://dev.mysql.com/doc/world-setup/en/)
 
 次に`world`に含まれるテーブル一覧を確認します。
 
@@ -325,7 +325,7 @@ mysql> SELECT country.Name, countrylanguage.Language FROM country JOIN countryla
 
 JOIN 句にはいくつか種類があり、適切なものを使う必要があります。今回使ったものは`INNER JOIN`と呼ばれます。
 
-https://www.w3schools.com/sql/sql_join.asp
+[https://www.w3schools.com/sql/sql_join.asp](https://www.w3schools.com/sql/sql_join.asp)
 
 #### AS句
 
@@ -479,7 +479,7 @@ Empty set (0.00 sec)
 
 Adminer(https://www.adminer.org/) はデータベースを GUI（マウスなど）を使って操作するためのソフトウェアです。traP 内では traQ の開発などで使われています。同じようなソフトウェアとして PHPMyAdmin などがあります。これらを使うことで SQL を使わなくてもデータベースを操作できます。
 
-今回は`task up`を実行したときに Adminer が立ち上がるようになっています。ブラウザで <a href='http://localhost:8080/' target="_blank" rel="noopener noreferrer">http://localhost:8080</a> にアクセスすると使えます。
+今回は`task up`を実行したときに Adminer が立ち上がるようになっています。ブラウザで [http://localhost:8080](http://localhost:8080) にアクセスすると使えます。
 ログイン画面が出てくるはずなので、MySQL にログインするときと同様に、下の画像のように入力してログインしてください。パスワードは`password`です。
 
 ![](assets/adminer_login.png)
