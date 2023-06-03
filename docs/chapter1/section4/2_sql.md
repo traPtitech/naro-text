@@ -479,7 +479,7 @@ Empty set (0.00 sec)
 
 Adminer(https://www.adminer.org/) はデータベースを GUI（マウスなど）を使って操作するためのソフトウェアです。traP 内では traQ の開発などで使われています。同じようなソフトウェアとして PHPMyAdmin などがあります。これらを使うことで SQL を使わなくてもデータベースを操作できます。
 
-今回は`task up`を実行したときに Adminer が立ち上がるようになっています。ブラウザで [http://localhost:8080](http://localhost:8080) にアクセスすると使えます。
+今回は`task up`を実行したときに Adminer が立ち上がるようになっています。ブラウザで <a href='http://localhost:8080/' target="_blank" rel="noopener noreferrer">localhost:8080</a> にアクセスすると使えます。
 ログイン画面が出てくるはずなので、MySQL にログインするときと同様に、下の画像のように入力してログインしてください。パスワードは`password`です。
 
 ![](assets/adminer_login.png)
