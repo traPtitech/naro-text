@@ -55,7 +55,7 @@ env.sh // [!code ++]
 
 :::warning
 
-```sh
+```sh{:no-line-numbers}
 $ source env.sh
 ```
 
@@ -64,7 +64,7 @@ $ source env.sh
 
 ### 実行する
 
-```sh
+```sh{:no-line-numbers}
 $ go run main.go
 ```
 
@@ -89,7 +89,7 @@ Tokyoの人口は7980230人です
 
 ### 基本問題
 
-```sh
+```sh{:no-line-numbers}
 $ go run main.go {都市の名前}
 ```
 
@@ -115,10 +115,10 @@ $ go run main.go {都市の名前}
 
 `Get`関数の代わりに`Select`関数を使い、第 1 引数を配列のポインタに変えると、複数レコードを取得できます。`main.go`の`main`関数を以下のように書き換えて実行してみましょう。
 
-<<< @/chapter1/section4/src/select.go#main
+<<< @/chapter1/section4/src/select.go#main{12}
 以下のように日本の都市一覧を取得できます。
 
-```txt
+```txt{:no-line-numbers}
 conntected
 日本の都市一覧
 都市名: Tokyo, 人口: 7980230
@@ -134,8 +134,28 @@ conntected
 
 `INSERT`や`UPDATE`、`DELETE`を実行したい場合は、`Exec`関数を使うことができます。第 1 引数に SQL 文を渡し、第 2 引数以降は`?`に当てはめたい値を入れます。
 
-```go
+```go{:no-line-numbers}
 result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?,?,?,?)", name, countryCode, district, population)
 ```
 
 例えば`INSERT`ならば、このように使うことができます。`result`には操作によって変更があったレコード数などの情報が入っています。
+
+:::info 詳しく知りたい人向け
+**なぜ「`?`」を使うのか**
+
+sqlx で変数を含む SQL を使いたいときは「`?`」を使わなくてはいけません。これはセキュリティ上の問題です。例として、国のコードからその国の都市の情報一覧を取得することを考えましょう。`fmt`ライブラリの`Sprintf`関数を使うとこのように処理を書くことができます。
+
+```go{:no-line-numbers}
+err = db.Select(&city, fmt.Sprintf("SELECT * FROM city WHERE CountryCode = '%s'", code))
+```
+
+`code`に入っている値がただの国名コードなら問題はないのですが、`JPN' OR 1 = 1 -- `という値が入っていたらどうなるでしょうか。データベースで実行されるとき、SQL 文は下のようになります。
+
+```sql{:no-line-numbers}
+SELECT * FROM city WHERE CountryCode = 'JPN' OR 1 = 1 -- '
+```
+
+SQL 文において、`--`はコメントアウトを意味し、それ以降に書かれているものはすべて無視されます。`OR`でつなげた条件文のうち、「`1=1`」は常に成り立つので、`WHERE`句の条件は常に真です。よって、この SQL を実行すると、作成者が意図しない方法で全ての都市が取得できてしまいます。このような攻撃は「SQL インジェクション」と呼ばれます。
+
+sqlx ではこれを防ぐために`?`を使うことができ、SQL 文が意図しない動きをしないようになっています。
+:::
