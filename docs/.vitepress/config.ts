@@ -42,6 +42,6 @@ export default defineConfig({
   },
   markdown: {
     lineNumbers: true,
-    linkify: false,
-  },
+    linkify: false
+  }
 })

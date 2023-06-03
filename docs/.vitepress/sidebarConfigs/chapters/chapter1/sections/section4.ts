@@ -20,5 +20,5 @@ export const section4SidebarItems: DefaultTheme.SidebarItem[] = [
   {
     text: "サーバーからデータベースを扱う",
     link: "/chapter1/section4/5_server_and_db"
-  },
+  }
 ]
