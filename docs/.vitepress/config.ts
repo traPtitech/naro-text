@@ -6,6 +6,7 @@ export default defineConfig({
   base: "/naro-text/",
   title: "なろう講習会",
   description: "Webエンジニアになろう講習会のテキスト",
+  head: [["link", { rel: "icon", href: "/favicon.ico" }]],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [{ text: "Home", link: "/" }],
