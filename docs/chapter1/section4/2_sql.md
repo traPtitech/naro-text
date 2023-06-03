@@ -224,21 +224,21 @@ SELECT * FROM city WHERE Population >= 8000000 ORDER BY Population DESC;
 ```
 
 ```txt
-+------+------------------+-------------+------------------+------------+
-| ID   | Name             | CountryCode | District         | Population |
-+------+------------------+-------------+------------------+------------+
-| 1024 | Mumbai (Bombay)  | IND         | Maharashtra      |   10500000 |
-| 2331 | Seoul            | KOR         | Seoul            |    9981619 |
-|  206 | S�o Paulo        | BRA         | S�o Paulo        |    9968485 |
-| 1890 | Shanghai         | CHN         | Shanghai         |    9696300 |
-|  939 | Jakarta          | IDN         | Jakarta Raya     |    9604900 |
-| 2822 | Karachi          | PAK         | Sindh            |    9269265 |
-| 3357 | Istanbul         | TUR         | Istanbul         |    8787958 |
-| 2515 | Ciudad de M�xico | MEX         | Distrito Federal |    8591309 |
-| 3580 | Moscow           | RUS         | Moscow (City)    |    8389200 |
-| 3793 | New York         | USA         | New York         |    8008278 |
-+------+------------------+-------------+------------------+------------+
-10 rows in set (0.01 sec)
++------+-------------------+-------------+------------------+------------+
+| ID   | Name              | CountryCode | District         | Population |
++------+-------------------+-------------+------------------+------------+
+| 1024 | Mumbai (Bombay)   | IND         | Maharashtra      |   10500000 |
+| 2331 | Seoul             | KOR         | Seoul            |    9981619 |
+|  206 | São Paulo         | BRA         | São Paulo        |    9968485 |
+| 1890 | Shanghai          | CHN         | Shanghai         |    9696300 |
+|  939 | Jakarta           | IDN         | Jakarta Raya     |    9604900 |
+| 2822 | Karachi           | PAK         | Sindh            |    9269265 |
+| 3357 | Istanbul          | TUR         | Istanbul         |    8787958 |
+| 2515 | Ciudad de México  | MEX         | Distrito Federal |    8591309 |
+| 3580 | Moscow            | RUS         | Moscow (City)    |    8389200 |
+| 3793 | New York          | USA         | New York         |    8008278 |
++------+-------------------+-------------+------------------+------------+
+10 rows in set (0.00 sec)
 ```
 
 #### IN演算子
