@@ -392,7 +392,7 @@ SELECT RANK() OVER (ORDER BY Population DESC) AS "Rank", Name, Population FROM c
 ```
 
 `Rank()`は Window 関数と呼ばれるものの 1 つで、 MySQL では 8.0 から使えるようになりました。
-https://dev.mysql.com/doc/refman/8.0/ja/window-functions.html
+公式ドキュメント [https://dev.mysql.com/doc/refman/8.0/ja/window-functions.html](https://dev.mysql.com/doc/refman/8.0/ja/window-functions.html)
 
 :::
 
