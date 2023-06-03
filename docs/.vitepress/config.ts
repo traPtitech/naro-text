@@ -33,6 +33,9 @@ export default defineConfig({
                 {
                   text: "SQL問題演習", link: "/chapter1/section4/3_sql_exercise"
                 },
+                {
+                  text: "Goでデータベースを扱う", link: "/chapter1/section4/4_go_and_db"
+                },
               ],
             },
           ],
