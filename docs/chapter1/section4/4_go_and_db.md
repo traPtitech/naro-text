@@ -6,7 +6,7 @@
 
 ## データベースに接続する
 
-## Goのプログラムを書く
+### Goのプログラムを書く
 
 サンプルのプログラムが書いてありますが、データベースと接続できるように書き換えます。
 Go でデータベースに接続するためのライブラリは様々ありますが、今回は SQL 文を書く SQLX を使います。
@@ -102,3 +102,32 @@ $ go run main.go {都市の名前}
 :::details 答え
 <<< @/chapter1/section4/src/practice_advanced.go
 :::
+
+## 複数レコードを取得する
+
+`Get`関数の代わりに`Select`関数を使い、第 1 引数を配列のポインタに変えると、複数レコードを取得できます。`main.go`の`main`関数を以下のように書き換えて実行してみましょう。
+
+<<< @/chapter1/section4/src/select.go#main
+以下のように日本の都市一覧を取得できます。
+
+```txt
+conntected
+日本の都市一覧
+都市名: Tokyo, 人口: 7980230
+都市名: Jokohama [Yokohama], 人口: 3339594
+都市名: Osaka, 人口: 2595674
+都市名: Nagoya, 人口: 2154376
+都市名: Sapporo, 人口: 1790886
+都市名: Kioto, 人口: 1461974
+...省略
+```
+
+## レコードを書き換える
+
+`INSERT`や`UPDATE`、`DELETE`を実行したい場合は、`Exec`関数を使うことができます。第 1 引数に SQL 文を渡し、第 2 引数以降は`?`に当てはめたい値を入れます。
+
+```go
+result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?,?,?,?)", name, countryCode, district, population)
+```
+
+例えば`INSERT`ならば、このように使うことができます。`result`には操作によって変更があったレコード数などの情報が入っています。
