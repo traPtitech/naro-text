@@ -305,7 +305,7 @@ SELECT * FROM country WHERE Code = "TRP";
 DELETE FROM country WHERE Code = "TRP";
 ```
 
-**確認用**
+**確認**
 
 ```sql{:no-line-numbers}
 SELECT * FROM country WHERE Code = "TRP";
@@ -318,6 +318,8 @@ Empty set (0.00 sec)
 ```
 
 :::
+
+基本問題が解けたら、一番難しかった問題を講習会チャンネルに投稿しましょう。
 
 ## 応用編
 
@@ -459,3 +461,5 @@ ORDER BY Speakers DESC LIMIT 10;
 
 割合を掛けているため、人数に小数が出てきます。
 :::
+
+応用問題が解けたら、一番難しかった問題を講習会チャンネルに投稿しましょう。

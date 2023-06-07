@@ -41,6 +41,8 @@ Task GitHub [https://github.com/go-task/task](https://github.com/go-task/task)
 
 ![](assets/mysql.png)
 
+MySQL にログイン出来たら、スクリーンショットを講習会チャンネルに投稿しましょう。
+
 :::warning
 
 これからはさまざまな場所でコマンドを入力することになります。どこで入力すべきか混乱しないようにしましょう。この資料では以下のような表記をします。
