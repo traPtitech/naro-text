@@ -1,7 +1,7 @@
 # SQLで遊ぶ
 
 :::tip
-SQL 文は小文字でも動きます。大文字を打つのが面倒な場合は、小文字にしましょう
+SQL 文は慣例上、わかりやすさのために大文字で書かれますが、小文字でも動きます。大文字を打つのが面倒な場合は、小文字にしましょう。
 :::
 
 データベースに入った状態で、さまざまな SQL を試していきます。ターミナルに `mysql>`が表示されていることを確認してください。
@@ -55,7 +55,9 @@ mysql> SHOW TABLES;
 3 rows in set (0.00 sec)
 ```
 
-`city`、`country`、`countrylanguage`の 3 つのテーブルの存在がわかります。
+`city`、`country`、`countrylanguage`の 3 つのテーブルがあるとわかります。
+
+https://dev.mysql.com/doc/refman/8.0/ja/show-tables.html
 
 ## テーブルの構造を見る
 
@@ -80,7 +82,9 @@ mysql> SHOW COLUMNS FROM city;
 5 rows in set (0.00 sec)
 ```
 
-`city`テーブルには`ID`、`Name`、`CountryCode`、`District`、`Population`の 5 つのカラムの存在がわかります。
+`city`テーブルには`ID`、`Name`、`CountryCode`、`District`、`Population`の 5 つのカラムがあるとわかります。
+
+https://dev.mysql.com/doc/refman/8.0/ja/getting-information.html
 
 ## データベースから情報を取得する
 
@@ -109,9 +113,11 @@ mysql> SELECT Name, Population FROM city;
 ...省略
 ```
 
+https://dev.mysql.com/doc/refman/8.0/ja/select.html
+
 #### 全取得
 
-全てのカラムを取得したい場合は、`*`を使えます。
+全てのカラムを取得したい場合は、`*`（ワイルドカード）を使えます。
 
 ```sql{:no-line-numbers}
 mysql> SELECT * FROM city;
@@ -241,9 +247,11 @@ SELECT * FROM city WHERE Population >= 8000000 ORDER BY Population DESC;
 10 rows in set (0.00 sec)
 ```
 
+https://dev.mysql.com/doc/refman/8.0/ja/sorting-rows.html
+
 #### IN演算子
 
-`SELECT {カラム名} FROM {テーブル名} WHERE {カラム名} IN ({値1}, {値2}, ...)`のように書くことで、カラムの値が複数の値のうちどれかに当てはまるものを選ぶことができます。
+`SELECT {カラム名} FROM {テーブル名} WHERE {カラム名} IN ({値1}, {値2}, ...);`のように書くことで、カラムの値が複数の値のうちどれかに当てはまるものを選ぶことができます。
 例えば、都市のうち都道府県(`District`)が四国(香川、徳島、愛媛、高知)に当てはまるものを選ぶ文は下のようになります。
 
 ```sql{:no-line-numbers}
@@ -263,6 +271,8 @@ mysql> SELECT * FROM city WHERE District IN ("Kagawa", "Tokushima", "Ehime", "Ko
 +------+-----------+-------------+-----------+------------+
 6 rows in set (0.01 sec)
 ```
+
+https://dev.mysql.com/doc/refman/8.0/ja/comparison-operators.html#operator_in
 
 #### JOIN句
 
@@ -327,10 +337,12 @@ JOIN 句にはいくつか種類があり、適切なものを使う必要があ
 
 [https://www.w3schools.com/sql/sql_join.asp](https://www.w3schools.com/sql/sql_join.asp)
 
+https://dev.mysql.com/doc/refman/8.0/ja/join.html
+
 #### AS句
 
-`SELECT {カラム名} AS {別名} FROM {テーブル名}`で、カラムに別名を付けて扱うことができます。
-例えば日本の都市の名前(`Name`)と都道府県(`District`)を取得したいとき、`District`を`Prefecture`と表示したい場合は次のように書くことができます。
+`SELECT {カラム名} AS {別名} FROM {テーブル名};`で、カラムに別名を付けて扱うことができます。
+例えば日本の都市の名前(`Name`)と都道府県(`District`)を取得するとき、`District`を`Prefecture`と表示したい場合は次のように書くことができます。
 
 ```sql{:no-line-numbers}
 mysql> SELECT Name, District AS "Prefecture" FROM city WHERE CountryCode = "JPN";
@@ -365,6 +377,8 @@ mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
 mysql> SELECT c.Name, cl.Language FROM country AS "c" JOIN countrylanguage AS "cl" ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
 ```
 
+https://dev.mysql.com/doc/refman/8.0/ja/problems-with-alias.html
+
 #### COUNT関数
 
 `SELECT COUNT({カラム名}) FROM {テーブル名};`でレコードの数を数えることができます。
@@ -383,7 +397,9 @@ mysql> SELECT COUNT(*) FROM city WHERE CountyCode = "JPN";
 1 row in set (0.00 sec)
 ```
 
-#### GROUP BY 句
+https://dev.mysql.com/doc/refman/8.0/ja/aggregate-functions.html#function_count
+
+#### GROUP BY 修飾子
 
 `GROUP BY {カラム名}`を付けることで、`COUNT`などの結果を共通の値でまとめることができます。
 各国コードの都市数を数える SQL 文は下のようになります。
@@ -407,6 +423,8 @@ SELECT CountryCode, COUNT(*) FROM city GROUP BY CountryCode;
 | ARG         |       57 |
 ...省略
 ```
+
+https://dev.mysql.com/doc/refman/8.0/ja/group-by-modifiers.html
 
 ## データベースの値を変える
 
@@ -435,6 +453,8 @@ mysql> SELECT * FROM city ORDER BY ID DESC LIMIT 1;
 1 row in set (0.00 sec)
 ```
 
+https://dev.mysql.com/doc/refman/8.0/ja/insert.html
+
 ### UPDATE文
 
 `UPDATE {テーブル名} SET {カラム名} = {値} WHERE {条件式};`で条件に当てはまる **全ての** レコードの値を変えることができます。
@@ -453,6 +473,8 @@ mysql> SELECT * FROM city WHERE ID = 4080;
 +------+-----------+-------------+----------+------------+
 1 row in set (0.00 sec)
 ```
+
+https://dev.mysql.com/doc/refman/8.0/ja/update.html
 
 ### DELETE文
 
@@ -474,6 +496,8 @@ Empty set (0.00 sec)
 ```
 
 大岡山が消えていることが確認できました。
+
+https://dev.mysql.com/doc/refman/8.0/ja/delete.html
 
 ## Adminerを使う
 

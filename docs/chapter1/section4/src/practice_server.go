@@ -7,8 +7,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 )
@@ -26,15 +27,30 @@ var (
 )
 
 func main() {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=True&loc=Asia%%2FTokyo&charset=utf8mb4",
-		os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_DATABASE"))
-	_db, err := sqlx.Open("mysql", dsn)
+	jst, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	conf := mysql.Config{
+		User:      os.Getenv("DB_USERNAME"),
+		Passwd:    os.Getenv("DB_PASSWORD"),
+		Net:       "tcp",
+		Addr:      os.Getenv("DB_HOSTNAME") + ":" + os.Getenv("DB_PORT"),
+		DBName:    os.Getenv("DB_DATABASE"),
+		ParseTime: true,
+		Collation: "utf8mb4_unicode_ci",
+		Loc:       jst,
+	}
+
+	_db, err := sqlx.Open("mysql", conf.FormatDSN())
+
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("conntected")
 	db = _db
-//#region echo
+	//#region echo
 	e := echo.New()
 
 	e.GET("/cities/:cityName", getCityInfoHandler)
@@ -42,7 +58,8 @@ func main() {
 
 	e.Start(":3000")
 }
-//#endregion echo
+
+// #endregion echo
 func getCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
 	fmt.Println(cityName)
@@ -56,22 +73,23 @@ func getCityInfoHandler(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, city)
 }
-//#region func
+
+// #region func
 func postCityHandler(c echo.Context) error { //[!code ++]
-	var city City //[!code ++]
+	var city City        //[!code ++]
 	err := c.Bind(&city) //[!code ++]
-	if err != nil { //[!code ++]
+	if err != nil {      //[!code ++]
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body") //[!code ++]
 	} //[!code ++]
- //[!code ++]
+	//[!code ++]
 	result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population) //[!code ++]
-	if err != nil { //[!code ++]
+	if err != nil {                                                                                                                                                       //[!code ++]
 		log.Fatalf("failed to insert city data: %s", err) //[!code ++]
 	} //[!code ++]
- //[!code ++]
+	//[!code ++]
 	id, _ := result.LastInsertId() //[!code ++]
-	city.ID = int(id) //[!code ++]
- //[!code ++]
+	city.ID = int(id)              //[!code ++]
+	//[!code ++]
 	return c.JSON(http.StatusCreated, city) //[!code ++]
 } //[!code ++]
 //#endregion func
