@@ -11,13 +11,13 @@ SQL を実行するのは Adminer 上でも、`task db`を実行して MySQL に
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM country WHERE Name = "Japan";
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------+-------+-----------+--------------+-------------+-----------+------------+----------------+------------+------------+--------------+-------------------------+-------------+---------+-------+
 | Code | Name  | Continent | Region       | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP        | GNPOld     | LocalName    | GovernmentForm          | HeadOfState | Capital | Code2 |
 +------+-------+-----------+--------------+-------------+-----------+------------+----------------+------------+------------+--------------+-------------------------+-------------+---------+-------+
@@ -34,13 +34,13 @@ SELECT * FROM country WHERE Name = "Japan";
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM country WHERE IndepYear <= 0;
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------+----------+-----------+----------------+-------------+-----------+------------+----------------+------------+------------+--------------+-------------------------+----------------+---------+-------+
 | Code | Name     | Continent | Region         | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP        | GNPOld     | LocalName    | GovernmentForm          | HeadOfState    | Capital | Code2 |
 +------+----------+-----------+----------------+-------------+-----------+------------+----------------+------------+------------+--------------+-------------------------+----------------+---------+-------+
@@ -59,13 +59,13 @@ SELECT * FROM country WHERE IndepYear <= 0;
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT Name, Population FROM country WHERE Continent = "Asia" ORDER BY Population DESC LIMIT 5;
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------------+------------+
 | Name       | Population |
 +------------+------------+
@@ -86,13 +86,13 @@ SELECT Name, Population FROM country WHERE Continent = "Asia" ORDER BY Populatio
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM country ORDER BY Population DESC LIMIT 5 OFFSET 10;
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------+-------------+---------------+-----------------+-------------+-----------+------------+----------------+------------+------------+-------------+----------------------+-------------------------+---------+-------+
 | Code | Name        | Continent     | Region          | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP        | GNPOld     | LocalName   | GovernmentForm       | HeadOfState             | Capital | Code2 |
 +------+-------------+---------------+-----------------+-------------+-----------+------------+----------------+------------+------------+-------------+----------------------+-------------------------+---------+-------+
@@ -113,13 +113,13 @@ SELECT * FROM country ORDER BY Population DESC LIMIT 5 OFFSET 10;
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT COUNT(*) AS "Japanese" FROM countrylanguage WHERE Language = "Japanese";
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +----------+
 | Japanese |
 +----------+
@@ -136,13 +136,13 @@ SELECT COUNT(*) AS "Japanese" FROM countrylanguage WHERE Language = "Japanese";
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT Continent, COUNT(*) FROM country GROUP BY Continent;
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +---------------+----------+
 | Continent     | COUNT(*) |
 +---------------+----------+
@@ -167,13 +167,13 @@ SELECT Continent, COUNT(*) FROM country GROUP BY Continent;
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT country.Name AS "Country", city.Name AS "Capital" FROM country JOIN city ON country.Capital = city.ID;
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +---------------------------------------+-----------------------------------+
 | Country                               | Capital                           |
 +---------------------------------------+-----------------------------------+
@@ -204,7 +204,7 @@ SELECT country.Name AS "Country", city.Name AS "Capital" FROM country JOIN city 
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM country WHERE Continent = "North America" OR Continent = "South America";
 --または
 SELECT * FROM country WHERE Continent IN ("North America", "South America");
@@ -212,7 +212,7 @@ SELECT * FROM country WHERE Continent IN ("North America", "South America");
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------+----------------------+---------------+---------------+-------------+-----------+------------+----------------+-----------+-----------+----------------------+----------------------------------------------+--------------------+---------+-------+
 | Code | Name                 | Continent     | Region        | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP       | GNPOld    | LocalName            | GovernmentForm                               | HeadOfState        | Capital | Code2 |
 +------+----------------------+---------------+---------------+-------------+-----------+------------+----------------+-----------+-----------+----------------------+----------------------------------------------+--------------------+---------+-------+
@@ -241,19 +241,19 @@ SELECT * FROM country WHERE Continent IN ("North America", "South America");
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 INSERT INTO country (Name, Code, Continent, Region, LocalName, GovernmentForm, Population, Code2) VALUES ("traP", "TRP", "Asia", "Eastern Asia", "traP", "Constitutional Monarchy", 500, "TP");
 ```
 
 **確認用**
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM country WHERE Name = "traP";
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------+------+-----------+--------------+-------------+-----------+------------+----------------+------+--------+-----------+-------------------------+-------------+---------+-------+
 | Code | Name | Continent | Region       | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP  | GNPOld | LocalName | GovernmentForm          | HeadOfState | Capital | Code2 |
 +------+------+-----------+--------------+-------------+-----------+------------+----------------+------+--------+-----------+-------------------------+-------------+---------+-------+
@@ -270,7 +270,7 @@ SELECT * FROM country WHERE Name = "traP";
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 UPDATE country SET IndepYear = 2015 WHERE Code = "TRP";
 ```
 
@@ -278,13 +278,13 @@ UPDATE country SET IndepYear = 2015 WHERE Code = "TRP";
 
 **確認用**
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM country WHERE Code = "TRP";
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------+------+-----------+--------------+-------------+-----------+------------+----------------+------+--------+-----------+-------------------------+-------------+---------+-------+
 | Code | Name | Continent | Region       | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP  | GNPOld | LocalName | GovernmentForm          | HeadOfState | Capital | Code2 |
 +------+------+-----------+--------------+-------------+-----------+------------+----------------+------+--------+-----------+-------------------------+-------------+---------+-------+
@@ -301,19 +301,19 @@ SELECT * FROM country WHERE Code = "TRP";
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 DELETE FROM country WHERE Code = "TRP";
 ```
 
 **確認**
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM country WHERE Code = "TRP";
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 Empty set (0.00 sec)
 ```
 
@@ -329,13 +329,13 @@ Empty set (0.00 sec)
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT country.Name, city.Name FROM country LEFT JOIN city ON country.Code = city.CountryCode;
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +----------------------------------------------+-----------------------------------+
 | Name                                         | Name                              |
 +----------------------------------------------+-----------------------------------+
@@ -369,13 +369,13 @@ SELECT country.Name, city.Name FROM country LEFT JOIN city ON country.Code = cit
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT RANK() OVER (ORDER BY Population DESC) AS "Rank", Name, Population FROM country LIMIT 10;
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------+--------------------+------------+
 | Rank | Name               | Population |
 +------+--------------------+------------+
@@ -405,13 +405,13 @@ SELECT RANK() OVER (ORDER BY Population DESC) AS "Rank", Name, Population FROM c
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT CountryCode FROM city WHERE Name = "Velbert");
 ```
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +---------+-----------+----------------+------------+
 | Name    | Continent | Region         | Population |
 +---------+-----------+----------------+------------+
@@ -429,7 +429,7 @@ SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT Cou
 
 :::details 答え
 
-```sql{:no-line-numbers}
+```sql
 SELECT 
   RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS "Rank", 
   countrylanguage.Language,
@@ -441,7 +441,7 @@ ORDER BY Speakers DESC LIMIT 10;
 
 **出力**
 
-```txt{:no-line-numbers}
+```txt
 +------+------------+------------------+
 | Rank | Language   | Speakers         |
 +------+------------+------------------+

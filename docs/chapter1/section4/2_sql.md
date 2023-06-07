@@ -8,13 +8,13 @@ SQL 文は慣例上、わかりやすさのために大文字で書かれます�
 
 初めにデータベースを確認します。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SHOW DATABASES;
 ```
 
 以下のように出力されるはずです。
 
-```txt{:no-line-numbers}
+```txt
 +--------------------+
 | Database           |
 +--------------------+
@@ -29,7 +29,7 @@ mysql> SHOW DATABASES;
 
 これは MySQL サーバーに存在するデータベースの一覧です。今回は`world`というデータベースを使います。下のコマンドを入力してください。
 
-```sql{:no-line-numbers}
+```sql
 mysql> USE world;
 ```
 
@@ -40,11 +40,11 @@ mysql> USE world;
 
 次に`world`に含まれるテーブル一覧を確認します。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SHOW TABLES;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +-----------------+
 | Tables_in_world |
 +-----------------+
@@ -61,7 +61,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/show-tables.html
 
 ## テーブルの構造を見る
 
-```sql{:no-line-numbers}
+```sql
 mysql> DESC city;
 -- または
 mysql> DESCRIBE city;
@@ -69,7 +69,7 @@ mysql> DESCRIBE city;
 mysql> SHOW COLUMNS FROM city;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +-------------+----------+------+-----+---------+----------------+
 | Field       | Type     | Null | Key | Default | Extra          |
 +-------------+----------+------+-----+---------+----------------+
@@ -92,11 +92,11 @@ https://dev.mysql.com/doc/refman/8.0/ja/getting-information.html
 
 `SELECT {対象カラム名} FROM {対象テーブル名};` で、テーブルから情報を取得できます。複数のカラムを取得したいときは`,`で区切ります。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT Name, Population FROM city;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +-----------------------------------+------------+
 | Name                              | Population |
 +-----------------------------------+------------+
@@ -119,11 +119,11 @@ https://dev.mysql.com/doc/refman/8.0/ja/select.html
 
 全てのカラムを取得したい場合は、`*`（ワイルドカード）を使えます。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT * FROM city;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +------+-----------------------------------+-------------+----------------------+------------+
 | ID   | Name                              | CountryCode | District             | Population |
 +------+-----------------------------------+-------------+----------------------+------------+
@@ -144,11 +144,11 @@ mysql> SELECT * FROM city;
 
 `SELECT` 文の後ろに`LIMIT {件数}`を追加することで取得件数の上限を指定できます。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT * FROM city LIMIT 5;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +----+----------------+-------------+---------------+------------+
 | ID | Name           | CountryCode | District      | Population |
 +----+----------------+-------------+---------------+------------+
@@ -165,11 +165,11 @@ mysql> SELECT * FROM city LIMIT 5;
 
 `OFFSET {ずらす数}`を LIMIT 句の後ろにつなげると、データを取得し始める位置をずらして指定できます。ただし、`LIMIT`を指定せずに`OFFSET`は指定できません。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT * FROM city LIMIT 5 OFFSET 10;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +----+-----------+-------------+---------------+------------+
 | ID | Name      | CountryCode | District      | Population |
 +----+-----------+-------------+---------------+------------+
@@ -186,11 +186,11 @@ mysql> SELECT * FROM city LIMIT 5 OFFSET 10;
 
 `SELECT {カラム名} FROM {テーブル名} WHERE {条件式};`で取得するレコードの条件を付けることができます。`AND`や`OR`を使うことで、条件を複数つけることができます。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT * FROM city WHERE Population >= 8000000;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +------+-------------------+-------------+------------------+------------+
 | ID   | Name              | CountryCode | District         | Population |
 +------+-------------------+-------------+------------------+------------+
@@ -208,11 +208,11 @@ mysql> SELECT * FROM city WHERE Population >= 8000000;
 10 rows in set (0.01 sec)
 ```
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT * FROM city WHERE CountryCode = "JPN" AND Population > 5000000;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +------+-------+-------------+----------+------------+
 | ID   | Name  | CountryCode | District | Population |
 +------+-------+-------------+----------+------------+
@@ -225,11 +225,11 @@ mysql> SELECT * FROM city WHERE CountryCode = "JPN" AND Population > 5000000;
 
 `SELECT {カラム名} FROM {テーブル名} ORDER BY {対象カラム名} {並び順};`で結果を昇順・降順に並び替えて取得できます。`ASC`で昇順、`DESC`で降順です。`ORDER BY`を指定しない場合、取得するレコードの順番は保証されません。
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM city WHERE Population >= 8000000 ORDER BY Population DESC;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +------+-------------------+-------------+------------------+------------+
 | ID   | Name              | CountryCode | District         | Population |
 +------+-------------------+-------------+------------------+------------+
@@ -254,11 +254,11 @@ https://dev.mysql.com/doc/refman/8.0/ja/sorting-rows.html
 `SELECT {カラム名} FROM {テーブル名} WHERE {カラム名} IN ({値1}, {値2}, ...);`のように書くことで、カラムの値が複数の値のうちどれかに当てはまるものを選ぶことができます。
 例えば、都市のうち都道府県(`District`)が四国(香川、徳島、愛媛、高知)に当てはまるものを選ぶ文は下のようになります。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT * FROM city WHERE District IN ("Kagawa", "Tokushima", "Ehime", "Kochi");
 ```
 
-```txt{:no-line-numbers}
+```txt
 +------+-----------+-------------+-----------+------------+
 | ID   | Name      | CountryCode | District  | Population |
 +------+-----------+-------------+-----------+------------+
@@ -282,11 +282,11 @@ https://dev.mysql.com/doc/refman/8.0/ja/comparison-operators.html#operator_in
 中国語を使っている国の国名を知りたいときを考えましょう。
 `countrylanguage`テーブルには下のように国コード(`CountryCode`)のカラムはありますが国名はありません。そのため、`country`テーブルから国名を知る必要があります。
 
-```sql{:no-line-numbers}
+```sql
 mysql> DESCRIBE countrylanguage;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +-------------+---------------+------+-----+---------+-------+
 | Field       | Type          | Null | Key | Default | Extra |
 +-------------+---------------+------+-----+---------+-------+
@@ -300,11 +300,11 @@ mysql> DESCRIBE countrylanguage;
 
 そこで`JOIN`句を下のように使います。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT country.Name, countrylanguage.Language FROM country JOIN countrylanguage ON country.Code = countrylanguage.CountryCode WHERE countrylanguage.Language = "Chinese";
 ```
 
-```txt{:no-line-numbers}
+```txt
 +--------------------------+----------+
 | Name                     | Language |
 +--------------------------+----------+
@@ -344,11 +344,11 @@ https://dev.mysql.com/doc/refman/8.0/ja/join.html
 `SELECT {カラム名} AS {別名} FROM {テーブル名};`で、カラムに別名を付けて扱うことができます。
 例えば日本の都市の名前(`Name`)と都道府県(`District`)を取得するとき、`District`を`Prefecture`と表示したい場合は次のように書くことができます。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT Name, District AS "Prefecture" FROM city WHERE CountryCode = "JPN";
 ```
 
-```txt{:no-line-numbers}
+```txt
 +---------------------+------------+
 | Name                | Prefecture |
 +---------------------+------------+
@@ -367,13 +367,13 @@ mysql> SELECT Name, District AS "Prefecture" FROM city WHERE CountryCode = "JPN"
 
 また、`AS`は省略でき、上の SQL は次のようにも書くことができます。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
 ```
 
 `AS`はカラム名だけでなくテーブル名にも使うことができ、先ほどの`JOIN`の SQL は`AS`を使うとこのように書けます。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT c.Name, cl.Language FROM country AS "c" JOIN countrylanguage AS "cl" ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
 ```
 
@@ -384,11 +384,11 @@ https://dev.mysql.com/doc/refman/8.0/ja/problems-with-alias.html
 `SELECT COUNT({カラム名}) FROM {テーブル名};`でレコードの数を数えることができます。
 都市のうち国コード(`CountryCode`)が`JPN`のレコード数は下のようにして取得できます。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT COUNT(*) FROM city WHERE CountyCode = "JPN";
 ```
 
-```txt{:no-line-numbers}
+```txt
 +----------+
 | count(*) |
 +----------+
@@ -404,11 +404,11 @@ https://dev.mysql.com/doc/refman/8.0/ja/aggregate-functions.html#function_count
 `GROUP BY {カラム名}`を付けることで、`COUNT`などの結果を共通の値でまとめることができます。
 各国コードの都市数を数える SQL 文は下のようになります。
 
-```sql{:no-line-numbers}
+```sql
 SELECT CountryCode, COUNT(*) FROM city GROUP BY CountryCode;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +-------------+----------+
 | CountryCode | COUNT(*) |
 +-------------+----------+
@@ -434,17 +434,17 @@ https://dev.mysql.com/doc/refman/8.0/ja/group-by-modifiers.html
 
 1. 挿入
 
-```sql{:no-line-numbers}
+```sql
 mysql> INSERT INTO city (Name, CountryCode, District, Population) VALUES ("oookayama", "JPN", "Tokyo-to", 5000);
 ```
 
 2. 確認
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT * FROM city ORDER BY ID DESC LIMIT 1;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +------+-----------+-------------+----------+------------+
 | ID   | Name      | CountryCode | District | Population |
 +------+-----------+-------------+----------+------------+
@@ -460,12 +460,12 @@ https://dev.mysql.com/doc/refman/8.0/ja/insert.html
 `UPDATE {テーブル名} SET {カラム名} = {値} WHERE {条件式};`で条件に当てはまる **全ての** レコードの値を変えることができます。
 さっき追加した大岡山の情報を変えてみましょう。
 
-```sql{:no-line-numbers}
+```sql
 mysql> UPDATE city SET Population = 9999 WHERE ID = 4080;
 mysql> SELECT * FROM city WHERE ID = 4080;
 ```
 
-```txt{:no-line-numbers}
+```txt
 +------+-----------+-------------+----------+------------+
 | ID   | Name      | CountryCode | District | Population |
 +------+-----------+-------------+----------+------------+
@@ -481,17 +481,17 @@ https://dev.mysql.com/doc/refman/8.0/ja/update.html
 `DELETE FROM {テーブル名} WHERE 条件式;`の構文で条件に合致するレコードを **全て** 削除できます。
 大岡山を消してみましょう。
 
-```sql{:no-line-numbers}
+```sql
 mysql> DELETE FROM city WHERE ID = 4080;
 ```
 
 確認してみます。
 
-```sql{:no-line-numbers}
+```sql
 mysql> SELECT * FROM city WHERE ID = 4080;
 ```
 
-```txt{:no-line-numbers}
+```txt
 Empty set (0.00 sec)
 ```
 

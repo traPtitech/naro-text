@@ -15,7 +15,7 @@ Go でデータベースに接続するためのライブラリは様々あり�
   - [jmoiron/sqlx: a set of extensions on go's standard `database/sql` library.](https://pkg.go.dev/github.com/jmoiron/sqlx)
   - [Illustrated guide to SQLX](https://jmoiron.github.io/sqlx/)
 
-<<< @/chapter1/section4/src/connect_db.go
+<<< @/chapter1/section4/src/connect_db.go{:line-numbers}
 
 `// #region`などのコメントは無視してください。
 
@@ -61,7 +61,7 @@ https://docs.github.com/ja/get-started/getting-started-with-git/ignoring-files
 
 :::warning
 
-```sh{:no-line-numbers}
+```sh
 $ source .env
 ```
 
@@ -70,7 +70,7 @@ $ source .env
 
 ### 実行する
 
-```sh{:no-line-numbers}
+```sh
 $ go run main.go
 ```
 
@@ -95,7 +95,7 @@ Tokyoの人口は7980230人です
 
 ### 基本問題
 
-```sh{:no-line-numbers}
+```sh
 $ go run main.go {都市の名前}
 ```
 
@@ -124,7 +124,7 @@ $ go run main.go {都市の名前}
 <<< @/chapter1/section4/src/select.go#main{12}
 以下のように日本の都市一覧を取得できます。
 
-```txt{:no-line-numbers}
+```txt
 conntected
 日本の都市一覧
 都市名: Tokyo, 人口: 7980230
@@ -142,7 +142,7 @@ conntected
 
 `INSERT`や`UPDATE`、`DELETE`を実行したい場合は、`Exec`関数を使うことができます。第 1 引数に SQL 文を渡し、第 2 引数以降は`?`に当てはめたい値を入れます。
 
-```go{:no-line-numbers}
+```go
 result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?,?,?,?)", name, countryCode, district, population)
 ```
 
@@ -153,13 +153,13 @@ result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Populatio
 
 sqlx で変数を含む SQL を使いたいときは「`?`」を使わなくてはいけません。これはセキュリティ上の問題です。例として、国のコードからその国の都市の情報一覧を取得することを考えましょう。`fmt`ライブラリの`Sprintf`関数を使うとこのように処理を書くことができます。
 
-```go{:no-line-numbers}
+```go
 err = db.Select(&city, fmt.Sprintf("SELECT * FROM city WHERE CountryCode = '%s'", code))
 ```
 
 `code`に入っている値がただの国名コードなら問題はないのですが、`JPN' OR 'A' = 'A`という値が入っていたらどうなるでしょうか。データベースで実行されるとき、SQL 文は下のようになります。
 
-```sql{:no-line-numbers}
+```sql
 SELECT * FROM city WHERE CountryCode = 'JPN' OR 'A' = 'A'
 ```
 
