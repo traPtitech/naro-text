@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ClickCounter from "./ClickCounter.vue"
+import ClickCounter from './ClickCounter.vue'
 
 defineProps<{
   msg: string

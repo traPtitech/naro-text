@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref } from 'vue'
 
 interface Item {
   name: string
@@ -7,8 +7,8 @@ interface Item {
 }
 
 const items = ref<Item[]>([
-  { name: "たまご", price: 100 },
-  { name: "りんご", price: 160 }
+  { name: 'たまご', price: 100 },
+  { name: 'りんご', price: 160 }
 ])
 </script>
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed } from "vue"
+import { ref, computed } from 'vue'
 
 const count = ref<number>(0)
-const countMessage = computed(() => "回数: " + count.value)
+const countMessage = computed(() => '回数: ' + count.value)
 </script>
 
 <template>

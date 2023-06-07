@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ClickCounter from "./ClickCounter.vue"
-import ItemList from "./ItemList.vue"
+import ClickCounter from './ClickCounter.vue'
+import ItemList from './ItemList.vue'
 
 defineProps<{
   msg: string

@@ -5,7 +5,7 @@ name: Deploy static content to Pages
 on:
   # デフォルトブランチを対象としたプッシュ時に実行されます
   push:
-    branches: ["main"]
+    branches: ['main']
 
   # Actions タブから手動でワークフローを実行できるようにします
   workflow_dispatch:
@@ -18,7 +18,7 @@ permissions:
 
 # 1 つの同時デプロイメントを可能にする
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: true
 
 jobs:
@@ -35,7 +35,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "npm"
+          cache: 'npm'
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # dist リポジトリのアップロード
-          path: "./dist"
+          path: './dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
