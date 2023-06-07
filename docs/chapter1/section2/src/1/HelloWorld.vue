@@ -2,19 +2,19 @@
 import ClickCounter from "./ClickCounter.vue"
 
 defineProps<{
-	msg: string
+  msg: string
 }>()
 </script>
 
 <template>
-	<div>
-		<h1>{{ msg }}</h1>
-		<ClickCounter />
-	</div>
+  <div>
+    <h1>{{ msg }}</h1>
+    <ClickCounter />
+  </div>
 </template>
 
 <style scoped>
 a {
-	color: #42b983;
+  color: #42b983;
 }
 </style>

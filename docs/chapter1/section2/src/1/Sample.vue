@@ -3,7 +3,7 @@
 </script>
 
 <template>
-	<!-- 構造 -->
+  <!-- 構造 -->
 </template>
 
 <style>
