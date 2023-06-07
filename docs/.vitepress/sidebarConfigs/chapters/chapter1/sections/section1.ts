@@ -1,9 +1,9 @@
-import type { DefaultTheme } from "vitepress"
+import type { DefaultTheme } from 'vitepress'
 
 export const section1SidebarItems: DefaultTheme.SidebarItem[] = [
-  { text: "環境構築", link: "/chapter1/section1/setup" },
+  { text: '環境構築', link: '/chapter1/section1/setup' },
   {
-    text: "Go で Hello World",
-    link: "/chapter1/section1/hello-world"
+    text: 'Go で Hello World',
+    link: '/chapter1/section1/hello-world'
   }
 ]
