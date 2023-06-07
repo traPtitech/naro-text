@@ -40,5 +40,8 @@ export default defineConfig({
         }
       }
     }
+  },
+  markdown: {
+    linkify: false
   }
 })

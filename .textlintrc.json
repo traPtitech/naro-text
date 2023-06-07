@@ -2,10 +2,7 @@
   "plugins": {},
   "filters": {
     "allowlist": {
-      "allow": [
-        ":::",
-        "/:::.*/"
-      ]
+      "allow": [":::", "/:::.*/"]
     }
   },
   "rules": {
@@ -14,12 +11,12 @@
     "ja-simple-user-dictionary": true,
     "no-doubled-conjunctive-particle-ga": true,
     "preset-ja-technical-writing": {
-			"sentence-length": false,
-			"no-exclamation-question-mark": false,
-			"max-kanji-continuous-len": {
-				"allow": ["開発基礎講習会"]
-			}
-		},
+      "sentence-length": false,
+      "no-exclamation-question-mark": false,
+      "max-kanji-continuous-len": {
+        "allow": ["開発基礎講習会"]
+      }
+    },
     "preset-ja-spacing": {
       "ja-space-between-half-and-full-width": {
         "space": "always"
@@ -27,9 +24,7 @@
     },
     "spellcheck-tech-word": true,
     "prh": {
-      "rulePaths": [
-        "./prh.yaml"
-      ]
+      "rulePaths": ["./prh.yaml"]
     }
   }
 }
