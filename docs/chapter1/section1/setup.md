@@ -12,11 +12,7 @@ Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンシ
 
 ## 拡張機能の導入
 
-### 共通
-
-- Go
-- Volar (第 3 回で補足)
-- ESLint (第 3 回で補足)
+- [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
 
 ::: info
 コマンドは手打ちではなくてコピー&ペーストで打ってください。
