@@ -1,40 +1,40 @@
-import { defineConfig } from "vitepress"
-import { chapter1SidebarItems } from "./sidebarConfigs/chapters/chapter1/chapter1"
+import { defineConfig } from 'vitepress'
+import { chapter1SidebarItems } from './sidebarConfigs/chapters/chapter1/chapter1'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/naro-text/",
-  title: "なろう講習会",
-  description: "Webエンジニアになろう講習会のテキスト",
-  head: [["link", { rel: "icon", href: "/naro-text/favicon.ico" }]],
+  base: '/naro-text/',
+  title: 'なろう講習会',
+  description: 'Webエンジニアになろう講習会のテキスト',
+  head: [['link', { rel: 'icon', href: '/naro-text/favicon.ico' }]],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    nav: [{ text: "Home", link: "/" }],
+    nav: [{ text: 'Home', link: '/' }],
 
     sidebar: {
-      "/chapter1/": chapter1SidebarItems
+      '/chapter1/': chapter1SidebarItems
     },
-    socialLinks: [{ icon: "github", link: "https://github.com/traPtitech/naro-text" }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/traPtitech/naro-text' }],
     search: {
-      provider: "local",
+      provider: 'local',
       options: {
         translations: {
           button: {
-            buttonText: "検索",
-            buttonAriaLabel: "検索ボックスを開く"
+            buttonText: '検索',
+            buttonAriaLabel: '検索ボックスを開く'
           },
           modal: {
-            displayDetails: "詳細を表示",
-            resetButtonTitle: "リセット",
-            backButtonTitle: "戻る",
-            noResultsText: "見つかりませんでした",
+            displayDetails: '詳細を表示',
+            resetButtonTitle: 'リセット',
+            backButtonTitle: '戻る',
+            noResultsText: '見つかりませんでした',
             footer: {
-              selectText: "選択",
-              selectKeyAriaLabel: "結果を選択するには、上下キーを使用します",
-              navigateText: "移動",
-              navigateUpKeyAriaLabel: "前の結果に移動するには、上キーを使用します",
-              navigateDownKeyAriaLabel: "次の結果に移動するには、下キーを使用します",
-              closeText: "閉じる"
+              selectText: '選択',
+              selectKeyAriaLabel: '結果を選択するには、上下キーを使用します',
+              navigateText: '移動',
+              navigateUpKeyAriaLabel: '前の結果に移動するには、上キーを使用します',
+              navigateDownKeyAriaLabel: '次の結果に移動するには、下キーを使用します',
+              closeText: '閉じる'
             }
           }
         }
