@@ -10,7 +10,7 @@ Mac: `Control + Shift + Command + 4`を押すと、矩形選択でスクリー�
 Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に`Ctrl + V`で貼り付けられます。
 :::
 
-## 拡張機能の導入
+## VSCode 拡張機能の導入
 
 - [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
 
