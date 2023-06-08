@@ -2,7 +2,11 @@
   "plugins": {},
   "filters": {
     "allowlist": {
-      "allow": [":::", "/:::.*/"]
+      "allow": [
+        ":::",
+        "/:::.*/",
+        "リーダブルコード"
+      ]
     }
   },
   "rules": {
@@ -14,7 +18,9 @@
       "sentence-length": false,
       "no-exclamation-question-mark": false,
       "max-kanji-continuous-len": {
-        "allow": ["開発基礎講習会"]
+        "allow": [
+          "開発基礎講習会"
+        ]
       }
     },
     "preset-ja-spacing": {
@@ -24,7 +30,9 @@
     },
     "spellcheck-tech-word": true,
     "prh": {
-      "rulePaths": ["./prh.yaml"]
+      "rulePaths": [
+        "./prh.yaml"
+      ]
     }
   }
 }
