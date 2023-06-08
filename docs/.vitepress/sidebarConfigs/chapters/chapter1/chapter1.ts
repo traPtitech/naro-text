@@ -1,6 +1,6 @@
-import type { DefaultTheme } from "vitepress"
-import { section1SidebarItems } from "./sections/section1"
-import { section4SidebarItems } from "./sections/section4"
+import type { DefaultTheme } from 'vitepress'
+import { section1SidebarItems } from './sections/section1'
+import { section4SidebarItems } from './sections/section4'
 
 export const chapter1SidebarItems: DefaultTheme.SidebarItem[] = [
   {
