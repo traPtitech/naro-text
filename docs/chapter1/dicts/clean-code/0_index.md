@@ -146,7 +146,7 @@ func main() {
 
 例えば、つぎのような`Movie`というクラスがあったとします。
 ```cpp
-class Moive {
+class Movie {
 	Stop();
 }
 ```
