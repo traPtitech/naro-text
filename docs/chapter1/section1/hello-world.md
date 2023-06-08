@@ -1,13 +1,13 @@
 # Go で Hello World
 
-`~/develop/go/hello`ディレクトリの中にプログラムを作成します。
+`~/develop/go-hello`ディレクトリの中にプログラムを作成します。
 
-## VSCodeで`~/develop/go/hello`ディレクトリを開く
+## VSCodeで`~/develop/go-hello`ディレクトリを開く
 - ディレクトリ作成
-`mkdir -p ~/develop/go/hello`
+`mkdir -p ~/develop/go-hello`
 
 - 移動
-`cd ~/develop/go/hello`
+`cd ~/develop/go-hello`
 
 - vscode を開く
 `code .`
@@ -29,6 +29,6 @@
 
 うまくできれば結果は次のようになります。
 ```bash
-hijiki51@DESKTOP-JF9KJFE:~/develop/go/hello$ go run main.go
+hijiki51@DESKTOP-JF9KJFE:~/develop/go-hello$ go run main.go
 Hello, World!
 ```
