@@ -506,10 +506,10 @@ Adminer(https://www.adminer.org/) はデータベースを GUI（マウスなど
 今回は`task up`を実行したときに Adminer が立ち上がるようになっています。ブラウザで <a href='http://localhost:8080/' target="_blank" rel="noopener noreferrer">localhost:8080</a> にアクセスすると使えます。
 ログイン画面が出てくるはずなので、MySQL にログインするときと同様に、下の画像のように入力してログインしてください。パスワードは`password`です。
 
-![](assets/adminer_login.png)
+![](images/adminer_login.png)
 
-![](assets/adminer_home.png)
+![](images/adminer_home.png)
 
 ログインした画面からテーブルを選び、「データ」を選択するとレコード一覧を見ることができ、検索や並び替えなどができます。また、データの編集もできます。Adminer 上で SQL の実行もでき、文がいい感じに強調表示されるので書きやすいです。
 
-![](assets/adminer_sql.png)
+![](images/adminer_sql.png)

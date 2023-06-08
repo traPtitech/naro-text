@@ -2,12 +2,12 @@
 
 Echo を使い、データベースからデータを取得するサーバーアプリケーションを作りましょう。
 
-<<< @/chapter1/section4/src/server.go{:line-numbers}
+<<< @/chapter1/section4/src/server.go{go:line-numbers}
 
 都市が見つかったら`200`を、見つからなかったら`404`を返しています。
 Postman からリクエストを送ってみましょう。
 
-![](assets/postman.png)
+![](images/postman.png)
 
 写真のように返ってきたら成功です。
 

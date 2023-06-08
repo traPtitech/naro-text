@@ -3,6 +3,13 @@
 ## 記法
 https://vitepress.dev/guide/markdown
 
+## ファイル名
+- `{index}_{name}.md`
+  - 例: `0_index.md`
+- 画像
+  - `images`ディレクトリを切って配置 
+  - 画像の名前で何の画像かわかるようにしてください 
+
 ## 記入の注意点
 - 内輪ネタは避けましょう
 - section 以下は基本フラットな構造を保って下さい

@@ -4,15 +4,15 @@
 
 ## Vue テンプレートのクローン
 
-予め設定等が準備されたテンプレートリポジトリを用いて 最終的には TodoList を作っていきます。
+予め設定等が準備されたテンプレートリポジトリを用いて、最終的には TodoList を作っていきます。
 
 [traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend) にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
 
-![](assets/1/01.png)
+![](images/0/use-template.png)
 
 「Repository name」にリポジトリ名を入力、公開状態は TA が見られるように「Public」にしてください。
 
-![](assets/1/02.png)
+![](images/0/setup-repo.png)
 
 「Create repository from template」でリポジトリを作成したら手元にクローンしてください。  
 `cd {リポジトリ名}`でプロジェクトのディレクトリに移動し、`code .`で VSCode を開きます。
@@ -61,7 +61,7 @@ mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm run dev
 
 この状態で、ブラウザから <a href='http://localhost:5173/' target="_blank" rel="noopener noreferrer">localhost:5173</a> にアクセスすると、以下のような画面が表示されるはずです。
 
-![](assets/1/03.png)
+![](images/0/vite-start.png)
 
 止めるときは`Ctrl + C`で止めてください。
 
@@ -90,7 +90,7 @@ Vue では`.vue`という拡張子で単一ファイルコンポーネント(SFC
 
 #### Sample.vue
 
-<<< @/chapter1/section2/src/1/Sample.vue
+<<< @/chapter1/section2/src/0/Sample.vue
 
 #### 使用例
 
@@ -117,7 +117,7 @@ traQ で 1 つ例を挙げると、メッセージの表示部分はコンポー
 │   └── favicon.ico         // 静的ファイル(ビルドされない)
 ├── src
 │   ├── App.vue             // main.jsから読まれる.vueファイル(Vueの処理開始点)
-│   ├── assets              // Vueで使用したい画像など
+│   ├── images              // Vueで使用したい画像など
 │   │　　└── logo.svg
 │   ├── components          // 各種コンポーネント
 │   │　　└── HelloWorld.vue
@@ -192,11 +192,11 @@ VSCode の Vue3 向けの統合プラグイン。
 
 :::tip
 ちゃんと保存しましょう。
-![](assets/1/04.png)
+![](images/0/unsaved.png)
 
 画面上部のタブのファイル名の横に ● がついているときは保存できていません。
 
-![](assets/1/05.png)
+![](images/0/saved.png)
 
 設定で自動保存されるようにしておくと便利です。  
 参考： [自動保存するように設定する](https://www.javadrive.jp/vscode/setting/index2.html)
@@ -208,11 +208,11 @@ VSCode の Vue3 向けの統合プラグイン。
 
 #### index.html(一部抜粋)
 
-<<< @/chapter1/section2/src/1/index.html{html:line-numbers}
+<<< @/chapter1/section2/src/0/index.html{html:line-numbers}
 
 #### counter.js
 
-<<< @/chapter1/section2/src/1/counter.js{js:line-numbers}
+<<< @/chapter1/section2/src/0/counter.js{js:line-numbers}
 
 :::info
 Go や C++などでは`""`と`''`が区別されますが、JavaScript では区別されません。
@@ -227,7 +227,7 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 `components`ディレクトリ内に`ClickCounter.vue`というファイルを作成します。
 
-![](assets/1/06.png)
+![](images/0/clickcounter.png)
 
 #### ソースコードの変更
 
@@ -235,21 +235,21 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 `style`タグを丸ごと消します。
 
-<<< @/chapter1/section2/src/1/App.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/0/App.vue{vue:line-numbers}
 
 ##### src/components/HelloWorld.vue
 
 `script`タグ内で`ClickCounter.vue`を読み込み、`template`タグ内にカウンターを配置します。
 
-<<< @/chapter1/section2/src/1/HelloWorld.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/0/HelloWorld.vue{vue:line-numbers}
 
 ##### src/components/ClickCounter.vue
 
-<<< @/chapter1/section2/src/1/ClickCounter.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/0/ClickCounter.vue{vue:line-numbers}
 
 以下のように動けば OK です。
 
-![](assets/1/01.gif)
+![](images/0/preview.gif)
 
 ### ソースコード解説
 

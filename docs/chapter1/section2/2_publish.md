@@ -14,7 +14,7 @@ Vite のようなバンドラーによって、以下のような様々な処理
 
 ビルドによる成果物は`dist`ディレクトリの中に生成されています。
 
-![](assets/3/06.png)
+![](images/2/dist.png)
 
 ## 公開する
 
@@ -22,7 +22,7 @@ Vite のようなバンドラーによって、以下のような様々な処理
 
 早速 push して公開したいところですが、`.gitignore`をみてみると`dist`ディレクトリが ignore されていることがわかります。
 
-![](assets/3/07.png)
+![](images/2/ignore.png)
 
 これは GitHub にはソースコードだけをアップロードし、そのソースコードから再現できるものは極力アップロードしない(Git のパフォーマンスに影響するため)という考えから来ているものです。
 
@@ -39,7 +39,7 @@ GitHub Pages は GitHub に上げたコードから簡単に Web サイトを公
 2. 左メニューの「Pages」を選択
 3. 「Source」の項目で「GitHub Actions」を選択
 
-![](assets/3/01.png)
+![](images/2/pages.png)
 
 次に VSCode に戻り、以下のファイルを編集します。
 
@@ -51,24 +51,24 @@ GitHub Pages は GitHub に上げたコードから簡単に Web サイトを公
 参考：[静的サイトのデプロイ | Vite](https://ja.vitejs.dev/guide/static-deploy.html)  
 参考：[GitHub Actions のワークフロー構文 - GitHub Docs](https://docs.github.com/ja/actions/using-workflows/workflow-syntax-for-github-actions)
 
-<<< @/chapter1/section2/src/3/deploy.yml
+<<< @/chapter1/section2/src/2/deploy.yml
 
 #### vite.config.ts
 
 `base`の項目を追加します。`{リポジトリ名}`の部分は自分のリポジトリ名を入れてください。
 
-<<< @/chapter1/section2/src/3/vite.config.ts
+<<< @/chapter1/section2/src/2/vite.config.ts
 
 これで設定は終わりです。main ブランチに push したら GitHub Actions が走り、GitHub Pages で公開されるはずです。
 
 GitHub Actions の動作確認は、Actions タブから見ることができます。
 
-![](assets/3/04.png)
+![](images/2/actions.png)
 
 GitHub Pages で公開された URL は GitHub Actions の実行が終わり次第、先ほどの Pages ページで表示されています。  
 このリンクをクリックすると、自分で作ったものが公開できているはずです！
 
-![](assets/3/05.png)
+![](images/2/site-url.png)
 
 今回の設定ファイルを入れたものは以下のブランチに入っています。参考にしてみてください。  
 [traPtitech/naro-template-frontend at example/todolist](https://github.com/traPtitech/naro-template-frontend/tree/example/todolist)

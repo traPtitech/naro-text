@@ -2,7 +2,7 @@
 
 ここからは Go でプログラムを書いてデータベースを扱っていきます。`task up`を実行してデータベースが立ち上がっていることを確認してください。
 まずは VSCode で先ほどクローンしてきたリポジトリを開きましょう。画像のようなファイルが入っているはずです。 main.go を開いてください。
-![](assets/files.png)
+![](images/files.png)
 
 ## データベースに接続する
 
@@ -15,7 +15,7 @@ Go でデータベースに接続するためのライブラリは様々あり�
   - [jmoiron/sqlx: a set of extensions on go's standard `database/sql` library.](https://pkg.go.dev/github.com/jmoiron/sqlx)
   - [Illustrated guide to SQLX](https://jmoiron.github.io/sqlx/)
 
-<<< @/chapter1/section4/src/connect_db.go{:line-numbers}
+<<< @/chapter1/section4/src/connect_db.go{go:line-numbers}
 
 `// #region`などのコメントは無視してください。
 
