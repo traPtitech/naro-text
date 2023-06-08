@@ -30,7 +30,7 @@ func main() {
 }
 ```
 
-Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からインストールしなければならないのですが、それを自動でやってくれる[Go module](https://go.dev/doc/tutorial/create-module)という便利な機能があるので、使いましょう。以下を VSCode 内のターミナルで実行してください。
+Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からインストールしなければならないのですが、それを自動でやってくれる[Go module](https://go.dev/doc/tutorial/create-module)という便利な機能があるので使いましょう。以下を VSCode 内のターミナルで実行してください。
 ```
 #Go moduleを初期化して、足りない物をインストールし、使われてない物を削除する。
 $ go mod init naro-server
@@ -64,13 +64,12 @@ $ go run /home/userX/go/src/hello-server/main.go
 ターミナルパネルの上にあるツールバーのプラスボタンを押すと、新たにターミナルを開くことができます。
 ![](https://md.trapti.tech/uploads/upload_588f5a5328b940dffbdb8c9f12031f28.png)
 
-新しくターミナルを開いて、
+新しくターミナルを開いて、以下のコマンドを実行してみましょう。
 ```
 $ curl localhost:<ポート番号>/hello
 ```
-を実行してみます。
 
-すると、レスポンスとして Hello, World が返ってきていることがわかると思います。
+すると、レスポンスとして Hello, World が返ってきていることがわかります。
 ![](https://md.trapti.tech/uploads/upload_3db57c9c919ee8fb53b6b2908a1c2316.png)
 
 ## 更に詳しくリクエストを見る
