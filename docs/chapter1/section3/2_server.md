@@ -1,7 +1,11 @@
 # サーバーアプリケーションを作る
+:::danger
+今回はみんなで 1 つのサーバーを共有しています．
+ポート番号は必ず自分に割り当てられたものを使うようにしてください．
+:::
 
 ## ファイルの作成
-今回は、Go言語と、Go言語の有名なwebフレームワークである[Echo](https://echo.labstack.com/)を使ってサーバーアプリケーションを作っていきます。
+今回は、Go 言語と、Go 言語の有名な web フレームワークである[Echo](https://echo.labstack.com/)を使ってサーバーアプリケーションを作っていきます。
 
 `/home/userX/go/src/hello-server`というディレクトリを作成し、そのディレクトリを開きます。
 ディレクトリの中に`main.go`を作成し、以下のプログラムを書き込みます。
@@ -26,29 +30,69 @@ func main() {
 }
 ```
 
-Echoは、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からインストールしなければならないのですが、それを自動でやってくれる[Go module](https://go.dev/doc/tutorial/create-module)という便利な機能があるので、使いましょう。
+Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からインストールしなければならないのですが、それを自動でやってくれる[Go module](https://go.dev/doc/tutorial/create-module)という便利な機能があるので、使いましょう。以下を VSCode 内のターミナルで実行してください。
 ```
 #Go moduleを初期化して、足りない物をインストールし、使われてない物を削除する。
 $ go mod init naro-server
 $ go mod tidy
 ```
 ```
-#先ほど書いたファイルを実行
+#先ほど書いたファイルを実行して、サーバーを立てる
 $ go run /home/userX/go/src/hello-server/main.go
 ```
-
 以下のような画面が出れば起動できています。
 止めるときは`ctrl+c`で終了できます。というか止めないと次に起動するときにポート番号を変えないとエラーが出てしまうので使い終わったら止めるようにしましょう。
 
 ![](https://md.trapti.tech/uploads/upload_1fd461f85490ef5014ebbafdfa430a0a.png)
 
 :::warning
+<span style="font-size: 150%;font-weight: bold;"> ターミナルの開き方 </span>
+
+ツールバー > Terminal > New Terminal でその時開いているディレクトリでターミナルが開きます。
+もしくは`Ctrl` + `@`でも(Windows の場合)。
+:::
+
+:::warning
 作ったディレクトリやファイルの名前が違うと、上手く実行できない場合があります。
 適宜読み替えてください。
 :::
 
-:::warning
-## ターミナルの開き方
-ツールバー > Terminal > New Terminalでその時開いているディレクトリでターミナルが開きます。
-もしくは`Ctrl` + `@`でも(Windowsの場合)。
+# アクセスしてみる
+まずはコマンドライン(ローカル)でサーバーにアクセスしてみましょう。
+コマンドラインでサーバーにアクセスするには、[curl](https://curl.se/)というコマンドを使います。
+
+ターミナルパネルの上にあるツールバーのプラスボタンを押すと、新たにターミナルを開くことができます。
+![](https://md.trapti.tech/uploads/upload_588f5a5328b940dffbdb8c9f12031f28.png)
+
+新しくターミナルを開いて、
+```
+$ curl localhost:<ポート番号>/hello
+```
+を実行してみます。
+
+すると、レスポンスとして Hello, World が返ってきていることがわかると思います。
+![](https://md.trapti.tech/uploads/upload_3db57c9c919ee8fb53b6b2908a1c2316.png)
+
+## 更に詳しくリクエストを見る
+curl コマンドのオプションとして、リクエストなどの情報を詳しく見る`-vvv`があります。
+```
+$ curl localhost:<ポート番号>/hello -vvv
+```
+とすると
+![](https://md.trapti.tech/uploads/upload_5e4eb402cb23d79d1da3e37c2e352b8d.png)
+
+先程座学でやったような、リクエスト・レスポンスが送られていることがわかります。
+
+# ブラウザからアクセスする
+サーバーには IP アドレスが振られているので、皆さんの PC のブラウザからもアクセスが可能です。
+
+![](https://md.trapti.tech/uploads/upload_30b1a48ed32416221e19322dd3b11c38.png)
+
+:::success
+エンドポイントとして自分の traQ ID のものを生やして自己紹介を返すようにしてみましょう。
+
+例)
+![](https://md.trapti.tech/uploads/upload_6998782127d8004e28872197daaf4f6a.png)
+
+完成したら URL を WebApp/jikkyo チャンネルに投稿してください
 :::
