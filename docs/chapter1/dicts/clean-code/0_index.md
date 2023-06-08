@@ -245,14 +245,14 @@ func distance(a, b Point) float64 {
 func main() {
 	minDistance := 252521.0
 	origin := Point{0, 0}
-	if minDistance < distance(origin ,points[0]) {
-		minDistance = distance(origin ,points[0])
+	if minDistance < distance(origin, points[0]) {
+		minDistance = distance(origin, points[0])
 	} 
-	if minDistance > distance(origin ,points[1]) {
-		minDistance = distance(origin ,points[1])
+	if minDistance > distance(origin, points[1]) {
+		minDistance = distance(origin, points[1])
 	}
-	if minDistance < distance(origin ,points[2]) {
-		fmt.Println(distance(origin ,points[2]))
+	if minDistance < distance(origin, points[2]) {
+		fmt.Println(distance(origin, points[2]))
 	} else {
 		fmt.Println(minDistance)
 	}
