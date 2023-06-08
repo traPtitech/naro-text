@@ -4,7 +4,7 @@
 
 なろう講習会のバックエンド用のテンプレートリポジトリ、[https://github.com/traPtitech/naro-template-backend](https://github.com/traPtitech/naro-template-backend) を使います。リンクから GitHub のリポジトリにアクセスしてください。右上の「Use this template」と書かれたボタンをクリックし、「Create a new repository」から自分のアカウントにリポジトリを作ります。リポジトリ名は`naro-backend`など適当なものにしましょう。
 
-![](assets/template.png)
+![](images/template.png)
 
 これができたら自分の手元にリポジトリをクローンし、`cd`コマンドでクローンしたリポジトリを開きましょう。
 
@@ -30,16 +30,16 @@ Task GitHub [https://github.com/go-task/task](https://github.com/go-task/task)
 
 「Docker Desktop」を立ち上げたあと、ターミナルで `task up` を実行してください。これによってデータベースが起動します。
 
-![](assets/task_up.png)
+![](images/task_up.png)
 
 次に `task db` を実行しましょう。MariaDB が動いている Docker コンテナの中に入ることができます。
 
-![](assets/task_db.png)
+![](images/task_db.png)
 
 この状態で `mysql -u root -p` と入力するとパスワードを求められます。「`password`」と入力してください。このとき、入力した文字は表示されないので注意してください。下の画像のように `mysql>` と表示されたら成功です。
 `mysql -u root -p`は、「MySQL を`root`というユーザーで使うためにパスワードを使ってログインする」という意味のコマンドです。パスワードをつなげて`mysql -u root -ppassword`ともできます。
 
-![](assets/mysql.png)
+![](images/mysql.png)
 
 MySQL にログイン出来たら、スクリーンショットを講習会チャンネルに投稿しましょう。
 
