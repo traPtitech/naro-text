@@ -14,8 +14,13 @@ export const chapter1SidebarItems: DefaultTheme.SidebarItem[] = [
       {
         text: '実習編',
         collapsed: true,
-        items: [...section1SidebarItems, ...section2SidebarItems, ...section3SidebarItems, ...section4SidebarItems],
-      },
-    ],
-  },
+        items: [
+          ...section1SidebarItems,
+          ...section2SidebarItems,
+          ...section3SidebarItems,
+          ...section4SidebarItems
+        ]
+      }
+    ]
+  }
 ]

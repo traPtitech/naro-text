@@ -13,26 +13,7 @@ code .
 ```
 ディレクトリの中に`main.go`を作成し、以下のプログラムを書き込みます。
 
-```go=
-package main
-
-import (
-	"net/http"
-    
-    "github.com/labstack/echo/v4"
-)
-
-func main() {
-	e := echo.New()
-
-	e.GET("/hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World.\n")
-	})
-
-	e.Logger.Fatal(e.Start(":8080"))
-}
-
-```
+<<<@/chapter1/section3/src/1-1_hello-server.go
 
 Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からインストールしなければなりません。しかし、Go 言語にはそれを自動でやってくれる [Go module](https://go.dev/doc/tutorial/create-module) という便利な機能があるので使ってみましょう。以下を VSCode 内のターミナルで実行してください。
 
@@ -69,7 +50,7 @@ go run main.go
 適宜読み替えてください。
 :::
 
-# アクセスしてみる
+## アクセスしてみる
 
 まずはコマンドライン(ローカル)でサーバーにアクセスしてみましょう。
 コマンドラインでサーバーにアクセスするには、[curl](https://curl.se/)というコマンドを使います。
@@ -99,13 +80,13 @@ curl localhost:8080/hello -vvv
 
 先程座学でやったような、リクエスト・レスポンスが送られていることがわかります。
 
-# ブラウザからアクセスする
+## ブラウザからアクセスする
 
 localhost は自分自身を表すドメインなので、自分のブラウザからのみアクセスが可能です。
-ブラウザで、`http://localhost:8080/hello`にアクセスしてみましょう。
+ブラウザで、http://localhost:8080/hello にアクセスしてみましょう。
 ![](assets/hello_server_localhost.png)
 
-### 基本問題
+## 基本問題
 エンドポイントとして自分の traQ ID のものを生やして自己紹介を返すようにしてみましょう。
 
 例:
