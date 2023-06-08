@@ -101,12 +101,14 @@ curl localhost:8080/hello -vvv
 
 # ブラウザからアクセスする
 
-自身を表すホスト名である localhost を使って、自分の PC のブラウザからのみアクセスが可能です。
-
-![](https://md.trapti.tech/uploads/upload_30b1a48ed32416221e19322dd3b11c38.png)
+localhost は自分自身を表すドメインなので、自分のブラウザからのみアクセスが可能です。
+ブラウザで、`http://localhost:8080/hello`にアクセスしてみましょう。
+![](assets/hello_server_localhost.png)
 
 ### 基本問題
 エンドポイントとして自分の traQ ID のものを生やして自己紹介を返すようにしてみましょう。
 
 例:
-![](https://md.trapti.tech/uploads/upload_6998782127d8004e28872197daaf4f6a.png)
+![](assets/hello_server_me.png)
+
+完成したら webApp/jikkyo チャンネルにスクリーンショットを投稿してください。
