@@ -49,7 +49,6 @@ M1/M2 Mac の人は Apple macOS (ARM64) を、Intel Mac の人は Apple macOS (x
 
 :::
 
-:::
 
 
 #### Windows (WSL2)
