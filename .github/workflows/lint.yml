@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "20"
-      - run: npm ci w
+      - run: npm ci
       - run: npx textlint ./docs/**/*.md
   build:
     runs-on: ubuntu-latest
