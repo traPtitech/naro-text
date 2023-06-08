@@ -21,9 +21,6 @@ Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンシ
 
 ## Go のインストール
 
-https://golang.org/doc/install  
-インストールが終わった後に`go version`してみて`go version go1.20.5`と出れば成功です。
-
 直接インストールする方法と asdf を使ったインストールの 2 種類がありますが、asdf を使った方が後からバージョンを上げるのが簡単になるので、長期的にオススメです。
 どちらか好みのほうを選択しましょう。
 
@@ -33,6 +30,8 @@ https://golang.org/doc/install
 
 ### 直接インストールする方法
 
+https://golang.org/doc/install  
+インストールが終わった後に`go version`してみて`go version go1.20.5`と出れば成功です。
 #### Mac
 
 Mac のタブを選択し、ダウンロードページに飛んで自分のアーキテクチャの pkg をダウンロード=>インストーラ起動で設定完了です。
@@ -83,10 +82,10 @@ echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
 source ~/.zshrc
 ```
 :::
-##### Golang 導入
+##### Go の導入
 
 ``` bash
-asdf plugin-add golang
+asdf plugin add golang
 asdf install golang 1.20.5
 asdf global golang 1.20.5
 ```
