@@ -7,6 +7,12 @@ export default defineConfig({
   title: 'なろう講習会',
   description: 'Webエンジニアになろう講習会のテキスト',
   head: [['link', { rel: 'icon', href: '/naro-text/favicon.ico' }]],
+  markdown: {
+    theme: {
+      light: 'github-light',
+      dark: 'github-dark'
+    }
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [{ text: 'Home', link: '/' }],
