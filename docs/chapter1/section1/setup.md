@@ -64,7 +64,7 @@ source ~/.bash_profile
 
 ### with asdf(バージョン管理ツール)
 
-asdf を導入してから、その asdf を使って go を導入します。
+asdf を導入したのち、 asdf 経由で go を導入します。
 
 #### asdf導入
 
