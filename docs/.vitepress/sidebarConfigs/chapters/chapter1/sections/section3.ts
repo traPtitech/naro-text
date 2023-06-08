@@ -7,6 +7,10 @@ export const section3SidebarItems: DefaultTheme.SidebarItem[] = [
   },
   {
     text: 'サーバーアプリケーションを作る',
-    link: '/chapter1/section3/2_server'
+    link: '/chapter1/section3/2_hello-server'
+  },
+  {
+    text: 'JSONレスポンスを返す',
+    link: '/chapter1/section3/3_json-response'
   }
 ]
