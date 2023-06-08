@@ -4,15 +4,15 @@
 
 ## Vue テンプレートのクローン
 
-予め設定等が準備されたテンプレートリポジトリを用いて 最終的には TodoList を作っていきます。
+予め設定等が準備されたテンプレートリポジトリを用いて、最終的には TodoList を作っていきます。
 
 [traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend) にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
 
-![](images/0/01.png)
+![](images/0/use-template.png)
 
 「Repository name」にリポジトリ名を入力、公開状態は TA が見られるように「Public」にしてください。
 
-![](images/0/02.png)
+![](images/0/setup-repo.png)
 
 「Create repository from template」でリポジトリを作成したら手元にクローンしてください。  
 `cd {リポジトリ名}`でプロジェクトのディレクトリに移動し、`code .`で VSCode を開きます。
@@ -61,7 +61,7 @@ mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm run dev
 
 この状態で、ブラウザから <a href='http://localhost:5173/' target="_blank" rel="noopener noreferrer">localhost:5173</a> にアクセスすると、以下のような画面が表示されるはずです。
 
-![](images/0/03.png)
+![](images/0/vite-start.png)
 
 止めるときは`Ctrl + C`で止めてください。
 
@@ -192,11 +192,11 @@ VSCode の Vue3 向けの統合プラグイン。
 
 :::tip
 ちゃんと保存しましょう。
-![](images/0/04.png)
+![](images/0/unsaved.png)
 
 画面上部のタブのファイル名の横に ● がついているときは保存できていません。
 
-![](images/0/05.png)
+![](images/0/saved.png)
 
 設定で自動保存されるようにしておくと便利です。  
 参考： [自動保存するように設定する](https://www.javadrive.jp/vscode/setting/index2.html)
@@ -227,7 +227,7 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 `components`ディレクトリ内に`ClickCounter.vue`というファイルを作成します。
 
-![](images/0/06.png)
+![](images/0/clickcounter.png)
 
 #### ソースコードの変更
 
@@ -249,7 +249,7 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 以下のように動けば OK です。
 
-![](images/0/01.gif)
+![](images/0/preview.gif)
 
 ### ソースコード解説
 
