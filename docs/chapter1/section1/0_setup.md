@@ -56,7 +56,7 @@ M1/M2 Mac の人は Apple macOS (ARM64) を、Intel Mac の人は Apple macOS (x
 sudo apt install tar git
 wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz
-echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bash_profile
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bash_profile
 source ~/.bash_profile
 ```
 
@@ -71,13 +71,13 @@ asdf を導入したのち、 asdf 経由で go を導入します。
 ``` bash [Windows(WSL2)]
 sudo apt install git
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.3
-echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
-echo ". $HOME/.asdf/completions/asdf.bash" >> ~/.bashrc
+echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
+echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
 source ~/.bashrc
 ```
 ``` zsh [Mac]
 brew install asdf
-echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+echo -e '\n. $(brew --prefix asdf)/libexec/asdf.sh' >> ${ZDOTDIR:-~}/.zshrc
 source ~/.zshrc
 ```
 :::
