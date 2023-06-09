@@ -1,9 +1,62 @@
 # Vue 入門
 
-`~/develop`ディレクトリの中にテンプレートリポジトリをクローンしてプログラムを書きます。
+## Node.jsの導入
+Vueを使えるようにするために、Node.jsを入れます。自分の環境に合わせたものを選んで実行してください。
+
+### 簡単
+前の章でasdfを使ってGoをインストールした人はこちらではなくて、「バージョン管理を考える」の方を見てください。
+#### mac
+1. brewを用いてインストール
+
+```zsh
+$ brew install node
+```
+2. PATHを通す
+
+todo
+
+3. バージョンを確認
+
+```zsh
+$ node -v
+```
+
+を実行して、`20.3.0`と表示されればOK。
+
+#### Windows(WSL)
+```bash
+$ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+$ sudo apt-get install -y nodejs
+```
+
+2. バージョンを確認
+
+```bash
+$ node -v
+```
+
+を実行して、`20.3.0`と表示されればOK。
+
+### バージョン管理を考える
+Goのインストールにも用いたasdfを用いてインストールすることで、プロジェクトごとに自動で手元のNode.jsのバージョンを変えることができます。
+
+```bash
+$ asdf plugin add nodejs
+$ asdf install nodejs 20.3.0
+$ asdf global nodejs 20.3.0
+```
+
+これでデフォルトで20.3.0のバージョンが適用されるようになりました。  
+```bash
+$ node -v
+```
+
+を実行して、`20.3.0`と表示されればOK。
+
 
 ## Vue テンプレートのクローン
 
+`~/develop`ディレクトリの中にテンプレートリポジトリをクローンしてプログラムを書きます。  
 予め設定等が準備されたテンプレートリポジトリを用いて、最終的には TodoList を作っていきます。
 
 [traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend) にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
