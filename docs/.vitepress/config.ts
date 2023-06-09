@@ -46,5 +46,10 @@ export default defineConfig({
         }
       }
     }
-  }
+  },
+
+  ignoreDeadLinks: [
+    // ignore all localhost links
+    /^https?:\/\/localhost/,
+  ]
 })
