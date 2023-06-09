@@ -12,5 +12,9 @@ export const section3SidebarItems: DefaultTheme.SidebarItem[] = [
   {
     text: 'JSONレスポンスを返す',
     link: '/chapter1/section3/3_json-response'
+  },
+  {
+    text: 'ルーティング',
+    link: '/chapter1/section3/4_rooting'
   }
 ]
