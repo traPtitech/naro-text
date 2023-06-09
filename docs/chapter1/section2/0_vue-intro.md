@@ -32,7 +32,7 @@ $ brew install node
 ```
 2. PATH を通す
 
-todo
+1.を実行すると、最後に`If you need to have node first in your PATH, run:`というメッセージが出るので、これに続くコマンドを実行してください。
 
 3. バージョンを確認
 
