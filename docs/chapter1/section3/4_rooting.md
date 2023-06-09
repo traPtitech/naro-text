@@ -11,7 +11,7 @@ Hello, [ユーザー名].
 :::
 
 パスに情報が埋め込まれているのをパスパラメータといいます
-Echoではパスに`/:hoge`のようなコロンから始まる文字列を含めると、ハンドラに渡される`Context`の`Param`関数を使うことで取得できます
+Echo ではパスに`/:hoge`のようなコロンから始まる文字列を含めると、ハンドラに渡される`Context`の`Param`関数を使うことで取得できます
 
 考えられる名前全てを書くことは不可能なので、パスパラメーターを取得して、それをもとにレスポンスを生成します
 
@@ -33,6 +33,6 @@ Echoではパスに`/:hoge`のようなコロンから始まる文字列を含�
 クエリパラメータは順不同で`?lang=ja&q=golang`でも同じ意味になります
 `c.QueryParam("lang")`で`ja`をとれます
 このクエリパラメータは検索のリクエストを受け取るときに使うことが多いです
-例として、Google検索だとこんな風になってます([Google検索のパラメータ(URLパラメータ)一覧](http://www13.plala.or.jp/bigdata/google.html))
+例として、Google 検索だとこんな風になってます([Google検索のパラメータ(URLパラメータ)一覧](http://www13.plala.or.jp/bigdata/google.html))
 
 [Echoでのクエリパラメータの取り方](https://echo.labstack.com/guide/request#query-parameters-1)

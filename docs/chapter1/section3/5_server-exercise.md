@@ -2,7 +2,7 @@
 
 ## 基本問題 GET /ping
 
-pongと返すエンドポイントを作成してください
+pong と返すエンドポイントを作成してください
 (作成済みのはず)
 
 ### スキーマ
@@ -22,8 +22,8 @@ pong
 :::
 
 ## 基本問題 GET /fizzbuzz
-クエリパラメータ`count`で渡された数までのFizzBuzzを返してください
-`count`がない場合は30として，`count`が整数として解釈できない場合はステータスコードとして`400`を返してください．
+クエリパラメータ`count`で渡された数までの FizzBuzz を返してください
+`count`がない場合は 30 として，`count`が整数として解釈できない場合はステータスコードとして`400`を返してください．
 
 ### スキーマ
 #### リクエスト
@@ -117,7 +117,7 @@ status code: `400`
 ]
 ```
 
-class，studentNumberに対応する学生の情報をJSONで返してください.
+class，studentNumber に対応する学生の情報を JSON で返してください.
 学生が存在しない場合，`404`を返してください
 
 ### スキーマ
@@ -145,7 +145,7 @@ status code: `404`
 
 ---
 
-自分のサーバーが正しく動作しているか確認したい方は以下のMakefileをご利用ください。
+自分のサーバーが正しく動作しているか確認したい方は以下の Makefile をご利用ください。
 
 :::details Makefile
 ```shell=bash
@@ -279,7 +279,7 @@ curl -X GET "http://133.130.109.224:31337/students/3/1"
 
 ---
 
-最後の課題のデータは次のような構造体を用意して、json.Unmarshalすると定義しやすいかも？
+最後の課題のデータは次のような構造体を用意して、json.Unmarshal すると定義しやすいかも？
 ```go
 type Student struct {
 	Number int    `json:"student_number"`
