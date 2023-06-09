@@ -16,5 +16,9 @@ export const section3SidebarItems: DefaultTheme.SidebarItem[] = [
   {
     text: 'ルーティング',
     link: '/chapter1/section3/4_rooting'
+  },
+  {
+    text: 'サーバー演習問題',
+    link: '/chapter1/section3/5_server-exercise'
   }
 ]
