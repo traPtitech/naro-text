@@ -53,11 +53,14 @@ $ node -v
 
 を実行して、`20.3.0`と表示されればOK。
 
-
 ## Vue テンプレートのクローン
 
 `~/develop`ディレクトリの中にテンプレートリポジトリをクローンしてプログラムを書きます。  
 予め設定等が準備されたテンプレートリポジトリを用いて、最終的には TodoList を作っていきます。
+
+GitHubにSSH鍵を登録していない人は以下を参考にしてまず登録してください。
+
+[SSH鍵の登録](../dicts/ssh/0_index.md)
 
 [traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend) にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
 
