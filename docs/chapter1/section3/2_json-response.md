@@ -89,7 +89,7 @@ URL: https://eo6mn2b7rlihmgg.m.pipedream.net
 ![](assets/postman-post.png)
 
 ![](assets/postman-response.png)
-`traq_id`が`pikachu`の例だと、上の画像のように
+`traq_id`が`pikachu`の例だと、上の画像のように、以下のような JSON が返ってきます。
 ```
 {
     ...
@@ -98,7 +98,6 @@ URL: https://eo6mn2b7rlihmgg.m.pipedream.net
     }
 }
 ```
-が返ってきたら成功です。
 
 <!--
 inspectある?
