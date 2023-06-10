@@ -28,12 +28,9 @@ Echo ではパスに`/:hoge`のようなコロンから始まる文字列を含�
 `/hello/:username`とすることで`c.Param("username")`によって`pikachu`をとれることが分かりました。
 
 ### 参考
-[Echoガイド](https://echo.labstack.com/guide)
-
-[Echoガイド routing](https://echo.labstack.com/guide/routing)
-
-[Echo godoc](https://pkg.go.dev/github.com/labstack/echo/v4)
-
+[Echoガイド](https://echo.labstack.com/guide)  
+[Echoガイド routing](https://echo.labstack.com/guide/routing)  
+[Echo godoc](https://pkg.go.dev/github.com/labstack/echo/v4)  
 [Context godoc](https://golang.org/pkg/context/)
 
 ## クエリパラメータを取得してみよう
