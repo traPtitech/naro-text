@@ -20,14 +20,20 @@ $ man mkdir
 ![](assets/mannual.png)
 :::
 
-ディレクトリの中に`main.go`を作成し、以下のプログラムを書き込みます。
+:::warning
+作ったディレクトリやファイルの名前が違うと、上手く実行できない場合があります。
+
+また、以下に出てくる画像では`~/naro-server/hello-server`となってるのですが、皆さんは`~/develop/hello-server`のはずなので、適宜読み替えてください。
+:::
+
+作ったディレクトリの中に`main.go`を作成し、以下のプログラムを書き込みます。
 
 <<<@/chapter1/section3/src/1-1_hello-server.go
 
-Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からインストールしなければなりません。しかし、Go 言語にはそれを自動でやってくれる [Go module](https://go.dev/doc/tutorial/create-module) という便利な機能があるので使ってみましょう。以下を VSCode 内のターミナルで実行してください。
+Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からインストールしなければなりません。しかし、Go 言語にはそれを自動でやってくれる [Go module](https://go.dev/doc/tutorial/create-module) という便利な機能があるので使ってみましょう。以下を VSCode 内のターミナルで実行してください。(他のターミナルでも可)
 
 :::tip
-<span style="font-size: 150%;font-weight: bold;"> ターミナルの開き方 </span>
+**ターミナルの開き方**
 
 ツールバー > Terminal > New Terminal でその時開いているディレクトリでターミナルが開きます。
 もしくは`Ctrl` + `@`でも。
@@ -56,10 +62,6 @@ $ go run main.go
 
 ![](assets/hello_server.png)
 
-:::tip
-作ったディレクトリやファイルの名前が違うと、上手く実行できない場合があります。
-適宜読み替えてください。
-:::
 
 ## アクセスしてみる
 
