@@ -16,6 +16,10 @@ status code: `200`
 pong
 ```
 
+完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
+```bash
+$ curl -X GET "http://localhost:8080/ping" # pong
+```
 :::details 解答
 <<<@/chapter1/section3/src/4-1_ping.go
 :::
@@ -56,6 +60,12 @@ status code: `400`
 Bad Request
 ```
 
+完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
+```bash
+$ curl -X GET "http://localhost:8080/fizzbuzz?count=20"
+$ curl -X GET "http://localhost:8080/fizzbuzz" # count=30 と同じ
+$ curl -X GET "http://localhost:8080/fizzbuzz?count=a" # Bad Request
+```
 :::details 解答
 <<<@/chapter1/section3/src/4-2_fizzbuzz.go
 :::
@@ -92,6 +102,13 @@ status code: `400`
 ```
 を返してください。
 
+完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
+```bash
+$ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 18781, "right": 18783}' # 37564
+$ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 0, "right": -0}' # 0
+$ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": a, "right": b}' # Bad Request
+$ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 100}' # Bad Request
+```
 :::details 解答
 <<<@/chapter1/section3/src/4-3_add.go
 :::
@@ -163,6 +180,12 @@ type Class struct {
 }
 ```
 :::
+
+完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
+```bash
+$ curl -X GET "http://localhost:8080/students/1/1" # pikachu
+$ curl -X GET "http://localhost:8080/students/3/4" # Student Not Found
+```
 
 ---
 
