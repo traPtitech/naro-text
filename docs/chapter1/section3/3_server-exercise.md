@@ -75,7 +75,7 @@ content-type: `application/json`
 status code: `200`
 ```json
 {
-    "answer": Number
+    "answer": 84
 }
 ```
 
@@ -144,67 +144,87 @@ status code: `404`
 }
 ```
 
+:::tip
+ヒント: 最後の課題のデータは次のような構造体を用意して、json.Unmarshal すると定義しやすいです。
+```go
+type Student struct {
+	Number int    `json:"student_number"`
+	Name   string `json:"name"`
+}
+type Class struct {
+	Number   int       `json:"class_number"`
+	Students []Student `json:"students"`
+}
+```
+:::
+
 ---
 
-自分のサーバーが正しく動作しているか確認したい方は以下の Makefile をご利用ください。
+## 自分のサーバーが正しく動作しているか確認しよう
 
-:::details Makefile
+カレントディレクトリ(`main.go`があるディレクトリ)に、新しく`test.sh`というファイルを作成し、以下をコピー&ペーストしてください。
 ```bash
-# ----- Makefile by ptr -----
-# このファイルをMakefileという名前でカレントディレクトリに保存する。
-# 使い方:
-#    "make test"で課題をすべてテストする。
-#     SSH鍵をサーバーに登録しておくと、"make"でローカルのmain.goをサーバーにコピーできる。
+#!/bin/bash
+
+# ↓これを自分のIDに変更してください！
+ID=pikachu
+# ↑これを自分のIDに変更してください！
+
 PORT=8080
-# ！ここを変更する！
-# 自分のtraQ ID
-ID=ptr
-# !ここまで!
+echo ""
+echo "===================="
+echo "[TEST] /${ID}"
+curl -X GET "http://localhost:${PORT}/${ID}"
+echo ""
+echo "===================="
+echo "[TEST] /ping"
+curl -X GET "http://localhost:${PORT}/ping"
+echo ""
+echo "===================="
+echo "[TEST] /fizzbuzz 1of2"
+curl -X GET "http://localhost:${PORT}/fizzbuzz?count=20"
+echo ""
+echo "===================="
+echo "[TEST] /fizzbuzz 2of2"
+curl -X GET "http://localhost:${PORT}/fizzbuzz"
+echo ""
+echo "===================="
+echo "[TEST] /add"
+curl -X POST "http://localhost:${PORT}/add" -d "left=18781&right=18783"
+echo ""
+echo "===================="
+echo "[TEST] /students"
+curl -X GET "http://localhost:${PORT}/students/3/1"
+```
 
+ペーストした後、ファイル内の以下の部分を自分の ID に書き換えてください。
+```
+# ↓これを自分のIDに変更してください！
+ID=pikachu
+# ↑これを自分のIDに変更してください！
+```
 
-# ！ここから（分からない人は）変更しない！
-all:
-	scp main.go naro:~/develop/hello-server/main.go
-
-test:
-	@echo "\n====================\n"
-	@echo "[TEST] /$(ID)"
-	curl -X GET "http://localhost:$(PORT)/$(ID)"
-	@echo "\n====================\n"
-	@echo "[TEST] /ping"
-	curl -X GET "http://localhost:$(PORT)/ping"
-	@echo "\n====================\n"
-	@echo "[TEST] /fizzbuzz 1of2"
-	curl -X GET "http://localhost:$(PORT)/fizzbuzz?count=20"
-	@echo "\n====================\n"
-	@echo "[TEST] /fizzbuzz 2of2"
-	curl -X GET "http://localhost:$(PORT)/fizzbuzz"
-	@echo "\n====================\n"
-	@echo "[TEST] /add"
-	curl -X POST "http://localhost:$(PORT)/add" -d "left=18781&right=18783"
-	@echo "\n====================\n"
-	@echo "[TEST] /students"
-	curl -X GET "http://localhost:$(PORT)/students/3/1"
+最後に、ターミナルを開き、以下を実行してください。
+```
+$ chmod +x test.sh # 実行権限を付与
+$ ./test.sh # シェルスクリプトtest.shを実行
 ```
 
 使用例は以下の通りです。
+:::details 使用例
 ```
-$ make test
+$ ./test.sh
 
 ====================
-
-[TEST] /ptr
-curl -X GET "http://localhost:8080/ptr"
-id: ptr
-twitter: @ptrYudai
-pwn wannabe
+[TEST] /pikachu
+始めまして、@pikachuです。
+ケモノ(特に四足歩行)や、低頭身デフォルメマスコット(TDM)が大好きです。
+普段はVRChatに生息しています。twitter: @pikachu0310VRC
 ====================
-
 [TEST] /ping
-curl -X GET "http://localhost:8080/ping"
 pong
-====================
 
+====================
 [TEST] /fizzbuzz 1of2
 curl -X GET "http://localhost:8080/fizzbuzz?count=20"
 1
@@ -229,7 +249,6 @@ Fizz
 Buzz
 
 ====================
-
 [TEST] /fizzbuzz 2of2
 curl -X GET "http://localhost:8080/fizzbuzz"
 1
@@ -264,30 +283,18 @@ Fizz
 FizzBuzz
 
 ====================
-
 [TEST] /add
 curl -X POST "http://localhost:8080/add" -d "left=18781&right=18783"
 37564
-====================
 
+====================
 [TEST] /students
 curl -X GET "http://localhost:8080/students/3/1"
 {"student_number":1,"name":"Hikaru"}
+
 ```
 :::
 
----
+ここまで出来たら、講習会の実況用チャンネルに`./test.sh`の出力結果を貼りましょう！
 
-:::tip
-最後の課題のデータは次のような構造体を用意して、json.Unmarshal すると定義しやすいです。
-```go
-type Student struct {
-	Number int    `json:"student_number"`
-	Name   string `json:"name"`
-}
-type Class struct {
-	Number   int       `json:"class_number"`
-	Students []Student `json:"students"`
-}
-```
-:::
+(長いので\`\`\`ここに内容\`\`\`のように内容を\`\`\`で囲い、コードブロックにすると良いです。)

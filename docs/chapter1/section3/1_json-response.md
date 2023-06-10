@@ -50,9 +50,9 @@ Postman をインストールした後起動し、以下の画面まで飛びま
 
 `Enter URL or paste text`とあるところで HTTP method と URL を指定できます。
 
-Postman を使って、GET リクエストを自分のサーバーに送ってみましょう。つまり、
+Postman を使って、GET リクエストを自分のサーバーに送ってみましょう。
 
-`HTTP Method`として`GET`を使用して、URL`http://localhost:8080/hello`にリクエストを送信しましょう。
+つまり、`HTTP Method`として`GET`を使用して、URL`http://localhost:8080/hello`にリクエストを送信しましょう。
 ```
 HTTP Method: GET
 
