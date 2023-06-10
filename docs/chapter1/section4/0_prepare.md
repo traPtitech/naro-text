@@ -10,7 +10,7 @@
 
 ## Taskのインストール
 
-`go run github.com/go-task/task/v3/cmd/task@latest init`をコマンドラインで実行してください。
+`go run github.com/go-task/task/v3/cmd/task@latest init`をコマンドラインで実行してください。実行が終わったら`source ~/.bashrc`をコマンドラインで実行します。
 
 :::info 詳しく知りたい人向け。
 
