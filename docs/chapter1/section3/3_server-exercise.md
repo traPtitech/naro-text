@@ -3,7 +3,6 @@
 ## 基本問題 GET /ping
 
 pong と返すエンドポイントを作成してください。
-(作成済みのはず)
 
 ### スキーマ
 #### リクエスト
@@ -23,7 +22,7 @@ pong
 
 ## 基本問題 GET /fizzbuzz
 クエリパラメータ`count`で渡された数までの FizzBuzz を返してください。
-`count`がない場合は 30 として，`count`が整数として解釈できない場合はステータスコードとして`400`を返してください。
+`count`がない場合は 30 として扱い、`count`が整数として解釈できない場合はステータスコード`400`を返してください。
 
 ### スキーマ
 #### リクエスト
@@ -58,22 +57,22 @@ Bad Request
 ```
 
 ## 基本問題 POST /add
-ポストされる値の足し算を返してください。
+送信される値を足した数値を返してください。
 
 ### スキーマ
 #### リクエスト
 content-type: `application/json`
-```javascript=
+```json
 {
-    "right": Number,
-    "left": Number
+    "left": 27,
+    "right": 57
 }
 ```
 
 #### レスポンス
 content-type: `application/json`
 status code: `200`
-```javascript=
+```json
 {
     "answer": Number
 }
@@ -82,7 +81,7 @@ status code: `200`
 ##### 適切でないリクエストの場合
 content-type: `application/json`
 status code: `400`
-```javascript=
+```json
 {
     "error": "Bad Request"
 }
@@ -95,30 +94,30 @@ status code: `400`
 ``` json
 [
   {"class_number": 1, "students": [
-    {"student_number": 1, "name": "hijiki51"},
-    {"student_number": 2, "name": "logica"},
-    {"student_number": 3, "name": "Ras"}
+    {"student_number": 1, "name": "pikachu"},
+    {"student_number": 2, "name": "ikura-hamu"},
+    {"student_number": 3, "name": "noc7t"}
   ]},
   {"class_number": 2, "students": [
-    {"student_number": 1, "name": "asari"},
-    {"student_number": 2, "name": "irori"},
-    {"student_number": 3, "name": "itt"},
-    {"student_number": 4, "name": "mehm8128"}
+    {"student_number": 1, "name": "Sora"},
+    {"student_number": 2, "name": "Kaito"},
+    {"student_number": 3, "name": "Haruka"},
+    {"student_number": 4, "name": "Shingo"}
   ]},
   {"class_number": 3, "students": [
-    {"student_number": 1, "name": "reyu"},
-    {"student_number": 2, "name": "yukikurage"},
-    {"student_number": 3, "name": "anko"}
+    {"student_number": 1, "name": "Hikaru"},
+    {"student_number": 2, "name": "Eri"},
+    {"student_number": 3, "name": "Ryo"}
   ]},
   {"class_number": 4, "students": [
-    {"student_number": 1, "name": "Uzaki"},
-    {"student_number": 2, "name": "yashu"}
+    {"student_number": 1, "name": "Marina"},
+    {"student_number": 2, "name": "Takumi"}
   ]}
 ]
 ```
 
-class，studentNumber に対応する学生の情報を JSON で返してください。
-学生が存在しない場合，`404`を返してください。
+classNumber，studentNumber に対応する学生の情報を JSON で返してください。
+学生が存在しない場合、`404`を返してください。
 
 ### スキーマ
 #### リクエスト
@@ -127,17 +126,17 @@ class，studentNumber に対応する学生の情報を JSON で返してくだ�
 #### レスポンス
 content-type: `application/json`
 status code: `200`
-```javascript=
+```json
 {
     "student_number": 3,
-    "name": "itt"
+    "name": "Haruka"
 }
 ```
 
 ##### 学生が存在しない場合
 content-type: `application/json`
 status code: `404`
-```javascript=
+```json
 {
     "error": "Student Not Found"
 }
@@ -148,16 +147,14 @@ status code: `404`
 自分のサーバーが正しく動作しているか確認したい方は以下の Makefile をご利用ください。
 
 :::details Makefile
-```shell=bash
+```bash
 # ----- Makefile by ptr -----
 # このファイルをMakefileという名前でカレントディレクトリに保存する。
 # 使い方:
 #    "make test"で課題をすべてテストする。
 #     SSH鍵をサーバーに登録しておくと、"make"でローカルのmain.goをサーバーにコピーできる。
-
+PORT=8080
 # ！ここを変更する！
-# 自分に割り当てられたポート番号
-PORT=31337
 # 自分のtraQ ID
 ID=ptr
 # !ここまで!
@@ -170,22 +167,22 @@ all:
 test:
 	@echo "\n====================\n"
 	@echo "[TEST] /$(ID)"
-	curl -X GET "http://133.130.109.224:$(PORT)/$(ID)"
+	curl -X GET "http://localhost:$(PORT)/$(ID)"
 	@echo "\n====================\n"
 	@echo "[TEST] /ping"
-	curl -X GET "http://133.130.109.224:$(PORT)/ping"
+	curl -X GET "http://localhost:$(PORT)/ping"
 	@echo "\n====================\n"
 	@echo "[TEST] /fizzbuzz 1of2"
-	curl -X GET "http://133.130.109.224:$(PORT)/fizzbuzz?count=20"
+	curl -X GET "http://localhost:$(PORT)/fizzbuzz?count=20"
 	@echo "\n====================\n"
 	@echo "[TEST] /fizzbuzz 2of2"
-	curl -X GET "http://133.130.109.224:$(PORT)/fizzbuzz"
+	curl -X GET "http://localhost:$(PORT)/fizzbuzz"
 	@echo "\n====================\n"
 	@echo "[TEST] /add"
-	curl -X POST "http://133.130.109.224:$(PORT)/add" -d "left=18781&right=18783"
+	curl -X POST "http://localhost:$(PORT)/add" -d "left=18781&right=18783"
 	@echo "\n====================\n"
 	@echo "[TEST] /students"
-	curl -X GET "http://133.130.109.224:$(PORT)/students/3/1"
+	curl -X GET "http://localhost:$(PORT)/students/3/1"
 ```
 
 使用例は以下の通りです。
@@ -195,19 +192,19 @@ $ make test
 ====================
 
 [TEST] /ptr
-curl -X GET "http://133.130.109.224:31337/ptr"
+curl -X GET "http://localhost:8080/ptr"
 id: ptr
 twitter: @ptrYudai
 pwn wannabe
 ====================
 
 [TEST] /ping
-curl -X GET "http://133.130.109.224:31337/ping"
+curl -X GET "http://localhost:8080/ping"
 pong
 ====================
 
 [TEST] /fizzbuzz 1of2
-curl -X GET "http://133.130.109.224:31337/fizzbuzz?count=20"
+curl -X GET "http://localhost:8080/fizzbuzz?count=20"
 1
 2
 Fizz
@@ -232,7 +229,7 @@ Buzz
 ====================
 
 [TEST] /fizzbuzz 2of2
-curl -X GET "http://133.130.109.224:31337/fizzbuzz"
+curl -X GET "http://localhost:8080/fizzbuzz"
 1
 2
 Fizz
@@ -267,19 +264,20 @@ FizzBuzz
 ====================
 
 [TEST] /add
-curl -X POST "http://133.130.109.224:31337/add" -d "left=18781&right=18783"
+curl -X POST "http://localhost:8080/add" -d "left=18781&right=18783"
 37564
 ====================
 
 [TEST] /students
-curl -X GET "http://133.130.109.224:31337/students/3/1"
-{"student_number":1,"name":"reyu"}
+curl -X GET "http://localhost:8080/students/3/1"
+{"student_number":1,"name":"Hikaru"}
 ```
 :::
 
 ---
 
-最後の課題のデータは次のような構造体を用意して、json.Unmarshal すると定義しやすいかも？
+:::tip
+最後の課題のデータは次のような構造体を用意して、json.Unmarshal すると定義しやすいです。
 ```go
 type Student struct {
 	Number int    `json:"student_number"`
@@ -290,3 +288,4 @@ type Class struct {
 	Students []Student `json:"students"`
 }
 ```
+:::

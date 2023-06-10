@@ -10,5 +10,5 @@ func main() {
 	e := echo.New()
 
 	e.GET("/ping", func(c echo.Context) error { return c.String(http.StatusOK, "pong\n") })
-	e.Logger.Fatal(e.Start(":<ポート番号>"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
