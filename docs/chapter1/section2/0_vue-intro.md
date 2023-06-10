@@ -54,24 +54,24 @@ $ sudo apt-get install -y nodejs
 $ node -v
 ```
 
-を実行して、`20.3.0`と表示されれば OK。
+を実行して、`20.2.0`と表示されれば OK。
 
 ### バージョン管理を考える
 Go のインストールにも用いた asdf を用いてインストールすることで、プロジェクトごとに自動で手元の Node.js のバージョンを変えることができます。
 
 ```bash
 $ asdf plugin add nodejs
-$ asdf install nodejs 20.3.0
-$ asdf global nodejs 20.3.0
+$ asdf install nodejs 20.2.0
+$ asdf global nodejs 20.2.0
 ```
 
-これで、デフォルトで 20.3.0 のバージョンが適用されるようになりました。
+これで、デフォルトで 20.2.0 のバージョンが適用されるようになりました。
 
 ```bash
 $ node -v
 ```
 
-を実行して、`20.3.0`と表示されれば OK。
+を実行して、`20.2.0`と表示されれば OK。
 
 ## Vue テンプレートのクローン
 
