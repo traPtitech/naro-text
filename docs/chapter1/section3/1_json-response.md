@@ -7,20 +7,22 @@ JSON について分からない人は
 :::
 
 :::warning
-Go 言語の構造体についてわからない人は
+Go の構造体についてわからない人は↓を見ると良いです。
+
 https://go-tour-jp.appspot.com/moretypes/2
-を見ると良いです。
 :::
 
 JSON をレスポンスとして返すためには、`c.JSON`メソッドに構造体を渡します。
 
+先ほどの章で作成した`main.go`を、以下のように書き換えて`JSON`レスポンスを返してみましょう。
+
 <<<@/chapter1/section3/src/2-1_json-server.go
 
-http://localhost:8080/json
+書き換えたら、http://localhost:8080/json にアクセスして確認してみましょう。
 
 ![](assets/json_server.png)
 
-タグを追加することで構造体のフィールドに対応する、JSON のキー名を指定できます。Go の構造体のフィールドはパスカルケースですが、JSON のフィールドは普通キャメルケース / スネークケースであるため、構造体を以下のように書き換えましょう。
+タグを追加することで構造体のフィールドに対応する、JSON のキー名を指定できます。Go の構造体のフィールドはパスカルケースですが、JSON のフィールドは普通キャメルケース / スネークケースであるため、`main.go`の構造体を以下のように書き換えましょう。
 
 ```go=
 type jsonData struct {
@@ -46,7 +48,7 @@ Postman をインストールした後起動し、以下の画面まで飛びま
 
 `Enter URL or paste text`とあるところで HTTP method と URL を指定できます。
 
-Postman を使って、自分のサーバーに GET リクエストを送信してみましょう。つまり、
+Postman を使って、GET リクエストを自分のサーバーに送ってみましょう。つまり、
 `HTTP Method`として`GET`を使用して、URL`http://localhost:8080/hello`にリクエストを送信しましょう。
 ```
 HTTP Method: GET
@@ -66,9 +68,9 @@ Hello, World.
 
 POST ではサーバーにデータを送ることができます。
 
-**PostmanでBodyタブを選択
-ラジオボタンの`raw`を選択
-右に出てくるプルダウンから`JSON(application/json)`を選択します**
+1. Postman で Body タブを選択
+2. ラジオボタンの`raw`を選択
+3. 右に出てくるプルダウンから`JSON(application/json)`を選択します
 
 POST で渡せるデータの型は複数あり、上記の操作で JSON を使うということを明示しています。
 
