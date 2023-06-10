@@ -114,7 +114,7 @@ SELECT * FROM country ORDER BY Population DESC LIMIT 5 OFFSET 10;
 :::details 答え
 
 ```sql
-SELECT COUNT(*) AS Japanese FROM countrylanguage WHERE Language = "Japanese";
+SELECT COUNT(*) AS `Japanese` FROM countrylanguage WHERE Language = "Japanese";
 ```
 
 **出力**
@@ -371,7 +371,7 @@ SELECT country.Name, city.Name FROM country LEFT JOIN city ON country.Code = cit
 :::details 答え
 
 ```sql
-SELECT RANK() OVER (ORDER BY Population DESC) AS Rank, Name, Population FROM country LIMIT 10;
+SELECT RANK() OVER (ORDER BY Population DESC) AS `Rank`, Name, Population FROM country LIMIT 10;
 ```
 
 **出力**
@@ -432,9 +432,9 @@ SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT Cou
 
 ```sql
 SELECT 
-  RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS Rank, 
+  RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS `Rank`, 
   countrylanguage.Language,
-  SUM(countrylanguage.Percentage*country.Population/100) AS Speakers 
+  SUM(countrylanguage.Percentage*country.Population/100) AS `Speakers` 
 FROM countrylanguage JOIN country ON countrylanguage.CountryCode = country.Code 
 GROUP BY countrylanguage.Language 
 ORDER BY Speakers DESC LIMIT 10;

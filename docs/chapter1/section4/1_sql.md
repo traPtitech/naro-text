@@ -341,11 +341,11 @@ https://dev.mysql.com/doc/refman/8.0/ja/join.html
 
 #### AS句
 
-`SELECT {カラム名} AS {別名} FROM {テーブル名};`で、カラムに別名を付けて扱うことができます。
+``SELECT {カラム名} AS `{別名}` FROM {テーブル名};``で、カラムに別名を付けて扱うことができます。
 例えば日本の都市の名前(`Name`)と都道府県(`District`)を取得するとき、`District`を`Prefecture`と表示したい場合は次のように書くことができます。
 
 ```sql
-mysql> SELECT Name, District AS Prefecture FROM city WHERE CountryCode = "JPN";
+mysql> SELECT Name, District AS `Prefecture` FROM city WHERE CountryCode = "JPN";
 ```
 
 ```txt
@@ -368,13 +368,13 @@ mysql> SELECT Name, District AS Prefecture FROM city WHERE CountryCode = "JPN";
 また、`AS`は省略でき、上の SQL は次のようにも書くことができます。
 
 ```sql
-mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
+mysql> SELECT Name, District `Prefecture` FROM city WHERE CountryCode = "JPN";
 ```
 
 `AS`はカラム名だけでなくテーブル名にも使うことができ、先ほどの`JOIN`の SQL は`AS`を使うとこのように書けます。
 
 ```sql
-mysql> SELECT c.Name, cl.Language FROM country AS c JOIN countrylanguage AS cl ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
+mysql> SELECT c.Name, cl.Language FROM country AS `c` JOIN countrylanguage AS `cl` ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
 ```
 
 https://dev.mysql.com/doc/refman/8.0/ja/problems-with-alias.html
