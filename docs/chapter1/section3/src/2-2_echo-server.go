@@ -30,9 +30,9 @@ func postHandler(c echo.Context) error {
 	err := c.Bind(data)
 
 	if err != nil { // エラーが発生した時、以下を実行
-		// 正常でないためステータスコード400 Bad Requestを返し、 エラーを文字列に変換して出力
+		// 正常でないためステータスコード 400 Bad Requestを返し、 エラーを文字列に変換して出力
 		return echo.NewHTTPError(http.StatusBadRequest, fmt.Sprintf("%+v", err))
 	}
-	// エラーが起きなかったとき、正常なのでステータスコード200 OKを返し、リクエストデータをそのまま返す
+	// エラーが起きなかったとき、正常なのでステータスコード 200 OK を返し、リクエストデータをそのまま返す
 	return c.JSON(http.StatusOK, data)
 }

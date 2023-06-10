@@ -92,6 +92,10 @@ status code: `400`
 ```
 を返してください。
 
+:::details 解答
+<<<@/chapter1/section3/src/4-3_add.go
+:::
+
 ## 発展問題 GET /students/:class/:studentNumber
 
 前提:以下のデータをサーバー側で持っておく。
@@ -172,31 +176,37 @@ type Class struct {
 ID=pikachu
 # ↑これを自分のIDに変更してください！
 
-PORT=8080
 echo ""
 echo "===================="
 echo "[TEST] /${ID}"
-curl -X GET "http://localhost:${PORT}/${ID}"
+echo 'curl -X GET http://localhost:8080/'${ID}
+curl -X GET "http://localhost:8080/${ID}"
 echo ""
 echo "===================="
 echo "[TEST] /ping"
-curl -X GET "http://localhost:${PORT}/ping"
+echo 'curl -X GET http://localhost:8080/ping'
+curl -X GET "http://localhost:8080/ping"
 echo ""
 echo "===================="
 echo "[TEST] /fizzbuzz 1of2"
-curl -X GET "http://localhost:${PORT}/fizzbuzz?count=20"
+echo '-X GET http://localhost:8080/fizzbuzz?count=20'
+curl -X GET "http://localhost:8080/fizzbuzz?count=20"
 echo ""
 echo "===================="
 echo "[TEST] /fizzbuzz 2of2"
-curl -X GET "http://localhost:${PORT}/fizzbuzz"
+echo 'curl -X GET http://localhost:8080/fizzbuzz'
+curl -X GET "http://localhost:8080/fizzbuzz"
 echo ""
 echo "===================="
 echo "[TEST] /add"
-curl -X POST "http://localhost:${PORT}/add" -d "left=18781&right=18783"
+echo 'curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 18781, \"right\": 18783}"'
+curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 18781, "right": 18783}'
 echo ""
 echo "===================="
 echo "[TEST] /students"
-curl -X GET "http://localhost:${PORT}/students/3/1"
+echo 'curl -X GET http://localhost:8080/students/3/1'
+curl -X GET "http://localhost:8080/students/3/1"
+
 ```
 
 ペーストした後、ファイル内の以下の部分を自分の ID に書き換えてください。

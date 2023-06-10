@@ -18,20 +18,30 @@ func main() {
 }
 
 func fizzBuzzHandler(c echo.Context) error {
+	// クエリパラメーター "count" の値をcountStrに格納
 	countStr := c.QueryParam("count")
+	// もしcountStrが空っぽ("")だったら、
 	if countStr == "" {
+		// countStrを30に設定
 		countStr = "30"
 	}
 
+	// strconv.Atoi()でstringをintに変換する(分からなかったらググりましょう！)
 	count, err := strconv.Atoi(countStr)
+	// ↑でエラーが起きたら、"count" が整数として解釈できないということなので、
 	if err != nil {
+		// ステータスコード 400 Bad Request を返す
 		return c.String(http.StatusBadRequest, "Bad Request\n")
 	}
 
+	// fizzBuzzの処理を行う
 	fizzBuzzStr := fizzBuzz(count)
+
+	// ステータスコード 200 Ok とfizzBuzzの結果を返す
 	return c.String(http.StatusOK, fizzBuzzStr)
 }
 
+// fizzBuzzの処理。これは競プロ
 func fizzBuzz(n int) string {
 	result := ""
 	for i := 1; i <= n; i++ {

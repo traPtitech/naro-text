@@ -11,7 +11,7 @@ func main() {
 
 	// 「/ping」というエンドポイントを設定する
 	e.GET("/ping", func(c echo.Context) error {
-		// HTTPステータスコードは200番で、文字列「pong」をクライアントに返す
+		// HTTPステータスコードは 200 Ok で、文字列「pong」をクライアントに返す
 		return c.String(http.StatusOK, "pong\n")
 	})
 
