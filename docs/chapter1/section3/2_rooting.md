@@ -68,7 +68,7 @@ page: {ページ数}
 
 このクエリパラメータは検索のリクエストを受け取るときに使うことが多いです。
 
-例として、Google 検索だとこんな風になってます([Google検索のパラメータ(URLパラメータ)一覧](http://www13.plala.or.jp/bigdata/google.html))
+例として、Google 検索だとこんな風になってます([Google検索のパラメータ(URLパラメータ)一覧](http://www13.plala.or.jp/bigdata/google.html))。
 
 ### 参考
 [Echoでのクエリパラメータの取り方](https://echo.labstack.com/guide/request#query-parameters-1)
