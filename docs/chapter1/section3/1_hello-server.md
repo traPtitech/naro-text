@@ -6,14 +6,16 @@
 
 `~/develop/hello-server`というディレクトリを作成し、そのディレクトリを開きます。
 ```
-mkdir -p ~/develop/hello-server
-cd ~/develop/hello-server
-code .
+# ディレクトリ ~/develop/hello-server を作成し、そのディレクトリを開く。
+
+$ mkdir -p ~/develop/hello-server
+$ cd ~/develop/hello-server
+$ code .
 ```
 :::tip
 先ほどのコマンドの`mkdir`は、`make directories`の略で`-p`というオプションを付けると、階層の深いディレクトリを 1 回で作ることができます。このような説明は、man コマンド(マニュアルの man )を使うことで調べることができます。ググる前に使うと良いです。(q キーを押すことで抜けられます。)
 ```
-man mkdir
+$ man mkdir
 ```
 ![](assets/mannual.png)
 :::
@@ -32,9 +34,10 @@ Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っ�
 :::
 
 ```
-#Go moduleを初期化して、足りない物をインストールし、使われてない物を削除する。
-go mod init develop
-go mod tidy
+# Go module を初期化して、足りない物をインストールし、使われてない物を削除する。
+
+$ go mod init develop
+$ go mod tidy
 ```
 
 :::warning
@@ -43,8 +46,9 @@ go mod tidy
 
 続けて、main.go を実行してサーバーを立てましょう。
 ```
-#先ほど書いたファイルを実行して、サーバーを立てる
-go run main.go
+# 先ほど書いたファイルを実行して、サーバーを立てる
+
+$ go run main.go
 ```
 
 以下のような画面が出れば起動できています。
@@ -68,7 +72,7 @@ go run main.go
 新しくターミナルを開いて、以下のコマンドを実行してみましょう。
 
 ```
-curl localhost:8080/hello
+$ curl localhost:8080/hello
 ```
 
 すると、レスポンスとして Hello, World が返ってきていることがわかります。
@@ -79,7 +83,7 @@ curl localhost:8080/hello
 curl コマンドのオプションとして、リクエストなどの情報を詳しく見る`-vvv`があります。
 
 ```
-curl localhost:8080/hello -vvv
+$ curl localhost:8080/hello -vvv
 ```
 
 とすると
