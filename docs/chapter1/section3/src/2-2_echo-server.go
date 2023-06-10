@@ -17,10 +17,6 @@ type jsonData struct {
 func main() {
 	e := echo.New()
 
-	e.GET("/hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World.\n")
-	})
-
 	// `e.GET`と同じように、`e.POST`と書くことで POST を受け取ることができます。
 	e.POST("/post", postHandler)
 

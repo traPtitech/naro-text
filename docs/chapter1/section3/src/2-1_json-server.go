@@ -17,12 +17,6 @@ func main() {
 	// Echoの新しいインスタンスを作成
 	e := echo.New()
 
-	// 「/hello」というパスのエンドポイントを定義
-	e.GET("/hello", func(c echo.Context) error {
-		// HTTPステータスコードは200番で、文字列「Hello, World.」をクライアントに返す
-		return c.String(http.StatusOK, "Hello, World.\n")
-	})
-
 	// 「/json」というパスのエンドポイントを定義
 	e.GET("/json", jsonHandler)
 

@@ -15,9 +15,17 @@ Echo ではパスに`/:hoge`のようなコロンから始まる文字列を含�
 
 <<<@/chapter1/section3/src/3-1_param-server.go
 
+サーバーを立て直した後、http://localhost:8080/hello/pikachu にアクセスして実際に機能していることを確かめましょう。
+
+また、URL の pikachu を自分の名前や任意の文字列にしても動く事を確認しましょう。
+
+### 参考
 [Echoガイド](https://echo.labstack.com/guide)
+
 [Echoガイド routing](https://echo.labstack.com/guide/routing)
+
 [Echo godoc](https://pkg.go.dev/github.com/labstack/echo/v4)
+
 [Context godoc](https://golang.org/pkg/context/)
 
 ## リクエストパスの解析

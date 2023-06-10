@@ -14,7 +14,7 @@ https://go-tour-jp.appspot.com/moretypes/2
 
 JSON をレスポンスとして返すためには、`c.JSON`メソッドに構造体を渡します。
 
-先ほどの章で作成した`main.go`を、以下のように書き換えて`JSON`レスポンスを返してみましょう。
+先ほどの章で作成した`main.go`に、以下のようなエンドポイントを追加して、`JSON`レスポンスを返してみましょう。
 
 <<<@/chapter1/section3/src/2-1_json-server.go
 

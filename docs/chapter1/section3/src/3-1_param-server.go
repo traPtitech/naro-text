@@ -9,10 +9,6 @@ import (
 func main() {
 	e := echo.New()
 
-	e.GET("/hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World.\n")
-	})
-
 	// GETリクエストの"/hello/:username"というパターンに対応するルートを設定し、
 	// URLのパラメータ(:username)を使用してhelloHandler関数を呼び出す
 	e.GET("/hello/:username", helloHandler)
