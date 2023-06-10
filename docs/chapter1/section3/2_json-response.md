@@ -1,6 +1,6 @@
 # JSONレスポンスを返す
 
-先ほど作った`hello-server.go`に、レスポンスとして JSON を返すエンドポイントを追加しましょう。
+先ほど作った`main.go`に、レスポンスとして JSON を返すエンドポイントを追加しましょう。
 :::warning
 JSON について分からない人は
 [JSONってなにもの？ | Think IT（シンクイット）](https://thinkit.co.jp/article/70/1)
@@ -24,7 +24,7 @@ http://localhost:8080/json
 
 ```go=
 type jsonData struct {
-    # Numner -> number (omitemptyは、ゼロ値の場合はそのフィールドを出力しないという意味)
+    // Numner -> number (omitemptyは、ゼロ値の場合はそのフィールドを出力しないという意味)
 	Number int    `json:"number,omitempty"`
 	String string `json:"string,omitempty"`
 	Bool   bool   `json:"bool,omitempty"`
@@ -36,24 +36,24 @@ type jsonData struct {
 ## Postmanでリクエストしてみよう
 
 ### Postmanのインストール
-Postman は GUI で HTTP リクエストを行えるアプリケーションです。
+[Postman | API Development Environment](https://www.getpostman.com/) は GUI で HTTP リクエストを行えるアプリケーションです。
 
 ダウンロードページ→ https://www.postman.com/downloads/
 
-[Postman | API Development Environment](https://www.getpostman.com/)
+Postman をインストールした後起動し、以下の画面まで飛びます。(workspace を作成して移動した後、`Ctrl + N`→`HTTP`または`Overview`タブの横にある`+`を押す)
 
 ![](assets/postman.png)
 
-`[GET] Enter Request URL`とあるところで HTTP method と URL を指定できます。
+`Enter URL or paste text`とあるところで HTTP method と URL を指定できます。
 
-Postman を使って GET を自分のサーバーに送ってみましょう。
-
-
-::: tip
-HTTP method: GET
+Postman を使って、自分のサーバーに GET リクエストを送信してみましょう。つまり、
+`HTTP Method`として`GET`を使用して、URL`http://localhost:8080/hello`にリクエストを送信しましょう。
+```
+HTTP Method: GET
 
 URL: http://localhost:8080/hello
-:::
+```
+以下の画像のように設定してください。
 
 ![](assets/postman-hello.png)
 
@@ -117,6 +117,8 @@ POST のハンドラは、受け取りたい JSON を示す空の変数を先に
 
 Postman を使って実際に受け取れている / 送り返せているか確認してみましょう。
 
-※omitempty を指定していると false, 0, 空文字("")は返ってきません。
+:::warning
+omitempty を指定していると false, 0, 空文字("")は返ってきません。(omitempty は、ゼロ値の場合はそのフィールドを出力しないという意味でしたね。)
+:::
 
 ![](assets/postman-echo.png)
