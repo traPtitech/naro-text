@@ -1,7 +1,7 @@
 # JSONレスポンスを返してみよう
 
 先ほど作った`main.go`に、レスポンスとして JSON を返すエンドポイントを追加しましょう。
-:::warning
+:::tip
 JSON について分からない人は
 [JSONってなにもの？ | Think IT（シンクイット）](https://thinkit.co.jp/article/70/1)
 :::
