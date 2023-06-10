@@ -101,7 +101,7 @@ $ curl localhost:8080/hello -vvv
 
 localhost は自分自身を表すドメインなので、自分のブラウザからのみアクセスが可能です。
 
-ブラウザで、http://localhost:8080/hello にアクセスしてみましょう。
+ブラウザで、<a href='http://localhost:8080/hello' target="_blank" rel="noopener noreferrer">localhost:8080/hello</a> にアクセスしてみましょう。
 ![](assets/hello_server_localhost.png)
 
 ## 基本問題

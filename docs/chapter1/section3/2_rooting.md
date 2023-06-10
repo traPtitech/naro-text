@@ -24,7 +24,7 @@ Echo ではパスに`/:hoge`のようなコロンから始まる文字列を含�
 
 <<<@/chapter1/section3/src/3-1_param-server.go
 
-サーバーを立て直した後、http://localhost:8080/hello/pikachu にアクセスして実際に機能していることを確かめましょう。
+サーバーを立て直した後、<a href='http://localhost:8080/hello/pikachu' target="_blank" rel="noopener noreferrer">localhost:8080/hello/pikachu</a> にアクセスして実際に機能していることを確かめましょう。
 
 また、URL の `pikachu` の部分を自分の名前や任意の文字列にしても動く事を確認しましょう。
 
@@ -56,8 +56,7 @@ language: {言語名}
 page: {ページ数}
 ```
 
-書いたらサーバーを立て直した後、http://localhost:8080/hello/pikachu?page=5&lang=ja にアクセスして実際に機能していることを確かめましょう。
-
+書いたらサーバーを立て直した後、<a href='http://localhost:8080/hello/pikachu?page=5&lang=ja' target="_blank" rel="noopener noreferrer">localhost:8080/hello/pikachu?page=5&lang=ja</a> にアクセスして実際に機能していることを確かめましょう。
 :::details 解答
 自分で書きましたか？
 

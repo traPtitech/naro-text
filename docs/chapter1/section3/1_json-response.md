@@ -18,7 +18,7 @@ JSON をレスポンスとして返すためには、`c.JSON`メソッドに構�
 
 <<<@/chapter1/section3/src/2-1_json-server.go
 
-書き換えたら、http://localhost:8080/json にアクセスして確認してみましょう。
+書き換えたら、<a href='http://localhost:8080/json' target="_blank" rel="noopener noreferrer">localhost:8080/json</a> にアクセスして確認してみましょう。
 
 ![](assets/json_server.png)
 
@@ -53,6 +53,7 @@ Postman をインストールした後起動し、以下の画面まで飛びま
 Postman を使って、GET リクエストを自分のサーバーに送ってみましょう。
 
 つまり、`HTTP Method`として`GET`を使用して、URL`http://localhost:8080/hello`にリクエストを送信しましょう。
+
 ```
 HTTP Method: GET
 
