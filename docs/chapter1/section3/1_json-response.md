@@ -12,8 +12,7 @@ Go の構造体についてわからない人は↓を見ると良いです。
 https://go-tour-jp.appspot.com/moretypes/2
 :::
 
-JSON をレスポンスとして返すためには、`c.JSON`メソッドに構造体を渡します。
-
+JSON をレスポンスとして返すためには、`c.JSON`メソッドに構造体を渡します。  
 先ほどの章で作成した`main.go`に、以下のようなエンドポイントを追加して、`JSON`レスポンスを返してみましょう。
 
 <<<@/chapter1/section3/src/2-1_json-server.go
@@ -22,8 +21,7 @@ JSON をレスポンスとして返すためには、`c.JSON`メソッドに構�
 
 ![](assets/json_server.png)
 
-タグを追加することで構造体のフィールドに対応する、JSON のキー名を指定できます。
-
+タグを追加することで構造体のフィールドに対応する、JSON のキー名を指定できます。  
 Go の構造体のフィールドはパスカルケースですが、JSON のフィールドは普通キャメルケース / スネークケースであるため、`main.go`の構造体を以下のように書き換えましょう。
 
 ```go
@@ -48,10 +46,8 @@ Postman をインストールした後起動し、以下の画面まで飛びま
 
 ![](assets/postman.png)
 
-`Enter URL or paste text`とあるところで HTTP method と URL を指定できます。
-
+`Enter URL or paste text`とあるところで HTTP method と URL を指定できます。  
 Postman を使って、GET リクエストを自分のサーバーに送ってみましょう。
-
 つまり、`HTTP Method`として`GET`を使用して、URL`http://localhost:8080/hello`にリクエストを送信しましょう。
 
 ```
@@ -74,23 +70,21 @@ POST ではサーバーにデータを送ることができます。
 
 1. Postman で Body タブを選択
 2. ラジオボタンの`raw`を選択
-3. 右に出てくるプルダウンから`JSON(application/json)`を選択します
-
+3. 右に出てくるプルダウンから`JSON(application/json)`を選択します  
 POST で渡せるデータの型は複数あり、上記の操作で JSON を使うということを明示しています。
 
 以下のように自分の traQ ID を POST してみましょう。
 
-::: tip
+```
 HTTP method: POST
 
 URL: https://eo6mn2b7rlihmgg.m.pipedream.net
-
+```
 ```json
 {
     "traq_id": "pikachu"
 }
 ```
-:::
 
 ![](assets/postman-post.png)
 
@@ -112,14 +106,10 @@ inspectある?
 
 ## 自分のサーバーでPOSTを受け取ってみよう
 
-POST で JSON を受け取って、内容をそのまま返すサーバーを作ってみます。
-
-`e.GET`と同じように、`e.POST`と書くことで POST を受け取ることができます。
-
-POST のハンドラは、受け取りたい JSON を示す空の変数を先に用意し、`Context`の`Bind`に渡すことで送られてきたデータを取り出すことができます。
-
-データが存在しなかったりした場合には、返り値の`err`にエラーが入ります。
-
+POST で JSON を受け取って、内容をそのまま返すサーバーを作ってみます。  
+`e.GET`と同じように、`e.POST`と書くことで POST を受け取ることができます。  
+POST のハンドラは、受け取りたい JSON を示す空の変数を先に用意し、`Context`の`Bind`に渡すことで送られてきたデータを取り出すことができます。  
+データが存在しなかったりした場合には、返り値の`err`にエラーが入ります。  
 逆にエラーがないときは`err`に`nil`が返ってくるので、`if`で条件分岐をします。
 
 <<< @/chapter1/section3/src/2-2_echo-server.go
