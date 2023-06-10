@@ -15,7 +15,7 @@ http://example.com/path/param1/param2?query1=param3&query2=param4
 `"hello/{ユーザー名}"`というパスのリクエストが来たときに、以下を返すサーバーを書いてみましょう。
 
 ```
-Hello, [ユーザー名].
+Hello, {ユーザー名}.
 ```
 
 Echo ではパスに`/:hoge`のようなコロンから始まる文字列を含めると、ハンドラに渡される`Context`の`Param`関数を使うことで取得できます。
