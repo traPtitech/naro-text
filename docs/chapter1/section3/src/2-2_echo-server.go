@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Jsonで受け取り、構造体に変換して返すための構造体を定義
 type jsonData struct {
 	Number int    `json:"number,omitempty"`
 	String string `json:"string,omitempty"`
@@ -16,8 +17,13 @@ type jsonData struct {
 func main() {
 	e := echo.New()
 
+	e.GET("/hello", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World.\n")
+	})
+
 	// `e.GET`と同じように、`e.POST`と書くことで POST を受け取ることができます。
 	e.POST("/post", postHandler)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }
 

@@ -9,11 +9,19 @@ import (
 func main() {
 	e := echo.New()
 
+	e.GET("/hello", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World.\n")
+	})
+
+	// GETリクエストの"/hello/:username"というパターンに対応するルートを設定し、
+	// URLのパラメータ(:username)を使用してhelloHandler関数を呼び出す
 	e.GET("/hello/:username", helloHandler)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }
 
 func helloHandler(c echo.Context) error {
+	// ":username"というパスパラメーターを取得し、userID変数に格納する
 	userID := c.Param("username")
 	return c.String(http.StatusOK, "Hello, "+userID+".\n")
 }

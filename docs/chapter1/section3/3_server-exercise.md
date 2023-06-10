@@ -57,6 +57,10 @@ status code: `400`
 Bad Request
 ```
 
+:::details 解答
+<<<@/chapter1/section3/src/4-2_fizzbuzz.go
+:::
+
 ## 基本問題 POST /add
 送信される値を足した数値を返してください。
 

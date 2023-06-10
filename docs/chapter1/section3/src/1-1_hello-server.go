@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	// Echoの新しいインスタンスを作成
 	e := echo.New()
 
 	// 「/hello」というエンドポイントを設定する
@@ -15,6 +16,6 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World.\n")
 	})
 
-	// 8080という数字は、WebサーバーがListenするポート番号
+	// Webサーバーをポート番号8080で起動し、エラーが発生した場合はログにエラーメッセージを出力する
 	e.Logger.Fatal(e.Start(":8080"))
 }
