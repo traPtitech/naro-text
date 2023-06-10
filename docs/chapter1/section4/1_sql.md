@@ -345,7 +345,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/join.html
 例えば日本の都市の名前(`Name`)と都道府県(`District`)を取得するとき、`District`を`Prefecture`と表示したい場合は次のように書くことができます。
 
 ```sql
-mysql> SELECT Name, District AS "Prefecture" FROM city WHERE CountryCode = "JPN";
+mysql> SELECT Name, District AS Prefecture FROM city WHERE CountryCode = "JPN";
 ```
 
 ```txt
@@ -374,7 +374,7 @@ mysql> SELECT Name, District "Prefecture" FROM city WHERE CountryCode = "JPN";
 `AS`はカラム名だけでなくテーブル名にも使うことができ、先ほどの`JOIN`の SQL は`AS`を使うとこのように書けます。
 
 ```sql
-mysql> SELECT c.Name, cl.Language FROM country AS "c" JOIN countrylanguage AS "cl" ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
+mysql> SELECT c.Name, cl.Language FROM country AS c JOIN countrylanguage AS cl ON c.Code = cl.CountryCode WHERE cl.Language = "Chinese";
 ```
 
 https://dev.mysql.com/doc/refman/8.0/ja/problems-with-alias.html
@@ -385,7 +385,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/problems-with-alias.html
 都市のうち国コード(`CountryCode`)が`JPN`のレコード数は下のようにして取得できます。
 
 ```sql
-mysql> SELECT COUNT(*) FROM city WHERE CountyCode = "JPN";
+mysql> SELECT COUNT(*) FROM city WHERE CountryCode = "JPN";
 ```
 
 ```txt
@@ -501,7 +501,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/delete.html
 
 ## Adminerを使う
 
-Adminer(https://www.adminer.org/) はデータベースを GUI（マウスなど）を使って操作するためのソフトウェアです。traP 内では traQ の開発などで使われています。同じようなソフトウェアとして PHPMyAdmin などがあります。これらを使うことで SQL を使わなくてもデータベースを操作できます。
+Adminer(https://www.adminer.org/) はデータベースを GUI（マウスなど）を使って操作するためのソフトウェアです。traP 内では traQ の開発などで使われています。同じようなソフトウェアとして phpMyAdmin などがあります。これらを使うことで SQL を使わなくてもデータベースを操作できます。
 
 今回は`task up`を実行したときに Adminer が立ち上がるようになっています。ブラウザで <a href='http://localhost:8080/' target="_blank" rel="noopener noreferrer">localhost:8080</a> にアクセスすると使えます。
 ログイン画面が出てくるはずなので、MySQL にログインするときと同様に、下の画像のように入力してログインしてください。パスワードは`password`です。

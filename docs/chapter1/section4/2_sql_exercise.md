@@ -45,10 +45,10 @@ SELECT * FROM country WHERE IndepYear <= 0;
 | Code | Name     | Continent | Region         | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP        | GNPOld     | LocalName    | GovernmentForm          | HeadOfState    | Capital | Code2 |
 +------+----------+-----------+----------------+-------------+-----------+------------+----------------+------------+------------+--------------+-------------------------+----------------+---------+-------+
 | CHN  | China    | Asia      | Eastern Asia   |  9572900.00 |     -1523 | 1277558000 |           71.4 |  982268.00 |  917719.00 | Zhongquo     | People'sRepublic        | Jiang Zemin    |    1891 | CN    |
-| ETH  | Ethiopia | Africa    | Eastern Africa |  1104300.00 |     -1000 |   62565000 |           45.2 |    6353.00 |    6180.00 | YeItyop�iya  | Republic                | Negasso Gidada |     756 | ET    |
+| ETH  | Ethiopia | Africa    | Eastern Africa |  1104300.00 |     -1000 |   62565000 |           45.2 |    6353.00 |    6180.00 | YeItyop´iya  | Republic                | Negasso Gidada |     756 | ET    |
 | JPN  | Japan    | Asia      | Eastern Asia   |   377829.00 |      -660 |  126714000 |           80.7 | 3787042.00 | 4192638.00 | Nihon/Nippon | Constitutional Monarchy | Akihito        |    1532 | JP    |
 +------+----------+-----------+----------------+-------------+-----------+------------+----------------+------------+------------+--------------+-------------------------+----------------+---------+-------+
-3 rows in set (0.00 sec)
+3 rows in set (0.59 sec)
 ```
 
 :::
@@ -96,9 +96,9 @@ SELECT * FROM country ORDER BY Population DESC LIMIT 5 OFFSET 10;
 +------+-------------+---------------+-----------------+-------------+-----------+------------+----------------+------------+------------+-------------+----------------------+-------------------------+---------+-------+
 | Code | Name        | Continent     | Region          | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP        | GNPOld     | LocalName   | GovernmentForm       | HeadOfState             | Capital | Code2 |
 +------+-------------+---------------+-----------------+-------------+-----------+------------+----------------+------------+------------+-------------+----------------------+-------------------------+---------+-------+
-| MEX  | Mexico      | North America | Central America |  1958201.00 |      1810 |   98881000 |           71.5 |  414972.00 |  401461.00 | M�xico      | Federal Republic     | Vicente Fox Quesada     |    2515 | MX    |
+| MEX  | Mexico      | North America | Central America |  1958201.00 |      1810 |   98881000 |           71.5 |  414972.00 |  401461.00 | México      | Federal Republic     | Vicente Fox Quesada     |    2515 | MX    |
 | DEU  | Germany     | Europe        | Western Europe  |   357022.00 |      1955 |   82164700 |           77.4 | 2133367.00 | 2102826.00 | Deutschland | Federal Republic     | Johannes Rau            |    3068 | DE    |
-| VNM  | Vietnam     | Asia          | Southeast Asia  |   331689.00 |      1945 |   79832000 |           69.3 |   21929.00 |   22834.00 | Vi�t Nam    | Socialistic Republic | Tr�n Duc Luong          |    3770 | VN    |
+| VNM  | Vietnam     | Asia          | Southeast Asia  |   331689.00 |      1945 |   79832000 |           69.3 |   21929.00 |   22834.00 | Viêt Nam    | Socialistic Republic | Trân Duc Luong          |    3770 | VN    |
 | PHL  | Philippines | Asia          | Southeast Asia  |   300000.00 |      1946 |   75967000 |           67.5 |   65107.00 |   82239.00 | Pilipinas   | Republic             | Gloria Macapagal-Arroyo |     766 | PH    |
 | EGY  | Egypt       | Africa        | Northern Africa |  1001449.00 |      1922 |   68470000 |           63.3 |   82710.00 |   75617.00 | Misr        | Republic             | Hosni Mubarak           |     608 | EG    |
 +------+-------------+---------------+-----------------+-------------+-----------+------------+----------------+------------+------------+-------------+----------------------+-------------------------+---------+-------+
@@ -114,7 +114,7 @@ SELECT * FROM country ORDER BY Population DESC LIMIT 5 OFFSET 10;
 :::details 答え
 
 ```sql
-SELECT COUNT(*) AS "Japanese" FROM countrylanguage WHERE Language = "Japanese";
+SELECT COUNT(*) AS Japanese FROM countrylanguage WHERE Language = "Japanese";
 ```
 
 **出力**
@@ -168,31 +168,31 @@ SELECT Continent, COUNT(*) FROM country GROUP BY Continent;
 :::details 答え
 
 ```sql
-SELECT country.Name AS "Country", city.Name AS "Capital" FROM country JOIN city ON country.Capital = city.ID;
+SELECT country.Name AS Country, city.Name AS Capital FROM country JOIN city ON country.Capital = city.ID;
 ```
 
 **出力**
 
 ```txt
-+---------------------------------------+-----------------------------------+
-| Country                               | Capital                           |
-+---------------------------------------+-----------------------------------+
-| Aruba                                 | Oranjestad                        |
-| Afghanistan                           | Kabul                             |
-| Angola                                | Luanda                            |
-| Anguilla                              | The Valley                        |
-| Albania                               | Tirana                            |
-| Andorra                               | Andorra la Vella                  |
-| Netherlands Antilles                  | Willemstad                        |
-| United Arab Emirates                  | Abu Dhabi                         |
-| Argentina                             | Buenos Aires                      |
-| Armenia                               | Yerevan                           |
-| American Samoa                        | Fagatogo                          |
-| Antigua and Barbuda                   | Saint John�s                      |
-| Australia                             | Canberra                          |
-| Austria                               | Wien                              |
-| Azerbaijan                            | Baku                              |
-| Burundi                               | Bujumbura                         |
++---------------------------------------+------------------------------------+
+| Country                               | Capital                            |
++---------------------------------------+------------------------------------+
+| Aruba                                 | Oranjestad                         |
+| Afghanistan                           | Kabul                              |
+| Angola                                | Luanda                             |
+| Anguilla                              | The Valley                         |
+| Albania                               | Tirana                             |
+| Andorra                               | Andorra la Vella                   |
+| Netherlands Antilles                  | Willemstad                         |
+| United Arab Emirates                  | Abu Dhabi                          |
+| Argentina                             | Buenos Aires                       |
+| Armenia                               | Yerevan                            |
+| American Samoa                        | Fagatogo                           |
+| Antigua and Barbuda                   | Saint John´s                       |
+| Australia                             | Canberra                           |
+| Austria                               | Wien                               |
+| Azerbaijan                            | Baku                               |
+| Burundi                               | Bujumbura                          |
 省略...
 ```
 
@@ -213,14 +213,15 @@ SELECT * FROM country WHERE Continent IN ("North America", "South America");
 **出力**
 
 ```txt
-+------+----------------------+---------------+---------------+-------------+-----------+------------+----------------+-----------+-----------+----------------------+----------------------------------------------+--------------------+---------+-------+
-| Code | Name                 | Continent     | Region        | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP       | GNPOld    | LocalName            | GovernmentForm                               | HeadOfState        | Capital | Code2 |
-+------+----------------------+---------------+---------------+-------------+-----------+------------+----------------+-----------+-----------+----------------------+----------------------------------------------+--------------------+---------+-------+
-| ABW  | Aruba                | North America | Caribbean     |      193.00 |      NULL |     103000 |           78.4 |    828.00 |    793.00 | Aruba                | Nonmetropolitan Territory of The Netherlands | Beatrix            |     129 | AW    |
-| AIA  | Anguilla             | North America | Caribbean     |       96.00 |      NULL |       8000 |           76.1 |     63.20 |      NULL | Anguilla             | Dependent Territory of the UK                | Elisabeth II       |      62 | AI    |
-| ANT  | Netherlands Antilles | North America | Caribbean     |      800.00 |      NULL |     217000 |           74.7 |   1941.00 |      NULL | Nederlandse Antillen | Nonmetropolitan Territory of The Netherlands | Beatrix            |      33 | AN    |
-| ARG  | Argentina            | South America | South America |  2780400.00 |      1816 |   37032000 |           75.1 | 340238.00 | 323310.00 | Argentina            | Federal Republic                             | Fernando de la R�a |      69 | AR    |
-| ATG  | Antigua and Barbuda  | North America | Caribbean     |      442.00 |      1981 |      68000 |           70.5 |    612.00 |    584.00 | Antigua and Barbuda  | Constitutional Monarchy                      | Elisabeth II       |      63 | AG    |
++------+----------------------------------+---------------+-----------------+-------------+-----------+------------+----------------+------------+------------+-------------------------------------+----------------------------------------------+--------------------------------------+---------+-------+
+| Code | Name                             | Continent     | Region          | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP        | GNPOld     | LocalName                           | GovernmentForm                               | HeadOfState                          | Capital | Code2 |
++------+----------------------------------+---------------+-----------------+-------------+-----------+------------+----------------+------------+------------+-------------------------------------+----------------------------------------------+--------------------------------------+---------+-------+
+| ABW  | Aruba                            | North America | Caribbean       |      193.00 |      NULL |     103000 |           78.4 |     828.00 |     793.00 | Aruba                               | Nonmetropolitan Territory of The Netherlands | Beatrix                              |     129 | AW    |
+| AIA  | Anguilla                         | North America | Caribbean       |       96.00 |      NULL |       8000 |           76.1 |      63.20 |       NULL | Anguilla                            | Dependent Territory of the UK                | Elisabeth II                         |      62 | AI    |
+| ANT  | Netherlands Antilles             | North America | Caribbean       |      800.00 |      NULL |     217000 |           74.7 |    1941.00 |       NULL | Nederlandse Antillen                | Nonmetropolitan Territory of The Netherlands | Beatrix                              |      33 | AN    |
+| ARG  | Argentina                        | South America | South America   |  2780400.00 |      1816 |   37032000 |           75.1 |  340238.00 |  323310.00 | Argentina                           | Federal Republic                             | Fernando de la Rúa                   |      69 | AR    |
+| ATG  | Antigua and Barbuda              | North America | Caribbean       |      442.00 |      1981 |      68000 |           70.5 |     612.00 |     584.00 | Antigua and Barbuda                 | Constitutional Monarchy                      | Elisabeth II                         |      63 | AG    |
+| BHS  | Bahamas                          | North America | Caribbean       |    13878.00 |      1973 |     307000 |           71.1 |    3527.00 |    3347.00 | The Bahamas                         | Constitutional Monarchy                      | Elisabeth II                         |     148 | BS    |                      
 ...省略
 ```
 
@@ -370,7 +371,7 @@ SELECT country.Name, city.Name FROM country LEFT JOIN city ON country.Code = cit
 :::details 答え
 
 ```sql
-SELECT RANK() OVER (ORDER BY Population DESC) AS "Rank", Name, Population FROM country LIMIT 10;
+SELECT RANK() OVER (ORDER BY Population DESC) AS Rank, Name, Population FROM country LIMIT 10;
 ```
 
 **出力**
@@ -431,9 +432,9 @@ SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT Cou
 
 ```sql
 SELECT 
-  RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS "Rank", 
+  RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS Rank, 
   countrylanguage.Language,
-  SUM(countrylanguage.Percentage*country.Population/100) AS "Speakers" 
+  SUM(countrylanguage.Percentage*country.Population/100) AS Speakers 
 FROM countrylanguage JOIN country ON countrylanguage.CountryCode = country.Code 
 GROUP BY countrylanguage.Language 
 ORDER BY Speakers DESC LIMIT 10;

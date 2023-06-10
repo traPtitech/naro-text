@@ -56,7 +56,7 @@ func main() {
 	e.GET("/cities/:cityName", getCityInfoHandler)
 	e.POST("/cities", postCityHandler) //[!code ++]
 
-	e.Start(":3000")
+	e.Start(":8080")
 }
 
 // #endregion echo

@@ -121,7 +121,7 @@ $ go run main.go {都市の名前}
 
 `Get`関数の代わりに`Select`関数を使い、第 1 引数を配列のポインタに変えると、複数レコードを取得できます。`main.go`の`main`関数を以下のように書き換えて実行してみましょう。
 
-<<< @/chapter1/section4/src/select.go#main{12}
+<<< @/chapter1/section4/src/select.go#main{27:line-numbers}
 以下のように日本の都市一覧を取得できます。
 
 ```txt

@@ -55,7 +55,7 @@ func main() {
 
 	e.GET("/cities/:cityName", getCityInfoHandler)
 
-	e.Start(":3000")
+	e.Start(":8080")
 }
 
 func getCityInfoHandler(c echo.Context) error {

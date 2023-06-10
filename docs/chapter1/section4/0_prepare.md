@@ -43,6 +43,8 @@ Task GitHub [https://github.com/go-task/task](https://github.com/go-task/task)
 
 MySQL にログイン出来たら、スクリーンショットを講習会チャンネルに投稿しましょう。
 
+`task down`をターミナルに入力するとデータベースを停止できます。
+
 :::warning
 
 これからはさまざまな場所でコマンドを入力することになります。どこで入力すべきか混乱しないようにしましょう。この資料では以下のような表記をします。
