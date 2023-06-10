@@ -42,7 +42,7 @@ Mac のタブを選択し、ダウンロードページに飛んで自分のア�
 M1/M2 Mac の人は Apple macOS (ARM64) を、Intel Mac の人は Apple macOS (x86-64) を選択してください。
 
 ::: details 確認方法
-1. 左上の :apple: のアイコンから、「このMacについて」
+1. 左上の :apple: のアイコンから、「この Mac について」
 2. 画像の青枠の場所で確認できます。
 ![Mac CPU Arch](./images/mac-cpu-arch_1.png)
 ![Mac CPU Arch](./images/mac-cpu-arch_2.png)

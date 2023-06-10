@@ -1,10 +1,86 @@
 # Vue 入門
 
-`~/develop`ディレクトリの中にテンプレートリポジトリをクローンしてプログラムを書きます。
+:::warning
+コマンドやコードを示すときに`{ユーザー名}`のような表記をすることがありますが、これは実際には自分の情報に合わせて`{}`を取り除いた上で、自分のユーザー名を入力してください。
+
+`git clone`するときの例を挙げてみます。
+
+```bash
+$ git clone {リポジトリのURI}
+```
+
+上のように書いてあって traQ のリポジトリをクローンする場合、以下のように自分がクローンしたいリポジトリの URI を入力します。
+
+```bash
+$ git clone git@github.com:traPtitech/traQ.git
+```
+
+このような表記はしばしば出てくるので、`{}`をつけたまま書いてしまわないように気をつけましょう。
+
+:::
+
+## Node.jsの導入
+Vue を使うために、Node.js を入れます。自分の環境に合わせたものを選んで実行してください。
+
+### 簡単
+前の章で asdf を使って Go をインストールした人はこちらではなくて、「バージョン管理を考える」の方を見てください。
+#### mac
+1. brew を用いてインストール
+
+```zsh
+$ brew install node
+```
+2. PATH を通す
+
+1.を実行すると、最後に`If you need to have node first in your PATH, run:`というメッセージが出るので、これに続くコマンドを実行してください。
+
+3. バージョンを確認
+
+```zsh
+$ node -v
+```
+
+を実行して、`20.3.0`と表示されれば OK。
+
+#### Windows(WSL)
+```bash
+$ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+$ sudo apt-get install -y nodejs
+```
+
+2. バージョンを確認
+
+```bash
+$ node -v
+```
+
+を実行して、`20.3.0`と表示されれば OK。
+
+### バージョン管理を考える
+Go のインストールにも用いた asdf を用いてインストールすることで、プロジェクトごとに自動で手元の Node.js のバージョンを変えることができます。
+
+```bash
+$ asdf plugin add nodejs
+$ asdf install nodejs 20.3.0
+$ asdf global nodejs 20.3.0
+```
+
+これで、デフォルトで 20.3.0 のバージョンが適用されるようになりました。
+
+```bash
+$ node -v
+```
+
+を実行して、`20.3.0`と表示されれば OK。
 
 ## Vue テンプレートのクローン
 
+`~/develop`ディレクトリの中にテンプレートリポジトリをクローンしてプログラムを書きます。  
 予め設定等が準備されたテンプレートリポジトリを用いて、最終的には TodoList を作っていきます。
+
+GitHub に SSH 鍵を登録していない人は以下を参考にしてまず登録してください。
+
+[SSH鍵の登録](../dicts/ssh/0_index.md)
 
 [traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend) にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
 
