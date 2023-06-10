@@ -16,7 +16,7 @@ status code: `200`
 pong
 ```
 
-完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
+#### 完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
 ```bash
 $ curl -X GET "http://localhost:8080/ping" # pong
 ```
@@ -60,7 +60,7 @@ status code: `400`
 Bad Request
 ```
 
-完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
+#### 完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
 ```bash
 $ curl -X GET "http://localhost:8080/fizzbuzz?count=20"
 $ curl -X GET "http://localhost:8080/fizzbuzz" # count=30 と同じ
@@ -102,7 +102,7 @@ status code: `400`
 ```
 を返してください。
 
-完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
+#### 完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
 ```bash
 $ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 18781, "right": 18783}' # 37564
 $ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 0, "right": -0}' # 0
@@ -181,7 +181,7 @@ type Class struct {
 ```
 :::
 
-完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
+#### 完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。
 ```bash
 $ curl -X GET "http://localhost:8080/students/1/1" # pikachu
 $ curl -X GET "http://localhost:8080/students/3/4" # Student Not Found
@@ -211,25 +211,50 @@ echo 'curl -X GET http://localhost:8080/ping'
 curl -X GET "http://localhost:8080/ping"
 echo ""
 echo "===================="
-echo "[TEST] /fizzbuzz 1of2"
+echo "[TEST] /fizzbuzz 1of3"
 echo '-X GET http://localhost:8080/fizzbuzz?count=20'
 curl -X GET "http://localhost:8080/fizzbuzz?count=20"
 echo ""
 echo "===================="
-echo "[TEST] /fizzbuzz 2of2"
+echo "[TEST] /fizzbuzz 2of3"
 echo 'curl -X GET http://localhost:8080/fizzbuzz'
 curl -X GET "http://localhost:8080/fizzbuzz"
 echo ""
 echo "===================="
-echo "[TEST] /add"
+echo "[TEST] /fizzbuzz 3of3"
+echo 'curl -X GET http://localhost:8080/fizzbuzz?count=a'
+curl -X GET "http://localhost:8080/fizzbuzz?count=a"
+echo ""
+echo "===================="
+echo "[TEST] /add 1of4"
 echo 'curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 18781, \"right\": 18783}"'
 curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 18781, "right": 18783}'
 echo ""
 echo "===================="
+echo "[TEST] /add 2of4"
+echo 'curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 0, \"right\": -0}"'
+curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 0, "right": -0}'
+echo ""
+echo "===================="
+echo "[TEST] /add 3of4"
+echo 'curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": a, \"right\": b}"'
+curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": a, "right": b}'
+echo ""
+echo "===================="
+echo "[TEST] /add 4of4"
+echo 'curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 100}"'
+curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 100}'
+echo ""
+echo "===================="
 echo "[TEST] /students"
-echo 'curl -X GET http://localhost:8080/students/3/1'
-curl -X GET "http://localhost:8080/students/3/1"
-
+echo 'curl -X GET http://localhost:8080/students/1/1'
+curl -X GET "http://localhost:8080/students/1/1"
+echo ""
+echo "===================="
+echo "[TEST] /students"
+echo 'curl -X GET http://localhost:8080/students/3/4'
+curl -X GET "http://localhost:8080/students/3/4"
+echo ""
 ```
 
 ペーストした後、ファイル内の以下の部分を自分の ID に書き換えてください。
@@ -240,7 +265,7 @@ ID=pikachu
 ```
 
 最後に、ターミナルを開き、以下を実行してください。
-```
+```bash
 $ chmod +x test.sh # 実行権限を付与
 $ ./test.sh # シェルスクリプトtest.shを実行
 ```
@@ -248,20 +273,22 @@ $ ./test.sh # シェルスクリプトtest.shを実行
 使用例は以下の通りです。
 :::details 使用例
 ```
-$ ./test.sh
+$ ./test.sh 
 
 ====================
 [TEST] /pikachu
+curl -X GET http://localhost:8080/pikachu
 始めまして、@pikachuです。
 ケモノ(特に四足歩行)や、低頭身デフォルメマスコット(TDM)が大好きです。
 普段はVRChatに生息しています。twitter: @pikachu0310VRC
 ====================
 [TEST] /ping
+curl -X GET http://localhost:8080/ping
 pong
 
 ====================
-[TEST] /fizzbuzz 1of2
-curl -X GET "http://localhost:8080/fizzbuzz?count=20"
+[TEST] /fizzbuzz 1of3
+-X GET http://localhost:8080/fizzbuzz?count=20
 1
 2
 Fizz
@@ -284,8 +311,8 @@ Fizz
 Buzz
 
 ====================
-[TEST] /fizzbuzz 2of2
-curl -X GET "http://localhost:8080/fizzbuzz"
+[TEST] /fizzbuzz 2of3
+curl -X GET http://localhost:8080/fizzbuzz
 1
 2
 Fizz
@@ -318,15 +345,39 @@ Fizz
 FizzBuzz
 
 ====================
-[TEST] /add
-curl -X POST "http://localhost:8080/add" -d "left=18781&right=18783"
-37564
+[TEST] /fizzbuzz 3of3
+curl -X GET http://localhost:8080/fizzbuzz?count=a
+Bad Request
 
 ====================
-[TEST] /students
-curl -X GET "http://localhost:8080/students/3/1"
-{"student_number":1,"name":"Hikaru"}
+[TEST] /add 1of4
+curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 18781, \"right\": 18783}"
+{"answer":37564}
 
+====================
+[TEST] /add 2of4
+curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 0, \"right\": -0}"
+{"answer":0}
+
+====================
+[TEST] /add 3of4
+curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": a, \"right\": b}"
+{"error":"Bad Request"}
+
+====================
+[TEST] /add 4of4
+curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 100}"
+{"error":"Bad Request"}
+
+====================
+[TEST] /students 1of2
+curl -X GET http://localhost:8080/students/1/1
+{"student_number":1,"name":"pikachu"}
+
+====================
+[TEST] /students 2of2
+curl -X GET http://localhost:8080/students/3/4
+{"error":"Student Not Found"}
 ```
 :::
 
