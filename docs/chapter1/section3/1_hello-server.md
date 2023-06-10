@@ -4,13 +4,20 @@
 
 今回は、Go 言語と、Go 言語の有名な web フレームワークである [Echo](https://echo.labstack.com/) を使ってサーバーアプリケーションを作っていきます。
 
-`~/naro-server/hello-server`というディレクトリを作成し、そのディレクトリを開きます。
+`~/develop/hello-server`というディレクトリを作成し、そのディレクトリを開きます。
 ```
-#mkdirは-pを付けると、階層の深いディレクトリを1回で作れる
-mkdir -p ~/naro-server/hello-server
-cd ~/naro-server/hello-server
+mkdir -p ~/develop/hello-server
+cd ~/develop/hello-server
 code .
 ```
+:::tip
+先ほどのコマンドの`mkdir`は、`make directories`の略で`-p`というオプションを付けると、階層の深いディレクトリを 1 回で作ることができます。このような説明は、man コマンド(マニュアルの man )を使うことで調べることができます。ググる前に使うと良いです。(q キーを押すことで抜けられます。)
+```
+man mkdir
+```
+![](assets/mannual.png)
+:::
+
 ディレクトリの中に`main.go`を作成し、以下のプログラムを書き込みます。
 
 <<<@/chapter1/section3/src/1-1_hello-server.go
@@ -26,12 +33,12 @@ Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っ�
 
 ```
 #Go moduleを初期化して、足りない物をインストールし、使われてない物を削除する。
-go mod init naro-server
+go mod init develop
 go mod tidy
 ```
 
 :::warning
-本来この naro-server の所にはリポジトリ名を入れることが多いです。詳しくは[公式ドキュメント](https://go.dev/doc/modules/managing-dependencies#naming_module)を参照してください。
+本来この develop の所にはリポジトリ名を入れることが多いです。詳しくは[公式ドキュメント](https://go.dev/doc/modules/managing-dependencies#naming_module)を参照してください。
 :::
 
 続けて、main.go を実行してサーバーを立てましょう。
