@@ -22,6 +22,7 @@ pong
 
 ## 基本問題 GET /fizzbuzz
 クエリパラメータ`count`で渡された数までの FizzBuzz を返してください。
+
 `count`がない場合は 30 として扱い、`count`が整数として解釈できない場合はステータスコード`400`を返してください。
 
 ### スキーマ
@@ -117,6 +118,7 @@ status code: `400`
 ```
 
 classNumber，studentNumber に対応する学生の情報を JSON で返してください。
+
 学生が存在しない場合、`404`を返してください。
 
 ### スキーマ
@@ -162,7 +164,7 @@ ID=ptr
 
 # ！ここから（分からない人は）変更しない！
 all:
-	scp main.go naro:~/go/src/hello-server/main.go
+	scp main.go naro:~/develop/hello-server/main.go
 
 test:
 	@echo "\n====================\n"
