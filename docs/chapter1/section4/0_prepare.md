@@ -43,7 +43,7 @@ Task GitHub [https://github.com/go-task/task](https://github.com/go-task/task)
 
 MySQL にログイン出来たら、スクリーンショットを講習会チャンネルに投稿しましょう。
 
-`task down`をターミナルに入力するとデータベースを停止できます。
+`exit`を 1 回入力するとデータベースから抜けることができ、もう 1 回`exit`を入力するとコンテナから抜けて戻ってくることができます。`task down`をターミナルに入力するとデータベースを停止できます。
 
 :::warning
 
