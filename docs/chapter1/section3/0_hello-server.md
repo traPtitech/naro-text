@@ -2,10 +2,10 @@
 
 ## ファイルの作成
 
-今回は、Go 言語と、Go 言語の有名な web フレームワークである [Echo](https://echo.labstack.com/) を使ってサーバーアプリケーションを作っていきます。
+今回は、Go と、Go の有名な web フレームワークである [Echo](https://echo.labstack.com/) を使ってサーバーアプリケーションを作っていきます。
 
 `~/develop/hello-server`というディレクトリを作成し、そのディレクトリを開きます。
-```
+```bash
 # ディレクトリ ~/develop/hello-server を作成し、そのディレクトリを開く。
 
 $ mkdir -p ~/develop/hello-server
@@ -14,7 +14,7 @@ $ code .
 ```
 :::tip
 先ほどのコマンドの`mkdir`は、`make directories`の略で`-p`というオプションを付けると、階層の深いディレクトリを 1 回で作ることができます。このような説明は、man コマンド(マニュアルの man )を使うことで調べることができます。ググる前に使うと良いです。(q キーを押すことで抜けられます。)
-```
+```bash
 $ man mkdir
 ```
 ![](assets/mannual.png)
@@ -30,7 +30,7 @@ $ man mkdir
 
 <<<@/chapter1/section3/src/1-1_hello-server.go
 
-Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からインストールしなければなりません。しかし、Go 言語にはそれを自動でやってくれる [Go module](https://go.dev/doc/tutorial/create-module) という便利な機能があるので使ってみましょう。以下を VSCode 内のターミナルで実行してください。(他のターミナルでも可)
+Echo は、[Go の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からダウンロードしなければなりません。しかし、Go にはそれを自動でやってくれる [Go module](https://go.dev/doc/tutorial/create-module) という便利な機能があるので使ってみましょう。以下を VSCode 内のターミナルで実行してください。(他のターミナルでも可)
 
 :::tip
 **ターミナルの開き方**
@@ -39,7 +39,7 @@ Echo は、[Go言語の標準ライブラリ](https://pkg.go.dev/std)に入っ�
 もしくは`Ctrl` + `@`でも。
 :::
 
-```
+```bash
 # Go module を初期化して、足りない物をインストールし、使われてない物を削除する。
 
 $ go mod init develop
@@ -47,11 +47,11 @@ $ go mod tidy
 ```
 
 :::warning
-本来この develop の所にはリポジトリ名を入れることが多いです。詳しくは[公式ドキュメント](https://go.dev/doc/modules/managing-dependencies#naming_module)を参照してください。
+本来この `develop` の所にはリポジトリ名を入れることが多いです。詳しくは[公式ドキュメント](https://go.dev/doc/modules/managing-dependencies#naming_module)を参照してください。
 :::
 
-続けて、main.go を実行してサーバーを立てましょう。
-```
+続けて、`main.go` を実行してサーバーを立てましょう。
+```bash
 # 先ほど書いたファイルを実行して、サーバーを立てる
 
 $ go run main.go
@@ -73,7 +73,7 @@ $ go run main.go
 
 新しくターミナルを開いて、以下のコマンドを実行してみましょう。
 
-```
+```bash
 $ curl localhost:8080/hello
 ```
 
@@ -84,7 +84,7 @@ $ curl localhost:8080/hello
 
 curl コマンドのオプションとして、リクエストなどの情報を詳しく見る`-vvv`があります。
 
-```
+```bash
 $ curl localhost:8080/hello -vvv
 ```
 
