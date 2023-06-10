@@ -6,7 +6,7 @@ JSON について分からない人は
 [JSONってなにもの？ | Think IT（シンクイット）](https://thinkit.co.jp/article/70/1)
 :::
 
-:::warning
+:::tip
 Go の構造体についてわからない人は↓を見ると良いです。
 
 https://go-tour-jp.appspot.com/moretypes/2
