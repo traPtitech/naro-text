@@ -1,5 +1,9 @@
 # 演習問題
 
+基本問題は解答を置いてありますが、できるだけ自力で頑張ってみてください。
+
+最後に全問題をまとめて動作確認できるシェルスクリプトが置いてあるので、作ったエンドポイントは消さないで残しておくと良いです。
+
 ## 基本問題 GET /ping
 
 pong と返すエンドポイントを作成してください。
@@ -66,6 +70,9 @@ $ curl -X GET "http://localhost:8080/fizzbuzz?count=20"
 $ curl -X GET "http://localhost:8080/fizzbuzz" # count=30 と同じ
 $ curl -X GET "http://localhost:8080/fizzbuzz?count=a" # Bad Request
 ```
+
+**/fizzbuzzが上手く動いたら、講習会の実況用チャンネルに↑の実行結果を投稿しましょう！**
+
 :::details 解答
 <<<@/chapter1/section3/src/4-2_fizzbuzz.go
 :::
@@ -187,7 +194,6 @@ $ curl -X GET "http://localhost:8080/students/1/1" # pikachu
 $ curl -X GET "http://localhost:8080/students/3/4" # Student Not Found
 ```
 
----
 
 ## 自分のサーバーが正しく動作しているか確認しよう
 
@@ -381,5 +387,8 @@ curl -X GET http://localhost:8080/students/3/4
 ```
 :::
 
-ここまで出来たら、講習会の実況用チャンネルに`./test.sh`の出力結果を貼りましょう！  
+**ここまで出来たら、講習会の実況用チャンネルに`./test.sh`の出力結果を貼りましょう！**  
+(発展問題は出来てなくても大丈夫ですが、チャレンジしてみてください。)  
 (出力結果は長いので、\`\`\`ここに内容\`\`\`のように内容を\`\`\`で囲い、コードブロックにして送信すると良いです。)
+
+### お疲れ様でした！
