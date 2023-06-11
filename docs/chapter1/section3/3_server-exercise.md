@@ -202,8 +202,8 @@ $ curl -X GET "http://localhost:8080/students/3/4" # Student Not Found
 #!/bin/bash
 
 # ↓これを自分のIDに変更してください
-ID={自分のtraQ ID}
-
+ID=pikachu
+# ↑これを自分のIDに変更してください
 
 echo ""
 echo "===================="
@@ -267,6 +267,7 @@ echo ""
 ```
 # ↓これを自分のIDに変更してください
 ID=pikachu
+# ↑これを自分のIDに変更してください
 ```
 
 最後に、ターミナルを開き、以下を実行してください。
