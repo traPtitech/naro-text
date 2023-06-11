@@ -40,9 +40,9 @@ type jsonData struct {
 ### Postmanのインストール
 [Postman | API Development Environment](https://www.getpostman.com/) は GUI で HTTP リクエストを行えるアプリケーションです。
 
-ダウンロードページ→ https://www.postman.com/downloads/
+[ダウンロードページ](https://www.postman.com/downloads/)
 
-Postman をインストールした後起動し、以下の画面まで飛びます。(workspace を作成して移動した後、`Ctrl + N`→`HTTP`または`Overview`タブの横にある`+`を押す)
+Postman を起動したら、workspace を作成して移動し、`Ctrl + N`->`HTTP`または`Overview`タブの横にある`+`を押して、リクエスト設定画面を開きます。
 
 ![](assets/postman.png)
 
@@ -116,7 +116,7 @@ POST のハンドラは、受け取りたい JSON を示す空の変数を先に
 
 Postman を使って実際に受け取れている / 送り返せているか確認してみましょう。
 
-:::warning
+:::info
 omitempty を指定していると false, 0, 空文字("")は返ってきません。(omitempty は、ゼロ値の場合はそのフィールドを出力しないという意味でしたね。)
 :::
 
