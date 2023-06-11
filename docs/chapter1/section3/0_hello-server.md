@@ -12,7 +12,7 @@ $ mkdir -p ~/develop/hello-server
 $ cd ~/develop/hello-server
 $ code .
 ```
-:::tip
+:::info
 先ほどのコマンドの`mkdir`は、`make directories`の略で`-p`というオプションを付けると、階層の深いディレクトリを 1 回で作ることができます。このような説明は、man コマンド(マニュアルの man )を使うことで調べることができます。ググる前に使うと良いです。(q キーを押すことで抜けられます。)
 ```bash
 $ man mkdir
@@ -45,7 +45,7 @@ $ go mod init develop
 $ go mod tidy
 ```
 
-:::warning
+:::tip
 本来この `develop` の所にはリポジトリ名を入れることが多いです。詳しくは[公式ドキュメント](https://go.dev/doc/modules/managing-dependencies#naming_module)を参照してください。
 :::
 
@@ -103,7 +103,7 @@ localhost は自分自身を表すドメインなので、自分のブラウザ�
 エンドポイントとして自分の traQ ID のものを生やして自己紹介を返すようにしてみましょう。  
 `main.go`に`/{自分の traQ ID}`処理を追加して作ってください。
 
-:::warning
+:::tip
 この章では、この`main.go`に処理を追加していきます。
 
 以降のコードではすでに作ったエンドポイントを省略していますが、作ったエンドポイントは消さずに、新しいエンドポイントを追加していくようにしてください。
@@ -120,4 +120,4 @@ $ curl http://localhost:8080/{自分の traQ ID}
 例:
 ![](assets/hello_server_me.png)
 
-ここまで完成したら、講習会の実況用チャンネルに↑のようなスクリーンショットを投稿しましょう。
+**ここまで完成したら、講習会の実況用チャンネルに↑のようなスクリーンショットを投稿しましょう。**
