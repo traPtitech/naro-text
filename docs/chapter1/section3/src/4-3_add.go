@@ -9,7 +9,7 @@ import (
 // Jsonで受け取って構造体に変換するための構造体を定義
 type requestData struct {
 	Left  *int `json:"left"`
-	Right *int `json:"right,omitempty"`
+	Right *int `json:"right"`
 }
 
 // 計算結果をJsonで返すための構造体を定義
