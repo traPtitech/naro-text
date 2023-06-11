@@ -40,38 +40,39 @@ $ brew install node
 $ node -v
 ```
 
-を実行して、`20.3.0`と表示されれば OK。
+を実行して、バージョン番号が表示されれば OK。
 
 #### Windows(WSL)
+
 ```bash
-$ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+$ curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
 ```
 
-2. バージョンを確認
+バージョンを確認します。
 
 ```bash
 $ node -v
 ```
 
-を実行して、`20.2.0`と表示されれば OK。
+を実行して、バージョン番号が表示されれば OK。
 
 ### バージョン管理を考える
 Go のインストールにも用いた asdf を用いてインストールすることで、プロジェクトごとに自動で手元の Node.js のバージョンを変えることができます。
 
 ```bash
 $ asdf plugin add nodejs
-$ asdf install nodejs 20.2.0
-$ asdf global nodejs 20.2.0
+$ asdf install nodejs latest
+$ asdf global nodejs latest
 ```
 
-これで、デフォルトで 20.2.0 のバージョンが適用されるようになりました。
+これで、デフォルトで現在出ている最新のバージョンが適用されるようになりました。
 
 ```bash
 $ node -v
 ```
 
-を実行して、`20.2.0`と表示されれば OK。
+を実行して、バージョン番号が表示されれば OK。
 
 ## Vue テンプレートのクローン
 
