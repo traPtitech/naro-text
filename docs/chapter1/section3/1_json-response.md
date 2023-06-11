@@ -42,7 +42,7 @@ type jsonData struct {
 
 [ダウンロードページ](https://www.postman.com/downloads/)
 
-Postman 起動したら、workspace を作成して移動し、`Ctrl + N`->`HTTP`または`Overview`タブの横にある`+`を押して、リクエスト設定画面を開きます。
+Postman を起動したら、workspace を作成して移動し、`Ctrl + N`->`HTTP`または`Overview`タブの横にある`+`を押して、リクエスト設定画面を開きます。
 
 ![](assets/postman.png)
 
