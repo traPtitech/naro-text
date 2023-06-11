@@ -148,7 +148,7 @@ $ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -
 ]
 ```
 
-`classNumber`，`studentNumber` に対応する学生の情報を JSON で返してください。  
+`classNumber`、`studentNumber` に対応する学生の情報を JSON で返してください。  
 学生が存在しない場合、`404`を返してください。
 
 ### スキーマ
