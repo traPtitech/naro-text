@@ -40,38 +40,39 @@ $ brew install node
 $ node -v
 ```
 
-を実行して、`20.3.0`と表示されれば OK。
+を実行して、バージョン番号が表示されれば OK。
 
 #### Windows(WSL)
+
 ```bash
-$ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+$ curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
 ```
 
-2. バージョンを確認
+バージョンを確認します。
 
 ```bash
 $ node -v
 ```
 
-を実行して、`20.3.0`と表示されれば OK。
+を実行して、バージョン番号が表示されれば OK。
 
 ### バージョン管理を考える
 Go のインストールにも用いた asdf を用いてインストールすることで、プロジェクトごとに自動で手元の Node.js のバージョンを変えることができます。
 
 ```bash
 $ asdf plugin add nodejs
-$ asdf install nodejs 20.3.0
-$ asdf global nodejs 20.3.0
+$ asdf install nodejs latest
+$ asdf global nodejs latest
 ```
 
-これで、デフォルトで 20.3.0 のバージョンが適用されるようになりました。
+これで、デフォルトで現在出ている最新のバージョンが適用されるようになりました。
 
 ```bash
 $ node -v
 ```
 
-を実行して、`20.3.0`と表示されれば OK。
+を実行して、バージョン番号が表示されれば OK。
 
 ## Vue テンプレートのクローン
 
@@ -338,14 +339,14 @@ Vue のコンポーネントは 1 つのタグの中に収まっている必要�
 そのため、多くの場合 div タグで囲まれています。(`ClickCounter.vue`も)
 
 #### 1 行目
-```vue:line-numbers {1}
+```vue
 <script setup lang="ts">
 ```
 `lang="ts"`に注目してください。実は今回は script タグ内では JavaScript なくて、TypeScirpt を書いています。TypeSciript は JavaScript に型がついたもので、SysAd のほぼ全てのプロジェクトで用いられています。型をつけることでバグを防ぐことができるので、この講習会でも TypeScript を使っていきます。
 
 ##### 2 行目
 
-```ts:line-numbers {2}
+```ts
 import ClickCounter from "./ClickCounter.vue"
 ```
 
@@ -353,7 +354,7 @@ import ClickCounter from "./ClickCounter.vue"
 
 ##### 4 行目
 
-```ts:line-numbers {4}
+```ts
 defineProps<{
 	msg: string
 }>()
@@ -384,7 +385,7 @@ const { msg } = defineProps()
 
 ##### 12 行目
 
-```tsx:line-numbers {12}
+```tsx
 <ClickCounter />
 ```
 
@@ -396,12 +397,28 @@ const { msg } = defineProps()
 
 コンポーネント内で利用する変数をこのように書きます。  
 ここでは`count`という名前の変数を`number`型で定義しています(実はこの程度なら TypeScript の型推論というものが効いて、初期値の`0`から自動で`count`変数は`number`型だと推論してくれます)。
+`ref`を使うことで、Vue が値の変更を検知して自動で再描画してくれるようになります。
 
-```ts:line-numbers {4}
+```ts
 const count = ref<number>(0)
 ```
 
-参考: [リアクティビティーの基礎 | Vue](https://ja.vuejs.org/guide/essentials/reactivity-fundamentals.html#reactive-variables-with-ref)]
+参考: [リアクティビティーの基礎 | Vue](https://ja.vuejs.org/guide/essentials/reactivity-fundamentals.html#reactive-variables-with-ref)
+
+:::info
+ここで`counter.js`の`countUp`を見てみましょう。
+```js
+const countUp = () => {
+  count++
+  const countElement = document.querySelector('#count')
+  countElement.innerText = '回数: ' + count
+}
+```
+
+`count`変数の値を変更した後に、DOM を直接操作して回数の値を更新しています。
+Vue では`ref`で`count`のような変数を定義するだけで、「値を更新」と「表示を変更」の 2 つをセットでやってくれるようになります。
+
+:::
 
 ##### 11・12 行目
 
@@ -409,7 +426,7 @@ const count = ref<number>(0)
 `@click`では、今回のように直接 JavaScript を記述するだけでなく、`<script setup>`内で定義した関数の呼び出しもできます。
 
 
-```vue:line-numbers {11}
+```vue
 <button @click="count++">クリック！</button>
 <button @click="count = 0">リセット！</button>
 ```
@@ -418,7 +435,7 @@ const count = ref<number>(0)
 参考: [イベントハンドリング | Vue](https://ja.vuejs.org/guide/essentials/event-handling.html)
 
 :::tip
-v-on:click のショートハンドとして@click という書き方ができます(推奨)
+`v-on:click` のショートハンドとして`@click` という書き方ができます(推奨)
 :::
 
 ##### 5 行目
@@ -426,7 +443,7 @@ v-on:click のショートハンドとして@click という書き方ができ�
 `computed`という機能を使って、表示するメッセージを生成します。  
 `count`の内容が変化すると自動的に`countMessage`の値が更新されるようになっています。
 
-```ts:line-numbers {5}
+```ts
 const countMessage = computed(() => "回数: " + count.value)
 ```
 
