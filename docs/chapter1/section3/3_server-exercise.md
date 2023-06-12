@@ -192,6 +192,7 @@ type Class struct {
 ```bash
 $ curl -X GET "http://localhost:8080/students/1/1" # pikachu
 $ curl -X GET "http://localhost:8080/students/3/4" # Student Not Found
+$ curl -X GET "http://localhost:8080/students/5/1" # Student Not Found
 ```
 
 
@@ -252,15 +253,21 @@ echo 'curl -X POST http://localhost:8080/add -H "Content-Type: application/json"
 curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 100}'
 echo ""
 echo "===================="
-echo "[TEST] /students"
+echo "[TEST] /students 1of3"
 echo 'curl -X GET http://localhost:8080/students/1/1'
 curl -X GET "http://localhost:8080/students/1/1"
 echo ""
 echo "===================="
-echo "[TEST] /students"
+echo "[TEST] /students 2of3"
 echo 'curl -X GET http://localhost:8080/students/3/4'
 curl -X GET "http://localhost:8080/students/3/4"
 echo ""
+echo "===================="
+echo "[TEST] /students 3of3"
+echo 'curl -X GET http://localhost:8080/students/5/1'
+curl -X GET "http://localhost:8080/students/5/1"
+echo ""
+
 ```
 
 ペーストした後、ファイル内の以下の部分を自分の ID に書き換えてください。
