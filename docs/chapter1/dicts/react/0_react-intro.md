@@ -87,6 +87,8 @@ $ npx create-next-app@latest
 ✔ Would you like to use `src/` directory with this project? … Yes
 ✔ Use App Router (recommended)? … No
 ✔ Would you like to customize the default import alias? … Yes
+✔ What import alias would you like configured? … @/*
+
 Creating a new Next.js app in /home/mehm8128/develop/todolist.
 
 ...
