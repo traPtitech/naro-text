@@ -426,13 +426,13 @@ SELECT Name, Continent, Region, Population FROM country WHERE Code = (SELECT Cou
 
 ### 2-4
 
-話者が多い言語の上位 10 言語の順位(`Rank`)、言語名、話者数合計(`Speakers`)を取得してください。
+話者が多い言語の上位 10 言語の順位(`Ranking`)、言語名、話者数合計(`Speakers`)を取得してください。
 
 :::details 答え
 
 ```sql
 SELECT 
-  RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS Rank, 
+  RANK() OVER (ORDER BY SUM(countrylanguage.Percentage * country.Population / 100) DESC) AS Ranking, 
   countrylanguage.Language,
   SUM(countrylanguage.Percentage*country.Population/100) AS Speakers 
 FROM countrylanguage JOIN country ON countrylanguage.CountryCode = country.Code 
