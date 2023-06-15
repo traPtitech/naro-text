@@ -13,7 +13,7 @@ export const chapter1SidebarItems: DefaultTheme.SidebarItem[] = [
       ...dictSidebarItems,
       {
         text: '実習編',
-        collapsed: true,
+        collapsed: false,
         items: [
           ...section1SidebarItems,
           ...section2SidebarItems,
