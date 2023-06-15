@@ -111,7 +111,7 @@ React ではリストデータをfor文のようにループさせて表示さ�
 
 <<< @/chapter1/dicts/react/src/1/ItemListRed.tsx{2,26}
 
-そして、`src/components/ItemList.modlue.css`を作成して以下の内容を記入します。
+そして、`src/components/ItemList.module.css`を作成して以下の内容を記入します。
 
 <<< @/chapter1/dicts/react/src/1/ItemList.module.css
 
