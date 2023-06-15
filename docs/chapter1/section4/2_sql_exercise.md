@@ -366,32 +366,32 @@ SELECT country.Name, city.Name FROM country LEFT JOIN city ON country.Code = cit
 
 ### 2-2
 
-`country`テーブルから、人口の多い順に順位(`Rank`)、国名、人口を取得してください。
+`country`テーブルから、人口の多い順に順位(`Ranking`)、国名、人口を取得してください。
 
 :::details 答え
 
 ```sql
-SELECT RANK() OVER (ORDER BY Population DESC) AS Rank, Name, Population FROM country LIMIT 10;
+SELECT RANK() OVER (ORDER BY Population DESC) AS Ranking, Name, Population FROM country LIMIT 10;
 ```
 
 **出力**
 
 ```txt
-+------+--------------------+------------+
-| Rank | Name               | Population |
-+------+--------------------+------------+
-|    1 | China              | 1277558000 |
-|    2 | India              | 1013662000 |
-|    3 | United States      |  278357000 |
-|    4 | Indonesia          |  212107000 |
-|    5 | Brazil             |  170115000 |
-|    6 | Pakistan           |  156483000 |
-|    7 | Russian Federation |  146934000 |
-|    8 | Bangladesh         |  129155000 |
-|    9 | Japan              |  126714000 |
-|   10 | Nigeria            |  111506000 |
-+------+--------------------+------------+
-10 rows in set (0.00 sec)
++---------+--------------------+------------+
+| Ranking | Name               | Population |
++---------+--------------------+------------+
+|       1 | China              | 1277558000 |
+|       2 | India              | 1013662000 |
+|       3 | United States      |  278357000 |
+|       4 | Indonesia          |  212107000 |
+|       5 | Brazil             |  170115000 |
+|       6 | Pakistan           |  156483000 |
+|       7 | Russian Federation |  146934000 |
+|       8 | Bangladesh         |  129155000 |
+|       9 | Japan              |  126714000 |
+|      10 | Nigeria            |  111506000 |
++---------+--------------------+------------+
+10 rows in set (0.01 sec)
 ```
 
 `Rank()`は Window 関数と呼ばれるものの 1 つで、 MySQL では 8.0 から使えるようになりました。
@@ -443,21 +443,21 @@ ORDER BY Speakers DESC LIMIT 10;
 **出力**
 
 ```txt
-+------+------------+------------------+
-| Rank | Language   | Speakers         |
-+------+------------+------------------+
-|    1 | Chinese    | 1191843539.22187 |
-|    2 | Hindi      |  405633085.47466 |
-|    3 | Spanish    |  355029461.90782 |
-|    4 | English    |  347077860.65105 |
-|    5 | Arabic     |  233839240.44018 |
-|    6 | Bengali    |  209304713.12510 |
-|    7 | Portuguese |  177595269.43999 |
-|    8 | Russian    |  160807559.89702 |
-|    9 | Japanese   |  126814106.08493 |
-|   10 | Punjabi    |  104025371.70681 |
-+------+------------+------------------+
-10 rows in set (0.02 sec)
++---------+------------+------------------+
+| Ranking | Language   | Speakers         |
++---------+------------+------------------+
+|       1 | Chinese    | 1191843539.22187 |
+|       2 | Hindi      |  405633085.47466 |
+|       3 | Spanish    |  355029461.90782 |
+|       4 | English    |  347077860.65105 |
+|       5 | Arabic     |  233839240.44018 |
+|       6 | Bengali    |  209304713.12510 |
+|       7 | Portuguese |  177595269.43999 |
+|       8 | Russian    |  160807559.89702 |
+|       9 | Japanese   |  126814106.08493 |
+|      10 | Punjabi    |  104025371.70681 |
++---------+------------+------------------+
+10 rows in set (0.01 sec)
 ```
 
 割合を掛けているため、人数に小数が出てきます。
