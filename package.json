@@ -10,7 +10,7 @@
     "textlint-rule-preset-ja-spacing": "^2.3.0",
     "textlint-rule-preset-ja-technical-writing": "^7.0.0",
     "textlint-rule-spellcheck-tech-word": "^5.0.0",
-    "vitepress": "^1.0.0-alpha.75"
+    "vitepress": "^1.0.0-beta.5"
   },
   "scripts": {
     "docs:dev": "vitepress dev docs",
