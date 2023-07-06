@@ -10,7 +10,7 @@ export default defineConfig({
   head: [['link', { rel: 'icon', href: '/naro-text/favicon.ico' }]],
   markdown: {
     theme: {
-      light: 'github-light',
+      light: 'github-dark',
       dark: 'github-dark'
     }
   },
