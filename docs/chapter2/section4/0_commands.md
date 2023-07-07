@@ -136,7 +136,7 @@ docker run -d -p 127.0.0.1:3000:80 -v $PWD:/usr/share/nginx/html --name naro_ngi
 2. index.html ファイルを作り、テキストを書き込み。
 3. ポートなどの設定をしてサーバー用の nginx コンテナを起動。
 
-3 での細かい設定は気にせず、<a href='http://localhost:3000' target="_blank" rel="noopener noreferrer">http://localhost:3000/hello</a> にアクセスするとメッセージが表示されるはずです。
+3 での細かい設定は気にせず、<a href='http://localhost:3000' target="_blank" rel="noopener noreferrer">localhost:3000</a> にアクセスするとメッセージが表示されるはずです。
 
 ![](images/nginx_page.png)
 
