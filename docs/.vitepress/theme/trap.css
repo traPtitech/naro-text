@@ -282,15 +282,15 @@
   --vp-c-code-dimm: var(--vp-c-text-2);
 
   --vp-code-block-color: var(--vp-c-text-1);
-  --vp-code-block-bg: #f8f8f8;
+  --vp-code-block-bg: #161618;
   --vp-code-block-divider-color: var(--vp-c-divider);
 
   --vp-code-line-highlight-color: #ececec;
   --vp-code-line-number-color: var(--vp-c-code-dimm);
 
-  --vp-code-copy-code-bg: #e2e2e2;
-  --vp-code-copy-code-hover-bg: #dcdcdc;
-  --vp-code-copy-code-active-text: var(--vp-c-text-2);
+  --vp-code-copy-code-bg: var(--vp-code-block-bg-light);
+  --vp-code-copy-code-hover-border-color: var(--vp-c-divider);
+  --vp-code-copy-code-hover-bg: var(--vp-code-block-bg-light);
 
   --vp-code-tab-divider: var(--vp-c-divider);
   --vp-code-tab-text-color: var(--vp-c-text-2);
