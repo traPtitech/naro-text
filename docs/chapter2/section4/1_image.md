@@ -63,9 +63,6 @@ Dockerfile を書くと自分で必要な機能がそろったコンテナを立
 # Go のベースイメージを指定
 FROM golang:1.20.5-alpine
 
-# パッケージのインストール
-RUN apk add --update --no-cache ca-certificates git
-
 # コマンドを実行するコンテナ内のディレクトリをworkに指定
 WORKDIR /work
 
