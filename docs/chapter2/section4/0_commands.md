@@ -4,7 +4,7 @@
 
 ここからはコンテナ型仮想環境の Docker を扱っていきます。今までも MySQL や Adminer を使うために Docker を使って来ましたが、これからは自分でコンテナを立てて動かします。
 
-まずは Doker Desktop が起動している状態で、このコマンドを実行してください。
+まずは Docker Desktop が起動している状態で、このコマンドを実行してください。
 
 ```sh
 docker run hello-world
