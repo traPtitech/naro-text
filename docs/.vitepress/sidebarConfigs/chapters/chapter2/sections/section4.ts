@@ -8,5 +8,9 @@ export const section4SidebarItems: DefaultTheme.SidebarItem[] = [
   {
     text: 'Dockerイメージを作る',
     link: '/chapter2/section4/1_image'
+  },
+  {
+    text: 'Docker Composeを使う',
+    link: '/chapter2/section4/2_compose'
   }
 ]
