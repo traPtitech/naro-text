@@ -1,6 +1,6 @@
 # main.go
 書きます
-:::warning
+:::tip 
 下に解説が書いてあります
 :::
 
@@ -11,201 +11,12 @@ $ go get -u github.com/srinathgs/mysqlstore
 ```
 
 
-```go=
-package main
-
-import (
-	"fmt"
-	"errors"
-	"log"
-	"net/http"
-	"os"
-	"database/sql"
-
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo-contrib/session"
-	"github.com/labstack/echo/v4/middleware"
-	"github.com/srinathgs/mysqlstore"
-	"golang.org/x/crypto/bcrypt"
-
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
-)
-
-type City struct {
-	ID          int    `json:"id,omitempty"  db:"ID"`
-	Name        sql.NullString `json:"name,omitempty"  db:"Name"`
-	CountryCode sql.NullString `json:"countryCode,omitempty"  db:"CountryCode"`
-	District    sql.NullString `json:"district,omitempty"  db:"District"`
-	Population  sql.NullInt64    `json:"population,omitempty"  db:"Population"`
-}
-
-var (
-	db *sqlx.DB
-)
-
-func main() {
-	_db, err := sqlx.Connect(
-		"mysql", 
-		fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", 
-			os.Getenv("DB_USERNAME"),
-			os.Getenv("DB_PASSWORD"),
-			os.Getenv("DB_HOSTNAME"),
-			os.Getenv("DB_PORT"),
-			os.Getenv("DB_DATABASE")))
-	if err != nil {
-		log.Fatalf("Cannot Connect to Database: %s", err)
-	}
-	db = _db
-
-	store, err := mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions", "/", 60*60*24*14, []byte("secret-token"))
-	if err != nil {
-		panic(err)
-	}
-
-	e := echo.New()
-	e.Use(middleware.Logger())
-	e.Use(session.Middleware(store))
-
-	e.GET("/ping", func(c echo.Context) error {
-		return c.String(http.StatusOK, "pong")
-	})
-	e.POST("/login", postLoginHandler)
-	e.POST("/signup", postSignUpHandler)
-
-	withLogin := e.Group("")
-	withLogin.Use(checkLogin)
-	withLogin.GET("/cities/:cityName", getCityInfoHandler)
-
-	e.Start(":<ポート番号>")
-}
-
-type LoginRequestBody struct {
-	Username string `json:"username,omitempty" form:"username"`
-	Password string `json:"password,omitempty" form:"password"`
-}
-
-type User struct {
-	Username   string `json:"username,omitempty"  db:"Username"`
-	HashedPass string `json:"-"  db:"HashedPass"`
-}
-
-func postSignUpHandler(c echo.Context) error {
-	req := LoginRequestBody{}
-	c.Bind(&req)
-
-	// もう少し真面目にバリデーションするべき
-	if req.Password == "" || req.Username == "" {
-		// エラーは真面目に返すべき
-		return c.String(http.StatusBadRequest, "項目が空です")
-	}
-
-	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, fmt.Sprintf("bcrypt generate error: %v", err))
-	}
-
-	// ユーザーの存在チェック
-	var count int
-
-	err = db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, fmt.Sprintf("db error: %v", err))
-	}
-
-	if count > 0 {
-		return c.String(http.StatusConflict, "ユーザーが既に存在しています")
-	}
-
-	_, err = db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, fmt.Sprintf("db error: %v", err))
-	}
-	return c.NoContent(http.StatusCreated)
-}
-
-func postLoginHandler(c echo.Context) error {
-	req := LoginRequestBody{}
-	c.Bind(&req)
-
-	user := User{}
-	err := db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
-	if err != nil {
-		return c.String(http.StatusInternalServerError, fmt.Sprintf("db error: %v", err))
-	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
-	if err != nil {
-		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
-			return c.NoContent(http.StatusForbidden)
-		} else {
-			return c.NoContent(http.StatusInternalServerError)
-		}
-	}
-
-	sess, err := session.Get("sessions", c)
-	if err != nil {
-		fmt.Println(err)
-		return c.String(http.StatusInternalServerError, "something wrong in getting session")
-	}
-	sess.Values["userName"] = req.Username
-	sess.Save(c.Request(), c.Response())
-
-	return c.NoContent(http.StatusOK)
-}
-
-func checkLogin(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		sess, err := session.Get("sessions", c)
-		if err != nil {
-			fmt.Println(err)
-			return c.String(http.StatusInternalServerError, "something wrong in getting session")
-		}
-
-		if sess.Values["userName"] == nil {
-			return c.String(http.StatusForbidden, "please login")
-		}
-		c.Set("userName", sess.Values["userName"].(string))
-
-		return next(c)
-	}
-}
-
-func getCityInfoHandler(c echo.Context) error {
-	cityName := c.Param("cityName")
-
-	city := City{}
-	db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
-	if !city.Name.Valid {
-		return c.NoContent(http.StatusNotFound)
-	}
-
-	return c.JSON(http.StatusOK, city)
-}
-
-```
+<<<@/chapter2/section1/src/0/main.go{go:line-numbers}
 
 ## 解説
 ### main関数
-```go=34
-_db, err := sqlx.Connect("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOSTNAME"), os.Getenv("DB_PORT"), os.Getenv("DB_DATABASE")))
-	if err != nil {
-		log.Fatalf("Cannot Connect to Database: %s", err)
-	}
-	db = _db
-```
-データベースへ接続しています。
 
-`os.GetEnv("ENV")`は ENV という名前の環境変数を取得する関数です。環境変数には DB の情報が入っています。
-
-接続出来なかった場合は err にそのエラー内容が格納されます。
-
-```go=47
-store, err := mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions", "/", 60*60*24*14, []byte("secret-token"))
-	if err != nil {
-            panic(err)
-	}
-```
+<<<@/chapter2/section1/src/0/main.go#setup_session{go:line-numbers}
 
 セッションストアを設定しています。セッションは HTTP リクエストを送ってきた User が誰かを確認するために使うのですが、それらを覚えておくための場所を用意しているイメージです(ちょい雑な気がする)
 
@@ -215,90 +26,46 @@ store, err := mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions", "/", 60*
 
 ### postSignUpHandler関数
 これは User 登録を行なうための関数です。
-```go=80
-req := LoginRequestBody{}
-c.Bind(&req)
-```
+
+<<<@/chapter2/section1/src/0/main.go#request{go:line-numbers}
+
 req にリクエスト情報を入れています。ここには UserName と Password が格納されているはずです。
 
-```go=83
-// もう少し真面目にバリデーションするべき
-if req.Password == "" || req.Username == "" {
-	// エラーは真面目に返すべき
-	return c.String(http.StatusBadRequest, "項目が空です")
-}
-
-```
+<<<@/chapter2/section1/src/0/main.go#valid{go:line-numbers}
 
 ここでは、本当に UserName と Password が入っているのかをチェックしています。入っていなければ不正なリクエストなので、400(Bad Request)を返しています。
 
-```go=89
-hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
-    if err != nil {
-    return c.String(http.StatusInternalServerError, fmt.Sprintf("bcrypt generate error: %v", err))
-}
-```
+<<<@/chapter2/section1/src/0/main.go#hash{go:line-numbers}
+
 基本的に Password を平文で保存しておくのは危険です！　従って、パスワードを DB に格納するときはハッシュ化を行ってから格納します。(ハッシュ化については調べてください)
 
 `bcrypt`というのはハッシュ化をいい感じにやってくれるライブラリです。それを使ってパスワードをハッシュ化しています。
 
-```go=94
-// ユーザーの存在チェック
-var count int
+<<<@/chapter2/section1/src/0/main.go#check_user{go:line-numbers}
 
-err = db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
-if err != nil {
-    return c.String(http.StatusInternalServerError, fmt.Sprintf("db error: %v", err))
-}
-
-if count > 0 {
-    return c.String(http.StatusConflict, "ユーザーが既に存在しています")
-}
-
-```
 `db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)`という部分は、db に`req.Username`という名前の User は何人いますか？　という問い合わせをしています。
 
 その結果は`count`に格納されています。同名のユーザーがいたら困るので、そういう場合はその名前の User はもういるからダメだよというレスポンスを返します。
 
 
 
-```go=106
-_, err = db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
-if err != nil {
-    return c.String(http.StatusInternalServerError, fmt.Sprintf("db error: %v", err))
-    }
-return c.NoContent(http.StatusCreated)
-```
+<<<@/chapter2/section1/src/0/main.go#add_user{go:line-numbers}
+
 
 `db.Exec`はクエリを実行する関数です。ここでは Username,HashedPassword を持つ User を生成しようとしてます。
 
 何かしらのエラーによって生成できなかった場合は err にその内容が詰め込まれます。上までの処理から理論上は User を生成できるはずなので、ここで何かエラーが出たとするとそれはサーバー側の問題になります。従ってここで返しているエラーコードは 500 になっています。
 
 ### postLoginHandler関数
-```go=114
-req := LoginRequestBody{}
-c.Bind(&req)
 
-user := User{}
-err := db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
-if err != nil {
-    return c.String(http.StatusInternalServerError, fmt.Sprintf("db error: %v", err))
-}
-```
+<<<@/chapter2/section1/src/0/main.go#post_req{go:line-numbers}
+
 req の代入のところは SignUp のところと同じです。
 
 下の部分ではリクエストで送られてきた UserName と Password を持つユーザーは存在するのか？　という問い合わせをしています。存在した場合は`user`にそのユーザーの情報が入ります。
 
-```go=123
-err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
-if err != nil {
-    if err == bcrypt.ErrMismatchedHashAndPassword {
-        return c.NoContent(http.StatusForbidden)
-    } else {
-        return c.NoContent(http.StatusInternalServerError)
-    }
-}
-```
+<<<@/chapter2/section1/src/0/main.go#post_hash{go:line-numbers}
+
 
 SignUp の方にも書きましたが、パスワードを平文で保存するのは良くないということでハッシュ化されています。
 
@@ -309,17 +76,8 @@ SignUp の方にも書きましたが、パスワードを平文で保存する�
 従って、これの場合はパスワードが違うよというレスポンスを返し、それ以外のエラーの場合は 500 を返しています。
 
 
-```go=132
-sess, err := session.Get("sessions", c)
-if err != nil {
-    fmt.Println(err)
-    return c.String(http.StatusInternalServerError, "something wrong in getting session")
-}
-sess.Values["userName"] = req.Username
-sess.Save(c.Request(), c.Response())
+<<<@/chapter2/section1/src/0/main.go#add_session{go:line-numbers}
 
-return c.NoContent(http.StatusOK)
-```
 
 セッションに登録する処理です。セッションとは、今来た人が次来たとき、同じ人であることを確認するための仕組みです。
 
@@ -332,28 +90,14 @@ middleware から次の handler を呼び出すには`next(c)`と書きます。
 
 このミドルウェアはリクエストを送ったユーザーがログインしているのかをチェックし、ログインしているなら echo の Context にそのユーザーの UserName を登録します。
 
-```go=144
-return func(c echo.Context) error {
-    sess, err := session.Get("sessions", c)
-    if err != nil {
-        fmt.Println(err)
-        return c.String(http.StatusInternalServerError, "something wrong in getting session")
-    }
-```
+<<<@/chapter2/section1/src/0/main.go#get_session{go:line-numbers}
 
 セッションを取得しています。
 
 本当はリクエストヘッダを見ることでどのセッションを取り出すかを決めています(セッションは各ユーザーに存在するので)
 
-```go=151                          
-    if sess.Values["userName"] == nil {
-        return c.String(http.StatusForbidden, "please login")
-    }
-    c.Set("userName", sess.Values["userName"].(string))
+<<<@/chapter2/section1/src/0/main.go#check_session{go:line-numbers}
 
-    return next(c)
-}
-```
 
 Login 時の処理を思い出すと、セッションには"userName"をキーとしてユーザーの名前が登録されていました。
 
@@ -361,34 +105,12 @@ Login 時の処理を思い出すと、セッションには"userName"をキー�
 
 これを利用して、ログインしていない場合には後続に処理を渡すことをせず途中で処理を止めています。
 
-### getCityInfoHandler関数
-Param で与えられた cityName と一致する city を返す関数です。
-```go=161
-cityName := c.Param("cityName")
+### getWhoAmIHandler関数
 
-city := City{}
-db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
-if !city.Name.Valid {
-    return c.NoContent(http.StatusNotFound)
-}
+<<<@/chapter2/section1/src/0/main.go#whoami{go:line-numbers}
 
-return c.JSON(http.StatusOK, city)
-```
-
-`c.Param`でリクエストに含まれている cityName を取得します。
-
-db には、cityName を持つ city をくださいといっています。出てきたもの中で一番最初にヒットしたものが city の中に格納されます。
-
-
-# データベースの準備
-users テーブルを作成します。
-```
-mysql> CREATE TABLE `users` ( `Username` VARCHAR(30) NOT NULL , `HashedPass` VARCHAR(200) NOT NULL , PRIMARY KEY (`Username`)) ENGINE = InnoDB;
-```
-`mysql > SHOW TABLES;`で作成できているか確認します。
-<img src="https://md.trap.jp/uploads/upload_c0f4bf39ee2d2b5b6fd1e2e053a8d39e.png" width=40%>
-
-
+セッションからアクセスしているユーザーの`userName`を取得して返しています。
+ここにアクセスすれば自分がどのアカウントでアクセスしてるか知ることができます。
 
 # 検証
 :::warning
@@ -396,7 +118,7 @@ mysql> CREATE TABLE `users` ( `Username` VARCHAR(30) NOT NULL , `HashedPass` VAR
 `go run main.go`でサーバーを起動した状態で行ってください
 :::
 
-http://133.130.109.224:<ポート番号>/cities/Tokyo へ
+http://localhost:8080/cities/Tokyo へ
 初めに普通にアクセスするとダメです
 ![](https://md.trapti.tech/uploads/upload_96a03d609e761150a2136963dd34006a.png)
 
@@ -426,13 +148,8 @@ Value に`sessions=(コピーした値);`をセットします(既に自動で�
 ![](https://md.trap.jp/uploads/upload_7f007d73bd0ff508dff12246546b1a5b.png)
 ちょっと分かりにくい表示ですが、セッションもしっかり確認できます。
 
-:::success
+:::tip
 jikkyo チャンネルで URL を貼って他の人にユーザーを作成してもらうと他の人のデータも見ることができます。やってみましょう。
-:::
-
-:::success
-`checkLogin`関数の中で`c.Set("userName", ~~)`としている部分があります。
-それを使って、ログインしているユーザーの名前を表示する API を作ってみましょう。
 :::
 
 :::info
@@ -440,7 +157,7 @@ jikkyo チャンネルで URL を貼って他の人にユーザーを作成し�
 TODO リストのサーバーとしての API を考えて作ってみましょう
 :::
 
-:::info
+:::tip
 ここまでで Web サービスを作るコードの知識として必要な要素は全て網羅したつもりです。
 みなさんはもう何でも作れるわけです!!!!
 

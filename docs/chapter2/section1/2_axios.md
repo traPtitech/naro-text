@@ -198,31 +198,6 @@ Chrome Devtool から見てみるとログインしていないため、ダメ�
 このエンドポイントはログインしているユーザー自身の情報を取得するエンドポイントです。なぜこんなエンドポイントが必要かというと、Vue.js 自身は自分が何というユーザーでログインしているかをサーバーに問い合わせることなく知ることができないからです。
 traQ でも一番始めに whoami エンドポイントを叩き自分の情報を取得しています。
 
-### main.go
-#### ルーティングの追加
-
-
-<<<@/chapter2/section1/src/2/main.go{go:line-numbers}
-
-
-#### 関数の追加
-
-```go=29
-type Me struct {
-	Username string `json:"username,omitempty"  db:"username"`
-}
-```
-
-```go=177
-func getWhoAmIHandler(c echo.Context) error {
-	sess, _ := session.Get("sessions", c)
-  
-	return c.JSON(http.StatusOK, Me{
-		Username: sess.Values["userName"].(string),
-	})
-}
-```
-
 ## router.jsでログインの確認を行う
 
 Vue Router の`beforeEach`という機能を使って、各 Routing の前に特定の関数を呼び出すことができます。
@@ -232,24 +207,8 @@ Vue Router の`beforeEach`という機能を使って、各 Routing の前に特
 
 ### src/router.js
 
-```javascript=
-import axios from 'axios'
-```
-```javascript=22
-router.beforeEach(async (to) => {
-  try {
-    await axios.get("/api/whoami");
-  } catch (_) {
-    if (to.path === "/login") {
-      return true;
-    }
-    return "/login";
-  }
-  return true;
-});
+<<<@/chapter2/section1/src/2/router_4.ts{typescript:line-numbers}
 
-export default router;
-```
 
 これでログインしていない場合には、`/login`へリダイレクトされるようになりました。
 しかし、`/login`以外の全てのページへアクセスできません(シークレットウィンドウなどで開いて確認してみましょう)。
@@ -264,39 +223,17 @@ export default router;
 ### ルーティング設定にmetaを追加
 
 ### src/router.js
-```javascript=9
-const routes = [
-  { path: "/", name: "home", component: HomePage, meta: { isPublic: true } },
-  { path: "/axios", name: "axios", component: AxiosPage },
-  {
-    path: "/login",
-    name: "login",
-    component: LoginPage,
-    meta: { isPublic: true },
-  },
-  { path: "/city/:cityName", name: "city", component: CityPage, props: true },
-  { path: "/:path(.*)", component: NotFound, meta: { isPublic: true } },
-];
-```
+
+ログインしていなくてもアクセスしたいページには`meta: { isPublic: true }`というプロパティを追加します。
 
 ### リダイレクト設定の変更
 
 `if (to.path === '/login')`で分岐していたところを`if (to.meta.isPublic)`に置き換えます。
+最終的なコードは以下のようになるはずです。
 
 ### src/router.js
-```javascript=
-router.beforeEach(async (to) => {
-  try {
-    await axios.get("/api/whoami");
-  } catch (_) {
-    if (to.meta.isPublic) {
-      return true;
-    }
-    return "/login";
-  }
-  return true;
-});
-```
+
+<<<@/chapter2/section1/src/2/router_5.ts{typescript:line-numbers}
 
 クライアントの見本：https://github.com/itt828/naro-client-2022-v2
 
@@ -306,7 +243,7 @@ router.beforeEach(async (to) => {
 :::
 
 
-:::success
+:::tip
 # 最重要課題
 
  国一覧を表示するページを作り、その国名をクリックすると、その国の都市一覧が表示され、その都市名をクリックすると都市の情報が表示されるようにしてみましょう。
