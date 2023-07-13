@@ -18,17 +18,17 @@ axios を使うためのページを作成し、`App.vue`にリンクを追加�
 
 ### src/pages/AxiosPage.vue
 
-<<<@/chapter2/section1/src/1/AxiosPage.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/2/AxiosPage.vue{vue:line-numbers}
 
 ### src/App.vue
 
-<<<@/chapter2/section1/src/1/App.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/2/App.vue{vue:line-numbers}
 
 ### src/router.js
 
 Axios コンポーネントをインポートし、ルーターに登録します。
 
-<<<@/chapter2/section1/src/1/router.ts{typescript:line-numbers}
+<<<@/chapter2/section1/src/2/router.ts{typescript:line-numbers}
 
 追加されました
 ![](https://md.trap.jp/uploads/upload_1f14b208185e842cbd9efc0ef91a3e21.png)
@@ -54,7 +54,7 @@ axios を利用して、リクエストを送るスクリプトを書きます�
 :::
 ### src/pages/AxiosPage.vue
 
-<<<@/chapter2/section1/src/1/AxiosPage_2.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/2/AxiosPage_2.vue{vue:line-numbers}
 
 `axios.post`や`axios.put`では、第二引数としてオブジェクトを渡すと、JSON 形式でサーバーに投げてくれます。
 
@@ -110,17 +110,17 @@ $ source env.sh
 
 新規作成するファイルです。
 
-<<<@/chapter2/section1/src/1/LoginPage.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/2/LoginPage.vue{vue:line-numbers}
 
 ### src/App.vue
 
 template 部分のみ。
 
-<<<@/chapter2/section1/src/1/App_2.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/2/App_2.vue{vue:line-numbers}
 
 ### src/router.ts
 
-<<<@/chapter2/section1/src/1/router_2.ts{typescript:line-numbers}
+<<<@/chapter2/section1/src/2/router_2.ts{typescript:line-numbers}
 
 </details>
 
@@ -133,7 +133,7 @@ template 部分のみ。
 
 新規に作成するファイルです。
 
-<<<@/chapter2/section1/src/1/CityPage.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/2/CityPage.vue{vue:line-numbers}
 
 ### src/router.js
 
@@ -142,14 +142,14 @@ echo と同じように、`PATH`に`:`始まりで書くと、PathParameter と�
 
 参考: [Dynamic Route Marching | Vue Router](https://next.router.vuejs.org/guide/essentials/dynamic-matching.html)
 
-<<<@/chapter2/section1/src/1/router_3.ts{typescript:line-numbers}
+<<<@/chapter2/section1/src/2/router_3.ts{typescript:line-numbers}
 
 
 ### src/App.vue
 
 リンクを追加します。
 
-<<<@/chapter2/section1/src/1/App_3.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/2/App_3.vue{vue:line-numbers}
 
 ## 確認
 
@@ -201,12 +201,9 @@ traQ でも一番始めに whoami エンドポイントを叩き自分の情報�
 ### main.go
 #### ルーティングの追加
 
-```go=62
-	withLogin := e.Group("")
-	withLogin.Use(checkLogin)
-	withLogin.GET("/cities/:cityName", getCityInfoHandler)
-	withLogin.GET("/whoami", getWhoAmIHandler)
-```
+
+<<<@/chapter2/section1/src/2/main.go{go:line-numbers}
+
 
 #### 関数の追加
 

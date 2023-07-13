@@ -1,49 +1,4 @@
-# 2022年度Webエンジニアになろう講習会 第6回 実習編
-
-## 座学編メモ
-### ブラウザセキュリティ入門
- - ブラウザユーザーは開発者よりもリテラシーが低い
- - それでも新しい機能は追加したい
- - 様々なセキュリュティ強化機能が搭載される
-     - もともとは性善説的に
-
-#### 攻撃例
- - クロスサイトスクリプティング(XSS)
-     - 典型的なクライアント側での攻撃
-     - 意図していない動作を起こせる
-     - セッション ID などを抜き取られるとまずい
- - XSS の対策
-     - サニタイジング
-         - スクリプトを実行するような入力を拒否・無効化する
-     - CSP(Content Security Policy), SRI
-         - スクリプト実行範囲の許可を取ったり、実行されるスクリプトが想定されたものか検証する
-         - [コンテンツセキュリティポリシー (CSP) - HTTP | MDN](https://developer.mozilla.org/ja/docs/Web/HTTP/CSP)
-     - Cookie
-         - 大事な情報を js で読み取れないようにする(XSS を実行された後でもなんとかなるように)
-
-```js
-// おこる
-$div.innerHTML = "<script>alert(1)</script>"
-// おこらない
-$div.textContent = "<script>alert(1)</script>"
-```
-
- - クリックジャッキング
-     - `<iframe>`を使って別の URL のサイトを埋め込む
-         - 悪意のあるサイトの上に真っ当なサイトを重ねることで意図しない操作をさせる。
-     - 対策
-         - `X-Frame-Option`
-             - HTTP ヘッダー
-         - `CSP`
-         - `CORS(Cross-Origin Resource Sharing)` / `Same-Origin Policy`
-             - 攻撃ではなく防御
-             - ブラウザが別ドメインのサーバーへのリクエストを拒否
-             - 開発上で一番出会う困るやつ
-             - 事前にリクエスト先へアクセス許可を送っておく
-             - [オリジン間リソース共有 (CORS) - HTTP | MDN](https://developer.mozilla.org/ja/docs/Web/HTTP/CORS)
-             - `No 'Access-Control-Allow-Origin' Header`などのエラー
-
-## 実習編目標
+# 実習編目標
 - API を利用するクライアントを書く
 - 複数ページが存在するクライアントを書く
 
@@ -81,35 +36,35 @@ SPA を作る際には、`PATH`に応じたページを描画する Router の�
 `PATH`と描画対象の関係である Route を定義します。
 `src`以下に、`router.js`を以下の内容で作成してください。
 
-<<<@/chapter2/section1/src/0/router.ts{typescript:line-numbers}
+<<<@/chapter2/section1/src/1/router.ts{typescript:line-numbers}
 
 ## 3. Vue Routerの使用
 
 Vue Router を読み込むように`src/main.js`を以下のように変更します。
 
-<<<@/chapter2/section1/src/0/main.ts{typescript:line-numbers}
+<<<@/chapter2/section1/src/1/main.ts{typescript:line-numbers}
 
 次に、`src/App.vue`を以下のように変更します。
 
-<<<@/chapter2/section1/src/0/App.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/1/App.vue{vue:line-numbers}
 
 ## 4. Homeページの作成
 
 `src`直下に`pages`ディレクトリを作成し、`src/pages/HomePage.vue`を以下の内容で作成してください。
 
-<<<@/chapter2/section1/src/0/HomePage.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/1/HomePage.vue{vue:line-numbers}
 
 ## 5. NotFoundページの作成
 
 `router.js`に定義した Route の配列は先頭からマッチします。
 
-<<<@/chapter2/section1/src/0/routes.ts{typescript:line-numbers}
+<<<@/chapter2/section1/src/1/routes.ts{typescript:line-numbers}
 
 この後、皆さんにはいくつかのページとその`PATH`の対応を追加してもらうわけですが、どの`PATH`にもマッチしなかった場合、任意の`PATH`にマッチする`/:path(.*)`がマッチし、NotFound ページが表示されます。
 
 `src/pages/NotFound.vue`を以下の内容で作成してください。
 
-<<<@/chapter2/section1/src/0/NotFound.vue{vue:line-numbers}
+<<<@/chapter2/section1/src/1/NotFound.vue{vue:line-numbers}
 
 # プロキシの設定
 API へ接続するためにプロキシを設定します。
@@ -129,7 +84,7 @@ API へ接続するためにプロキシを設定します。
 プロジェクトルートの`vite.config.js`というファイルの内容を、以下の内容に変更します。
 ポート番号は自分がサーバーを起動しているポート番号にしてください。
 
-<<<@/chapter2/section1/src/0/vite.config.ts{typescript:line-numbers}
+<<<@/chapter2/section1/src/1/vite.config.ts{typescript:line-numbers}
 
 :::tip
 VSCode の Settings から`Format on Save`にチェックを入れると、自動できれいなコードに直してくれます。
@@ -144,7 +99,7 @@ PC にインストールされているセキュリティソフトによって�
 
 これまでと同様に`npm run dev`で起動して、以下のような画面が表示されていれば OK です。
 
-![](images/0/vue_init.png)
+![](images/1/vue_init.png)
 
 
 # プロジェクト構成
