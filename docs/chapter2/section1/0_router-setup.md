@@ -48,16 +48,7 @@ $div.textContent = "<script>alert(1)</script>"
 - 複数ページが存在するクライアントを書く
 
 :::tip
-第五回で作成したサーバーを利用します。
-第五回に参加していない人は [tohutohu/golang-with-world-database](https://github.com/tohutohu/golang-with-world-database)からソースコードをクローンして利用してください。
-
-また、データベースの準備のために以下のものを実行してください。
-<!--来年以降の人向け: リンクの確認を忘れずに-->
-1. [データを追加する](https://md.trap.jp/oW9hlrkQRjq9twbrMgesxQ?both#%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B)
-1. [データベースの準備](https://md.trap.jp/NnJwKWAyQiadR9zxGQEGSQ#%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9%E3%81%AE%E6%BA%96%E5%82%99)
-1. [検証](https://md.trap.jp/NnJwKWAyQiadR9zxGQEGSQ#%E6%A4%9C%E8%A8%BC)
-
-※ ポート番号を変えるのを忘れないように!
+第 3 回で作成したサーバーを利用します。先に第 3 回の内容を終わらせるようにしてください。
 :::
 
 :::warning

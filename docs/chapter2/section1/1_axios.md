@@ -18,58 +18,17 @@ axios を使うためのページを作成し、`App.vue`にリンクを追加�
 
 ### src/pages/AxiosPage.vue
 
-```htmlmixed=
-<template>
-  <div>
-    <button @click="sendGet">GET</button>
-    <button @click="sendPost">POST</button>
-    <button @click="sendPut">PUT</button>
-    <button @click="sendDelete">DELETE</button>
-  </div>
-</template>
-```
+<<<@/chapter2/section1/src/1/AxiosPage.vue{vue:line-numbers}
 
 ### src/App.vue
 
-```htmlmixed=
-<template>
-  <main>
-    <div :class="$style.container">
-      <header :class="$style.header">
-        <router-link to="/">Home</router-link>
-        |
-        <router-link to="/axios">Axios</router-link>
-      </header>
-
-      <router-view />
-    </div>
-  </main>
-</template>
-==略==
-```
+<<<@/chapter2/section1/src/1/App.vue{vue:line-numbers}
 
 ### src/router.js
 
 Axios コンポーネントをインポートし、ルーターに登録します。
-```javascript=
-import { createRouter, createWebHistory } from "vue-router";
-import HomePage from "./pages/HomePage.vue";
-import NotFound from "./pages/NotFound.vue";
-import AxiosPage from "./pages/AxiosPage.vue";
 
-const routes = [
-  { path: "/", name:"home", component: HomePage },
-  { path: "/axios", name:"axios", component: AxiosPage },
-  { path: "/:path(.*)", component: NotFound },
-];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
-
-export default router;
-```
+<<<@/chapter2/section1/src/1/router.ts{typescript:line-numbers}
 
 追加されました
 ![](https://md.trap.jp/uploads/upload_1f14b208185e842cbd9efc0ef91a3e21.png)
@@ -95,24 +54,7 @@ axios を利用して、リクエストを送るスクリプトを書きます�
 :::
 ### src/pages/AxiosPage.vue
 
-```javascript=
-<script setup>
-import axios from "axios";
-const sendGet = () => axios.get("https://ent5o104rfsmh.x.pipedream.net");
-const sendPost = () => axios.post("https://ent5o104rfsmh.x.pipedream.net", {
-  traQID: "temma",
-  grade: 19,
-});
-const sendPut = () => axios.put("https://ent5o104rfsmh.x.pipedream.net", {
-  testData: { string: "string", number: 1 },
-});
-const sendDelete = () => axios.delete("https://ent5o104rfsmh.x.pipedream.net", {
-  data: { po: 1 },
-});
-
-</script>
-==略==
-```
+<<<@/chapter2/section1/src/1/AxiosPage_2.vue{vue:line-numbers}
 
 `axios.post`や`axios.put`では、第二引数としてオブジェクトを渡すと、JSON 形式でサーバーに投げてくれます。
 
@@ -124,7 +66,7 @@ delete は若干特殊で`{data: {}}` とすれば`data`の中身が投げられ
 Chrome Devtool の network タブを開くことでリクエストの様子を見ることができます。
 
 ![](https://md.trap.jp/uploads/upload_cd8ea06ad1025c2699c419e3f01b5baf.gif)
-:::warning
+:::info
 POST リクエストの前に OPTIONS というリクエストが飛んでいますが、それは Preflight request というものです。
 [Preflight request (プリフライトリクエスト) | MDN](https://developer.mozilla.org/ja/docs/Glossary/Preflight_request)
 :::
@@ -150,7 +92,7 @@ $ source env.sh
 
 :::
 
-:::success
+
 ログインページを作成してみましょう！
 上と同じようにページを分けて進めていきましょう。
 
@@ -166,80 +108,22 @@ $ source env.sh
 
 ### src/pages/LoginPage.vue
 
-新規作成
-```htmlmixed=
-<script setup>
-import axios from "axios";
-import { ref } from 'vue';
+新規作成するファイルです。
 
-const username = ref('');
-const password = ref('');
-const login = () => axios.post("/api/login", { username: username.value, password: password.value });
-
-</script>
-
-<template>
-  <div class="login">
-    <h1>This is an login page</h1>
-    <div>
-      <input type="text" v-model="username" />
-      <input type="password" v-model="password" />
-    </div>
-    <div>
-      <button @click="login">login</button>
-    </div>
-  </div>
-</template>
-```
+<<<@/chapter2/section1/src/1/LoginPage.vue{vue:line-numbers}
 
 ### src/App.vue
 
-template 部分のみ
-```htmlmixed=
-<template>
-  <main>
-    <div :class="$style.container">
-      <header :class="$style.header">
-        <router-link to="/">Home</router-link>
-        |
-        <router-link to="/axios">Axios</router-link>
-        |
-        <router-link to="/login">Login</router-link>
-      </header>
+template 部分のみ。
 
-      <router-view />
-    </div>
-  </main>
-</template>
-```
+<<<@/chapter2/section1/src/1/App_2.vue{vue:line-numbers}
 
-### src/router.js
+### src/router.ts
 
-```javascript=
-import { createRouter, createWebHistory } from "vue-router";
-import HomePage from "./pages/HomePage.vue";
-import NotFound from "./pages/NotFound.vue";
-import AxiosPage from "./pages/AxiosPage.vue";
-import LoginPage from "./pages/LoginPage.vue";
-
-const routes = [
-  { path: "/", name:"home", component: HomePage },
-  { path: "/axios", name:"axios", component: AxiosPage },
-  { path: "/login", name:"login", component: LoginPage },
-  { path: "/:path(.*)", component: NotFound },
-];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
-
-export default router;
-
-```
+<<<@/chapter2/section1/src/1/router_2.ts{typescript:line-numbers}
 
 </details>
-:::
+
 
 # ログイン済みページの作成
 
@@ -248,33 +132,8 @@ export default router;
 ### src/pages/CityPage.vue
 
 新規に作成するファイルです。
-```htmlmixed=
-<script setup>
-import axios from "axios";
-import { ref, onMounted } from "vue";
-const props = defineProps({
-  cityName: {
-    type: String,
-    required: true,
-  },
-});
-const cityInfo = ref();
-onMounted(async () => {
-  const res = await axios.get("/api/cities/" + props.cityName);
-  cityInfo.value = res.data;
-});
-</script>
 
-<template>
-  <div>
-    <h1>
-      {{ cityName }}
-    </h1>
-    <div v-if="cityInfo">{{ cityInfo }}</div>
-    <div v-else>街が見つかりませんでした</div>
-  </div>
-</template>
-```
+<<<@/chapter2/section1/src/1/CityPage.vue{vue:line-numbers}
 
 ### src/router.js
 
@@ -283,53 +142,14 @@ echo と同じように、`PATH`に`:`始まりで書くと、PathParameter と�
 
 参考: [Dynamic Route Marching | Vue Router](https://next.router.vuejs.org/guide/essentials/dynamic-matching.html)
 
-```javascript=
-import { createRouter, createWebHistory } from "vue-router";
-import HomePage from "./pages/HomePage.vue";
-import NotFound from "./pages/NotFound.vue";
-import AxiosPage from "./pages/AxiosPage.vue";
-import LoginPage from "./pages/LoginPage.vue";
-import CityPage from "./pages/CityPage.vue";
+<<<@/chapter2/section1/src/1/router_3.ts{typescript:line-numbers}
 
-const routes = [
-  { path: "/", name: "home", component: HomePage },
-  { path: "/axios", name: "axios", component: AxiosPage },
-  { path: "/login", name: "login", component: LoginPage },
-  { path: "/city/:cityName", name: "city", component: CityPage, props: true },
-  { path: "/:path(.*)", component: NotFound },
-];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
-
-export default router;
-
-```
 
 ### src/App.vue
 
 リンクを追加します。
-```htmlmixed=
-<template>
-  <main>
-    <div :class="$style.container">
-      <header :class="$style.header">
-        <router-link to="/">Home</router-link>
-        |
-        <router-link to="/axios">Axios</router-link>
-        |
-        <router-link to="/city/Tokyo">Tokyo</router-link>
-        |
-        <router-link to="/login">Login</router-link>
-      </header>
 
-      <router-view />
-    </div>
-  </main>
-</template>
-```
+<<<@/chapter2/section1/src/1/App_3.vue{vue:line-numbers}
 
 ## 確認
 
@@ -338,7 +158,7 @@ export default router;
 ![](https://md.trap.jp/uploads/upload_6870d0b68ea440a6b466f4e1e15135d6.png)
 
 
-:::info
+:::tip
 HomePage.vue に任意の都市について表示できるような仕組みを作ってみましょう。
 - input タグで都市名を指定
 - 「表示する」のようなボタンを押すことで`/city/{その都市名}`というリンクに飛ばす
@@ -409,7 +229,7 @@ func getWhoAmIHandler(c echo.Context) error {
 ## router.jsでログインの確認を行う
 
 Vue Router の`beforeEach`という機能を使って、各 Routing の前に特定の関数を呼び出すことができます。
-このようにログイン状態を確認する方法はパターンとして覚えてしまってもいいと思います。
+このようにログイン状態を確認する方法はパターンとして覚えてしまってもいいでしょう。
 
 `beforeEach`に関して詳しくは: [Navigation Guards | Vue Router](https://next.router.vuejs.org/guide/advanced/navigation-guards.html)
 
