@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://133.130.109.224:<ポート番号>', // 前回のサーバーのアドレスと自分のポートの組にする
+        target: 'http://localhost:8080', // 前回のサーバーのアドレスと自分のポートの組にする
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '/')
       }

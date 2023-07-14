@@ -35,7 +35,7 @@ Axios コンポーネントをインポートし、ルーターに登録しま�
 
 
 ## RequestBinで自分のエンドポイントを作成
-以前の講習会でも使った RequestBin を使って API を叩く練習をしてみましょう。
+RequestBin を使って API を叩く練習をしてみましょう。
 
 [RequestBin - Reliably inspect and observe any HTTP traffic](https://requestbin.com/)
 
@@ -57,8 +57,6 @@ axios を利用して、リクエストを送るスクリプトを書きます�
 <<<@/chapter2/section1/src/2/AxiosPage_2.vue{vue:line-numbers}
 
 `axios.post`や`axios.put`では、第二引数としてオブジェクトを渡すと、JSON 形式でサーバーに投げてくれます。
-
-delete は若干特殊で`{data: {}}` とすれば`data`の中身が投げられます。
 
 ## 試してみる
 実際にボタンを押してリクエストが送られているか試してみましょう。

@@ -1,12 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
-const props = defineProps({
-  cityName: {
-    type: String,
-    required: true
-  }
-})
+const props = defineProps<{ cityName: string }>()
 const cityInfo = ref()
 onMounted(async () => {
   const res = await axios.get('/api/cities/' + props.cityName)

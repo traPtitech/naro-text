@@ -1,11 +1,10 @@
-<script setup>
-import axios from "axios";
-import { ref } from 'vue';
+<script setup lang="ts">
+import axios from 'axios'
+import { ref } from 'vue'
 
-const username = ref('');
-const password = ref('');
-const login = () => axios.post("/api/login", { username: username.value, password: password.value });
-
+const username = ref<string>('')
+const password = ref<string>('')
+const login = () => axios.post('/api/login', { username: username.value, password: password.value })
 </script>
 
 <template>

@@ -11,10 +11,7 @@ const sendPut = () =>
   axios.put(url, {
     testData: { string: 'string', number: 1 }
   })
-const sendDelete = () =>
-  axios.delete(url, {
-    data: { po: 1 }
-  })
+const sendDelete = () => axios.delete(url, {})
 </script>
 
 <template>
