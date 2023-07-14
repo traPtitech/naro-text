@@ -10,7 +10,7 @@
 
 1. [データベースを扱う準備](../../chapter1/section4/0_prepare) からプロジェクトをセットアップしましょう。
 
-2. `.env` を以下のように編集しましょう。
+2. `.env` ファイルを作成し、以下のように編集しましょう。
 
 ```sh
 export DB_USERNAME="root"
@@ -26,7 +26,7 @@ export DB_DATABASE="world"
 
 以上でセットアップはできているはずです。
 
-### main.go の設定
+### ファイルの分割
 
 このまま演習を初めてしまうとファイルが長くなりすぎてしまうので、ファイルを分割します。
 各エンドポイントでの処理はハンドラーと呼ばれますが、それを `handler.go` に移動してみましょう。
@@ -37,6 +37,8 @@ main.go を以下のように編集しましょう。
 
 <<<@/chapter2/section1/src/0/main.go{go:line-numbers}
 
+ファイルを編集したら、`go mod tidy` を実行しましょう。
+
 ### handler.go の設定
 
 1. 同じディレクトリに新しく `handler.go` というファイルを作成する
@@ -44,9 +46,13 @@ main.go を以下のように編集しましょう。
 
 <<<@/chapter2/section1/src/0/handler.go{go:line-numbers}
 
-### 準備完了！
+ファイルを編集したら、`go mod tidy` を実行しましょう。
+
+### 準備完了
 
 今回は `main.go` 以外に `handler.go` も存在するので、どちらも指定して `go run *.go` を実行しましょう。
+
+![](images/0/echo.png)
 
 無事起動が確認できたら、 `Ctrl+C` で一旦止めましょう。
 
@@ -56,8 +62,8 @@ main.go を以下のように編集しましょう。
 
 <<<@/chapter2/section1/src/0/main.go#handler{go:line-numbers}
 
-今回の目標は、 `/cities/` で始まる api (getCityInfoHandler, postCityHandler) 2つに対して、
-ログインしているかどうか判定してログインしていなければリクエストを拒否するように実装することです。
+今回の目標は、 `/cities/` で始まる api (getCityInfoHandler, postCityHandler) 2 つに対して、
+ログインしているかどうかを判定して、ログインしていなければリクエストを拒否するように実装することです。
 
 用語を使わずに言えば、`City` を新たに追加したり、`City` の情報を得るのにログインを必須にする、ということです。
 
@@ -72,12 +78,14 @@ main.go を以下のように編集しましょう。
 
 新たにライブラリを導入するので以下のコマンドを実行します。
 
-```
-$ go get -u github.com/labstack/echo-contrib/session
-$ go get -u github.com/srinathgs/mysqlstore
+```sh
+go get -u github.com/labstack/echo-contrib/session
+go get -u github.com/srinathgs/mysqlstore
 ```
 
 ## アカウント作成の実装
+
+<<<@/chapter2/section1/src/0/main.go#setup_session{go:line-numbers}
 
 ## セッション管理機構の実装
 
@@ -104,7 +112,7 @@ Request)を返しています。
 
 <<<@/chapter2/section1/src/0/main.go#hash{go:line-numbers}
 
-基本的に Password を平文で保存しておくのは危険です！ 従って、パスワードを DB
+基本的に Password を平文で保存しておくのは危険です！　従って、パスワードを DB
 に格納するときはハッシュ化を行ってから格納してください。本来はハッシュ化の有効性を高めるためにハッシュソルトというものを使用するべきなのですが、今回は割愛します。興味がある人は調べてみてください。
 
 `bcrypt`というのはハッシュ化をいい感じにやってくれるライブラリです。それを使ってパスワードをハッシュ化しています。
@@ -112,7 +120,7 @@ Request)を返しています。
 <<<@/chapter2/section1/src/0/main.go#check_user{go:line-numbers}
 
 `db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)`という部分は、db に`req.Username`という名前の
-User は何人いますか？ という問い合わせをしています。
+User は何人いますか？　という問い合わせをしています。
 
 その結果は`count`に格納されています。同名のユーザーがいたら困るので、そういう場合はその名前の User
 はもういるからダメだよというレスポンスを返します。
@@ -190,14 +198,14 @@ Login 時の処理を思い出すと、セッションには"userName"をキー�
 
 </details>
 
-# 検証
+## 検証
 
 :::warning
 全て Postman での検証です
 `go run main.go`でサーバーを起動した状態で行ってください
 :::
 
-http://localhost:8080/cities/Tokyo へ
+<http://localhost:8080/cities/Tokyo> へ
 初めに普通にアクセスするとダメです
 ![](https://md.trapti.tech/uploads/upload_96a03d609e761150a2136963dd34006a.png)
 
@@ -216,7 +224,7 @@ http://localhost:8080/cities/Tokyo へ
 Key に`Cookie`を
 Value に`sessions=(コピーした値);`をセットします(既に自動で入っている場合もあります、その場合は追加しなくて大丈夫です)。
 
-もう一度 http://localhost:8080/cities/Tokyo にアクセスすると正常に API が取れるようになりました。
+もう一度 <http://localhost:8080/cities/Tokyo> にアクセスすると正常に API が取れるようになりました。
 ![](https://md.trapti.tech/uploads/upload_59c6c86e127d982f511946d2a183d0a6.png)
 
 ここで、作成されたユーザーがデータベースに保存されていることを確認してみましょう。
@@ -236,8 +244,8 @@ TODO リストのサーバーとしての API を考えて作ってみましょ�
 
 今回の目標は Twitter クローンの作成なので、早速作り始めても OK です!!
 <!-- リポジトリ名変える -->
-もし作り始める場合は https://github.com/tohutohu/naro-portal から fork して作業をして、Pull Request を出してもらえると講師や
-TA やその他暇な人が勝手にレビューをします！ 全部完成していなくてもここまでできたので見てくださいとかでも構いません！
+もし作り始める場合は <https://github.com/tohutohu/naro-portal> から fork して作業をして、Pull Request を出してもらえると講師や
+TA やその他暇な人が勝手にレビューをします！　全部完成していなくてもここまでできたので見てくださいとかでも構いません！
 ぜひ皆さん使ってください！
 
 fork とか Pull Request とかがわからない人は TA に言ってください(3 分くらいで終わるので)
