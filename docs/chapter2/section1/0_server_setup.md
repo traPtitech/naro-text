@@ -95,76 +95,124 @@ go get -u github.com/srinathgs/mysqlstore
 4. 既に同じ`Username`のユーザーが登録されていないかチェックする
 5. ユーザーをデーターベースに登録する
 
-それでは、上記を実装していきましょう。`main.go`の`var`の箇所を、以下のように編集します。
+それでは、上記を実装していきましょう。
+
+まず、`main.go`の`var`の箇所に、 `salt` を追加します。
 
 <<<@/chapter2/section1/src/0/main_handler.go#var{go:line-numbers}
 
-ここで新しく定義した`salt`という変数は、パスワード等をハッシュ値へと変換する際に、パスワード等の末尾に付与するランダムな文字列のことです。このような処理をすることで、ハッシュ値の元の値への復元をより困難にするための物です。
+ここで新しく定義した`salt`という変数は、パスワード等をハッシュ値へと変換する際に、パスワード等の末尾に付与するランダムな文字列のことです。
 
-以下のコードを`handler.go`に追加します。これがメインの実装です。
+全員が同じハッシュ処理を使用していたとすると、他のサービスで保存されているハッシュされたパスワードと自分のサービスで保存されるものが一致したときにパスワードが特定できてしまいます（レインボーテーブル攻撃）。
+
+このような処理をすることで、それらの可能性を防ぐことができます。
+
+`salt` は他と一致しない独自の文字列にする必要があります。環境変数に隠しているので、環境変数を更新しましょう。
+
+ハッシュ値は 32 バイト, 64 バイト, 128 バイトにする事が推奨されているようです。
+
+<<<@/chapter2/section1/src/0/.env{go:line-numbers}
+
+更に、アカウントを管理するテーブル `users` を作成します。
+
+<<<@/chapter2/section1/src/0/handlers.go#setup_table{go:line-numbers}
+
+続いて、アカウントを作成するハンドラーである `signUpHandler` を `handler.go` に実装していきましょう。
+
+```go
+func signUpHandler(c echo.Context) error {
+}
+```
+
+この `signUpHandler` に以下のものを順番に実装していきます。最悪コピペでも動くはず。
+
+<<<@/chapter2/section1/src/0/final/code.go#request{go:line-numbers}
+
+まず初めに、 req 変数にrequestBody の json 情報を格納します。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と Password が格納されています。
+
+<<<@/chapter2/section1/src/0/final/code.go#valid{go:line-numbers}
+
+ここでは、UserName と Password が正しく入っているのかをチェック（バリデーションといいます）します。
+入っていない場合は、与えられた入力が正しくない間違った形式なので、 400 (Bad Request) をレスポンスします。
+
+<<<@/chapter2/section1/src/0/final/code.go#check_user{go:line-numbers}
+
+`"SELECT COUNT(*) FROM users WHERE Username=?", req.Username` で、指定された UserName を持つユーザーの数を見ます。
+
+結果は `count` 変数に格納されます。
+
+もしすでに居た場合は、そのユーザーが存在しているので処理は受け付けず、 409 (Conflict) をレスポンスします。
+
+ここまでは「リクエストを実行しても本当に問題がないか」を検証していました。
+ユーザーはまだ存在していなくて、パスワードとユーザー名がある事まで確認できれば、リクエストを処理できます。のでここから処理を行っていきます。
+
+<<<@/chapter2/section1/src/0/final/code.go#hash{go:line-numbers}
+
+まずはパスワードのハッシュ化です。 **パスワードは平文で保存してはいけません！** パスワードを DB に保管するときは、必ずハッシュ化をしましょう。
+ソルトはさっき説明しました。
+
+`bcrypt`というのはいい感じにハッシュ化してくれるライブラリです。セキュリティに関わるものは自分で実装すると穴だらけになりやすいので、積極的にライブラリに頼りましょう。
+
+<<<@/chapter2/section1/src/0/final/code.go#add_user{go:line-numbers}
+
+Username,HashedPassword を持つ User レコードをデータベースに追加しましょう。
+
+何かしらのエラーによって生成できなかった場合は err にその内容が詰め込まれます。
+ユーザーのリクエストは問題なく、ここでエラーが発生した場合はサーバー側で何かが発生したということなので、500 (Internal Server Error) をレスポンスします。
+ここで、どんなエラーが発生したかをユーザーに直接伝えるのはセキュリティの観点から △ です。ログで出力するだけにして、ユーザー側には 500 という情報だけ渡しましょう。
+
+もし err がなければ、それはうまく成功したということです。 201 (Created) をレスポンスしましょう！
+
+これで実装は終わりです。すべてを実装すると以下のようになります。
 
 <<<@/chapter2/section1/src/0/signUpHandler.go{go:line-numbers}
 
-最後に、`main.go`の`handler`の所に、先ほど書いたハンドラーを追加します。
+最後に、`main.go` に、先ほど書いたハンドラーを追加しましょう。
 
 <<<@/chapter2/section1/src/0/handlers.go#signup{go:line-numbers}
+
+ここまでできたら、実行して、PostMan 等を用いて正しく実装できているかデバッグしてみましょう。
+
+正しく API を叩いたあとに、テーブルに 意図したユーザー名と、ハッシュ化されたパスワードが入っていますか？
+
+:::details 確認に使う SQL クエリ
+
+```sql
+USE world;
+SELECT * FROM users;
+```
+:::
 
 ## セッション管理機構の実装
 
 <<<@/chapter2/section1/src/0/final/code.go#setup_session{go:line-numbers}
 
-セッションストアを設定しています。セッションとは、今来た人が次来たとき、同じ人であることを確認するための仕組みです。それらを覚えておくための場所をデータベース上に設定しています。
+セッションストアを設定しましょう。
+セッションとは、今来た人が次来たとき、同じ人であることを確認するための仕組みです。
 
-54 行目の`e.Use(session.Middleware(store))`が echo にこのセッションストアを使ってと言っている部分です。
+ここでは、そのセッションの情報を記憶するための場所をデータベース上に設定しています。
 
-それ以降では echo についての設定をしています。具体的にはハンドラの登録やサーバーの起動などを行っています。このあたりは第一部で説明しているはずなので割愛します。
+この仕組みを使用するために、 `e.Use(session.Middleware(store))` を含めてセッションストアを使ってね〜、って echo に命令しています。
 
-### postSignUpHandler関数
+`e.Use(middleware.Logger())` は文字通りログを取るものです。ついでに入れましょう。
 
-これは User 登録を行なうための関数です。
+### loginHandler の実装
 
-<<<@/chapter2/section1/src/0/final/code.go#request{go:line-numbers}
+```go
+func signUpHandler(c echo.Context) error {
+}
+```
 
-req にリクエスト情報を入れています。ここには UserName と Password が格納されているはずです。
-
-<<<@/chapter2/section1/src/0/final/code.go#valid{go:line-numbers}
-
-ここでは、本当に UserName と Password が入っているのかをチェックしています。入っていなければ不正なリクエストなので、400(Bad
-Request)を返しています。
-
-<<<@/chapter2/section1/src/0/final/code.go#hash{go:line-numbers}
-
-基本的に Password を平文で保存しておくのは危険です！　従って、パスワードを DB
-に格納するときはハッシュ化を行ってから格納してください。本来はハッシュ化の有効性を高めるためにハッシュソルトというものを使用するべきなのですが、今回は割愛します。興味がある人は調べてみてください。
-
-`bcrypt`というのはハッシュ化をいい感じにやってくれるライブラリです。それを使ってパスワードをハッシュ化しています。
-
-<<<@/chapter2/section1/src/0/final/code.go#check_user{go:line-numbers}
-
-`db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)`という部分は、db に`req.Username`という名前の
-User は何人いますか？　という問い合わせをしています。
-
-その結果は`count`に格納されています。同名のユーザーがいたら困るので、そういう場合はその名前の User
-はもういるからダメだよというレスポンスを返します。
-
-<<<@/chapter2/section1/src/0/final/code.go#add_user{go:line-numbers}
-
-`db.Exec`はクエリを実行する関数です。ここでは Username,HashedPassword を持つ User を生成しようとしてます。
-
-何かしらのエラーによって生成できなかった場合は err にその内容が詰め込まれます。上までの処理から理論上は User
-を生成できるはずなので、ここで何かエラーが出たとするとそれはサーバー側の問題になります。従ってここで返しているエラーコードは
-500 になっています。
-
-### postLoginHandler関数
+つづいて `loginHandler` を実装していきます。これも `handler.go` に実装しましょう。
 
 <<<@/chapter2/section1/src/0/final/code.go#post_req{go:line-numbers}
 
-req の代入のところは SignUp のところと同じです。
+req への代入は signUpHandler と同じです。UserName と Password が入っているかも確認しましょう。
 
-下の部分ではリクエストで送られてきた UserName と Password を持つユーザーは存在するのか？
+<<<@/chapter2/section1/src/0/final/code.go#post_check{go:line-numbers}
+
+UserName と Password を持つユーザーは存在するのか？
 という問い合わせをしています。存在した場合は`user`にそのユーザーの情報が入ります。
-
-<<<@/chapter2/section1/src/0/final/code.go#post_hash{go:line-numbers}
 
 SignUp の方にも書きましたが、パスワードを平文で保存するのは良くないということでハッシュ化されています。
 
@@ -267,7 +315,7 @@ TODO リストのサーバーとしての API を考えて作ってみましょ�
 今回の目標は Twitter クローンの作成なので、早速作り始めても OK です!!
 <!-- リポジトリ名変える -->
 もし作り始める場合は <https://github.com/tohutohu/naro-portal> から fork して作業をして、Pull Request を出してもらえると講師や
-TA やその他暇な人が勝手にレビューをします！　全部完成していなくてもここまでできたので見てくださいとかでも構いません！
+TA やその他暇な人が勝手にレビューをします！ 全部完成していなくてもここまでできたので見てくださいとかでも構いません！
 ぜひ皆さん使ってください！
 
 fork とか Pull Request とかがわからない人は TA に言ってください(3 分くらいで終わるので)

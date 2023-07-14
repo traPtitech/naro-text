@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	db *sqlx.DB
+	db   *sqlx.DB
 	salt = os.Getenv("HASH_SALT")
 )
 
@@ -33,6 +33,7 @@ func main() {
 		Loc:       jst,
 	}
 
+	// #region setup_table
 	_db, err := sqlx.Open("mysql", conf.FormatDSN())
 
 	if err != nil {
@@ -41,17 +42,20 @@ func main() {
 
 	db = _db
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))") // [!code ++]
+// [!code ++]
+	if err != nil { // [!code ++]
+		log.Fatal(err) // [!code ++]
+	} // [!code ++]
+	// #endregion setup_table
 
-	e := echo.New()
 	// #region signup
-	e.POST("/signup", signUpHandler)
-	// #endregion signup
+	e := echo.New()
+	e.POST("/signup", signUpHandler) // [!code ++]
 
 	e.GET("/cities/:cityName", getCityInfoHandler)
 	e.POST("/cities", postCityHandler)
+	// #endregion signup
 
 	e.Start(":8080")
 }

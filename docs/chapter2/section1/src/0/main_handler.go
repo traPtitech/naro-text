@@ -13,7 +13,7 @@ import (
 // #region var
 var (
 	db *sqlx.DB
-	salt = os.Getenv("HASH_SALT")
+	salt = os.Getenv("HASH_SALT") // [!code ++]
 )
 // #endregion var
 
@@ -40,11 +40,19 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// #region setup_table
 	db = _db
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))")
+
+	if err != nil {
+		log.Fatal(err)
+	} // [!code ++]
+	// #endregion setup_table
 
 	// #region handler
 	e := echo.New()

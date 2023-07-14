@@ -57,24 +57,24 @@ func main() {
 
 	db = _db
 
-	// #region setup_table
+	// #region setup_session
 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))")
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	// #endregion setup_table
 
-	// #region setup_session
-	store, err := mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions", "/", 60*60*24*14, []byte("secret-token"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	// #endregion setup_session
+	store, err := mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions", "/", 60*60*24*14, []byte("secret-token")) // [!code ++]
+
+	if err != nil { // [!code ++]
+		log.Fatal(err) // [!code ++]
+	} // [!code ++]
+
 
 	e := echo.New()
-	e.Use(middleware.Logger())
-	e.Use(session.Middleware(store))
+	e.Use(middleware.Logger()) // [!code ++]
+	e.Use(session.Middleware(store)) // [!code ++]
+	// #endregion setup_session
 
 	e.GET("/ping", func(c echo.Context) error {
 		return c.String(http.StatusOK, "pong")
@@ -117,20 +117,9 @@ func signUpHandler(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Username or Password is empty")
 	}
 	// #endregion valid
-	// #region hash
-	pw := req.Password + salt
-
-	hashedPass, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
-	if err != nil {
-		log.Println(err)
-		return c.NoContent(http.StatusInternalServerError)
-	}
-	// #endregion hash
-
-	// ユーザーの存在チェック
+	// #region check_user
 	var count int
 
-	// #region check_user
 	err = db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
 	if err != nil {
 		log.Println(err)
@@ -141,6 +130,15 @@ func signUpHandler(c echo.Context) error {
 		return c.String(http.StatusConflict, "Username is already used")
 	}
 	// #endregion check_user
+	// #region hash
+	pw := req.Password + salt
+
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
+	if err != nil {
+		log.Println(err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+	// #endregion hash
 	// #region add_user
 	_, err = db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
 	if err != nil {
@@ -155,7 +153,10 @@ func loginHandler(c echo.Context) error {
 	// #region post_req
 	req := LoginRequestBody{}
 	c.Bind(&req)
-	// #endregion post_req
+
+	if req.Password == "" || req.Username == "" {
+		return c.String(http.StatusBadRequest, "Username or Password is empty")
+	}
 	user := User{}
 	err := db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
 	if err != nil {
