@@ -60,7 +60,7 @@ main.go を以下のように編集しましょう。
 
 `main.go` の handler の設定部分を見てみましょう。
 
-<<<@/chapter2/section1/src/0/main.go#handler{go:line-numbers}
+<<<@/chapter2/section1/src/0/main_handler.go#handler{go:line-numbers}
 
 今回の目標は、 `/cities/` で始まる api (getCityInfoHandler, postCityHandler) 2 つに対して、
 ログインしているかどうかを判定して、ログインしていなければリクエストを拒否するように実装することです。
@@ -85,11 +85,33 @@ go get -u github.com/srinathgs/mysqlstore
 
 ## アカウント作成の実装
 
-<<<@/chapter2/section1/src/0/main.go#setup_session{go:line-numbers}
+アカウントの作成を実装します。
+
+アカウントの作成では、以下のことを行います。
+
+1. クライアントから`Username`と`Password`をリクエストとして受け取る
+2. `Username`と`Password`のバリデーション(値が正当かのチェック)を行う
+3. `Password`をハッシュ化する
+4. 既に同じ`Username`のユーザーが登録されていないかチェックする
+5. ユーザーをデーターベースに登録する
+
+それでは、上記を実装していきましょう。`main.go`の`var`の箇所を、以下のように編集します。
+
+<<<@/chapter2/section1/src/0/main_handler.go#var{go:line-numbers}
+
+ここで新しく定義した`salt`という変数は、パスワード等をハッシュ値へと変換する際に、パスワード等の末尾に付与するランダムな文字列のことです。このような処理をすることで、ハッシュ値の元の値への復元をより困難にするための物です。
+
+以下のコードを`handler.go`に追加します。これがメインの実装です。
+
+<<<@/chapter2/section1/src/0/signUpHandler.go{go:line-numbers}
+
+最後に、`main.go`の`handler`の所に、先ほど書いたハンドラーを追加します。
+
+<<<@/chapter2/section1/src/0/handlers.go#signup{go:line-numbers}
 
 ## セッション管理機構の実装
 
-<<<@/chapter2/section1/src/0/main.go#setup_session{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#setup_session{go:line-numbers}
 
 セッションストアを設定しています。セッションとは、今来た人が次来たとき、同じ人であることを確認するための仕組みです。それらを覚えておくための場所をデータベース上に設定しています。
 
@@ -101,23 +123,23 @@ go get -u github.com/srinathgs/mysqlstore
 
 これは User 登録を行なうための関数です。
 
-<<<@/chapter2/section1/src/0/main.go#request{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#request{go:line-numbers}
 
 req にリクエスト情報を入れています。ここには UserName と Password が格納されているはずです。
 
-<<<@/chapter2/section1/src/0/main.go#valid{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#valid{go:line-numbers}
 
 ここでは、本当に UserName と Password が入っているのかをチェックしています。入っていなければ不正なリクエストなので、400(Bad
 Request)を返しています。
 
-<<<@/chapter2/section1/src/0/main.go#hash{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#hash{go:line-numbers}
 
 基本的に Password を平文で保存しておくのは危険です！　従って、パスワードを DB
 に格納するときはハッシュ化を行ってから格納してください。本来はハッシュ化の有効性を高めるためにハッシュソルトというものを使用するべきなのですが、今回は割愛します。興味がある人は調べてみてください。
 
 `bcrypt`というのはハッシュ化をいい感じにやってくれるライブラリです。それを使ってパスワードをハッシュ化しています。
 
-<<<@/chapter2/section1/src/0/main.go#check_user{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#check_user{go:line-numbers}
 
 `db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)`という部分は、db に`req.Username`という名前の
 User は何人いますか？　という問い合わせをしています。
@@ -125,7 +147,7 @@ User は何人いますか？　という問い合わせをしています。
 その結果は`count`に格納されています。同名のユーザーがいたら困るので、そういう場合はその名前の User
 はもういるからダメだよというレスポンスを返します。
 
-<<<@/chapter2/section1/src/0/main.go#add_user{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#add_user{go:line-numbers}
 
 `db.Exec`はクエリを実行する関数です。ここでは Username,HashedPassword を持つ User を生成しようとしてます。
 
@@ -135,14 +157,14 @@ User は何人いますか？　という問い合わせをしています。
 
 ### postLoginHandler関数
 
-<<<@/chapter2/section1/src/0/main.go#post_req{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#post_req{go:line-numbers}
 
 req の代入のところは SignUp のところと同じです。
 
 下の部分ではリクエストで送られてきた UserName と Password を持つユーザーは存在するのか？
 という問い合わせをしています。存在した場合は`user`にそのユーザーの情報が入ります。
 
-<<<@/chapter2/section1/src/0/main.go#post_hash{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#post_hash{go:line-numbers}
 
 SignUp の方にも書きましたが、パスワードを平文で保存するのは良くないということでハッシュ化されています。
 
@@ -153,7 +175,7 @@ SignUp の方にも書きましたが、パスワードを平文で保存する�
 
 従って、これの場合はパスワードが違うよというレスポンスを返し、それ以外のエラーの場合は 500 を返しています。
 
-<<<@/chapter2/section1/src/0/main.go#add_session{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#add_session{go:line-numbers}
 
 セッションに登録する処理です。
 
@@ -169,13 +191,13 @@ middleware から次の handler を呼び出すには`next(c)`と書きます。
 このミドルウェアはリクエストを送ったユーザーがログインしているのかをチェックし、ログインしているなら echo の Context
 にそのユーザーの UserName を登録します。
 
-<<<@/chapter2/section1/src/0/main.go#get_session{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#get_session{go:line-numbers}
 
 セッションを取得しています。
 
 本当はリクエストヘッダを見ることでどのセッションを取り出すかを決めています(セッションは各ユーザーに存在するので)
 
-<<<@/chapter2/section1/src/0/main.go#check_session{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#check_session{go:line-numbers}
 
 Login 時の処理を思い出すと、セッションには"userName"をキーとしてユーザーの名前が登録されていました。
 
@@ -185,7 +207,7 @@ Login 時の処理を思い出すと、セッションには"userName"をキー�
 
 ### getWhoAmIHandler関数
 
-<<<@/chapter2/section1/src/0/main.go#whoami{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#whoami{go:line-numbers}
 
 セッションからアクセスしているユーザーの`userName`を取得して返しています。
 ここにアクセスすれば自分がどのアカウントでアクセスしてるか知ることができます。
@@ -194,7 +216,7 @@ Login 時の処理を思い出すと、セッションには"userName"をキー�
 
 <details>
 
-<<<@/chapter2/section1/src/0/main.go{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go{go:line-numbers}
 
 </details>
 
