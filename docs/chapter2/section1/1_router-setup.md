@@ -22,7 +22,7 @@
 
 # Vue Routerの導入
 
-SPA を作る際には、`PATH`に応じたページを描画する Router のような補助ライブラリが使用すると便利です。
+SPA を作る際には、`path`に応じたページを描画する Router のような補助ライブラリが使用すると便利です。
 今回は、公式 Router である[Vue Router v4.x](https://next.router.vuejs.org/)を使用します。
 
 参考: [Routing | Vue.js](https://v3.vuejs.org/guide/routing.html)
@@ -33,7 +33,7 @@ SPA を作る際には、`PATH`に応じたページを描画する Router の�
 
 ## 2. Routerの設定
 
-`PATH`と描画対象の関係である Route を定義します。
+`path`と描画対象の関係である Route を定義します。
 `src`以下に、`router.js`を以下の内容で作成してください。
 
 <<<@/chapter2/section1/src/1/router.ts{typescript:line-numbers}
@@ -60,7 +60,7 @@ Vue Router を読み込むように`src/main.js`を以下のように変更し�
 
 <<<@/chapter2/section1/src/1/routes.ts{typescript:line-numbers}
 
-この後、皆さんにはいくつかのページとその`PATH`の対応を追加してもらうわけですが、どの`PATH`にもマッチしなかった場合、任意の`PATH`にマッチする`/:path(.*)`がマッチし、NotFound ページが表示されます。
+この後、皆さんにはいくつかのページとその`path`の対応を追加してもらうわけですが、どの`path`にもマッチしなかった場合、任意の`path`にマッチする`/:path(.*)`がマッチし、NotFound ページが表示されます。
 
 `src/pages/NotFound.vue`を以下の内容で作成してください。
 

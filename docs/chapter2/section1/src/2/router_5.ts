@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from './pages/HomePage.vue'
 import NotFound from './pages/NotFound.vue'
-import AxiosPage from './pages/AxiosPage.vue'
+import PingPage from './pages/PingPage.vue'
 import LoginPage from './pages/LoginPage.vue'
 import CityPage from './pages/CityPage.vue'
 import axios from 'axios'
 
 const routes = [
   { path: '/', name: 'home', component: HomePage, meta: { isPublic: true } },
-  { path: '/axios', name: 'axios', component: AxiosPage },
+  { path: '/ping', name: 'ping', component: PingPage },
   {
     path: '/login',
     name: 'login',
@@ -25,15 +25,12 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  try {
-    await axios.get('/api/whoami')
-  } catch (_) {
-    if (to.meta.isPublic) {
-      return true
-    }
-    return '/login'
+  if (to.meta.isPublic) {
+    return true
   }
-  return true
+  const res = await fetch('/api/whoami')
+  if (res.ok) return true
+  return '/login'
 })
 
 export default router

@@ -1,95 +1,25 @@
-# axiosの導入
+# pingページの作成
 
-実際にサーバーにリクエストを送るために便利なライブラリとして、axios を導入します。
-参考: [Axios Docs](https://axios-http.com/docs/intro)
-参考: [axios/axios: Promise based HTTP client for the browser and node.js](https://github.com/axios/axios)
+まずは前回作ったサーバーの`/ping`エンドポイントにアクセスしてみるコードを書いてみましょう。
 
+`src/page`以下に`PingPage.vue`を作ってみましょう。
 
-ターミナルでプロジェクトのルートディレクトリに移動し、以下のコマンドを実行します。
-```
-$ npm install axios
-```
+<<<@/chapter2/section1/src/2/PingPage.vue{vue:line-numbers}
 
-# axiosの使い方
+`onMounted`の引数として渡された関数は、コンポーネントが描画されたときに実行されます。今回はサーバーの`/ping`エンドポイントにアクセスしてそのデータを`pong`という変数に代入しています。
 
-## axiosを使うためのページを作成
+関数の定義の前に`async`とついているのは、この関数は非同期に実行するということを宣言しています。非同期に実行するというのは、この関数の処理が終わる前に次の式を評価できるという理解で良いでしょう。サーバーとの通信処理は長時間かかる事があり、待機時間も長いので他の処理ができないと非効率であるために非同期処理となっています。
 
-axios を使うためのページを作成し、`App.vue`にリンクを追加します。
+また、関数実行の前に`await`とついているのはこの関数の処理が終わるまで次の処理を待つということを表しています。これをやらないと処理が終わる前に次の処理に進んでしまう事があります。
 
-### src/pages/AxiosPage.vue
+7 行目で変数`res`にサーバーからのレスポンスを格納しています。
+8 行目で http ステータスが ok であるかを確認して、 9 行目でレスポンスの中身をテキストとして取得しています。
 
-<<<@/chapter2/section1/src/2/AxiosPage.vue{vue:line-numbers}
+`route.ts`に`PingPage`を追加するのも忘れず行いましょう。
 
-### src/App.vue
-
-<<<@/chapter2/section1/src/2/App.vue{vue:line-numbers}
-
-### src/router.js
-
-Axios コンポーネントをインポートし、ルーターに登録します。
-
-<<<@/chapter2/section1/src/2/router.ts{typescript:line-numbers}
-
-追加されました
-![](https://md.trap.jp/uploads/upload_1f14b208185e842cbd9efc0ef91a3e21.png)
-
-
-## RequestBinで自分のエンドポイントを作成
-RequestBin を使って API を叩く練習をしてみましょう。
-
-[RequestBin - Reliably inspect and observe any HTTP traffic](https://requestbin.com/)
-
-上のリンクを開きます。
-Create a Request Bin を押します。
-![](https://md.trapti.tech/uploads/upload_ce9add981796a2cb2b57085b088ad1dc.png)
-
-次のページで表示されたこの URL があなたのエンドポイントです。
-![](https://md.trapti.tech/uploads/upload_cd26e791860b6b484e40743591e3d628.png)
-
-## AxiosPage.vueのスクリプトを書く
-axios を利用して、リクエストを送るスクリプトを書きます。
-
-:::warning
-以下のコードでは自分のエンドポイントに置き換えて、コードを書いてください
-:::
-### src/pages/AxiosPage.vue
-
-<<<@/chapter2/section1/src/2/AxiosPage_2.vue{vue:line-numbers}
-
-`axios.post`や`axios.put`では、第二引数としてオブジェクトを渡すと、JSON 形式でサーバーに投げてくれます。
-
-## 試してみる
-実際にボタンを押してリクエストが送られているか試してみましょう。
-
-Chrome Devtool の network タブを開くことでリクエストの様子を見ることができます。
-
-![](https://md.trap.jp/uploads/upload_cd8ea06ad1025c2699c419e3f01b5baf.gif)
-:::info
-POST リクエストの前に OPTIONS というリクエストが飛んでいますが、それは Preflight request というものです。
-[Preflight request (プリフライトリクエスト) | MDN](https://developer.mozilla.org/ja/docs/Glossary/Preflight_request)
-:::
-
-## RequestBinを見てみる
-先程生成したエンドポイントを見てみると実際にリクエストが送られてきているのがわかります。
-![](https://md.trap.jp/uploads/upload_fdb9900c401319e831d81e980ecf4624.png)
-
-
-:::warning
-同じように、自分の用意したサーバーに対して、リクエストを送ることができます。
-できるのですが、異なるオリジンからリクエストを送ろうとするとプロキシの項で言ったようなブラウザのセキュリティ機構に引っかかるので注意が必要です。
-
-参考: [同一オリジンポリシー | MDN](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)
-:::
+参考:[フェッチAPI - Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API/Fetch_API)、[非同期 JavaScript 入門 - ウェブ開発を学ぶ | MDN](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Asynchronous/Introducing)、[async function - JavaScript | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/async_function)
 
 # ログインページの作成
-:::	warning
-リモートでのサーバー起動前に以下のコマンドを実行することを忘れないこと。(忘れると DB にアクセスできない)
-```
-$ source env.sh
-```
-
-:::
-
 
 ログインページを作成してみましょう！
 上と同じようにページを分けて進めていきましょう。
@@ -100,6 +30,10 @@ $ source env.sh
 		- [v-model | Vue.js](https://v3.vuejs.org/guide/migration/v-model.html)
 - ログインボタンを押すと`/api/login`に POST する
 	- POST の JSON はサーバーのコードに合わせて書きましょう
+  
+`fetch`でサーバーに対して`POST`リクエストを送りたい場合は次のようにやれば良いでしょう。
+  
+<<<@/chapter2/section1/src/2/fetch_post_option.ts{typescript:line-numbers}
 
 <details>
 <summary>解答</summary>
@@ -130,13 +64,14 @@ template 部分のみ。
 ### src/pages/CityPage.vue
 
 新規に作成するファイルです。
+`res.json()`としている部分では、サーバーからのレスポンスをjsonとして解釈しています。
 
 <<<@/chapter2/section1/src/2/CityPage.vue{vue:line-numbers}
 
 ### src/router.js
 
 `CityPage.vue`を読み込み登録します。
-echo と同じように、`PATH`に`:`始まりで書くと、PathParameter として値を取得できます。
+echo と同じように、`path`に`:`始まりで書くと、PathParameter として値を取得できます。
 
 参考: [Dynamic Route Marching | Vue Router](https://next.router.vuejs.org/guide/essentials/dynamic-matching.html)
 
@@ -193,7 +128,7 @@ Chrome Devtool から見てみるとログインしていないため、ダメ�
 
 上のように何らかのエンドポイントを叩いた結果、403 が返ってきたらリダイレクトするようにしてもいいですが、今回は traQ やその他 traP の Vue での書き方に習って、`whoami`というエンドポイントを使ってログインされているかの確認をします。
 
-このエンドポイントはログインしているユーザー自身の情報を取得するエンドポイントです。なぜこんなエンドポイントが必要かというと、Vue.js 自身は自分が何というユーザーでログインしているかをサーバーに問い合わせることなく知ることができないからです。
+このエンドポイントはログインしているユーザー自身の情報を取得するエンドポイントです。なぜこんなエンドポイントが必要かというと、クライアント自身は自分が何というユーザーでログインしているかをサーバーに問い合わせることなく知ることができないからです。
 traQ でも一番始めに whoami エンドポイントを叩き自分の情報を取得しています。
 
 ## router.jsでログインの確認を行う

@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import axios from 'axios'
 import { ref } from 'vue'
 
 const username = ref<string>('')
 const password = ref<string>('')
-const login = () => axios.post('/api/login', { username: username.value, password: password.value })
+const login = () =>
+  fetch('/api/origin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ username: username.value, password: password.value })
+  })
 </script>
 
 <template>

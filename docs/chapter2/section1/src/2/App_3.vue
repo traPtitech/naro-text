@@ -4,7 +4,7 @@
       <header :class="$style.header">
         <router-link to="/">Home</router-link>
         |
-        <router-link to="/axios">Axios</router-link>
+        <router-link to="/ping">Axios</router-link>
         |
         <router-link to="/city/Tokyo">Tokyo</router-link>
         |
