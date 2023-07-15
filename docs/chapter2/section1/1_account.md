@@ -26,7 +26,6 @@ go get -u github.com/labstack/echo-contrib/session
 go get -u github.com/srinathgs/mysqlstore
 ```
 
-
 では、アカウントの作成を実装していきましょう。
 
 アカウントの作成は、以下の手順で進んでいきます。
