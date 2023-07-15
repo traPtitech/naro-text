@@ -36,35 +36,35 @@ SPA を作る際には、`path`に応じたページを描画する Router の�
 `path`と描画対象の関係である Route を定義します。
 `src`以下に、`router.js`を以下の内容で作成してください。
 
-<<<@/chapter2/section1/src/1/router.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/1/router.ts{typescript:line-numbers}
 
 ## 3. Vue Routerの使用
 
 Vue Router を読み込むように`src/main.js`を以下のように変更します。
 
-<<<@/chapter2/section1/src/1/main.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/1/main.ts{typescript:line-numbers}
 
 次に、`src/App.vue`を以下のように変更します。
 
-<<<@/chapter2/section1/src/1/App.vue{vue:line-numbers}
+<<<@/chapter2/section2/src/1/App.vue{vue:line-numbers}
 
 ## 4. Homeページの作成
 
 `src`直下に`pages`ディレクトリを作成し、`src/pages/HomePage.vue`を以下の内容で作成してください。
 
-<<<@/chapter2/section1/src/1/HomePage.vue{vue:line-numbers}
+<<<@/chapter2/section2/src/1/HomePage.vue{vue:line-numbers}
 
 ## 5. NotFoundページの作成
 
 `router.js`に定義した Route の配列は先頭からマッチします。
 
-<<<@/chapter2/section1/src/1/routes.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/1/routes.ts{typescript:line-numbers}
 
 この後、皆さんにはいくつかのページとその`path`の対応を追加してもらうわけですが、どの`path`にもマッチしなかった場合、任意の`path`にマッチする`/:path(.*)`がマッチし、NotFound ページが表示されます。
 
 `src/pages/NotFound.vue`を以下の内容で作成してください。
 
-<<<@/chapter2/section1/src/1/NotFound.vue{vue:line-numbers}
+<<<@/chapter2/section2/src/1/NotFound.vue{vue:line-numbers}
 
 # プロキシの設定
 API へ接続するためにプロキシを設定します。
@@ -84,7 +84,7 @@ API へ接続するためにプロキシを設定します。
 プロジェクトルートの`vite.config.js`というファイルの内容を、以下の内容に変更します。
 ポート番号は自分がサーバーを起動しているポート番号にしてください。
 
-<<<@/chapter2/section1/src/1/vite.config.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/1/vite.config.ts{typescript:line-numbers}
 
 :::tip
 VSCode の Settings から`Format on Save`にチェックを入れると、自動できれいなコードに直してくれます。

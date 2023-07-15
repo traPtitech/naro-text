@@ -4,7 +4,7 @@
 
 `src/page`以下に`PingPage.vue`を作ってみましょう。
 
-<<<@/chapter2/section1/src/2/PingPage.vue{vue:line-numbers}
+<<<@/chapter2/section2/src/2/PingPage.vue{vue:line-numbers}
 
 `onMounted`の引数として渡された関数は、コンポーネントが描画されたときに実行されます。今回はサーバーの`/ping`エンドポイントにアクセスしてそのデータを`pong`という変数に代入しています。
 
@@ -33,7 +33,7 @@
   
 `fetch`でサーバーに対して`POST`リクエストを送りたい場合は次のようにやれば良いでしょう。
   
-<<<@/chapter2/section1/src/2/fetch_post_option.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/2/fetch_post_option.ts{typescript:line-numbers}
 
 <details>
 <summary>解答</summary>
@@ -42,17 +42,17 @@
 
 新規作成するファイルです。
 
-<<<@/chapter2/section1/src/2/LoginPage.vue{vue:line-numbers}
+<<<@/chapter2/section2/src/2/LoginPage.vue{vue:line-numbers}
 
 ### src/App.vue
 
 template 部分のみ。
 
-<<<@/chapter2/section1/src/2/App_2.vue{vue:line-numbers}
+<<<@/chapter2/section2/src/2/App_2.vue{vue:line-numbers}
 
 ### src/router.ts
 
-<<<@/chapter2/section1/src/2/router_2.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/2/router_2.ts{typescript:line-numbers}
 
 </details>
 
@@ -66,7 +66,7 @@ template 部分のみ。
 新規に作成するファイルです。
 `res.json()`としている部分では、サーバーからのレスポンスをjsonとして解釈しています。
 
-<<<@/chapter2/section1/src/2/CityPage.vue{vue:line-numbers}
+<<<@/chapter2/section2/src/2/CityPage.vue{vue:line-numbers}
 
 ### src/router.js
 
@@ -75,14 +75,14 @@ echo と同じように、`path`に`:`始まりで書くと、PathParameter と�
 
 参考: [Dynamic Route Marching | Vue Router](https://next.router.vuejs.org/guide/essentials/dynamic-matching.html)
 
-<<<@/chapter2/section1/src/2/router_3.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/2/router_3.ts{typescript:line-numbers}
 
 
 ### src/App.vue
 
 リンクを追加します。
 
-<<<@/chapter2/section1/src/2/App_3.vue{vue:line-numbers}
+<<<@/chapter2/section2/src/2/App_3.vue{vue:line-numbers}
 
 ## 確認
 
@@ -140,7 +140,7 @@ Vue Router の`beforeEach`という機能を使って、各 Routing の前に特
 
 ### src/router.js
 
-<<<@/chapter2/section1/src/2/router_4.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/2/router_4.ts{typescript:line-numbers}
 
 
 これでログインしていない場合には、`/login`へリダイレクトされるようになりました。
@@ -166,7 +166,7 @@ Vue Router の`beforeEach`という機能を使って、各 Routing の前に特
 
 ### src/router.js
 
-<<<@/chapter2/section1/src/2/router_5.ts{typescript:line-numbers}
+<<<@/chapter2/section2/src/2/router_5.ts{typescript:line-numbers}
 
 クライアントの見本：https://github.com/itt828/naro-client-2022-v2
 
