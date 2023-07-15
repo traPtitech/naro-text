@@ -6,7 +6,7 @@
 
 <<<@/chapter2/section1/src/0/main_handler.go#handler{go:line-numbers}
 
-今回の目標は、 `/cities/` で始まる api 2 つ(`getCityInfoHandler`, `postCityHandler`) に対して、
+今回の目標は、 `/cities/` で始まる api 2 つ (`getCityInfoHandler`, `postCityHandler`) に対して、
 ログインしているかどうかを判定して、ログインしていなければリクエストを拒否するように実装することです。
 
 用語を使わずに言えば、`City` を新たに追加したり、`City` の情報を得るのにログインを必須にする、ということです。
@@ -105,7 +105,7 @@ Password が格納されています。
 <<<@/chapter2/section1/src/0/final/code.go#hash
 
 まずはパスワードのハッシュ化です。 **パスワードは平文で保存してはいけません！** パスワードを DB に保管するときは、必ずハッシュ化をしましょう。
-ソルトは先ほど説明しました。
+ソルトは前節で説明しました。
 
 `bcrypt`というのはいい感じにハッシュ化してくれるライブラリです。セキュリティに関わるものは自分で実装すると穴だらけになりやすいので、積極的にライブラリに頼りましょう。
 
@@ -113,7 +113,7 @@ Password が格納されています。
 
 <<<@/chapter2/section1/src/0/final/code.go#add_user
 
-`Username`,`HashedPassword` を持つ User レコードをデータベースに追加しましょう。
+`Username`, `HashedPassword` を持つ User レコードをデータベースに追加しましょう。
 
 何かしらのエラーによって生成できなかった場合は err にその内容が詰め込まれます。
 ユーザーのリクエストは問題なく、ここでエラーが発生した場合はサーバー側で何かが発生したということなので、

@@ -5,9 +5,8 @@
 <<<@/chapter2/section1/src/0/final/code.go#setup_session
 
 セッションストアを設定しましょう。
-セッションとは、今来た人が次来たとき、同じ人であることを確認するための仕組みです。
 
-ここでは、そのセッションの情報を記憶するための場所をデータベース上に設定しています。
+ここでは、セッションの情報を記憶するための場所をデータベース上に設定しています。
 
 この仕組みを使用するために、 `e.Use(session.Middleware(store))` を含めてセッションストアを使ってね〜、って echo に命令しています。
 
@@ -32,7 +31,7 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 もしそのエラーなら 401 (Unauthorized)、そうでなければ 500 (Internal Server Error) です。
 もし 404 (Not Found) とすると、「このユーザーはパスワードが違うのではなく存在しないんだ」という事がわかってしまい（このユーザーは存在していてパスワードは違う事も分かります）、セキュリティ上のリスクに繋がります。
 
-ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。
+ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。 参考: https://pkg.go.dev/errors#Is
 
 <<<@/chapter2/section1/src/0/final/code.go#post_hash
 
@@ -42,15 +41,15 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 
 これは `bcrypt.CompareHashAndPassword` が行ってくれるのでそれに乗っかりましょう。
 
-- この関数はハッシュが一致すれば返り値が `nil` となります。
-- 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が返ってきます。
-- 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かです。
+- この関数はハッシュが一致すれば返り値が `nil` となります
+- 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が返ってきます
+- 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かです
 
-従って、これらのエラーの内容に応じて、 500 (Internal Server Error) 401 (Unauthorized) を返却するか、処理を続行するかを選択していきます。
+従って、これらのエラーの内容に応じて、 500 (Internal Server Error), 401 (Unauthorized) を返却するか、処理を続行するかを選択していきます。
 
 <<<@/chapter2/section1/src/0/final/code.go#add_session
 
-セッションに登録します。セッションについては今回は深掘りしません。
+セッションストアに登録します。
 セッションの `userName` という値にそのユーザーの名前を格納していることは覚えておきましょう。
 
 ここまで書いたら、 `loginHandler` を使えるようにしましょう。
