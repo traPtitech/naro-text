@@ -104,7 +104,7 @@ type Me struct {
 
 func signUpHandler(c echo.Context) error {
 	// #region request
-	req := LoginRequestBody{}
+	var req LoginRequestBody
 	c.Bind(&req)
 	// #endregion request
 	// #region valid
@@ -147,7 +147,7 @@ func signUpHandler(c echo.Context) error {
 
 func loginHandler(c echo.Context) error {
 	// #region post_req
-	req := LoginRequestBody{}
+	var req LoginRequestBody
 	c.Bind(&req)
 
 	if req.Password == "" || req.Username == "" {
@@ -209,7 +209,7 @@ func userAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 func getCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
 
-	city := City{}
+	var city City
 	db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
 	if !city.Name.Valid {
 		return c.NoContent(http.StatusNotFound)
