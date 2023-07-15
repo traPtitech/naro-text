@@ -72,13 +72,13 @@ func signUpHandler(c echo.Context) error {
 }
 ```
 
-この `signUpHandler` に以下のものを順番に実装していきます。最悪コピペでも動くはず。
+この `signUpHandler` に以下のものを順番に実装していきます。最悪コピー&ペーストでも動くはず。
 
 ### 1. リクエストの受け取り
 
 <<<@/chapter2/section1/src/0/final/code.go#request
 
-まず初めに、 req 変数にrequestBody の json 情報を格納します。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
+まず初めに、 req 変数に requestBody の json 情報を格納します。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
 Password が格納されています。
 
 ### 2. リクエストの検証
@@ -141,7 +141,7 @@ Username,HashedPassword を持つ User レコードをデータベースに追�
 
 ここまでできたら、実行して、PostMan 等を用いて正しく実装できているかデバッグしてみましょう。
 
-正しく API を叩いたあとに、テーブルに 意図したユーザー名と、ハッシュ化されたパスワードが入っていますか？
+正しく API を叩いたあとに、テーブルに意図したユーザー名と、ハッシュ化されたパスワードが入っていますか？
 
 :::details 確認に使う SQL クエリ
 
