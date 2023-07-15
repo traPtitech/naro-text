@@ -11,5 +11,5 @@ export const section1SidebarItems: DefaultTheme.SidebarItem[] = [
   { text: 'アカウント機能の実装', link: '/chapter2/section1/1_account' },
   { text: 'セッションの実装', link: '/chapter2/section1/2_session' },
   { text: '検証', link: '/chapter2/section1/3_verify' },
-  { text: 'おまけ演習問題', link: '/chapter2/section1/4_extra' },
+  { text: 'おまけ演習問題', link: '/chapter2/section1/4_extra' }
 ]
