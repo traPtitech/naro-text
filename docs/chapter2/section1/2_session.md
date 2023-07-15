@@ -29,7 +29,7 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 パスワードの一致チェックをするために、データベースからユーザーを取得してきましょう。
 
 ユーザーが存在しなかった場合は `sql.ErrNoRows` というエラーが返ってきます。
-もしそのエラーなら 401 (UnAuthorized)、そうでなければ 500 (Internal Server Error) です。
+もしそのエラーなら 401 (Unauthorized)、そうでなければ 500 (Internal Server Error) です。
 もし 404 (Not Found) とすると、「このユーザーはパスワードが違うのではなく存在しないんだ」という事がわかってしまい（このユーザーは存在していてパスワードは違う事も分かります）、セキュリティ上のリスクに繋がります。
 
 ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。
@@ -46,7 +46,7 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 - 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が帰ってきます。
 - 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かです。
 
-従って、これらのエラーの内容に応じて、 500 (Internal Server Erorr) 401 (UnAuthorized) を返却するか、処理を続行するかを選択していきます。
+従って、これらのエラーの内容に応じて、 500 (Internal Server Error) 401 (Unauthorized) を返却するか、処理を続行するかを選択していきます。
 
 <<<@/chapter2/section1/src/0/final/code.go#add_session
 
@@ -80,10 +80,10 @@ Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と�
 
 ここで名前が入っていればリクエストの送信者はログイン済みで、そうでなければログインをしていないことが分かります。
 
-これを利用して、ログインしていない場合には処理をここで止めて 401 (UnAuthorized) を返却し、していれば次の処理 (`next(c)`)
+これを利用して、ログインしていない場合には処理をここで止めて 401 (Unauthorized) を返却し、していれば次の処理 (`next(c)`)
 に進みます。
 
-最後に、middlerware を設定しましょう。
+最後に、middleware を設定しましょう。
 グループ機能を利用して、 `withAuth` に設定されてるエンドポイントは `userAuthMiddleware` を処理してから処理する、という設定をします。
 
 ```go
