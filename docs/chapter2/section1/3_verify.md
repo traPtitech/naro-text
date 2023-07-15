@@ -47,11 +47,13 @@ Key に`Cookie`を
 Value に`sessions={コピーした値};`をセットします(既に自動で入っている場合もあります、その場合は追加しなくて大丈夫です)。
 
 もう一度 <a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a> にアクセスすると正常に API が取れるようになりました。
-![](https://md.trapti.tech/uploads/upload_59c6c86e127d982f511946d2a183d0a6.png)
+![](postman1/../images/0/postman6.png)
 
 ここで、作成されたユーザーがデータベースに保存されていることを確認してみましょう。
 `mysql > SELECT * FROM users;`
-![](https://md.trap.jp/uploads/upload_f713b7da16df6729729a25ca2b5a6816.png)
+![](postman1/../images/0/database1.png)
+
 ユーザー名とハッシュ化されたパスワードが確認できますね。
-![](https://md.trap.jp/uploads/upload_7f007d73bd0ff508dff12246546b1a5b.png)
+![](postman1/../images/0/database2.png)
+
 ちょっと分かりにくい表示ですが、セッションもしっかり確認できます。
