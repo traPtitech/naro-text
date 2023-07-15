@@ -34,7 +34,7 @@ type Me struct {
 }
 
 func signUpHandler(c echo.Context) error {
-	req := LoginRequestBody{}
+	var req LoginRequestBody
 	c.Bind(&req)
 
 	if req.Password == "" || req.Username == "" {
@@ -69,7 +69,7 @@ func signUpHandler(c echo.Context) error {
 }
 
 func loginHandler(c echo.Context) error {
-	req := LoginRequestBody{}
+	var req LoginRequestBody
 	c.Bind(&req)
 
 	if req.Password == "" || req.Username == "" {
@@ -110,7 +110,7 @@ func loginHandler(c echo.Context) error {
 func getCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
 
-	city := City{}
+	var city City
 	db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
 	if !city.Name.Valid {
 		return c.NoContent(http.StatusNotFound)

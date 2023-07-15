@@ -21,7 +21,7 @@ func getCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
 	fmt.Println(cityName)
 
-	city := City{}
+	var city City
 	db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
 	if !city.Name.Valid {
 		return c.NoContent(http.StatusNotFound)
