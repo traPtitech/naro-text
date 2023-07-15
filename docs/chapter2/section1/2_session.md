@@ -38,12 +38,12 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 
 データベースに保存されているパスワードはハッシュ化されています。
 
-ハッシュ化は不可逆な処理なので、ハッシュ化されたものから原文を調べることはできません。確認する際はもらったパスワードをハッシュする事で行います。
+ハッシュ化は不可逆な処理なので、ハッシュ化されたものから原文を調べることはできません。確認する際はもらったパスワードをハッシュ化することで行います。
 
 これは `bcrypt.CompareHashAndPassword` が行ってくれるのでそれに乗っかりましょう。
 
 - この関数はハッシュが一致すれば返り値が `nil` となります。
-- 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が帰ってきます。
+- 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が返ってきます。
 - 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かです。
 
 従って、これらのエラーの内容に応じて、 500 (Internal Server Error) 401 (Unauthorized) を返却するか、処理を続行するかを選択していきます。
@@ -62,10 +62,10 @@ e.POST("/signup", signUpHandler)
 
 ## userAuthMiddleware の実装
 
-続いて、userAuthMiddleware を実装します。
-まず、これは Handler ではなく middleware と呼ばれます。
+続いて、`userAuthMiddleware` を実装します。
+まず、これは Handler ではなく Middleware と呼ばれます。
 
-来るリクエストは、Middleware を経由して、 Handler に流れていきます。
+送られてくるリクエストは、Middleware を経由して、 Handler に流れていきます。
 
 Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と記述します。 Middleware の実装は難しいので、なんとなく理解できれば十分です。
 
@@ -73,7 +73,7 @@ Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と�
 
 関数が関数を呼び出していて混乱しそうですが、 2 行目から 13 行目が本質で、外側はおまじないと考えて良いです。
 
-このミドルウェアはリクエストを送ったユーザーがログインしているのかをチェックし、
+この Middleware はリクエストを送ったユーザーがログインしているのかをチェックし、
 ログインしているなら Context (`c`) にそのユーザーの UserName を設定します。
 
 セッションを取得し、ログイン時に設定した `userName` の値を確認しに行きます。
@@ -83,7 +83,7 @@ Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と�
 これを利用して、ログインしていない場合には処理をここで止めて 401 (Unauthorized) を返却し、していれば次の処理 (`next(c)`)
 に進みます。
 
-最後に、middleware を設定しましょう。
+最後に、Middleware を設定しましょう。
 グループ機能を利用して、 `withAuth` に設定されてるエンドポイントは `userAuthMiddleware` を処理してから処理する、という設定をします。
 
 ```go
@@ -103,7 +103,7 @@ withAuth.POST("/cities", postCityHandler) // [!code ++]
 
 <<<@/chapter2/section1/src/0/final/code.go#whoami
 
-セッションからアクセスしているユーザーの`userName`を取得して返しています。
+アクセスしているユーザーの`userName`をセッションから取得して返しています。
 `userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
 
 `withAuth.GET("/whoami", getWhoAmIHandler)` を忘れずに追加しましょう。
