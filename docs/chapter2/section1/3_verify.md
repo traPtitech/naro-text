@@ -4,7 +4,7 @@
 
 まずは完成形です。
 
-<details>
+:::details 完成形
 
 main.go 
 
@@ -14,8 +14,7 @@ handler.go
 
 <<<@/chapter2/section1/src/0/final/handler.go{go:line-numbers}
 
-
-</details>
+:::
 
 ## 検証
 
@@ -26,7 +25,7 @@ handler.go
 `go run main.go`でサーバーを起動した状態で行ってください
 :::
 
-<http://localhost:8080/cities/Tokyo> へ
+<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a> へ
 初めに普通にアクセスするとダメです
 ![](https://md.trapti.tech/uploads/upload_96a03d609e761150a2136963dd34006a.png)
 
@@ -45,7 +44,7 @@ handler.go
 Key に`Cookie`を
 Value に`sessions=(コピーした値);`をセットします(既に自動で入っている場合もあります、その場合は追加しなくて大丈夫です)。
 
-もう一度 <http://localhost:8080/cities/Tokyo> にアクセスすると正常に API が取れるようになりました。
+もう一度 <a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a> にアクセスすると正常に API が取れるようになりました。
 ![](https://md.trapti.tech/uploads/upload_59c6c86e127d982f511946d2a183d0a6.png)
 
 ここで、作成されたユーザーがデータベースに保存されていることを確認してみましょう。
