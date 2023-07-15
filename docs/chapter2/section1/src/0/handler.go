@@ -3,9 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 type City struct {
@@ -38,10 +39,15 @@ func postCityHandler(c echo.Context) error {
 
 	result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
 	if err != nil {
-		log.Fatalf("failed to insert city data: %s", err)
+		log.Printf("failed to insert city data: %s\n", err)
+		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	id, _ := result.LastInsertId()
+	id, err := result.LastInsertId()
+	if err != nil {
+		fmt.Printf("failed to get last insert id: %s\n", err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
 	city.ID = int(id)
 
 	return c.JSON(http.StatusCreated, city)

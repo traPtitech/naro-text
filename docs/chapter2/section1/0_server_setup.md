@@ -70,9 +70,8 @@ main.go を以下のように編集しましょう。
 実装は以下のように進めます。
 
 1. アカウントを作成できるようにする
-2. ログイン・自分の情報取得を実装する
-3. パスワードを設定する
-4. ログインしないと利用できないようにする
+2. ログインを実装する
+3. ログインしないと利用できないようにする
 
 ## ライブラリのインストール
 
@@ -128,7 +127,8 @@ func signUpHandler(c echo.Context) error {
 
 <<<@/chapter2/section1/src/0/final/code.go#request{go:line-numbers}
 
-まず初めに、 req 変数にrequestBody の json 情報を格納します。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と Password が格納されています。
+まず初めに、 req 変数にrequestBody の json 情報を格納します。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
+Password が格納されています。
 
 <<<@/chapter2/section1/src/0/final/code.go#valid{go:line-numbers}
 
@@ -158,8 +158,11 @@ func signUpHandler(c echo.Context) error {
 Username,HashedPassword を持つ User レコードをデータベースに追加しましょう。
 
 何かしらのエラーによって生成できなかった場合は err にその内容が詰め込まれます。
-ユーザーのリクエストは問題なく、ここでエラーが発生した場合はサーバー側で何かが発生したということなので、500 (Internal Server Error) をレスポンスします。
-ここで、どんなエラーが発生したかをユーザーに直接伝えるのはセキュリティの観点から △ です。ログで出力するだけにして、ユーザー側には 500 という情報だけ渡しましょう。
+ユーザーのリクエストは問題なく、ここでエラーが発生した場合はサーバー側で何かが発生したということなので、
+500 (InternalServer Error) をレスポンスします。
+
+ここで、どんなエラーが発生したかをユーザーに直接伝えるのはセキュリティの観点から △ です。
+ログで出力するだけにして、ユーザー側には 500 という情報だけ渡しましょう。
 
 もし err がなければ、それはうまく成功したということです。 201 (Created) をレスポンスしましょう！
 
@@ -171,6 +174,12 @@ Username,HashedPassword を持つ User レコードをデータベースに追�
 
 <<<@/chapter2/section1/src/0/handlers.go#signup{go:line-numbers}
 
+:::warning
+このコードは後々の回で使用するので、エンドポイント (`/signup` など) は変更しないでください！
+
+エンドポイントの追加は問題ないので、試したい場合は新しくハンドラーを実装しましょう。
+:::
+
 ここまでできたら、実行して、PostMan 等を用いて正しく実装できているかデバッグしてみましょう。
 
 正しく API を叩いたあとに、テーブルに 意図したユーザー名と、ハッシュ化されたパスワードが入っていますか？
@@ -178,9 +187,12 @@ Username,HashedPassword を持つ User レコードをデータベースに追�
 :::details 確認に使う SQL クエリ
 
 ```sql
-USE world;
-SELECT * FROM users;
+USE
+world;
+SELECT *
+FROM users;
 ```
+
 :::
 
 ## セッション管理機構の実装
@@ -213,7 +225,7 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 
 ユーザーが存在しなかった場合は `sql.ErrNoRows` というエラーが返ってきます。
 もしそのエラーなら 401 (UnAuthorized)、そうでなければ 500 (Internal Server Error) です。
-404 とすると、「このユーザーは存在しないんだ」という事がわかってしまい、セキュリティ上のリスクに繋がります。
+もし 404 (Not Found) とすると、「このユーザーはパスワードが違うのではなく存在しないんだ」という事がわかってしまい（このユーザーは存在していてパスワードは違う事も分かります）、セキュリティ上のリスクに繋がります。
 
 ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。
 
@@ -225,54 +237,85 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 
 これは `bcrypt.CompareHashAndPassword` が行ってくれるのでそれに乗っかりましょう。
 
-- この関数はハッシュが一致するときに限り `err` が `nil` となります。
+- この関数はハッシュが一致すれば返り値が `nil` となります。
 - 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が帰ってきます。
-- 処理中にこれ以外の問題が発生した場合は、`err` に何かが格納されます。
+- 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かです。
 
-従って、これの場合はパスワードが違うよというレスポンスを返し、それ以外のエラーの場合は 500 を返しています。これをもとに場合わけすると、上記のようになります。
+従って、これらのエラーの内容に応じて、 500 (Internal Server Erorr) 401 (UnAuthorized) を返却するか、処理を続行するかを選択していきます。
 
 <<<@/chapter2/section1/src/0/final/code.go#add_session{go:line-numbers}
 
-セッションに登録します。
+セッションに登録します。セッションについては今回は深掘りしません。
+セッションの `userName` という値にそのユーザーの名前を格納していることは覚えておきましょう。
 
-ここではセッションにログインした人を登録しているんだなあということが分かれば大丈夫です。
+ここまで書いたら、 `loginHandler` を使えるようにしましょう。
 
-### checklogin関数
+```go
+e.POST("/login", loginHandler) // [!code ++]
+e.POST("/signup", signUpHandler)
+```
 
-まず、この関数は handler ではありません。handler 関数を返す関数です。(middleware と呼ばれています) リクエスト→middleware→handler
-という順序で処理されます。
+### userAuthMiddleware
 
-middleware から次の handler を呼び出すには`next(c)`と書きます。
+続いて、userAuthMiddleware を実装します。
+まず、これは Handler ではなく middleware と呼ばれます。
 
-このミドルウェアはリクエストを送ったユーザーがログインしているのかをチェックし、ログインしているなら echo の Context
-にそのユーザーの UserName を登録します。
+来るリクエストは、Middleware を経由して、 Handler に流れていきます。
 
-<<<@/chapter2/section1/src/0/final/code.go#get_session{go:line-numbers}
+Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と記述します。 Middleware の実装は難しいので、なんとなく理解できれば十分です。
 
-セッションを取得しています。
+<<<@/chapter2/section1/src/0/final/code.go#userAuthMiddleware{go:line-numbers}
 
-本当はリクエストヘッダを見ることでどのセッションを取り出すかを決めています(セッションは各ユーザーに存在するので)
+関数が関数を呼び出していて混乱しそうですが、2行目から13行目が本質で、外側はおまじないと考えて良いです。
 
-<<<@/chapter2/section1/src/0/final/code.go#check_session{go:line-numbers}
+このミドルウェアはリクエストを送ったユーザーがログインしているのかをチェックし、
 
-Login 時の処理を思い出すと、セッションには"userName"をキーとしてユーザーの名前が登録されていました。
+ログインしているなら Context (`c`) にそのユーザーの UserName を設定します。
 
-従って、ここに名前が入っているならば、今リクエストを送った人は過去にログインをした人と同じということがわかります。逆に、何も入っていなければリクエストを送った人はログインをしていません。
+session を取得し、ログイン時に設定した `userName` の値を確認しに行きます。
 
-これを利用して、ログインしていない場合には後続に処理を渡すことをせず途中で処理を止めています。
+ここで名前が入っていればリクエストの送信者はログイン済みで、そうでなければログインをしていないことが分かります。
 
-### getWhoAmIHandler関数
+これを利用して、ログインしていない場合には処理をここで止めて 401 (UnAuthorized) を返却し、していれば次の処理 (`next(c)`)
+に進みます。
+
+最後に、middlerware を設定しましょう。
+グループ機能を利用して、 `withAuth` に設定されてるエンドポイントは `userAuthMiddleware` を処理してから処理する、という設定をします。
+
+```go
+e.GET("/cities/:cityName", getCityInfoHandler) // [!code --]
+e.POST("/cities", postCityHandler) // [!code --]
+withAuth := e.Group("") // [!code ++]
+withAuth.Use(userAuthMiddleware) // [!code ++]
+withAuth.GET("/cities/:cityName", getCityInfoHandler) // [!code ++]
+withAuth.POST("/cities", postCityHandler) // [!code ++]
+```
+
+これで、この章の目標である「ログインしないと利用できないようにする」が達成されました。
+
+### getWhoAmIHandler
+
+最後に、 `getWhoAmIHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
 
 <<<@/chapter2/section1/src/0/final/code.go#whoami{go:line-numbers}
 
 セッションからアクセスしているユーザーの`userName`を取得して返しています。
-ここにアクセスすれば自分がどのアカウントでアクセスしてるか知ることができます。
+`userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
+
+`withAuth.GET("/whoami", getWhoAmIHandler)` を忘れずに追加しましょう。
 
 ## 完成形
 
 <details>
 
-<<<@/chapter2/section1/src/0/final/code.go{go:line-numbers}
+main.go 
+
+<<<@/chapter2/section1/src/0/final/main.go{go:line-numbers}
+
+handler.go
+
+<<<@/chapter2/section1/src/0/final/handler.go{go:line-numbers}
+
 
 </details>
 
