@@ -21,8 +21,12 @@ handler.go
 自分の実装が正しく動くか検証しましょう。
 
 :::warning
-全て Postman での検証です
-`go run main.go`でサーバーを起動した状態で行ってください
+全て Postman での検証です。
+`go run main.go`でサーバーを起動した状態で行ってください。
+:::
+
+:::warning
+画像中の `150.95.157.67:4000` はすべて `localhost:8080` に読み替えてください！
 :::
 
 <a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a> へ
