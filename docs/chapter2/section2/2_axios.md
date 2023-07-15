@@ -64,7 +64,7 @@ template 部分のみ。
 ### src/pages/CityPage.vue
 
 新規に作成するファイルです。
-`res.json()`としている部分では、サーバーからのレスポンスをjsonとして解釈しています。
+`res.json()`としている部分では、サーバーからのレスポンスを json として解釈しています。
 
 <<<@/chapter2/section2/src/2/CityPage.vue{vue:line-numbers}
 
