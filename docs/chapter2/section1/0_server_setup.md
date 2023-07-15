@@ -31,15 +31,15 @@ export DB_DATABASE="world"
 このまま演習を初めてしまうとファイルが長くなりすぎてしまうので、ファイルを分割します。
 各エンドポイントでの処理はハンドラーと呼ばれますが、それを `handler.go` に移動してみましょう。
 
-### main.go の設定
+### main.go の作成
 
-main.go を以下のように編集しましょう。
+main.go を以下のようにしましょう。
 
 <<<@/chapter2/section1/src/0/main.go{go:line-numbers}
 
 ファイルを編集したら、`go mod tidy` を実行しましょう。
 
-### handler.go の設定
+### handler.go の作成
 
 1. 同じディレクトリに新しく `handler.go` というファイルを作成する
 2. `handler.go` を以下のように記述する
@@ -98,7 +98,7 @@ go get -u github.com/srinathgs/mysqlstore
 
 まず、`main.go`の`var`の箇所に、 `salt` を追加します。
 
-<<<@/chapter2/section1/src/0/main_handler.go#var{go:line-numbers}
+<<<@/chapter2/section1/src/0/main_handler.go#var
 
 ここで新しく定義した`salt`という変数は、パスワード等をハッシュ値へと変換する際に、パスワード等の末尾に付与するランダムな文字列のことです。
 
@@ -110,11 +110,11 @@ go get -u github.com/srinathgs/mysqlstore
 
 ハッシュ値は 32 バイト, 64 バイト, 128 バイトにする事が推奨されているようです。
 
-<<<@/chapter2/section1/src/0/.env{go:line-numbers}
+<<<@/chapter2/section1/src/0/.env
 
 更に、アカウントを管理するテーブル `users` を作成します。
 
-<<<@/chapter2/section1/src/0/handlers.go#setup_table{go:line-numbers}
+<<<@/chapter2/section1/src/0/handlers.go#setup_table
 
 続いて、アカウントを作成するハンドラーである `signUpHandler` を `handler.go` に実装していきましょう。
 
@@ -125,17 +125,17 @@ func signUpHandler(c echo.Context) error {
 
 この `signUpHandler` に以下のものを順番に実装していきます。最悪コピペでも動くはず。
 
-<<<@/chapter2/section1/src/0/final/code.go#request{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#request
 
 まず初めに、 req 変数にrequestBody の json 情報を格納します。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
 Password が格納されています。
 
-<<<@/chapter2/section1/src/0/final/code.go#valid{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#valid
 
 ここでは、UserName と Password が正しく入っているのかをチェック（バリデーションといいます）します。
 入っていない場合は、与えられた入力が正しくない間違った形式なので、 400 (Bad Request) をレスポンスします。
 
-<<<@/chapter2/section1/src/0/final/code.go#check_user{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#check_user
 
 `"SELECT COUNT(*) FROM users WHERE Username=?", req.Username` で、指定された UserName を持つユーザーの数を見ます。
 
@@ -146,14 +146,14 @@ Password が格納されています。
 ここまでは「リクエストを実行しても本当に問題がないか」を検証していました。
 ユーザーはまだ存在していなくて、パスワードとユーザー名がある事まで確認できれば、リクエストを処理できます。のでここから処理を行っていきます。
 
-<<<@/chapter2/section1/src/0/final/code.go#hash{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#hash
 
 まずはパスワードのハッシュ化です。 **パスワードは平文で保存してはいけません！** パスワードを DB に保管するときは、必ずハッシュ化をしましょう。
 ソルトはさっき説明しました。
 
 `bcrypt`というのはいい感じにハッシュ化してくれるライブラリです。セキュリティに関わるものは自分で実装すると穴だらけになりやすいので、積極的にライブラリに頼りましょう。
 
-<<<@/chapter2/section1/src/0/final/code.go#add_user{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#add_user
 
 Username,HashedPassword を持つ User レコードをデータベースに追加しましょう。
 
@@ -168,11 +168,11 @@ Username,HashedPassword を持つ User レコードをデータベースに追�
 
 これで実装は終わりです。すべてを実装すると以下のようになります。
 
-<<<@/chapter2/section1/src/0/signUpHandler.go{go:line-numbers}
+<<<@/chapter2/section1/src/0/signUpHandler.go
 
 最後に、`main.go` に、先ほど書いたハンドラーを追加しましょう。
 
-<<<@/chapter2/section1/src/0/handlers.go#signup{go:line-numbers}
+<<<@/chapter2/section1/src/0/handlers.go#signup
 
 :::warning
 このコードは後々の回で使用するので、エンドポイント (`/signup` など) は変更しないでください！
@@ -197,7 +197,7 @@ FROM users;
 
 ## セッション管理機構の実装
 
-<<<@/chapter2/section1/src/0/final/code.go#setup_session{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#setup_session
 
 セッションストアを設定しましょう。
 セッションとは、今来た人が次来たとき、同じ人であることを確認するための仕組みです。
@@ -217,7 +217,7 @@ func signUpHandler(c echo.Context) error {
 
 つづいて `loginHandler` を実装していきます。これも `handler.go` に実装しましょう。
 
-<<<@/chapter2/section1/src/0/final/code.go#post_req{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#post_req
 
 req への代入は signUpHandler と同じです。UserName と Password が入っているかも確認しましょう。
 
@@ -229,7 +229,7 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 
 ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。
 
-<<<@/chapter2/section1/src/0/final/code.go#post_hash{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#post_hash
 
 データベースに保存されているパスワードはハッシュ化されています。
 
@@ -243,7 +243,7 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 
 従って、これらのエラーの内容に応じて、 500 (Internal Server Erorr) 401 (UnAuthorized) を返却するか、処理を続行するかを選択していきます。
 
-<<<@/chapter2/section1/src/0/final/code.go#add_session{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#add_session
 
 セッションに登録します。セッションについては今回は深掘りしません。
 セッションの `userName` という値にそのユーザーの名前を格納していることは覚えておきましょう。
@@ -264,7 +264,7 @@ e.POST("/signup", signUpHandler)
 
 Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と記述します。 Middleware の実装は難しいので、なんとなく理解できれば十分です。
 
-<<<@/chapter2/section1/src/0/final/code.go#userAuthMiddleware{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#userAuthMiddleware
 
 関数が関数を呼び出していて混乱しそうですが、2行目から13行目が本質で、外側はおまじないと考えて良いです。
 
@@ -297,7 +297,7 @@ withAuth.POST("/cities", postCityHandler) // [!code ++]
 
 最後に、 `getWhoAmIHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
 
-<<<@/chapter2/section1/src/0/final/code.go#whoami{go:line-numbers}
+<<<@/chapter2/section1/src/0/final/code.go#whoami
 
 セッションからアクセスしているユーザーの`userName`を取得して返しています。
 `userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
