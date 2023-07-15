@@ -44,12 +44,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// #region handler
 	e := echo.New()
 
 	e.GET("/cities/:cityName", getCityInfoHandler)
 	e.POST("/cities", postCityHandler)
-	// #endregion handler
 
 	e.Start(":8080")
 }
