@@ -160,14 +160,19 @@ func loginHandler(c echo.Context) error {
 	user := User{}
 	err := db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
 	if err != nil {
-		return c.String(http.StatusInternalServerError, fmt.Sprintf("db error: %v", err))
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.NoContent(http.StatusUnauthorized)
+		} else {
+			log.Println(err)
+			return c.NoContent(http.StatusInternalServerError)
+		}
 	}
 	// #endregion post_req
 	// #region post_hash
 	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
 	if err != nil {
 		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
-			return c.NoContent(http.StatusForbidden)
+			return c.NoContent(http.StatusUnauthorized)
 		} else {
 			return c.NoContent(http.StatusInternalServerError)
 		}
