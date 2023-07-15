@@ -86,7 +86,7 @@ func loginHandler(c echo.Context) error {
 		}
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password + salt))
 	if err != nil {
 		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
 			return c.NoContent(http.StatusUnauthorized)
