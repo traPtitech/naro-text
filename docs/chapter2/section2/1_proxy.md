@@ -2,18 +2,18 @@
 API へ接続するためにプロキシを設定します。
 `localhost:3000/api/*`へのリクエストを、自分のサーバーの`localhost:8080`へプロキシする設定を書きます。
 
-:::info
-## プロキシとは
+:::info プロキシとは
 `http://localhost`にアクセスすると、`npm run dev`で起動している手元のサーバーにリクエストが飛んで、`index.html`などの静的なファイルがレスポンスとして返ってきます。
 ログインや街の情報の取得などは、リモートのサーバーに送信したいわけですが、`localhost`から配信されているクライアントから`133.130.109.224`に対してリクエストを送ろうとするとブラウザのセキュリティ機構に制限されたりと面倒なことがあります。
 これらを避けるために、`133.130.109.224/*`へのリクエストを`localhost:3000/api/*`として手元のサーバーに送信し、手元のサーバーがブラウザの代わりにリモートのサーバーにリクエストを送信します。手元のサーバーは、リモートのサーバーからのレスポンスを透過的にブラウザに返却するので、ブラウザからはあたかも`localhost:3000/api/*`がレスポンスを返しているように見えます。
 このように、何らかの目的のために代理で通信するサーバーをプロキシサーバーと言い、通信を代理させることを「プロキシする」と言います。
 
-参考: [オリジン間リソース共有 (CORS) | MDN](https://developer.mozilla.org/ja/docs/Web/HTTP/CORS)
-参考: [プロキシ | Wikipedia](https://ja.wikipedia.org/wiki/%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7)
+参考:<br>
+[オリジン間リソース共有 (CORS) | MDN](https://developer.mozilla.org/ja/docs/Web/HTTP/CORS)<br>
+[プロキシ | Wikipedia](https://ja.wikipedia.org/wiki/%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7)
 :::
 
-プロジェクトルートの`vite.config.js`というファイルの内容を、以下の内容に変更します。
+プロジェクトルートの`vite.config.ts`というファイルの内容を、以下の内容に変更します。
 ポート番号は自分がサーバーを起動しているポート番号にしてください。
 
 <<<@/chapter2/section2/src/1/vite.config.ts{typescript:line-numbers}
@@ -27,5 +27,5 @@ VSCode の Settings から`Format on Save`にチェックを入れると、自�
 
 <<<@/chapter2/section2/src/1/main.go{go:line-numbers}
 
-この設定をした場合、以降の`/api/*`にアクセスしている部分を`http://localhost:8080/*`にアクセスさせるようてください。
+この設定をした場合、以降の`/api/*`にアクセスしている部分を`http://localhost:8080/*`へアクセスさせるようにしてください。
 :::

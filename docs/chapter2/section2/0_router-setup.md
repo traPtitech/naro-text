@@ -39,6 +39,17 @@ SPA を作る際には、`path`に応じたページを描画する Router の�
 
 <<<@/chapter2/section2/src/1/router.ts{typescript:line-numbers}
 
+Vue Router を定義しているファイルです。
+
+ページを追加したい場合は、`routes`の中にオブジェクトを追加していけば OK です。
+参考: [Routes' Matching Syntax | Vue Router](https://next.router.vuejs.org/guide/essentials/route-matching-syntax.html)
+
+`App.vue` に書かれている、`<router-view/>`コンポーネントが、このファイルで指定されたコンポーネントに置き換えられ描画されます。
+参考: [`router-link` | Vue Router](https://next.router.vuejs.org/guide/#router-link)
+参考: [`router-view` | Vue Router](https://next.router.vuejs.org/guide/#router-view)
+
+参考: [Vue Router](https://next.router.vuejs.org/)
+
 ### 3. Vue Routerの使用
 
 Vue Router を読み込むように`src/main.ts`を以下のように変更します。
@@ -85,47 +96,3 @@ PC にインストールされているセキュリティソフトによって�
 これまでと同様に`npm run dev`で起動して、以下のような画面が表示されていれば OK です。
 
 ![](images/1/vue_first.png)
-
-## プロジェクト構成
-
-以下のようなプロジェクト構成になっています。
-
-```
-.
-├── README.md
-├── index.html
-├── package-lock.json
-├── package.json
-├── public
-│   └── favicon.ico
-├── src
-│   ├── App.vue
-│   ├── assets
-│   │   └── logo.png
-│   ├── components
-│   │   └── HelloWorld.vue
-│   ├── main.js
-│   ├── pages                // Routerで出し分けるページ
-│   │   ├── HomePage.vue
-│   │   └── NotFound.vue
-│   └── router.ts            // Routeを定義するファイル
-└── vite.config.js
-
-5 directories, 13 files
-```
-
-### src/router.ts
-Vue Router を定義しているファイルです。
-
-ページを追加したい場合は、`routes`の中にオブジェクトを追加していけば OK です。
-参考: [Routes' Matching Syntax | Vue Router](https://next.router.vuejs.org/guide/essentials/route-matching-syntax.html)
-
-`App.vue` に書かれている、`<router-view/>`コンポーネントが、このファイルで指定されたコンポーネントに置き換えられ描画されます。
-参考: [`router-link` | Vue Router](https://next.router.vuejs.org/guide/#router-link)
-参考: [`router-view` | Vue Router](https://next.router.vuejs.org/guide/#router-view)
-
-参考: [Vue Router](https://next.router.vuejs.org/)
-
-### pages以下
-
-ページを表します。
