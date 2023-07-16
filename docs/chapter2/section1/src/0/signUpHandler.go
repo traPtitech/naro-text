@@ -26,8 +26,7 @@ func signUpHandler(c echo.Context) error {
 	}
 
 	// パスワードをハッシュ化する
-	pw := req.Password + salt
-	hashedPass, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	// ハッシュ化に失敗したら500 InternalServerErrorを返す
 	if err != nil {
 		log.Println(err)

@@ -28,7 +28,6 @@ type City struct {
 
 var (
 	db   *sqlx.DB
-	salt = ""
 )
 
 func main() {
@@ -47,8 +46,6 @@ func main() {
 		Collation: "utf8mb4_unicode_ci",
 		Loc:       jst,
 	}
-
-	salt = os.Getenv("HASH_SALT")
 
 	_db, err := sqlx.Open("mysql", conf.FormatDSN())
 
@@ -88,19 +85,25 @@ func main() {
 	e.Start(":8080")
 }
 
+// #region LoginRequestBody
 type LoginRequestBody struct {
 	Username string `json:"username,omitempty" form:"username"`
 	Password string `json:"password,omitempty" form:"password"`
 }
+// #endregion LoginRequestBody
 
+// #region User
 type User struct {
 	Username   string `json:"username,omitempty"  db:"Username"`
 	HashedPass string `json:"-"  db:"HashedPass"`
 }
+// #endregion User
 
+// #region Me
 type Me struct {
 	Username string `json:"username,omitempty"  db:"username"`
 }
+// #endregion Me
 
 func signUpHandler(c echo.Context) error {
 	// #region request
@@ -127,9 +130,7 @@ func signUpHandler(c echo.Context) error {
 	}
 	// #endregion check_user
 	// #region hash
-	pw := req.Password + salt
-
-	hashedPass, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)

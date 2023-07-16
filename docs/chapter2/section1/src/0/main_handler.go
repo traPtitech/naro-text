@@ -10,12 +10,10 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 )
-// #region var
+
 var (
 	db *sqlx.DB
-	salt = os.Getenv("HASH_SALT") // [!code ++]
 )
-// #endregion var
 
 func main() {
 	jst, err := time.LoadLocation("Asia/Tokyo")
