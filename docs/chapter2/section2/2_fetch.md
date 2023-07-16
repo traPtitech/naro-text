@@ -52,7 +52,7 @@
   
 <<<@/chapter2/section2/src/2/fetch_post_option.ts{typescript:line-numbers}
 
-<details>
+:::details
 <summary>解答</summary>
 
 #### src/pages/LoginPage.vue
@@ -73,7 +73,7 @@ template 部分のみ。
 
 ![](images/2/login.png)
 
-</details>
+:::
 
 
 ## ログイン済みページの作成
@@ -197,11 +197,10 @@ Vue Router の`beforeEach`という機能を使って、各 Routing の前に特
  国一覧を表示するページを作り、その国名をクリックすると、その国の都市一覧が表示され、その都市名をクリックすると都市の情報が表示されるようにしてみましょう。
 
 
-:::info
+
 ### 発展課題
 ログアウト機能を作りましょう。
 #### ヒント
 * サーバープログラムに`/logout`を作る
 * API を叩いた人のセッションをセッションストアから破棄する
 * クライアントプログラムに`/logout`の API を叩くボタン作る
-:::
