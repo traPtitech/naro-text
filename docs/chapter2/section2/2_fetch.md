@@ -1,6 +1,11 @@
 # pingページの作成
 
-まずは前回作ったサーバーの`/ping`エンドポイントにアクセスしてみるコードを書いてみましょう。
+接続の練習のためサーバーに`/ping`エンドポイントを実装しておきましょう。
+サーバーのリポジトリの`main.go`の`main`関数を書き換えます。
+
+<<<@/chapter2/section2/src/2/main.go{go:line-numbers}
+
+次にフロントエンドから`/ping`エンドポイントにアクセスしてみるコードを書いてみましょう。
 
 `src/page`以下に`PingPage.vue`を作ってみましょう。
 
@@ -16,6 +21,12 @@
 8 行目で http ステータスが ok であるかを確認して、 9 行目でレスポンスの中身をテキストとして取得しています。
 
 `route.ts`に`PingPage`を追加するのも忘れず行いましょう。
+
+<<<@/chapter2/section2/src/2/router.ts{typescript:line-numbers}
+
+`http://localhost:5173/ping`にアクセスすると以下のような画面が表示されれば OK です。
+
+![](images/2/ping.png)
 
 参考:[フェッチAPI - Web API | MDN](https://developer.mozilla.org/ja/docs/Web/API/Fetch_API)、[非同期 JavaScript 入門 - ウェブ開発を学ぶ | MDN](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Asynchronous/Introducing)、[async function - JavaScript | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/async_function)
 
@@ -54,6 +65,8 @@ template 部分のみ。
 
 <<<@/chapter2/section2/src/2/router_2.ts{typescript:line-numbers}
 
+![](images/2/login.png)
+
 </details>
 
 
@@ -88,10 +101,11 @@ echo と同じように、`path`に`:`始まりで書くと、PathParameter と�
 
 完成するとこんな感じ。
 
-![](https://md.trap.jp/uploads/upload_6870d0b68ea440a6b466f4e1e15135d6.png)
+![](./images/2/city.png)
 
 
-:::tip
+:::info
+## 発展課題
 HomePage.vue に任意の都市について表示できるような仕組みを作ってみましょう。
 - input タグで都市名を指定
 - 「表示する」のようなボタンを押すことで`/city/{その都市名}`というリンクに飛ばす
@@ -104,16 +118,16 @@ HomePage.vue に任意の都市について表示できるような仕組みを�
 
 Chrome のシークレットウィンドウを起動し、先程の`/city/Tokyo`を開いてみます。
 
-![](https://md.trap.jp/uploads/upload_9aa94d6e853f3efecf87d99696c44b31.png)
+![](images/2/secret.png)
 
 
 本来は上のスクリーンショットのように東京の情報が表示されてほしいですが、表示されません。
-![](https://md.trap.jp/uploads/upload_b0f0d7786a00f839edb30b9d3f2ba65a.png)
+![](images/2/city_notlogin.png)
 
 
 
 Chrome Devtool から見てみるとログインしていないため、ダメだということがわかりました。
-![](https://md.trap.jp/uploads/upload_46d499b9c5398001ea5e236c116d2145.png)
+![](images/2/dev_tool.png)
 
 
 
@@ -126,7 +140,7 @@ Chrome Devtool から見てみるとログインしていないため、ダメ�
 サーバーサイドの変更をします。
 :::
 
-上のように何らかのエンドポイントを叩いた結果、403 が返ってきたらリダイレクトするようにしてもいいですが、今回は traQ やその他 traP の Vue での書き方に習って、`whoami`というエンドポイントを使ってログインされているかの確認をします。
+上のように何らかのエンドポイントを叩いた結果、403 が返ってきたらリダイレクトするようにしてもいいですが、今回は traQ やその他 traP のアプリケーションでの書き方に習って、`whoami`というエンドポイントを使ってログインされているかの確認をします。
 
 このエンドポイントはログインしているユーザー自身の情報を取得するエンドポイントです。なぜこんなエンドポイントが必要かというと、クライアント自身は自分が何というユーザーでログインしているかをサーバーに問い合わせることなく知ることができないからです。
 traQ でも一番始めに whoami エンドポイントを叩き自分の情報を取得しています。
@@ -170,7 +184,7 @@ Vue Router の`beforeEach`という機能を使って、各 Routing の前に特
 
 クライアントの見本：https://github.com/itt828/naro-client-2022-v2
 
-:::warning
+:::tip
 ### これでサーバー・クライアント両方でAPIを利用する方法がわかりました。
 これからは必要な API を考え、実装していくことになります。
 :::

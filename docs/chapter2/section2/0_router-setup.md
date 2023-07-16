@@ -70,4 +70,3 @@ Vue Router を読み込むように`src/main.ts`を以下のように変更し�
 `src/pages/NotFound.vue`を以下の内容で作成してください。
 
 <<<@/chapter2/section2/src/1/NotFound.vue{vue:line-numbers}
-
