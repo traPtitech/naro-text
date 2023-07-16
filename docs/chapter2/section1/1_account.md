@@ -38,24 +38,6 @@ go get -u github.com/srinathgs/mysqlstore
 
 ## 下準備
 
-### ハッシュソルトの設定
-
-まず、`main.go`の`var`の箇所に、 `salt` を追加します。
-
-<<<@/chapter2/section1/src/0/main_handler.go#var
-
-ここで新しく定義した`salt`という変数は、パスワード等をハッシュ値へと変換する際に、パスワード等の末尾に付与するランダムな文字列のことです。
-
-全員が同じハッシュ処理を使用していたとすると、他のサービスで保存されているハッシュされたパスワードと自分のサービスで保存されるものが一致したときにパスワードが特定できてしまいます（レインボーテーブル攻撃）。
-
-このような処理をすることで、それらの可能性を防ぐことができます。
-
-`salt` は他と一致しない独自の文字列にする必要があります。環境変数に隠しているので、環境変数を更新しましょう。
-
-ハッシュ値は 32 バイト, 64 バイト, 128 バイトにする事が推奨されているようです。
-
-<<<@/chapter2/section1/src/0/.env
-
 ### テーブルの作成
 
 更に、アカウントを管理するテーブル `users` を作成します。
@@ -75,9 +57,15 @@ func signUpHandler(c echo.Context) error {
 
 ### 1. リクエストの受け取り
 
+`signUpHandler` の外に以下の構造体を追加します。
+
+<<<@/chapter2/section1/src/0/final/code.go#LoginRequestBody
+
+次に、`signUpHandler`の中に以下を追加します。
+
 <<<@/chapter2/section1/src/0/final/code.go#request
 
-まず初めに、 req 変数に requestBody の json 情報を格納します。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
+ここでは、req 変数に requestBody の json 情報を格納しています。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
 Password が格納されています。
 
 ### 2. リクエストの検証
@@ -105,7 +93,14 @@ Password が格納されています。
 <<<@/chapter2/section1/src/0/final/code.go#hash
 
 まずはパスワードのハッシュ化です。 **パスワードは平文で保存してはいけません！** パスワードを DB に保管するときは、必ずハッシュ化をしましょう。
-ソルトは前節で説明しました。
+
+:::info 参考: ソルトについて  
+ソルトという手法を用いることで、事前計算されたテーブルを使用する攻撃から守ることができます。
+
+ここで用いている`bcrypt`というライブラリでは、これを自動でやってくれています。
+
+参考: <https://en.wikipedia.org/wiki/Salt_(cryptography)>
+:::
 
 `bcrypt`というのはいい感じにハッシュ化してくれるライブラリです。セキュリティに関わるものは自分で実装すると穴だらけになりやすいので、積極的にライブラリに頼りましょう。
 

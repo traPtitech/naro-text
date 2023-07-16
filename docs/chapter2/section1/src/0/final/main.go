@@ -17,7 +17,6 @@ import (
 
 var (
 	db   *sqlx.DB
-	salt = ""
 )
 
 func main() {
@@ -36,8 +35,6 @@ func main() {
 		Collation: "utf8mb4_unicode_ci",
 		Loc:       jst,
 	}
-
-	salt = os.Getenv("HASH_SALT")
 
 	_db, err := sqlx.Open("mysql", conf.FormatDSN())
 

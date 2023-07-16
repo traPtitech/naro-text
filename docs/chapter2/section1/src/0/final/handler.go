@@ -52,9 +52,7 @@ func signUpHandler(c echo.Context) error {
 		return c.String(http.StatusConflict, "Username is already used")
 	}
 
-	pw := req.Password + salt
-
-	hashedPass, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
