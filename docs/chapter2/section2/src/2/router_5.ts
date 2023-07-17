@@ -4,7 +4,6 @@ import NotFound from './pages/NotFound.vue'
 import PingPage from './pages/PingPage.vue'
 import LoginPage from './pages/LoginPage.vue'
 import CityPage from './pages/CityPage.vue'
-import axios from 'axios'
 
 const routes = [
   { path: '/', name: 'home', component: HomePage, meta: { isPublic: true } },
