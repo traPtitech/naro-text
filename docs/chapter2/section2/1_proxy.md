@@ -14,7 +14,6 @@ API へ接続するためにプロキシを設定します。
 :::
 
 プロジェクトルートの`vite.config.ts`というファイルの内容を、以下の内容に変更します。
-ポート番号は自分がサーバーを起動しているポート番号にしてください。
 
 <<<@/chapter2/section2/src/1/vite.config.ts{typescript:line-numbers}
 
