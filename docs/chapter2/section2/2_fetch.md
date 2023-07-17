@@ -52,8 +52,7 @@
   
 <<<@/chapter2/section2/src/2/fetch_post_option.ts{typescript:line-numbers}
 
-:::details
-<summary>解答</summary>
+:::details 解答
 
 #### src/pages/LoginPage.vue
 
@@ -131,7 +130,7 @@ HomePage.vue に任意の都市について表示できるような仕組みを�
 
 
 
-Chrome Devtool から見てみるとログインしていないため、ダメだということがわかりました。
+ブラウザの開発者ツールから見てみるとログインしていないため、ダメだということがわかりました。
 ![](images/2/dev_tool.png)
 
 
