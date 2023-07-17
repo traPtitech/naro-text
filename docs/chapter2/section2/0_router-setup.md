@@ -42,13 +42,15 @@ SPA を作る際には、`path`に応じたページを描画する Router の�
 Vue Router を定義しているファイルです。
 
 ページを追加したい場合は、`routes`の中にオブジェクトを追加していけば OK です。
+
 参考: [Routes' Matching Syntax | Vue Router](https://next.router.vuejs.org/guide/essentials/route-matching-syntax.html)
 
 `App.vue` に書かれている、`<router-view/>`コンポーネントが、このファイルで指定されたコンポーネントに置き換えられ描画されます。
-参考: [`router-link` | Vue Router](https://next.router.vuejs.org/guide/#router-link)
-参考: [`router-view` | Vue Router](https://next.router.vuejs.org/guide/#router-view)
 
-参考: [Vue Router](https://next.router.vuejs.org/)
+参考:<br>
+[`router-link` | Vue Router](https://next.router.vuejs.org/guide/#router-link)<br>
+[`router-view` | Vue Router](https://next.router.vuejs.org/guide/#router-view)<br>
+[Vue Router](https://next.router.vuejs.org/)
 
 ### 3. Vue Routerの使用
 
