@@ -12,8 +12,8 @@ type City struct {
 	Population  sql.NullInt64  `json:"population,omitempty"  db:"Population"`
 }
 
-// #region caculate
-func caculatePopulation(cities []City) map[string]int64 {
+// #region calculate
+func calculatePopulation(cities []City) map[string]int64 {
 	result := make(map[string]int64)
 	for _, city := range cities {
 		if city.CountryCode.Valid {
@@ -27,4 +27,4 @@ func caculatePopulation(cities []City) map[string]int64 {
 	return result
 }
 
-// #endregion caculate
+// #endregion calculate

@@ -10,25 +10,25 @@
 
 ::: details 参考実装
 
-<<<@/chapter2/section3/src/caculate_population.go#caculate
+<<<@/chapter2/section3/src/calculate_population.go#calculate
 
 :::
 
 そうしたら、このコードが期待した値を返すかテストを書いてみましょう。
 
-まず、`caculate_test.go`を作成します。
+まず、`calculate_test.go`を作成します。
 
 ::: tips
 Go では、`_test`がファイル名の後ろについているファイルはテストファイルとして認識されます。
 :::
 
-続いて、`caculate_test.go`にテスト関数を実装していきます。
+続いて、`calculate_test.go`にテスト関数を実装していきます。
 
 ```go
 import "testing"
 // Testで始まる関数はテスト関数として認識されます
 // testingはGoのテストのための標準ライブラリです
-func Test_caculatePopulation(t *testing.T) {
+func Test_calculatePopulation(t *testing.T) {
     // ここにテストを書いていく
 }
 ```
@@ -38,14 +38,14 @@ func Test_caculatePopulation(t *testing.T) {
 ```go
 import "testing"
 
-func Test_caculatePopulation(t *testing.T) {
+func Test_calculatePopulation(t *testing.T) {
 	// ここにテストを書いていく
 	cities := []City{}
-	got := caculatePopulation(cities)
+	got := calculatePopulation(cities)
 	want := map[string]int{}
 	// 長さが0になっているかどうかを確認する
 	if len(got) != 0 {
-		t.Errorf("caculatePopulation(%v) = %v, want %v", cities, got, want)
+		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
 	}
 }
 
@@ -57,8 +57,8 @@ func Test_caculatePopulation(t *testing.T) {
 
 すると、VSCode の Output にテストの結果が表示されます。
 ```
-=== RUN   Test_caculatePopulation
---- PASS: Test_caculatePopulation (0.00s)
+=== RUN   Test_calculatePopulation
+--- PASS: Test_calculatePopulation (0.00s)
 PASS
 ok  	test	0.001s
 ```
@@ -67,19 +67,19 @@ ok  	test	0.001s
 
 ## 様々なケースをテストしてみよう
 
-次に、`caculatePopulation`のテストをもう少し充実させてみましょう。
+次に、`calculatePopulation`のテストをもう少し充実させてみましょう。
 
 これから複数のテストを書くため、先ほどのテストの関数名を変更します。
 
 ```go
-func Test_caculatePopulation_empty(t *testing.T) {
+func Test_calculatePopulation_empty(t *testing.T) {
   // ここにテストを書いていく
   cities := []City{}
-  got := caculatePopulation(cities)
+  got := calculatePopulation(cities)
   want := map[string]int{}
   // 長さが0になっているかどうかを確認する
   if len(got) != 0 {
-    t.Errorf("caculatePopulation(%v) = %v, want %v", cities, got, want)
+    t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
   }
 }
 ```
@@ -93,11 +93,11 @@ func Test_caculatePopulation_empty(t *testing.T) {
 ::: details 答え
 
 #### 1 つの国のみのデータが入っている場合
-<<<@/chapter2/section3/src/caculate_population_test.go#single
+<<<@/chapter2/section3/src/calculate_population_test.go#single
 
 #### 複数の国のデータが入っている場合
-<<<@/chapter2/section3/src/caculate_population_test.go#multiple
+<<<@/chapter2/section3/src/calculate_population_test.go#multiple
 
 #### 空のデータ(`city.CountryCode.Valid = false`)のデータが入っている場合
-<<<@/chapter2/section3/src/caculate_population_test.go#null
+<<<@/chapter2/section3/src/calculate_population_test.go#null
 ::: 
