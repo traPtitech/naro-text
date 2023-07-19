@@ -24,7 +24,7 @@ go mod tidy
 
 ### ビルドして実行する
 
-今までは`go run`コマンドでプログラムを実行していましたが、Go では`go build`コマンドでコンパイルして実行ファイルを生成し、それを実行できます。
+今までは`go run`コマンドでプログラムを実行していましたが、Go では`go build`コマンドでコンパイルして実行ファイルを生成し、そのファイルを用いてプログラムを実行できます。
 
 ```sh
 go build -o server
@@ -76,7 +76,7 @@ RUN go build -o app
 ENTRYPOINT ./app
 ```
 
-server ディレクトリ内に`Dockerfile`というファイルを作り、上のコードを書きましょう。
+naro_server ディレクトリ内に`Dockerfile`というファイルを作り、上のコードを書きましょう。
 
 VSCode であれば、[Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) という拡張機能を入れると Dockerfile を書くのを手助けしてくれます。
 

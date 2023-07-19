@@ -120,7 +120,8 @@ Docker Desktop がインストールされている環境では、GUI で Docker
 
 `hello-world`イメージのコンテナはメッセージを出力してすぐ終了してしまうので、Docker っぽさをあまり感じられません。そこで、静的な Web ページをホストするサーバーを Docker で立ててみましょう。
 
-ここでは、この後に詳しく登場する nginx を使います。ここでの nginx は Web サーバーの役割として静的な Web サイトを配信します。後で登場するときはリバースプロキシの役割を果たします。
+ここでは、 nginx を使います。nginx についての詳細な解説は後ほどしますが、ここでは Web サーバーとして静的な Web サイトを配信する役割を担っています。
+nginx はリバースプロキシのためにも用います。これも後ほど扱います。
 
 以下のコマンドを実行してください。
 
@@ -148,7 +149,7 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS       
 cbe509e0c99f   nginx     "/docker-entrypoint.…"   44 minutes ago   Up 5 minutes   127.0.0.1:3000->80/tcp   naro_nginx
 ```
 
-確認出来たらコンテナを停止、削除しましょう。
+確認出来たらコンテナの停止、削除をしましょう。
 
 ```sh
 docker stop naro_nginx

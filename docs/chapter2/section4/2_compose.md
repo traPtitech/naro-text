@@ -6,7 +6,7 @@ https://docs.docker.jp/compose/toc.html
 
 ## Docker Composeの使い方
 
-`docker-compose.yml`というファイルに設定を書き、`docker compose {操作} [オプション]`のようなコマンドを入力することで使えます。
+`compose.yaml`というファイルに設定を書き、`docker compose {操作} [オプション]`のようなコマンドを入力することで使えます。
 
 下のファイルは前ページの`docker run`コマンドを再現する設定ファイルです。
 
@@ -20,7 +20,7 @@ yaml ファイルは、インデントでオブジェクト(ひとまとまり�
 
 ## 起動する
 
-`docker-compose.yml`が存在するディレクトリで`docker compose up`とすることで、コンテナを一括で起動できます。
+`compose.yaml`が存在するディレクトリで`docker compose up`とすることで、コンテナを一括で起動できます。
 
 ```sh
 docker compose up
@@ -28,7 +28,7 @@ docker compose up
 
 `Ctrl+C`でコンテナを停止できますが、削除は行われません。
 
-`-d`オプションを追加することで、デーモン（バックグラウンド）で起動できます。実際のサーバーなどで運用する場合はバックグラウンドで起動することになります。
+`-d`オプションを追加することで、でタッチモードで起動でき、バックグラウンドでコンテナを実行できます。実際のサーバーなどで運用する場合はバックグラウンドで起動することになります。
 
 コンテナを一括で停止・削除するためには、`down`を実行します。
 
@@ -40,7 +40,7 @@ docker compose down
 
 ## 基本演習(複数コンテナ)
 
-下の条件を満たすように`docker-compose.yml`を書きかえてみましょう。
+下の条件を満たすように`compose.yaml`を書きかえてみましょう。
 
 - 2 つのコンテナを起動する。
 - どちらも前のページで作った `Dockerfile`を用いる。
@@ -50,7 +50,7 @@ docker compose down
 試してみる前に`docker compose down`を実行して既存のコンテナを削除しておきましょう。
 
 :::details 答え
-`docker-compose.yml`
+`compose.yaml`
 
 <<< @/chapter2/section4/src/ex1-docker-compose.yml
 
@@ -72,7 +72,7 @@ https://hub.docker.com/_/nginx/
 
 ### 設定ファイルを書く
 
-nginx の設定ファイルとして、**`server/nginx/conf.d/greeting.cnf`** を下のように書きます。
+nginx の設定ファイルとして、**`./nginx/conf.d/greeting.cnf`** を下のように書きます。
 
 <<< @/chapter2/section4/src/greeting.conf{txt}
 
@@ -80,13 +80,13 @@ nginx の設定ファイルとして、**`server/nginx/conf.d/greeting.cnf`** �
 
 ### Docker Compose の設定を追加する
 
-`docker-compose.yml`を`nginx`を使えるように書き換えます。
+`compose.yaml`を`nginx`を使えるように書き換えます。
 
 <<< @/chapter2/section4/src/docker-compose-nginx.yml
 
 `reverse_proxy`コンテナで`nginx`イメージを使って、`volumes`から設定ファイルのディレクトリをマウントしています。`volumes`は`{ホスト側のパス}:{コンテナ側のパス}`のように、コロンで区切って指定します。
 
-`greeting`コンテナは nginx 経由のアクセス経路を作ったので、ポートの開放設定を消しています。`reverse_proxy`コンテナのコンテナ側ポートが`80`なのは、 nginx のデフォルトの設定がそうなっているからです。
+`greeting`コンテナは nginx 経由のアクセス経路を作ったので、ポートの開放設定を消しています。`reverse_proxy`コンテナのコンテナ側ポートが`80`なのは、http プロトコルのデフォルトのポートが`80`であり、 nginx もそれに従っているからです。
 
 ここまでやったらコンテナを立ち上げて`curl`コマンドでリクエストを送ってみましょう。
 
@@ -98,15 +98,15 @@ curl -H "Host:hello.local" http://localhost:3000/greeting
 （DNS が解決できないので、サーバーに到達できないため。`/etc/hosts` とかに書いてやるのでも良かったのですが、結構概念が難しいので今回は見送りました）
 
 ```txt
-ikura-hamu@Laptop-hk:~/server$ curl -H "Host:hello.local" http://localhost:3000/greeting
-こんにちはikura-hamu@Laptop-hk:~/server$
+ikura-hamu@Laptop-hk:~/naro_server$ curl -H "Host:hello.local" http://localhost:3000/greeting
+こんにちはikura-hamu@Laptop-hk:~/naro_server$
 ```
 
 このように挨拶が表示されたら成功です。
 
 ## 基本演習(リバースプロキシ)
 
-下の条件を満たすように設定しましょう。`docker-compose.yml`を編集し、 nginx の設定ファイルを追加する必要があります。
+下の条件を満たすように設定しましょう。`compose.yaml`を編集し、 nginx の設定ファイルを追加する必要があります。
 
 - `http://localhost:3000`で nginx がリクエストを受け付ける。
 - `Host`ヘッダーが`hello1.local`であれば、`greeting1`コンテナにリクエストを飛ばし、`/greeting`に対して「こんにちは」と返ってくる。
@@ -126,15 +126,15 @@ curl -H "Host:hello2.local" http://localhost:3000/greeting
 
 :::details  答え
 
-`server/nginx/conf.d/greeting1.conf`
+`naro_server/nginx/conf.d/greeting1.conf`
 
 <<< @/chapter2/section4/src/ex2-greeting1.conf{txt}
 
-`server/nginx/conf.d/greeting2.conf`
+`naro_server/nginx/conf.d/greeting2.conf`
 
 <<< @/chapter2/section4/src/ex2-greeting2.conf{txt}
 
-`server/docker-compose.yml`
+`naro_server/compose.yaml`
 
 <<< @/chapter2/section4/src/ex2-docker-compose.yml
 
