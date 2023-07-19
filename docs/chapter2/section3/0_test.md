@@ -18,7 +18,7 @@
 
 まず、`calculate_test.go`を作成します。
 
-::: tips
+::: tip
 Go では、`_test`がファイル名の後ろについているファイルはテストファイルとして認識されます。
 :::
 
@@ -88,7 +88,7 @@ func Test_calculatePopulation_empty(t *testing.T) {
 
 - 1 つの国のみのデータが入っている場合
 - 複数の国のデータが入っている場合
-- 空のデータ(`city.CountryCode.Valid = false`)のデータが入っている場合
+- 空のデータ(`city.CountryCode.Valid = false`)が入っている場合
 
 ::: details 答え
 
@@ -98,6 +98,6 @@ func Test_calculatePopulation_empty(t *testing.T) {
 #### 複数の国のデータが入っている場合
 <<<@/chapter2/section3/src/calculate_population_test.go#multiple
 
-#### 空のデータ(`city.CountryCode.Valid = false`)のデータが入っている場合
+#### 空のデータ(`city.CountryCode.Valid = false`)が入っている場合
 <<<@/chapter2/section3/src/calculate_population_test.go#null
 ::: 

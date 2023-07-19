@@ -4,18 +4,18 @@
 
 そのため、テストの実行は自動化される必要があります。
 
-今回は Github の機能の 1 つである Actions を使って、テストを自動化してみましょう。
+今回は GitHub の機能の 1 つである Actions を使って、テストを自動化してみましょう。
 
-## Github Actionについて
+## GitHub Actionsについて
 
-Github Actions は Github が提供している自動化サービスです。  
+GitHub Actions は GitHub が提供している自動化サービスです。  
 Pull request が作成されたときや、main ブランチにマージされたときなど、様々なタイミングで自動的に処理を実行できます。
 
-## Github Actionsの設定
+## GitHub Actionsの設定
 
-Github Actions でいつ、どのような処理を実行するかは、`.github/workflows`ディレクトリに YAML ファイルを作成することで設定できます。
+GitHub Actions でいつ、どのような処理を実行するかは、`.github/workflows`ディレクトリに YAML ファイルを作成することで設定できます。
 
-Github Actions で利用する YAML ファイルの構造は、以下のドキュメントに記されています。
+GitHub Actions で利用する YAML ファイルの構造は、以下のドキュメントに記されています。
 https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 
 今回は、`ci.yaml`というファイルを作成し、以下のように記述します。
@@ -66,7 +66,7 @@ jobs:
         run: go test ./...
 ```
 
-`name`は、この Github Actions の名前です。
+`name`は、この GitHub Actions の名前です。
 ここに設定された名前が、実行時のログに表示されます。
 
 ![](./images/ci.png)
@@ -93,7 +93,7 @@ jobs:
         run: go test ./...
 ```
 
-`on`は、この Github Actions が実行されるタイミングを設定します。
+`on`は、この GitHub Actions が実行されるタイミングを設定します。
 今回の場合は、「`main` ブランチに push されたとき」と「Pull request が作成・更新されたとき」に実行されます。
 
 ## `jobs`
@@ -117,7 +117,7 @@ jobs: // [!code focus:11]
         run: go test ./...
 ```
 
-`jobs`は、この Github Actions で実行する処理を設定します。
+`jobs`は、この GitHub Actions で実行する処理を設定します。
 
 その中身について見ていきましょう。
 
@@ -142,7 +142,7 @@ jobs:
         run: go test ./...
 ```
 
-`runs-on`は、この Github Actions を実行する環境を設定します。今回は Ubuntu の最新バージョンを指定しています。
+`runs-on`は、この GitHub Actions を実行する環境を設定します。今回は Ubuntu の最新バージョンを指定しています。
 
 これ以外にも、Windows Server や macOS など、様々な環境の指定ができます。
 
@@ -170,11 +170,11 @@ jobs:
         run: go test ./...
 ```
 
-`steps`は、この Github Actions で実際に実行する処理を順番に記述していくところです。
+`steps`は、この GitHub Actions で実際に実行する処理を順番に記述していくところです。
 
 #### `uses`
 
-`uses`は、Github Actions で提供されているを利用するための設定です。
+`uses`は、GitHub Actions で提供されているモジュールを利用するための設定です。
 
 例えば、`actions/checkout@v3`は、リポジトリをクローンし、指定したブランチに移動するモジュールです。
 デフォルトでは、Actions がトリガーされたブランチに移動します。
