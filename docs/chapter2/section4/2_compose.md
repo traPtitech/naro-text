@@ -10,7 +10,7 @@ https://docs.docker.jp/compose/toc.html
 
 下のファイルは前ページの`docker run`コマンドを再現する設定ファイルです。
 
-<<< @/chapter2/section4/src/docker-compose-1.yml
+<<< @/chapter2/section4/src/docker-compose-1.yaml
 
 yaml ファイルは、インデントでオブジェクト(ひとまとまりの情報)を表現します。
 
@@ -66,7 +66,7 @@ docker compose down
 :::details 答え
 `compose.yaml`
 
-<<< @/chapter2/section4/src/ex1-docker-compose.yml
+<<< @/chapter2/section4/src/ex1-docker-compose.yaml
 
 コンテナ側のポート番号は、2 つのコンテナで異なっていればよいです。
 :::
@@ -86,7 +86,7 @@ https://hub.docker.com/_/nginx/
 
 ### 設定ファイルを書く
 
-nginx の設定ファイルとして、**`./nginx/conf.d/greeting.cnf`** を下のように書きます。
+nginx の設定ファイルとして、**`./nginx/conf.d/greeting.conf`** を下のように書きます。
 
 <<< @/chapter2/section4/src/greeting.conf{txt}
 
@@ -96,7 +96,7 @@ nginx の設定ファイルとして、**`./nginx/conf.d/greeting.cnf`** を下�
 
 `compose.yaml`を`nginx`を使えるように書き換えます。
 
-<<< @/chapter2/section4/src/docker-compose-nginx.yml
+<<< @/chapter2/section4/src/docker-compose-nginx.yaml
 
 `reverse_proxy`コンテナで`nginx`イメージを使って、`volumes`から設定ファイルのディレクトリをマウントしています。`volumes`は`{ホスト側のパス}:{コンテナ側のパス}`のように、コロンで区切って指定します。
 
@@ -156,6 +156,6 @@ curl -H "Host:hello2.local" http://localhost:3000/greeting
 
 `naro_server/compose.yaml`
 
-<<< @/chapter2/section4/src/ex2-docker-compose.yml
+<<< @/chapter2/section4/src/ex2-docker-compose.yaml
 
 :::
