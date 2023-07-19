@@ -45,14 +45,16 @@ For more examples and ideas, visit:
 
 ## Docker コマンド
 
-Docker を扱う上でよく使うコマンドを紹介していきます。基本的には`docker [リソース] {操作} [オプション] {対象}`のような構成になっています。
+Docker を扱う上でよく使うコマンドを紹介していきます。基本的には`docker [リソース] {操作} [オプション] {対象}`のような構成になっています。よく使うコマンドには省略形も存在し、そちらを使うことが多いです。
 
 - Docker コマンド公式ドキュメント(有志による日本語訳) https://docs.docker.jp/engine/reference/commandline/index.html
 - Docker 公式リファレンス https://docs.docker.com/reference/
 
 ここでは基本的な使い方しか紹介しませんが、各コマンドにさまざまなオプションが存在します。必要になったら調べてみてください。
 
-### `docker run {イメージ名}`
+### `docker run [オプション] {イメージ名}`
+
+(`docker container run [オプション] {イメージ名}`)
 
 イメージを指定してコンテナを起動します。先ほど`docker run hello-world`というコマンドを実行しましたが、これは「`hello-world`というイメージでコンテナを起動する」という意味です。ローカルに該当するイメージが無い場合は Docker の公式イメージや [Docker Hub](https://hub.docker.com/)などから探して起動してくれます。
 
@@ -64,13 +66,17 @@ https://docs.docker.jp/engine/reference/commandline/run.html
 
 https://docs.docker.jp/engine/reference/commandline/run.html
 
-### `docker stop {コンテナid / コンテナ名}`
+### `docker stop [オプション] {コンテナid / コンテナ名}`
+
+(`docker container stop [オプション] {コンテナid / コンテナ名}`)
 
 docker コンテナを停止します。コンテナ id は下の`docker ps`で確認できます。
 
 https://docs.docker.jp/engine/reference/commandline/stop.html
 
-### `docker ps`
+### `docker ps [オプション]`
+
+(`docker container ls [オプション]`)
 
 起動しているコンテナの一覧を表示します。
 停止中のコンテナも表示する場合は`-a`オプションを付けます。また、起動しているコンテナをすべて止めたい場合は、`docker stop $(docker ps -q)`のように組み合わせると楽です。
@@ -83,7 +89,9 @@ CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                 
 
 https://docs.docker.jp/engine/reference/commandline/ps.html
 
-### `docker rm {コンテナid / コンテナ名}`
+### `docker rm [オプション] {コンテナid / コンテナ名}`
+
+(`docker container rm [オプション] {コンテナid / コンテナ名}`)
 
 停止しているコンテナを削除します。`docker stop ~~~` -> `docker rm ~~~`のように使います。
 
@@ -96,7 +104,9 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 https://docs.docker.jp/engine/reference/commandline/rm.html
 
-### `docker images`
+### `docker images [オプション]`
+
+(`docker image ls [オプション]`)
 
 ローカルに存在する Docker イメージの一覧を表示します。
 
