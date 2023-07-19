@@ -118,6 +118,12 @@ ikura-hamu@Laptop-hk:~/naro_server$ curl -H "Host:hello.local" http://localhost:
 
 このように挨拶が表示されたら成功です。
 
+今回の設定では、下のような流れでリクエストが処理されています。
+
+1. `reverse_proxy`コンテナが 80 番ポートでリクエストを受け取る。
+2. nginx がリクエストの`Host`ヘッダーを見て、`greeting`コンテナの 8080 番ポートにプロキシする。
+3. `greeting`コンテナはレスポンスを`reverse_proxy`コンテナを通して返す。
+
 ## 基本演習(リバースプロキシ)
 
 下の条件を満たすように設定しましょう。`compose.yaml`を編集し、 nginx の設定ファイルを追加する必要があります。
