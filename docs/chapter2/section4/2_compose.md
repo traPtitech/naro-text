@@ -36,6 +36,20 @@ docker compose up
 docker compose down
 ```
 
+## 他の Docker Compose のコマンド
+
+`up`、`down`以外によく使う Docker Compose のコマンドを紹介します。
+
+### `docker compose logs [オプション] [サービス名]`
+
+コンテナからのログを出力して確認できます。サービスは`compose.yaml`の`services`以下に書かれているものを指します。サービス名を指定しない場合は全てのサービスからのログを出力します。
+
+### `docker compose exec [オプション] {サービス名} {コマンド}`
+
+起動しているコンテナの中でコマンドを実行できます。例えば、`docker compose exec app ls`とすると、`app`コンテナの中で`ls`コマンドを実行し、その結果を出力できます。また、コマンドで`sh`や`bash`を指定すると、コンテナの中に入って普段のターミナルのようにコマンドを実行できます。
+
+---
+
 他にも様々なコマンドが存在します。`docker compose`と実行するとコマンド一覧を確認できます。
 
 ## 基本演習(複数コンテナ)
