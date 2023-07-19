@@ -112,7 +112,7 @@ func Test_calculatePopulation_multiple(t *testing.T) {
 // #endregion multiple
 
 // #region null
-// 空のデータ(`city.CountryCode.Valid = false`)のデータが入っている場合
+// 空のデータ(`city.CountryCode.Valid = false`)が入っている場合
 func Test_calculatePopulation_null(t *testing.T) {
 	cities := []City{
 		{
