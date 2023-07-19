@@ -25,6 +25,8 @@ Go では、`_test`がファイル名の後ろについているファイルは�
 続いて、`calculate_test.go`にテスト関数を実装していきます。
 
 ```go
+package main
+
 import "testing"
 // Testで始まる関数はテスト関数として認識されます
 // testingはGoのテストのための標準ライブラリです
@@ -36,6 +38,8 @@ func Test_calculatePopulation(t *testing.T) {
 まずは、空のリストを渡したときに、空のマップが返ってくることをテストしてみましょう。
 
 ```go
+package main
+
 import "testing"
 
 func Test_calculatePopulation(t *testing.T) {
