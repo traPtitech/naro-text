@@ -199,6 +199,7 @@ on:
   pull_request:
 jobs:
   build:
+    runs-on: ubuntu-latest
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
         with:
