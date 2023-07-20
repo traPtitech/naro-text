@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: "1.20"
       - name: Run tests
         run: go test ./...
 ```
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: "1.20"
       - name: Run tests
         run: go test ./...
 ```
@@ -88,7 +88,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: "1.20"
       - name: Run tests
         run: go test ./...
 ```
@@ -112,7 +112,7 @@ jobs: // [!code focus:11]
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: "1.20"
       - name: Run tests
         run: go test ./...
 ```
@@ -137,7 +137,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: "1.20"
       - name: Run tests
         run: go test ./...
 ```
@@ -165,7 +165,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: "1.20"
       - name: Run tests
         run: go test ./...
 ```
@@ -202,7 +202,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
         with:
-          go-version: 1.20
+          go-version: "1.20"
     - run: go mod download
     - run: go build
 ```
