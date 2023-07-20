@@ -10,7 +10,7 @@ func Test_calculatePopulation(t *testing.T) {
 	cities := []City{}
 	got := calculatePopulation(cities)
 	want := map[string]int64{}
-	// 長さが0になっているかどうかを確認する
+	// 長さが等しいかを確認する
 	if len(got) != 0 {
 		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
 	}
