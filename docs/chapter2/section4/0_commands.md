@@ -62,8 +62,6 @@ Docker を扱う上でよく使うコマンドを紹介していきます。基�
 
 イメージを指定してコンテナを起動します。先ほど`docker run hello-world`というコマンドを実行しましたが、これは「`hello-world`というイメージでコンテナを起動する」という意味です。ローカルに該当するイメージが無い場合は Docker の公式イメージや [Docker Hub](https://hub.docker.com/)などから探して起動してくれます。
 
-https://docs.docker.jp/engine/reference/commandline/run.html
-
 `hello-world`イメージではテキストを表示するだけなのであまり意味がないですが、コンテナを起動し、そのままコンテナ内に接続する場合は`docker run -it {イメージ名}`のように実行します。
 
 また、コンテナの停止時に自動的に削除するためには、`docker run --rm {イメージ名}`のようにします。
