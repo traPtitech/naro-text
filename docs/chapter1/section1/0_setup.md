@@ -12,7 +12,9 @@ Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンシ
 
 ## WSL の導入(Windows を使っている人のみ)
 
-すでにWSLをインストールしている方はこの手順は飛ばして大丈夫です。
+すでに WSL をインストールしている方はこの手順は飛ばして大丈夫です。
+
+WSL は Windows 上で Linux を動かすための仕組みで、`Windows Subsystem for Linux`の略です。
 
 以下のページの Step 1 を行ってください。 Step 2 以降は行わなくて大丈夫です。 
 
@@ -22,15 +24,19 @@ https://pg-basic.trap.show/text/chapter-0/enviroment/windows.html#step-1-install
 
 `ターミナル`アプリを開いて、以下のコマンドを貼り付け、`return`キーを押して実行してください。
 
+Homebrew とは、様々なアプリケーションをインストールしやすくし、アップデートなどもやりやすくするためのソフトです。
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
+参考: https://brew.sh/index_ja
+
 ## VSCode の導入
 
-すでにVSCodeをインストールしている方はこの手順は飛ばして大丈夫です。
+すでに VSCode をインストールしている方はこの手順は飛ばして大丈夫です。
 
-以下のサイトから使用しているOSに合ったVSCodeのインストーラーをダウンロードして、それを実行してインストールしてください。
+以下のサイトから使用している OS に合った VSCode のインストーラーをダウンロードして、それを実行してインストールしてください。
 
 https://code.visualstudio.com/download
 
