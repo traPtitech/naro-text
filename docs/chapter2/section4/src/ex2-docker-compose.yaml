@@ -1,0 +1,17 @@
+services:
+  greeting1:
+    build: .
+    environment:
+      GREETING_MESSAGE: こんにちは
+      PORT: 8080
+  greeting2:
+    build: .
+    environment:
+      GREETING_MESSAGE: Hello
+      PORT: 8080
+  reverse_proxy:
+    image: nginx
+    ports:
+      - "127.0.0.1:3000:80"
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d
