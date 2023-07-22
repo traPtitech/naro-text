@@ -89,6 +89,16 @@ asdf install golang 1.20.5
 asdf global golang 1.20.5
 ```
 
+### Go のツールのインストール(全員)
+
+VSCode で Windows ならば`Ctrl`+`Shift`+`P`、Mac ならば`Command`+`Shift`+`P`を押して出てくるコマンドパレットに`gotools`と入力して、出てきた「Go: Install/Update Tools」をクリックしてください。
+
+![](images/vscode_gotools.png)
+
+利用可能なツールの一覧が出てくるので、全てにチェックを入れて「OK」をクリックします。
+
+出力で`All tools successfully installed. You are ready to Go. :)`と出ているのが確認できたら成功です。
+
 ## Docker Desktopのインストール
 
 https://www.docker.com/products/docker-desktop/  
