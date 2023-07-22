@@ -25,7 +25,7 @@ Vue を使うために、Node.js を入れます。自分の環境に合わせ�
 ### 簡単
 前の章で asdf を使って Go をインストールした人はこちらではなくて、「バージョン管理を考える」の方を見てください。
 #### mac
-1. brew を用いてインストール
+1. Homebrew を用いてインストール
 
 ```zsh
 $ brew install node
@@ -342,6 +342,7 @@ Vue のコンポーネントは 1 つのタグの中に収まっている必要�
 ```vue
 <script setup lang="ts">
 ```
+
 `lang="ts"`に注目してください。実は今回は script タグ内では JavaScript なくて、TypeScirpt を書いています。TypeSciript は JavaScript に型がついたもので、SysAd のほぼ全てのプロジェクトで用いられています。型をつけることでバグを防ぐことができるので、この講習会でも TypeScript を使っていきます。
 
 ##### 2 行目
@@ -442,6 +443,8 @@ Vue では`ref`で`count`のような変数を定義するだけで、「値を�
 
 `computed`という機能を使って、表示するメッセージを生成します。  
 `count`の内容が変化すると自動的に`countMessage`の値が更新されるようになっています。
+
+リアクティブな値にアクセスする時、`<script setup>`の内部では`count.value`のように、変数名のあとに`.value`をつけてアクセスしてください。
 
 ```ts
 const countMessage = computed(() => "回数: " + count.value)

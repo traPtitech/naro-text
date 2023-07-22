@@ -10,6 +10,36 @@ Mac: `Control + Shift + Command + 4`を押すと、矩形選択でスクリー�
 Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に`Ctrl + V`で貼り付けられます。
 :::
 
+## WSL の導入(Windows を使っている人のみ)
+
+すでに WSL をインストールしている方はこの手順は飛ばして大丈夫です。
+
+WSL は Windows 上で Linux を動かすための仕組みで、`Windows Subsystem for Linux`の略です。
+
+以下のページの Step 1 を行ってください。 Step 2 以降は行わなくて大丈夫です。 
+
+https://pg-basic.trap.show/text/chapter-0/enviroment/windows.html#step-1-install-wsl
+
+## Homebrew の導入(Mac を使っている人のみ)
+
+`ターミナル`アプリを開いて、以下のコマンドを貼り付け、`return`キーを押して実行してください。
+
+Homebrew とは、様々なアプリケーションをインストールしやすくし、アップデートなどもやりやすくするためのソフトです。
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+参考: https://brew.sh/index_ja
+
+## VSCode の導入
+
+すでに VSCode をインストールしている方はこの手順は飛ばして大丈夫です。
+
+以下のサイトから使用している OS に合った VSCode のインストーラーをダウンロードして、それを実行してインストールしてください。
+
+https://code.visualstudio.com/download
+
 ## VSCode 拡張機能の導入
 
 - [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
@@ -36,7 +66,7 @@ https://golang.org/doc/install
 
 Mac のタブを選択し、ダウンロードページに飛んで自分のアーキテクチャの pkg をダウンロード=>インストーラ起動で設定完了です。
 
-もしくは`brew install go@1.20`を実行してください。
+もしくはHomebrewがすでにインストールされている人は、`brew install go@1.20`を実行することでも導入できます。
 
 ::: info
 M1/M2 Mac の人は Apple macOS (ARM64) を、Intel Mac の人は Apple macOS (x86-64) を選択してください。
