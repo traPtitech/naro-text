@@ -70,7 +70,7 @@ func main() {
 	withAuth.Use(userAuthMiddleware)
 	withAuth.GET("/cities/:cityName", getCityInfoHandler)
 	withAuth.POST("/cities", postCityHandler)
-	withAuth.GET("/whoami", getWhoAmIHandler)
+	withAuth.GET("/me", getMeHandler)
 
 	e.Start(":8080")
 }

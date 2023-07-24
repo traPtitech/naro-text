@@ -142,7 +142,7 @@ func postCityHandler(c echo.Context) error {
 	return c.JSON(http.StatusCreated, city)
 }
 
-func getWhoAmIHandler(c echo.Context) error {
+func getMeHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, Me{
 		Username: c.Get("userName").(string),
 	})

@@ -96,13 +96,13 @@ withAuth.POST("/cities", postCityHandler) // [!code ++]
 
 これで、この章の目標である「ログインしないと利用できないようにする」が達成されました。
 
-## getWhoAmIHandler の実装
+## getMeHandler の実装
 
-最後に、 `getWhoAmIHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
+最後に、 `getMeHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
 
-<<<@/chapter2/section1/src/0/final/code.go#whoami
+<<<@/chapter2/section1/src/0/final/code.go#me
 
 アクセスしているユーザーの`userName`をセッションから取得して返しています。
 `userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
 
-`withAuth.GET("/whoami", getWhoAmIHandler)` を忘れずに追加しましょう。
+`withAuth.GET("/me", getMeHandler)` を忘れずに追加しましょう。
