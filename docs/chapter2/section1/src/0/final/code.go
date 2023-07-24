@@ -83,7 +83,7 @@ func main() {
 	withAuth.Use(userAuthMiddleware)
 	withAuth.GET("/cities/:cityName", getCityInfoHandler)
 	withAuth.POST("/cities", postCityHandler)
-	withAuth.GET("/whoami", getWhoAmIHandler)
+	withAuth.GET("/me", getMeHandler)
 
 	e.Start(":8080")
 }
@@ -241,11 +241,11 @@ func postCityHandler(c echo.Context) error {
 	return c.JSON(http.StatusCreated, city)
 }
 
-// #region whoami
-func getWhoAmIHandler(c echo.Context) error {
+// #region me
+func getMeHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, Me{
 		Username: c.Get("userName").(string),
 	})
 }
 
-// #endregion whoami
+// #endregion me
