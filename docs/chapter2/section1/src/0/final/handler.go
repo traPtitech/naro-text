@@ -1,15 +1,23 @@
-package main
+package handler
 
 import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo-contrib/session"
-	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 )
+
+type Handler struct {
+	db *sqlx.DB
+}
+
+func NewHandler(db *sqlx.DB) *Handler {
+	return &Handler{db: db}
+}
 
 type City struct {
 	ID          int            `json:"id,omitempty"  db:"ID"`
@@ -33,7 +41,7 @@ type Me struct {
 	Username string `json:"username,omitempty"  db:"username"`
 }
 
-func signUpHandler(c echo.Context) error {
+func (h *Handler) SignUpHandler(c echo.Context) error {
 	var req LoginRequestBody
 	c.Bind(&req)
 
@@ -42,7 +50,7 @@ func signUpHandler(c echo.Context) error {
 	}
 	var count int
 
-	err := db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
+	err := h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
@@ -58,7 +66,7 @@ func signUpHandler(c echo.Context) error {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	_, err = db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
+	_, err = h.db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
@@ -66,7 +74,7 @@ func signUpHandler(c echo.Context) error {
 	return c.NoContent(http.StatusCreated)
 }
 
-func loginHandler(c echo.Context) error {
+func (h *Handler) LoginHandler(c echo.Context) error {
 	var req LoginRequestBody
 	c.Bind(&req)
 
@@ -74,7 +82,7 @@ func loginHandler(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Username or Password is empty")
 	}
 	user := User{}
-	err := db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
+	err := h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.NoContent(http.StatusUnauthorized)
@@ -84,7 +92,7 @@ func loginHandler(c echo.Context) error {
 		}
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password + salt))
+	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
 	if err != nil {
 		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
 			return c.NoContent(http.StatusUnauthorized)
@@ -105,11 +113,11 @@ func loginHandler(c echo.Context) error {
 
 }
 
-func getCityInfoHandler(c echo.Context) error {
+func (h *Handler) GetCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
 
 	var city City
-	db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
+	h.db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
 	if !city.Name.Valid {
 		return c.NoContent(http.StatusNotFound)
 	}
@@ -117,14 +125,14 @@ func getCityInfoHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, city)
 }
 
-func postCityHandler(c echo.Context) error {
+func (h *Handler) PostCityHandler(c echo.Context) error {
 	var city City
 	err := c.Bind(&city)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
 	}
 
-	result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
+	result, err := h.db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
 	if err != nil {
 		log.Printf("failed to insert city data: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
@@ -140,7 +148,7 @@ func postCityHandler(c echo.Context) error {
 	return c.JSON(http.StatusCreated, city)
 }
 
-func getMeHandler(c echo.Context) error {
+func (h *Handler) GetMeHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, Me{
 		Username: c.Get("userName").(string),
 	})
