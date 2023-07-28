@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/labstack/echo/v4"
+	"github.com/traPtitech/naro-template-backend/handler"
 	"log"
 	"os"
 	"time"
@@ -11,21 +13,18 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var (
-	db *sqlx.DB
-)
-
 func main() {
+	// .envファイルから環境変数を読み込み
 	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf(".envファイルが読み込めませんでした。: %v", err)
-	}
-
-	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// データーベースの設定
+	jst, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		log.Fatal(err)
+	}
 	conf := mysql.Config{
 		User:      os.Getenv("DB_USERNAME"),
 		Passwd:    os.Getenv("DB_PASSWORD"),
@@ -37,22 +36,20 @@ func main() {
 		Loc:       jst,
 	}
 
-	_db, err := sqlx.Open("mysql", conf.FormatDSN())
-
+	// データベースに接続
+	db, err := sqlx.Open("mysql", conf.FormatDSN())
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	db = _db
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	h := handler.NewHandler(db)
 	e := echo.New()
 
-	e.GET("/cities/:cityName", getCityInfoHandler)
-	e.POST("/cities", PostCityHandler)
+	e.GET("/cities/:cityName", h.GetCityInfoHandler)
+	e.POST("/cities", h.PostCityHandler)
 
-	e.Start(":8080")
+	err = e.Start(":8080")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
