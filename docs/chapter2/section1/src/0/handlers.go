@@ -6,14 +6,11 @@ import (
 	"os"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"github.com/labstack/echo/v4"
 )
 
 var (
-	db   *sqlx.DB
-	salt = os.Getenv("HASH_SALT")
+	db *sqlx.DB
 )
 
 func main() {
@@ -43,7 +40,7 @@ func main() {
 	db = _db
 
 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))") // [!code ++]
-// [!code ++]
+	// [!code ++]
 	if err != nil { // [!code ++]
 		log.Fatal(err) // [!code ++]
 	} // [!code ++]
