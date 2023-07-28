@@ -9,17 +9,22 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo-contrib/session"
-	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/srinathgs/mysqlstore"
 )
 
 var (
-	db   *sqlx.DB
+	db *sqlx.DB
 )
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf(".envファイルが読み込めませんでした。: %v", err)
+	}
+
 	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
 		log.Fatal(err)

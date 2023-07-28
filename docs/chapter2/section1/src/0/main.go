@@ -1,14 +1,14 @@
 package main
 
 import (
-	"github.com/go-sql-driver/mysql"
 	"log"
 	"os"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-sql-driver/mysql"
+
 	"github.com/jmoiron/sqlx"
-	"github.com/labstack/echo/v4"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -16,6 +16,11 @@ var (
 )
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf(".envファイルが読み込めませんでした。: %v", err)
+	}
+
 	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
 		log.Fatal(err)
@@ -47,7 +52,7 @@ func main() {
 	e := echo.New()
 
 	e.GET("/cities/:cityName", getCityInfoHandler)
-	e.POST("/cities", postCityHandler)
+	e.POST("/cities", PostCityHandler)
 
 	e.Start(":8080")
 }

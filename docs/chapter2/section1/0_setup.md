@@ -11,16 +11,14 @@
 2. `.env` ファイルを作成し、以下のように編集しましょう。
 
 ```sh
-export DB_USERNAME="root"
-export DB_PASSWORD="password"
-export DB_HOSTNAME="localhost"
-export DB_PORT="3306"
-export DB_DATABASE="world"
+DB_USERNAME="root"
+DB_PASSWORD="password"
+DB_HOSTNAME="localhost"
+DB_PORT="3306"
+DB_DATABASE="world"
 ```
 
-3. `source .env` を実行しましょう。
-
-4. `go mod tidy` を実行しましょう。
+3. `go mod tidy` を実行しましょう。
 
 以上でセットアップはできているはずです。
 
