@@ -31,21 +31,20 @@ func main() {
 	}
 
 	// #region setup_table
-	_db, err := sqlx.Open("mysql", conf.FormatDSN())
-
+	// データベースに接続
+	db, err := sqlx.Open("mysql", conf.FormatDSN())
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	db = _db
-
+	// usersテーブルが存在しなかったら、usersテーブルを作成する // [!code ++]
 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))") // [!code ++]
-	// [!code ++]
-	if err != nil { // [!code ++]
+	if err != nil {                                                                                                   // [!code ++]
 		log.Fatal(err) // [!code ++]
 	} // [!code ++]
-	// #endregion setup_table
 
+	h := handler.NewHandler(db)
+	// #endregion setup_table
 	// #region signup
 	e := echo.New()
 	e.POST("/signup", signUpHandler) // [!code ++]

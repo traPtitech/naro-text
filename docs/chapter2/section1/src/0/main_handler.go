@@ -58,12 +58,15 @@ func main() {
 	// #endregion setup_table
 
 	// #region handler
+	h := handler.NewHandler(db)
 	e := echo.New()
-	e.POST("/signup", signUpHandler)
 
-	e.GET("/cities/:cityName", getCityInfoHandler)
-	e.POST("/cities", postCityHandler)
+	e.GET("/cities/:cityName", h.GetCityInfoHandler)
+	e.POST("/cities", h.PostCityHandler)
 
-	e.Start(":8080")
+	err = e.Start(":8080")
+	if err != nil {
+		log.Fatal(err)
+	}
 	// #endregion handler
 }
