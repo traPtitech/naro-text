@@ -45,7 +45,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("conntected")
+	fmt.Println("connected")
 	// #region get
 	var city City
 	err = db.Get(&city, "SELECT * FROM city WHERE Name = ?", "Tokyo")

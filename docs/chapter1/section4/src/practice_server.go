@@ -48,7 +48,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("conntected")
+	fmt.Println("connected")
 	db = _db
 	//#region echo
 	e := echo.New()

@@ -43,7 +43,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("conntected")
+	fmt.Println("connected")
 
 	cityName := os.Args[1] //[!code ++]
 

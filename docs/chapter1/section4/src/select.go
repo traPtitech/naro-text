@@ -17,6 +17,7 @@ type City struct {
 	District    string `json:"district,omitempty"  db:"District"`
 	Population  int    `json:"population,omitempty"  db:"Population"`
 }
+
 // #region main
 func main() {
 	jst, err := time.LoadLocation("Asia/Tokyo")
@@ -41,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("conntected")
+	fmt.Println("connected")
 
 	var cities []City
 	err = db.Select(&cities, "SELECT * FROM city WHERE CountryCode = 'JPN'") //?を使わない場合、第3引数以降は不要
@@ -54,4 +55,5 @@ func main() {
 		fmt.Printf("都市名: %s, 人口: %d\n", city.Name, city.Population)
 	}
 }
+
 //#endregion main
