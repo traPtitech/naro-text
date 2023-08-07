@@ -51,6 +51,7 @@ func main() {
 	err = db.Get(&city, "SELECT * FROM city WHERE Name = ?", "Tokyo")
 	if errors.Is(err, sql.ErrNoRows) {
 		log.Printf("no such city Name = '%s'\n", "Tokyo")
+		return
 	} else if err != nil {
 		log.Fatalf("DB Error: %s\n", err)
 	}
