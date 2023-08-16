@@ -52,7 +52,8 @@ func main() {
 	if errors.Is(err, sql.ErrNoRows) {
 		log.Printf("no such city Name = '%s'\n", "Tokyo")
 		return
-	} else if err != nil {
+	}
+	if err != nil {
 		log.Fatalf("DB Error: %s\n", err)
 	}
 	// #endregion get

@@ -52,7 +52,8 @@ func main() {
 	if errors.Is(err, sql.ErrNoRows) {
 		log.Printf("no such city Name = '%s'\n", cityName)
 		return
-	} else if err != nil {
+	}
+	if err != nil {
 		log.Fatalf("DB Error: %s\n", err)
 	}
 
@@ -63,7 +64,8 @@ func main() {
 	if errors.Is(err, sql.ErrNoRows) {                                                           //[!code ++]
 		log.Printf("no such country Code = '%s'\n", city.CountryCode) //[!code ++]
 		return                                                        //[!code ++]
-	} else if err != nil { //[!code ++]
+	} //[!code ++]
+	if err != nil { //[!code ++]
 		log.Fatalf("DB Error: %s\n", err) //[!code ++]
 	} //[!code ++]
 	//[!code ++]

@@ -54,7 +54,8 @@ func main() {
 		log.Printf("no such city Name = '%s'\n", "Tokyo") //[!code --]
 		log.Printf("no such city Name = '%s'\n", cityName) //[!code ++]
 		return
-	} else if err != nil {
+	}
+	if err != nil {
 		log.Fatalf("DB Error: %s\n", err)
 	}
 
