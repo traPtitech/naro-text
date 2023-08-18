@@ -77,7 +77,7 @@ $ go run main.go
 出力はこのようになります。
 
 ```txt
-conntected
+connected
 Tokyoの人口は7980230人です
 ```
 
@@ -125,7 +125,7 @@ $ go run main.go {都市の名前}
 以下のように日本の都市一覧を取得できます。
 
 ```txt
-conntected
+connected
 日本の都市一覧
 都市名: Tokyo, 人口: 7980230
 都市名: Jokohama [Yokohama], 人口: 3339594

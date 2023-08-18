@@ -19,15 +19,7 @@ go run github.com/go-task/task/v3/cmd/task@latest init
 asdf reshim golang
 ```
 
-```bash [直接 (WSL)]
-echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.bashrc
-source ~/.bashrc
-go run github.com/go-task/task/v3/cmd/task@latest init
-```
-
-```zsh [直接 (Mac)]
-echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.zshrc
-source ~/.zshrc
+```sh [直接 (WSL, Mac)]
 go run github.com/go-task/task/v3/cmd/task@latest init
 ```
 
