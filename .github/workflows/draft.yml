@@ -1,0 +1,58 @@
+name: Copy Assets to Draft Release
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  copy-assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Copy assets from latest to draft release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const latest = github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            const assets = latest.data.assets;
+
+            for (const asset of assets) {
+              if (asset.browser_download_url.includes("releases/download")) {
+                // download data
+                const download = await github.request({
+                  method: "GET",
+                  url: asset.url,
+                  headers: {
+                    Accept: "application/octet-stream",
+                    Authorization: "Bearer " + process.env.GITHUB_TOKEN,
+                  },
+                  responseType: "arraybuffer"
+                });
+                // upload data
+                const upload = await github.rest.repos.uploadReleaseAsset({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: context.payload.release.id,
+                  name: asset.name,
+                  data: download.data,
+                  headers: {
+                    "Content-Type": asset.content_type,
+                    "Content-Length": asset.size,
+                  },
+                });
+                console.log(upload.data.name);
+              }
+            }
