@@ -3,7 +3,8 @@ name: Copy Assets to Draft Release
 on:
   release:
     types:
-      - created
+      - published
+      - edited
 
 jobs:
   copy-assets:
@@ -29,6 +30,13 @@ jobs:
 
             const assets = latest.data.assets;
 
+            const draft = github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: "draft" + Date.now(),
+              draft: true
+            });
+
             for (const asset of assets) {
               if (asset.browser_download_url.includes("releases/download")) {
                 // download data
@@ -45,7 +53,7 @@ jobs:
                 const upload = await github.rest.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  release_id: context.payload.release.id,
+                  release_id: draft.data.id,
                   name: asset.name,
                   data: download.data,
                   headers: {
