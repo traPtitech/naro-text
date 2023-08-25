@@ -28,14 +28,14 @@ jobs:
               repo: context.repo.repo
             });
 
-            core.info(Object.entries(latest));
+            core.info(Object.entries(latest.data));
 
-            if (!latest.assets || latest.assets.length === 0) {
+            if (!latest.data.assets || latest.data.assets.length === 0) {
               console.log("No assets found in latest release");
               return;
             }
 
-            const assets = latest.assets;
+            const assets = latest.data.assets;
 
             const draft = await github.rest.repos.createRelease({
               owner: context.repo.owner,
@@ -43,6 +43,8 @@ jobs:
               tag_name: "draft" + Date.now(),
               draft: true
             });
+
+            core.info(Object.entries(draft.data));
 
             for (const asset of assets) {
               if (asset.browser_download_url.includes("releases/download")) {
@@ -60,7 +62,7 @@ jobs:
                 const upload = await github.rest.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  release_id: draft.id,
+                  release_id: draft.data.id,
                   name: asset.name,
                   data: download.data,
                   headers: {
