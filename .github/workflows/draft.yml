@@ -29,12 +29,12 @@ jobs:
               repo: context.repo.repo
             });
 
-            if (latest.data.assets.length === 0) {
+            if (latest.assets.length === 0) {
               console.log("No assets found in latest release");
               return;
             }
 
-            const assets = latest.data.assets;
+            const assets = latest.assets;
 
             const draft = github.rest.repos.createRelease({
               owner: context.repo.owner,
@@ -59,7 +59,7 @@ jobs:
                 const upload = await github.rest.repos.uploadReleaseAsset({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  release_id: draft.data.id,
+                  release_id: draft.id,
                   name: asset.name,
                   data: download.data,
                   headers: {
@@ -67,6 +67,6 @@ jobs:
                     "Content-Length": asset.size,
                   },
                 });
-                console.log(upload.data.name);
+                console.log(upload.name);
               }
             }
