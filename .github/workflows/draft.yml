@@ -4,7 +4,6 @@ on:
   release:
     types:
       - published
-      - unpublished
 
 jobs:
   copy-assets:
@@ -28,8 +27,6 @@ jobs:
               repo: context.repo.repo
             });
 
-            core.info(Object.entries(latest.data));
-
             if (!latest.data.assets || latest.data.assets.length === 0) {
               console.log("No assets found in latest release");
               return;
@@ -43,8 +40,6 @@ jobs:
               tag_name: "draft" + Date.now(),
               draft: true
             });
-
-            core.info(Object.entries(draft.data));
 
             for (const asset of assets) {
               if (asset.browser_download_url.includes("releases/download")) {
@@ -70,6 +65,6 @@ jobs:
                     "Content-Length": asset.size,
                   },
                 });
-                console.log(upload.name);
+                core.info(upload.data.name);
               }
             }
