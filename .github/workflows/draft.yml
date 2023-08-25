@@ -28,9 +28,9 @@ jobs:
               repo: context.repo.repo
             });
 
-            core.info(latest);
+            core.info(Object.entries(latest));
 
-            if (latest.assets.length === 0) {
+            if (!latest.assets || latest.assets.length === 0) {
               console.log("No assets found in latest release");
               return;
             }
