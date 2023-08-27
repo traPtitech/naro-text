@@ -504,7 +504,7 @@ func GetMeHandler(c echo.Context) error { // [!code ++]
 アクセスしているユーザーの`userName`をセッションから取得して返しています。
 `userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
 
-`withAuth.GET("/me", getMeHandler)`を`main.go`に忘れずに追加しましょう。
+`main.go`に`withAuth.GET("/me", getMeHandler)`を追加しましょう。
 ```go
 func main() {
     (省略)
