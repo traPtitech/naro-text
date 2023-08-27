@@ -25,15 +25,7 @@ export DB_DATABASE="world"
 ## ファイルの分割
 
 このまま演習を始めてしまうとファイルが長くなりすぎてしまうので、ファイルを別のパッケージとして分割します。
-各エンドポイントでの処理はハンドラーと呼ばれますが、それを `handler/handler.go` に移動してみましょう。
-
-### main.go の作成
-
-`main.go`を以下のように編集しましょう。
-
-<<<@/chapter2/section1/src/0/first/main.go{go:line-numbers}
-
-ファイルを編集したら、`go mod tidy` を実行しましょう。
+各エンドポイントでの処理はハンドラーと呼ばれますが、それを `handler/handler.go` に移動してみましょう。手順は以下の通りです。
 
 ### handler.go の作成
 
@@ -43,6 +35,16 @@ export DB_DATABASE="world"
 <<<@/chapter2/section1/src/0/first/handler.go{go:line-numbers}
 
 ファイルを編集したら、`go mod tidy` を実行しましょう。
+
+### main.go の編集
+
+`main.go`を以下のように編集しましょう。
+
+<<<@/chapter2/section1/src/0/first/main.go{go:line-numbers}
+
+ファイルを編集したら、`go mod tidy` を実行しましょう。  
+![](images/0/file-tree.png)
+ここまで出来たら、画像のようになっているはずです。
 
 ## 準備完了
 
