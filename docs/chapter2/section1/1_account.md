@@ -5,13 +5,17 @@
 `main.go` の handler の設定部分を見てみましょう。
 
 ```go
-h := handler.NewHandler(db)
-e := echo.New()
-
-e.GET("/cities/:cityName", h.GetCityInfoHandler)
-e.POST("/cities", h.PostCityHandler)
-
-err = e.Start(":8080")
+func main () {
+    (省略)
+    h := handler.NewHandler(db)  // [!code hl]
+    e := echo.New()  // [!code hl]
+    // [!code hl]
+    e.GET("/cities/:cityName", h.GetCityInfoHandler)  // [!code hl]
+    e.POST("/cities", h.PostCityHandler)  // [!code hl]
+    // [!code hl]
+    err = e.Start(":8080")  // [!code hl]
+    (省略)
+}
 ```
 
 今回の目標は、 `/cities/` で始まる api 2 つ (`getCityInfoHandler`, `postCityHandler`) に対して、
@@ -87,10 +91,10 @@ func (h *Handler) SignUpHandler(c echo.Context) error { // [!code ++]
 `signUpHandler` の外に以下の構造体を追加します。
 
 ```go
-type LoginRequestBody struct {
-	Username string `json:"username,omitempty" form:"username"`
-	Password string `json:"password,omitempty" form:"password"`
-}
+type LoginRequestBody struct { // [!code ++]
+	Username string `json:"username,omitempty" form:"username"` // [!code ++]
+	Password string `json:"password,omitempty" form:"password"` // [!code ++]
+} // [!code ++]
 ```
 
 次に、`signUpHandler`の中に以下を追加します。
@@ -214,6 +218,11 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 これで実装は終わりです。すべてを実装したら、以下のようになります。
 
 ```go
+type LoginRequestBody struct {
+    Username string `json:"username,omitempty" form:"username"`
+    Password string `json:"password,omitempty" form:"password"`
+}
+
 func (h *Handler) SignUpHandler(c echo.Context) error {
 	// リクエストを受け取り、reqに格納する
 	req := LoginRequestBody{}
@@ -259,15 +268,19 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 最後に、`main.go` に、先ほど書いたハンドラーを追加しましょう。
 
 ```go
-h := handler.NewHandler(db)
-e := echo.New()
-
-e.POST("/signup", h.SignUpHandler) // [!code ++]
-
-e.GET("/cities/:cityName", h.GetCityInfoHandler)
-e.POST("/cities", h.PostCityHandler)
-
-err = e.Start(":8080")
+func main(){
+    (省略)
+    h := handler.NewHandler(db)
+    e := echo.New()
+    
+    e.POST("/signup", h.SignUpHandler) // [!code ++]
+    
+    e.GET("/cities/:cityName", h.GetCityInfoHandler)
+    e.POST("/cities", h.PostCityHandler)
+    
+    err = e.Start(":8080")
+    (省略)
+}
 ```
 
 :::warning
