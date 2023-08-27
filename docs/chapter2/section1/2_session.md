@@ -1,29 +1,81 @@
 # セッション管理機構の実装
 
-## セッションストアの設定
+## セッションストアを設定する
+`main.go`に以下を追加しましょう。
+```go
+func main() {
+    (省略)
+	// usersテーブルが存在しなかったら、usersテーブルを作成する
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-<<<@/chapter2/section1/src/0/final/code.go#setup_session
+	// セッションの情報を記憶するための場所をデータベース上に設定 // [!code ++]
+	store, err := mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions", "/", 60*60*24*14, []byte("secret-token")) // [!code ++]
+	if err != nil { // [!code ++]
+		log.Fatal(err) // [!code ++]
+	} // [!code ++]
 
-セッションストアを設定しましょう。
+	h := handler.NewHandler(db)
+	e := echo.New()
+	e.Use(middleware.Logger())       // ログを取るミドルウェアを追加 // [!code ++]
+	e.Use(session.Middleware(store)) // セッション管理のためのミドルウェアを追加 // [!code ++]
 
-ここでは、セッションの情報を記憶するための場所をデータベース上に設定しています。
+	e.POST("/signup", h.SignUpHandler)
+    (省略)
+}
+```
+これらはセッションストアの設定です。
+
+最初では、セッションの情報を記憶するための場所をデータベース上に設定しています。
 
 この仕組みを使用するために、 `e.Use(session.Middleware(store))` を含めてセッションストアを使ってね〜、って echo に命令しています。
 
 `e.Use(middleware.Logger())` は文字通りログを取るものです。ついでに入れましょう。
 
 ## loginHandler の実装
+続いて、`loginHandler` を `handler.go` に実装していきましょう。
 
 ```go
-func loginHandler(c echo.Context) error {
+func (h *Handler) LoginHandler(c echo.Context) error { // [!code ++]
+} // [!code ++]
+```
+`loginHandler` の外に以下の構造体を追加します。
+```go
+type User struct { // [!code ++]
+    Username   string `json:"username,omitempty"  db:"Username"` // [!code ++]
+    HashedPass string `json:"-"  db:"HashedPass"` // [!code ++]
+} // [!code ++]
+```
+`loginHandler` を実装していきます。
+```go
+func (h *Handler) LoginHandler(c echo.Context) error {
+	// リクエストを受け取り、reqに格納する // [!code ++]
+    var req LoginRequestBody // [!code ++]
+	err := c.Bind(&req) // [!code ++]
+	if err != nil { // [!code ++]
+	    return c.String(http.StatusBadRequest, "Invalid request body") // [!code ++]
+	} // [!code ++]
+	
+    // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
+    if req.Password == "" || req.Username == "" { // [!code ++]
+        return c.String(http.StatusBadRequest, "Username or Password is empty") // [!code ++]
+    } // [!code ++]
+	
+	// データベースからユーザーを取得する // [!code ++]
+    user := User{} // [!code ++]
+    err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username) // [!code ++]
+    if err != nil { // [!code ++]
+        if errors.Is(err, sql.ErrNoRows) { // [!code ++]
+            return c.NoContent(http.StatusUnauthorized) // [!code ++]
+        } else { // [!code ++]
+            log.Println(err) // [!code ++]
+            return c.NoContent(http.StatusInternalServerError) // [!code ++]
+        } // [!code ++]
+    } // [!code ++]
 }
 ```
-
-つづいて `loginHandler` を実装していきます。これも `handler.go` に実装しましょう。
-
-<<<@/chapter2/section1/src/0/final/code.go#User
-
-<<<@/chapter2/section1/src/0/final/code.go#post_req
 
 req への代入は signUpHandler と同じです。UserName と Password が入っているかも確認しましょう。
 
@@ -33,9 +85,35 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 もしそのエラーなら 401 (Unauthorized)、そうでなければ 500 (Internal Server Error) です。
 もし 404 (Not Found) とすると、「このユーザーはパスワードが違うのではなく存在しないんだ」という事がわかってしまい（このユーザーは存在していてパスワードは違う事も分かります）、セキュリティ上のリスクに繋がります。
 
-ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。 参考: <https://pkg.go.dev/errors#Is>
-
-<<<@/chapter2/section1/src/0/final/code.go#post_hash
+:::info
+ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。   
+参考: <https://pkg.go.dev/errors#Is>
+:::
+```go
+func (h *Handler) LoginHandler(c echo.Context) error {
+    (省略)
+	// データベースからユーザーを取得する
+	user := User{}
+	err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.NoContent(http.StatusUnauthorized)
+		} else {
+			log.Println(err)
+			return c.NoContent(http.StatusInternalServerError)
+		}
+	}
+	// パスワードが一致しているかを確かめる // [!code ++]
+	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password)) // [!code ++]
+	if err != nil { // [!code ++]
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) { // [!code ++]
+			return c.NoContent(http.StatusUnauthorized) // [!code ++]
+		} else { // [!code ++]
+			return c.NoContent(http.StatusInternalServerError) // [!code ++]
+		} // [!code ++]
+	} // [!code ++]
+}
+```
 
 データベースに保存されているパスワードはハッシュ化されています。
 
@@ -48,18 +126,294 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 - 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かです
 
 従って、これらのエラーの内容に応じて、 500 (Internal Server Error), 401 (Unauthorized) を返却するか、処理を続行するかを選択していきます。
+```go
+func (h *Handler) LoginHandler(c echo.Context) error {
+    (省略)
+	// パスワードが一致しているかを確かめる
+	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
+	if err != nil {
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return c.NoContent(http.StatusUnauthorized)
+		} else {
+			return c.NoContent(http.StatusInternalServerError)
+		}
+	}
 
-<<<@/chapter2/section1/src/0/final/code.go#add_session
+	// セッションストアに登録する // [!code ++]
+	sess, err := session.Get("sessions", c) // [!code ++]
+	if err != nil { // [!code ++]
+		fmt.Println(err) // [!code ++]
+		return c.String(http.StatusInternalServerError, "something wrong in getting session") // [!code ++]
+	} // [!code ++]
+	sess.Values["userName"] = req.Username // [!code ++]
+	sess.Save(c.Request(), c.Response()) // [!code ++]
 
+	return c.NoContent(http.StatusOK) // [!code ++]
+}
+```
 セッションストアに登録します。
 セッションの `userName` という値にそのユーザーの名前を格納していることは覚えておきましょう。
 
 ここまで書いたら、 `loginHandler` を使えるようにしましょう。
 
 ```go
-e.POST("/login", loginHandler) // [!code ++]
-e.POST("/signup", signUpHandler)
+func main() {
+    (省略)
+	e.Use(session.Middleware(store)) // セッション管理のためのミドルウェアを追加
+
+	e.POST("/signup", h.SignUpHandler)
+	e.POST("/login", h.LoginHandler) // [!code ++]
+
+	e.GET("/cities/:cityName", h.GetCityInfoHandler)
+    (省略)
+}
 ```
+
+:::details ここまでの全体像
+`main.go`
+```go
+package main
+
+import (
+	"github.com/labstack/echo-contrib/session"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/srinathgs/mysqlstore"
+	"github.com/traPtitech/naro-template-backend/handler"
+	"log"
+	"os"
+	"time"
+
+	"github.com/go-sql-driver/mysql"
+
+	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
+)
+
+func main() {
+	// .envファイルから環境変数を読み込み
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// データーベースの設定
+	jst, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		log.Fatal(err)
+	}
+	conf := mysql.Config{
+		User:      os.Getenv("DB_USERNAME"),
+		Passwd:    os.Getenv("DB_PASSWORD"),
+		Net:       "tcp",
+		Addr:      os.Getenv("DB_HOSTNAME") + ":" + os.Getenv("DB_PORT"),
+		DBName:    os.Getenv("DB_DATABASE"),
+		ParseTime: true,
+		Collation: "utf8mb4_unicode_ci",
+		Loc:       jst,
+	}
+
+	// データベースに接続
+	db, err := sqlx.Open("mysql", conf.FormatDSN())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// usersテーブルが存在しなかったら、usersテーブルを作成する
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// セッションの情報を記憶するための場所をデータベース上に設定
+	store, err := mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions", "/", 60*60*24*14, []byte("secret-token"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	h := handler.NewHandler(db)
+	e := echo.New()
+	e.Use(middleware.Logger())       // ログを取るミドルウェアを追加
+	e.Use(session.Middleware(store)) // セッション管理のためのミドルウェアを追加
+
+	e.POST("/signup", h.SignUpHandler)
+	e.POST("/login", h.LoginHandler)
+
+	e.GET("/cities/:cityName", h.GetCityInfoHandler)
+	e.POST("/cities", h.PostCityHandler)
+
+	err = e.Start(":8080")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+```
+`handler.go`
+```go
+package handler
+
+import (
+	"database/sql"
+	"errors"
+	"fmt"
+	"github.com/jmoiron/sqlx"
+	"github.com/labstack/echo-contrib/session"
+	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/bcrypt"
+	"log"
+	"net/http"
+)
+
+type Handler struct {
+	db *sqlx.DB
+}
+
+func NewHandler(db *sqlx.DB) *Handler {
+	return &Handler{db: db}
+}
+
+type City struct {
+	ID          int            `json:"id,omitempty"  db:"ID"`
+	Name        sql.NullString `json:"name,omitempty"  db:"Name"`
+	CountryCode sql.NullString `json:"countryCode,omitempty"  db:"CountryCode"`
+	District    sql.NullString `json:"district,omitempty"  db:"District"`
+	Population  sql.NullInt64  `json:"population,omitempty"  db:"Population"`
+}
+
+type LoginRequestBody struct {
+	Username string `json:"username,omitempty" form:"username"`
+	Password string `json:"password,omitempty" form:"password"`
+}
+
+type User struct {
+	Username   string `json:"username,omitempty"  db:"Username"`
+	HashedPass string `json:"-"  db:"HashedPass"`
+}
+
+func (h *Handler) SignUpHandler(c echo.Context) error {
+	// リクエストを受け取り、reqに格納する
+	req := LoginRequestBody{}
+	c.Bind(&req)
+
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
+	if req.Password == "" || req.Username == "" {
+		return c.String(http.StatusBadRequest, "Username or Password is empty")
+	}
+
+	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック
+	var count int
+	err := h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
+	if err != nil {
+		log.Println(err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+	// 存在したら409 Conflictを返す
+	if count > 0 {
+		return c.String(http.StatusConflict, "Username is already used")
+	}
+
+	// パスワードをハッシュ化する
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	// ハッシュ化に失敗したら500 InternalServerErrorを返す
+	if err != nil {
+		log.Println(err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+
+	// ユーザーを登録する
+	_, err = h.db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
+	// 登録に失敗したら500 InternalServerErrorを返す
+	if err != nil {
+		log.Println(err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+	// 登録に成功したら201 Createdを返す
+	return c.NoContent(http.StatusCreated)
+}
+
+func (h *Handler) LoginHandler(c echo.Context) error {
+	// リクエストを受け取り、reqに格納する
+	var req LoginRequestBody
+	err := c.Bind(&req)
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Invalid request body")
+	}
+
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
+	if req.Password == "" || req.Username == "" {
+		return c.String(http.StatusBadRequest, "Username or Password is empty")
+	}
+
+	// データベースからユーザーを取得する
+	user := User{}
+	err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.NoContent(http.StatusUnauthorized)
+		} else {
+			log.Println(err)
+			return c.NoContent(http.StatusInternalServerError)
+		}
+	}
+	// パスワードが一致しているかを確かめる
+	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
+	if err != nil {
+		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
+			return c.NoContent(http.StatusUnauthorized)
+		} else {
+			return c.NoContent(http.StatusInternalServerError)
+		}
+	}
+
+	// セッションストアに登録する
+	sess, err := session.Get("sessions", c)
+	if err != nil {
+		fmt.Println(err)
+		return c.String(http.StatusInternalServerError, "something wrong in getting session")
+	}
+	sess.Values["userName"] = req.Username
+	sess.Save(c.Request(), c.Response())
+
+	return c.NoContent(http.StatusOK)
+}
+
+func (h *Handler) GetCityInfoHandler(c echo.Context) error {
+	cityName := c.Param("cityName")
+
+	var city City
+	err := h.db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
+	if errors.Is(err, sql.ErrNoRows) {
+		return c.NoContent(http.StatusNotFound)
+	}
+
+	return c.JSON(http.StatusOK, city)
+}
+
+func (h *Handler) PostCityHandler(c echo.Context) error {
+	var city City
+	err := c.Bind(&city)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
+	}
+
+	result, err := h.db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
+	if err != nil {
+		fmt.Printf("failed to insert city data: %s\n", err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		fmt.Printf("failed to get last insert id: %s\n", err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+	city.ID = int(id)
+
+	return c.JSON(http.StatusCreated, city)
+}
+
+```
+:::
 
 ## userAuthMiddleware の実装
 
