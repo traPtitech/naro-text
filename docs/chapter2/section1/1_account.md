@@ -299,7 +299,7 @@ func main(){
 :::
 
 ここまでできたら、実行して、Postman 等を用いて正しく実装できているかデバッグしてみましょう。以下は例です。
-![](postman1/../images/0/postman2.png)
+![](images/3/postman-debug-signup.png)
 上手く作成できれば Status 201 が返ってくるはずです。
 
 正しく API を叩いたあとに、テーブルに意図したユーザー名と、ハッシュ化されたパスワードが入っていますか？
