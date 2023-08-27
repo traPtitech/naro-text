@@ -58,7 +58,7 @@ export DB_DATABASE="world"
 
 ![](images/0/echo.png)
 
-無事起動が出来たら、ターミナルで`task up`を実行してデーターベースを起動し、http://localhost:8080/cities/Tokyo にアクセスして実際に動いていることを確認しましょう。
+無事起動が出来たら、ターミナルで`task up`を実行してデーターベースを起動し、<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスして実際に動いていることを確認しましょう。
 
 ![](images/0/Tokyo.png)
 
