@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
-	"log"
 	"net/http"
 )
 
@@ -29,9 +28,12 @@ func (h *Handler) GetCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
 
 	var city City
-	h.db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
-	if !city.Name.Valid {
+	err := h.db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
+	if errors.Is(err, sql.ErrNoRows) {
 		return c.NoContent(http.StatusNotFound)
+	} else if err != nil {
+		fmt.Printf("failed to get city data: %s\n", err)
+		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	return c.JSON(http.StatusOK, city)
@@ -46,7 +48,7 @@ func (h *Handler) PostCityHandler(c echo.Context) error {
 
 	result, err := h.db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
 	if err != nil {
-		log.Printf("failed to insert city data: %s\n", err)
+		fmt.Printf("failed to insert city data: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
