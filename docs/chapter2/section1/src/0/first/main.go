@@ -1,16 +1,14 @@
 package main
 
 import (
+	"github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/traPtitech/naro-template-backend/handler"
 	"log"
 	"os"
 	"time"
-
-	"github.com/go-sql-driver/mysql"
-
-	"github.com/jmoiron/sqlx"
-	"github.com/joho/godotenv"
 )
 
 func main() {
