@@ -27,7 +27,7 @@ handler.go
 また、`GET`と`POST`を間違えないようにして下さい。
 :::
 
-初めに<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスすると、ログインしていないため`401 Unauthorized`が返ってきます。そのため、情報を入手することができません。
+<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスすると、ログインしていないため`401 Unauthorized`が返ってきます。そのため、情報を入手できません。
 ![](postman1/../images/0/postman1.png)
 
 ユーザーを作成します。
