@@ -51,9 +51,23 @@ go get -u github.com/srinathgs/mysqlstore
 アカウントを管理するテーブル `users` を作成しましょう。`main.go`に以下を追加します。
 
 ```go
-type LoginRequestBody struct {
-	Username string `json:"username,omitempty" form:"username"`
-	Password string `json:"password,omitempty" form:"password"`
+func main() {
+    (省略)
+	// データベースに接続
+    db, err := sqlx.Open("mysql", conf.FormatDSN())
+    if err != nil {
+    log.Fatal(err)
+    }
+	
+    // usersテーブルが存在しなかったら、usersテーブルを作成する // [!code ++]
+    _, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))") // [!code ++]
+    if err != nil { // [!code ++]
+    log.Fatal(err) // [!code ++]
+    } // [!code ++]
+    
+    h := handler.NewHandler(db)
+    e := echo.New()
+	(省略)
 }
 ```
 
