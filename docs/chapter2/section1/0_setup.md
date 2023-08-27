@@ -32,7 +32,7 @@ export DB_DATABASE="world"
 1. `handler` というディレクトリを新しく作成し、その中に `handler.go` というファイルを作成する。
 2. `handler.go` を以下のように記述する。
 
-<<<@/chapter2/section1/src/0/first/handler.go{go:line-numbers}
+<<<@/chapter2/section1/src/first/handler.go{go:line-numbers}
 
 ファイルを編集したら、`go mod tidy` を実行しましょう。
 
@@ -40,7 +40,7 @@ export DB_DATABASE="world"
 
 `main.go`を以下のように編集しましょう。
 
-<<<@/chapter2/section1/src/0/first/main.go{go:line-numbers}
+<<<@/chapter2/section1/src/first/main.go{go:line-numbers}
 
 ファイルを編集したら、`go mod tidy` を実行しましょう。  
 ![](images/0/file-tree.png)
