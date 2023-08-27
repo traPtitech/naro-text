@@ -431,7 +431,23 @@ func (h *Handler) PostCityHandler(c echo.Context) error {
 
 Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と記述します。 Middleware の実装は難しいので、なんとなく理解できれば十分です。
 
-<<<@/chapter2/section1/src/0/final/code.go#userAuthMiddleware
+以下を`handler.go`に追加しましょう。
+```go
+func UserAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc { // [!code ++]
+	return func(c echo.Context) error { // [!code ++]
+		sess, err := session.Get("sessions", c) // [!code ++]
+		if err != nil { // [!code ++]
+			fmt.Println(err) // [!code ++]
+			return c.String(http.StatusInternalServerError, "something wrong in getting session") // [!code ++]
+		} // [!code ++]
+		if sess.Values["userName"] == nil { // [!code ++]
+			return c.String(http.StatusUnauthorized, "please login") // [!code ++]
+		} // [!code ++]
+		c.Set("userName", sess.Values["userName"].(string)) // [!code ++]
+		return next(c) // [!code ++]
+	} // [!code ++]
+} // [!code ++]
+```
 
 関数が関数を呼び出していて混乱しそうですが、 2 行目から 13 行目が本質で、外側はおまじないと考えて良いです。
 
@@ -449,12 +465,20 @@ Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と�
 グループ機能を利用して、 `withAuth` に設定されてるエンドポイントは `userAuthMiddleware` を処理してから処理する、という設定をします。
 
 ```go
-e.GET("/cities/:cityName", getCityInfoHandler) // [!code --]
-e.POST("/cities", postCityHandler) // [!code --]
-withAuth := e.Group("") // [!code ++]
-withAuth.Use(userAuthMiddleware) // [!code ++]
-withAuth.GET("/cities/:cityName", getCityInfoHandler) // [!code ++]
-withAuth.POST("/cities", postCityHandler) // [!code ++]
+func main() {
+    (省略)
+	e.POST("/login", h.LoginHandler)
+	
+	e.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code --]
+    e.POST("/cities", h.PostCityHandler) // [!code --]
+    withAuth := e.Group("") // [!code ++]
+    withAuth.Use(handler.UserAuthMiddleware) // [!code ++]
+    withAuth.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code ++]
+    withAuth.POST("/cities", h.PostCityHandler) // [!code ++]
+
+    err = e.Start(":8080")
+    (省略)
+}
 ```
 
 これで、この章の目標である「ログインしないと利用できないようにする」が達成されました。
@@ -463,9 +487,34 @@ withAuth.POST("/cities", postCityHandler) // [!code ++]
 
 最後に、 `getMeHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
 
-<<<@/chapter2/section1/src/0/final/code.go#me
+以下を `handler.go` に追加しましょう。
+```go
+type Me struct { // [!code ++]
+	Username string `json:"username,omitempty"  db:"username"` // [!code ++]
+} // [!code ++]
+```
+```go
+func GetMeHandler(c echo.Context) error { // [!code ++]
+	return c.JSON(http.StatusOK, Me{ // [!code ++]
+		Username: c.Get("userName").(string), // [!code ++]
+	}) // [!code ++]
+} // [!code ++]
+```
 
 アクセスしているユーザーの`userName`をセッションから取得して返しています。
 `userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
 
-`withAuth.GET("/me", getMeHandler)` を忘れずに追加しましょう。
+`withAuth.GET("/me", getMeHandler)`を`main.go`に忘れずに追加しましょう。
+```go
+func main() {
+    (省略)
+    withAuth := e.Group("")
+    withAuth.Use(handler.UserAuthMiddleware)
+    withAuth.GET("/me", handler.GetMeHandler) // [!code ++]
+    withAuth.GET("/cities/:cityName", h.GetCityInfoHandler)
+    withAuth.POST("/cities", h.PostCityHandler)
+
+    err = e.Start(":8080")
+    (省略)
+}
+```
