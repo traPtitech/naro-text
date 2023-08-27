@@ -382,8 +382,12 @@ func (h *Handler) GetCityInfoHandler(c echo.Context) error {
 
 	var city City
 	err := h.db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
-	if errors.Is(err, sql.ErrNoRows) {
-		return c.NoContent(http.StatusNotFound)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.NoContent(http.StatusNotFound)
+		}
+		fmt.Printf("failed to get city data: %s\n", err)
+		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	return c.JSON(http.StatusOK, city)
