@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo-contrib/session"
+	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
@@ -41,10 +42,13 @@ type Me struct {
 	Username string `json:"username,omitempty"  db:"username"`
 }
 
-func (h *Handler) signUpHandler(c echo.Context) error {
+func (h *Handler) SignUpHandler(c echo.Context) error {
 	// リクエストを受け取り、reqに格納する
 	req := LoginRequestBody{}
-	c.Bind(&req)
+	err := c.Bind(&req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
+	}
 
 	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
 	if req.Password == "" || req.Username == "" {
@@ -53,7 +57,7 @@ func (h *Handler) signUpHandler(c echo.Context) error {
 
 	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック
 	var count int
-	err := h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
+	err = h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
@@ -83,14 +87,21 @@ func (h *Handler) signUpHandler(c echo.Context) error {
 }
 
 func (h *Handler) LoginHandler(c echo.Context) error {
+	// リクエストを受け取り、reqに格納する
 	var req LoginRequestBody
-	c.Bind(&req)
+	err := c.Bind(&req)
+	if err != nil {
+		return c.String(http.StatusBadRequest, "bad request body")
+	}
 
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
 	if req.Password == "" || req.Username == "" {
 		return c.String(http.StatusBadRequest, "Username or Password is empty")
 	}
+
+	// データベースからユーザーを取得する
 	user := User{}
-	err := h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
+	err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.NoContent(http.StatusUnauthorized)
@@ -99,7 +110,7 @@ func (h *Handler) LoginHandler(c echo.Context) error {
 			return c.NoContent(http.StatusInternalServerError)
 		}
 	}
-
+	// パスワードが一致しているかを確かめる
 	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
 	if err != nil {
 		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
@@ -109,6 +120,7 @@ func (h *Handler) LoginHandler(c echo.Context) error {
 		}
 	}
 
+	// セッションストアに登録する
 	sess, err := session.Get("sessions", c)
 	if err != nil {
 		fmt.Println(err)
@@ -120,13 +132,38 @@ func (h *Handler) LoginHandler(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
+func UserAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		sess, err := session.Get("sessions", c)
+		if err != nil {
+			fmt.Println(err)
+			return c.String(http.StatusInternalServerError, "something wrong in getting session")
+		}
+		if sess.Values["userName"] == nil {
+			return c.String(http.StatusUnauthorized, "please login")
+		}
+		c.Set("userName", sess.Values["userName"].(string))
+		return next(c)
+	}
+}
+
+func GetMeHandler(c echo.Context) error {
+	return c.JSON(http.StatusOK, Me{
+		Username: c.Get("userName").(string),
+	})
+}
+
 func (h *Handler) GetCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
 
 	var city City
-	h.db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
-	if !city.Name.Valid {
-		return c.NoContent(http.StatusNotFound)
+	err := h.db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.NoContent(http.StatusNotFound)
+		}
+		fmt.Printf("failed to get city data: %s\n", err)
+		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	return c.JSON(http.StatusOK, city)
@@ -141,7 +178,7 @@ func (h *Handler) PostCityHandler(c echo.Context) error {
 
 	result, err := h.db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
 	if err != nil {
-		log.Printf("failed to insert city data: %s\n", err)
+		fmt.Printf("failed to insert city data: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
@@ -153,10 +190,4 @@ func (h *Handler) PostCityHandler(c echo.Context) error {
 	city.ID = int(id)
 
 	return c.JSON(http.StatusCreated, city)
-}
-
-func (h *Handler) GetMeHandler(c echo.Context) error {
-	return c.JSON(http.StatusOK, Me{
-		Username: c.Get("userName").(string),
-	})
 }

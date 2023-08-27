@@ -23,14 +23,16 @@ handler.go
 :::warning
 全て Postman での検証です。  
 `go run main.go`でサーバーを起動した状態で行ってください。
+
+また、`GET`と`POST`を間違えないようにして下さい。
 :::
 
-<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a> へ
-初めに普通にアクセスするとダメです
+初めに<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスすると、ログインしていないため`401 Unauthorized`が返ってきます。そのため、情報を入手することができません。
 ![](postman1/../images/0/postman1.png)
 
 ユーザーを作成します。
-上手く作成できれば Status 201 が返ってくるはずです。
+上手く作成できれば Status 201 が返ってくるはずです。  
+(注意:`POST`です)
 ![](postman1/../images/0/postman2.png)
 
 そのままパスを変えてログインリクエストを送ります。
@@ -46,7 +48,8 @@ handler.go
 Key に`Cookie`を
 Value に`sessions={コピーした値};`をセットします(既に自動で入っている場合もあります、その場合は追加しなくて大丈夫です)。
 
-もう一度 <a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a> にアクセスすると正常に API が取れるようになりました。
+もう一度 <a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a> にアクセスすると正常に API が取れるようになりました。  
+(注意:`GET`です)
 ![](postman1/../images/0/postman6.png)
 
 ここで、作成されたユーザーがデータベースに保存されていることを確認してみましょう。
