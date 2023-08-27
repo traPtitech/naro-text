@@ -103,7 +103,10 @@ type LoginRequestBody struct { // [!code ++]
 func (h *Handler) SignUpHandler(c echo.Context) error {
 	// リクエストを受け取り、reqに格納する // [!code ++]
 	req := LoginRequestBody{} // [!code ++]
-	c.Bind(&req) // [!code ++]
+    err := c.Bind(&req) // [!code ++]
+    if err != nil { // [!code ++]
+        return echo.NewHTTPError(http.StatusBadRequest, "bad request body") // [!code ++]
+    } // [!code ++]
 }
 ```
 
@@ -116,7 +119,10 @@ Password が格納されています。
 func (h *Handler) SignUpHandler(c echo.Context) error {
     // リクエストを受け取り、reqに格納する
     req := LoginRequestBody{}
-    c.Bind(&req)
+    err := c.Bind(&req)
+    if err != nil {
+        return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
+    }
     
     // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
     if req.Password == "" || req.Username == "" { // [!code ++]
@@ -136,7 +142,7 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 	
 	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック// [!code ++]
 	var count int// [!code ++]
-	err := h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)// [!code ++]
+	err = h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)// [!code ++]
     if err != nil {// [!code ++]
         log.Println(err)// [!code ++]
         return c.NoContent(http.StatusInternalServerError)// [!code ++]
@@ -226,7 +232,10 @@ type LoginRequestBody struct {
 func (h *Handler) SignUpHandler(c echo.Context) error {
 	// リクエストを受け取り、reqに格納する
 	req := LoginRequestBody{}
-	c.Bind(&req)
+	err := c.Bind(&req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
+	}
 
 	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
 	if req.Password == "" || req.Username == "" {
@@ -235,7 +244,7 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 
 	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック
 	var count int
-	err := h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
+	err = h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)

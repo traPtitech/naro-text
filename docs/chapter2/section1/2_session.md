@@ -55,7 +55,7 @@ func (h *Handler) LoginHandler(c echo.Context) error {
     var req LoginRequestBody // [!code ++]
 	err := c.Bind(&req) // [!code ++]
 	if err != nil { // [!code ++]
-	    return c.String(http.StatusBadRequest, "Invalid request body") // [!code ++]
+	    return c.String(http.StatusBadRequest, "bad request body") // [!code ++]
 	} // [!code ++]
 	
     // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
@@ -293,7 +293,10 @@ type User struct {
 func (h *Handler) SignUpHandler(c echo.Context) error {
 	// リクエストを受け取り、reqに格納する
 	req := LoginRequestBody{}
-	c.Bind(&req)
+	err := c.Bind(&req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
+	}
 
 	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
 	if req.Password == "" || req.Username == "" {
@@ -302,7 +305,7 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 
 	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック
 	var count int
-	err := h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
+	err = h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
@@ -336,7 +339,7 @@ func (h *Handler) LoginHandler(c echo.Context) error {
 	var req LoginRequestBody
 	err := c.Bind(&req)
 	if err != nil {
-		return c.String(http.StatusBadRequest, "Invalid request body")
+		return c.String(http.StatusBadRequest, "bad request body")
 	}
 
 	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
