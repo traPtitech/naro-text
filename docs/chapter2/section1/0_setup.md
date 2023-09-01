@@ -51,7 +51,7 @@ export DB_DATABASE="world"
 ファイルの分割で変更したのは、以下の 3 点です。
 
 1. `handler`パッケージを作成し、コードを分割した。
-2. `handler`という`db`をフィールドに持つ構造体を作成し、その構造体のメソッドとして`GetCityInfoHandler`や`PostCityHandler`を定義するようにした。
+2. `handler`という`db`をフィールドに持つ構造体を作成し、その構造体のメソッドとして`GetCityInfoHandler`や`PostCityHandler`を定義した。
 3. `.env`ファイルの環境変数を、プログラムで読むようにした。
 
 それでは、`go run main.go` で実行してみましょう。

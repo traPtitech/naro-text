@@ -6,15 +6,15 @@
 
 ```go
 func main () {
-    (省略)
-    h := handler.NewHandler(db)  // [!code hl]
-    e := echo.New()  // [!code hl]
-    // [!code hl]
-    e.GET("/cities/:cityName", h.GetCityInfoHandler)  // [!code hl]
-    e.POST("/cities", h.PostCityHandler)  // [!code hl]
-    // [!code hl]
-    err = e.Start(":8080")  // [!code hl]
-    (省略)
+	(省略)
+	h := handler.NewHandler(db)  // [!code hl]
+	e := echo.New()  // [!code hl]
+	// [!code hl]
+	e.GET("/cities/:cityName", h.GetCityInfoHandler)  // [!code hl]
+	e.POST("/cities", h.PostCityHandler)  // [!code hl]
+	// [!code hl]
+	err = e.Start(":8080")  // [!code hl]
+	(省略)
 }
 ```
 
@@ -56,39 +56,39 @@ go get -u github.com/srinathgs/mysqlstore
 
 ```go
 func main() {
-    (省略)
+	(省略)
 	// データベースに接続
-    db, err := sqlx.Open("mysql", conf.FormatDSN())
-    if err != nil {
-    log.Fatal(err)
-    }
-	
-    // usersテーブルが存在しなかったら、usersテーブルを作成する // [!code ++]
-    _, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))") // [!code ++]
-    if err != nil { // [!code ++]
-    log.Fatal(err) // [!code ++]
-    } // [!code ++]
-    
-    h := handler.NewHandler(db)
-    e := echo.New()
+	db, err := sqlx.Open("mysql", conf.FormatDSN())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// usersテーブルが存在しなかったら、usersテーブルを作成する // [!code ++]
+	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))") // [!code ++]
+	if err != nil { // [!code ++]
+		log.Fatal(err) // [!code ++]
+	} // [!code ++]
+
+	h := handler.NewHandler(db)
+	e := echo.New()
 	(省略)
 }
 ```
 
-## signUpHandler の実装
+## SignUpHandler の実装
 
-続いて、アカウントを作成するハンドラーである `signUpHandler` を `handler.go` に実装していきましょう。
+続いて、アカウントを作成するハンドラーである `SignUpHandler` を `handler.go` に実装していきましょう。
 
 ```go
 func (h *Handler) SignUpHandler(c echo.Context) error { // [!code ++]
 } // [!code ++]
 ```
 
-この `signUpHandler` に以下のものを順番に実装していきます。
+この `SignUpHandler` に以下のものを順番に実装していきます。
 
 ### 1. リクエストの受け取り
 
-`signUpHandler` の外に以下の構造体を追加します。
+`SignUpHandler` の外に以下の構造体を追加します。
 
 ```go
 type LoginRequestBody struct { // [!code ++]
@@ -97,37 +97,37 @@ type LoginRequestBody struct { // [!code ++]
 } // [!code ++]
 ```
 
-次に、`signUpHandler`の中に以下を追加します。
+次に、`SignUpHandler`の中に以下を追加します。
 
 ```go
 func (h *Handler) SignUpHandler(c echo.Context) error {
 	// リクエストを受け取り、reqに格納する // [!code ++]
 	req := LoginRequestBody{} // [!code ++]
-    err := c.Bind(&req) // [!code ++]
-    if err != nil { // [!code ++]
-        return echo.NewHTTPError(http.StatusBadRequest, "bad request body") // [!code ++]
-    } // [!code ++]
+	err := c.Bind(&req) // [!code ++]
+	if err != nil { // [!code ++]
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body") // [!code ++]
+	} // [!code ++]
 }
 ```
 
-ここでは、req 変数に requestBody の json 情報を格納しています。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
-Password が格納されています。
+ここでは、req 変数に requestBody の json 情報を格納しています。  
+`LoginRequestBody` 型を見れば分かる通り、ここには UserName と Password が格納されています。
 
 ### 2. リクエストの検証
 
 ```go
 func (h *Handler) SignUpHandler(c echo.Context) error {
-    // リクエストを受け取り、reqに格納する
-    req := LoginRequestBody{}
-    err := c.Bind(&req)
-    if err != nil {
-        return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
-    }
-    
-    // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
-    if req.Password == "" || req.Username == "" { // [!code ++]
-        return c.String(http.StatusBadRequest, "Username or Password is empty") // [!code ++]
-    } // [!code ++]
+	// リクエストを受け取り、reqに格納する
+	req := LoginRequestBody{}
+	err := c.Bind(&req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
+	}
+
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
+	if req.Password == "" || req.Username == "" { // [!code ++]
+		return c.String(http.StatusBadRequest, "Username or Password is empty") // [!code ++]
+	} // [!code ++]
 }
 ```
 
@@ -138,19 +138,23 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 
 ```go
 func (h *Handler) SignUpHandler(c echo.Context) error {
-    (省略)
-	
+	(省略)
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
+	if req.Password == "" || req.Username == "" {
+	return c.String(http.StatusBadRequest, "Username or Password is empty")
+	}
+
 	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック// [!code ++]
 	var count int// [!code ++]
 	err = h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)// [!code ++]
-    if err != nil {// [!code ++]
-        log.Println(err)// [!code ++]
-        return c.NoContent(http.StatusInternalServerError)// [!code ++]
-    }// [!code ++]
-    // 存在したら409 Conflictを返す// [!code ++]
-    if count > 0 {// [!code ++]
-        return c.String(http.StatusConflict, "Username is already used")// [!code ++]
-    }// [!code ++]
+	if err != nil {// [!code ++]
+		log.Println(err)// [!code ++]
+		return c.NoContent(http.StatusInternalServerError)// [!code ++]
+	}// [!code ++]
+	// 存在したら409 Conflictを返す// [!code ++]
+	if count > 0 {// [!code ++]
+		return c.String(http.StatusConflict, "Username is already used")// [!code ++]
+	}// [!code ++]
 }
 ```
 
@@ -167,15 +171,15 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 
 ```go
 func (h *Handler) SignUpHandler(c echo.Context) error {
-    (省略)
+	(省略)
 	
-    // パスワードをハッシュ化する// [!code ++]
-    hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)// [!code ++]
-    // ハッシュ化に失敗したら500 InternalServerErrorを返す// [!code ++]
-    if err != nil {// [!code ++]
-        log.Println(err)// [!code ++]
-        return c.NoContent(http.StatusInternalServerError)// [!code ++]
-    }// [!code ++]
+	// パスワードをハッシュ化する// [!code ++]
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)// [!code ++]
+	// ハッシュ化に失敗したら500 InternalServerErrorを返す// [!code ++]
+	if err != nil {// [!code ++]
+		log.Println(err)// [!code ++]
+		return c.NoContent(http.StatusInternalServerError)// [!code ++]
+	}// [!code ++]
 }
 ```
 
@@ -184,7 +188,7 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 :::info 参考: ソルトについて  
 ソルトという手法を用いることで、事前計算されたテーブルを使用する攻撃から守ることができます。
 
-ここで用いている`bcrypt`というライブラリでは、これを自動でやってくれています。
+今回は、`bcrypt`というライブラリがハッシュ化を行っています。
 
 参考: <https://en.wikipedia.org/wiki/Salt_(cryptography)>
 :::
@@ -195,7 +199,7 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 
 ```go
 func (h *Handler) SignUpHandler(c echo.Context) error {
-    (省略)
+	(省略)
 	
 	// ユーザーを登録する// [!code ++]
 	_, err = h.db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)// [!code ++]
@@ -225,8 +229,8 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 
 ```go
 type LoginRequestBody struct {
-    Username string `json:"username,omitempty" form:"username"`
-    Password string `json:"password,omitempty" form:"password"`
+	Username string `json:"username,omitempty" form:"username"`
+	Password string `json:"password,omitempty" form:"password"`
 }
 
 func (h *Handler) SignUpHandler(c echo.Context) error {
@@ -278,17 +282,17 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 
 ```go
 func main(){
-    (省略)
-    h := handler.NewHandler(db)
-    e := echo.New()
-    
-    e.POST("/signup", h.SignUpHandler) // [!code ++]
-    
-    e.GET("/cities/:cityName", h.GetCityInfoHandler)
-    e.POST("/cities", h.PostCityHandler)
-    
-    err = e.Start(":8080")
-    (省略)
+	(省略)
+	h := handler.NewHandler(db)
+	e := echo.New()
+
+	e.POST("/signup", h.SignUpHandler) // [!code ++]
+
+	e.GET("/cities/:cityName", h.GetCityInfoHandler)
+	e.POST("/cities", h.PostCityHandler)
+
+	err = e.Start(":8080")
+	(省略)
 }
 ```
 
@@ -298,19 +302,21 @@ func main(){
 エンドポイントの追加は問題ないので、試したい場合は新しくハンドラーを実装しましょう。
 :::
 
-ここまでできたら、実行して、Postman 等を用いて正しく実装できているかデバッグしてみましょう。以下は例です。
+ここまでできたら、実行して、Postman 等を用いて正しく実装できているかデバッグしてみましょう。  
+正しく実装できていれば、例えば以下のようにデバッグできます。
 ![](images/3/postman2-signup.png)
 上手く作成できれば Status 201 が返ってくるはずです。
 
-正しく API を叩いたあとに、テーブルに意図したユーザー名と、ハッシュ化されたパスワードが入っていますか？
+正しく API を叩いたあとに、テーブルに意図したユーザー名と、ハッシュ化されたパスワードが入っている事も確認しましょう。
 
-:::details 確認に使う SQL クエリ
-
-```sql
-USE
-world;
-SELECT *
-FROM users;
+```sh
+$ task db
+/# mysql -u root -ppassword
 ```
+```sql
+mysql> USE world;
+mysql> SELECT * FROM users;
+```
+![](images/3/database1-user.png)
 
-:::
+画像の様に、先ほど登録したアカウントのユーザー名とハッシュ化されたパスワードが入っていたら成功です。
