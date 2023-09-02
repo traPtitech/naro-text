@@ -3,7 +3,6 @@ package handler
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -123,7 +122,7 @@ func (h *Handler) LoginHandler(c echo.Context) error {
 	// セッションストアに登録する
 	sess, err := session.Get("sessions", c)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return c.String(http.StatusInternalServerError, "something wrong in getting session")
 	}
 	sess.Values["userName"] = req.Username
@@ -136,7 +135,7 @@ func UserAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		sess, err := session.Get("sessions", c)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return c.String(http.StatusInternalServerError, "something wrong in getting session")
 		}
 		if sess.Values["userName"] == nil {
@@ -162,7 +161,7 @@ func (h *Handler) GetCityInfoHandler(c echo.Context) error {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.NoContent(http.StatusNotFound)
 		}
-		fmt.Printf("failed to get city data: %s\n", err)
+		log.Printf("failed to get city data: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
@@ -178,13 +177,13 @@ func (h *Handler) PostCityHandler(c echo.Context) error {
 
 	result, err := h.db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
 	if err != nil {
-		fmt.Printf("failed to insert city data: %s\n", err)
+		log.Printf("failed to insert city data: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	id, err := result.LastInsertId()
 	if err != nil {
-		fmt.Printf("failed to get last insert id: %s\n", err)
+		log.Printf("failed to get last insert id: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 	city.ID = int(id)
