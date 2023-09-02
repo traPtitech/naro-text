@@ -3,7 +3,6 @@ package handler
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo/v4"
 	"log"
@@ -35,7 +34,7 @@ func (h *Handler) GetCityInfoHandler(c echo.Context) error {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.NoContent(http.StatusNotFound)
 		}
-		fmt.Printf("failed to get city data: %s\n", err)
+		log.Printf("failed to get city data: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
