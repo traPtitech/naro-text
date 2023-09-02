@@ -5,15 +5,9 @@
 まずは完成形です。
 
 :::details 完成形
-
-main.go
-
-<<<@/chapter2/section1/src/final/main.go{go:line-numbers}
-
-handler.go
-
-<<<@/chapter2/section1/src/final/handler.go{go:line-numbers}
-
+::: code-group
+<<<@/chapter2/section1/src/final/main.go{go:line-numbers}[main.go]
+<<<@/chapter2/section1/src/final/handler.go{go:line-numbers}[handler.go]
 :::
 
 ## 検証
