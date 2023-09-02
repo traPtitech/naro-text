@@ -4,7 +4,7 @@
 `main.go`に以下を追加しましょう。
 ```go
 func main() {
-    (省略)
+	(省略)
 	// usersテーブルが存在しなかったら、usersテーブルを作成する
 	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))")
 	if err != nil {
@@ -23,7 +23,7 @@ func main() {
 	e.Use(session.Middleware(store)) // セッション管理のためのミドルウェアを追加 // [!code ++]
 
 	e.POST("/signup", h.SignUpHandler)
-    (省略)
+	(省略)
 }
 ```
 これらはセッションストアの設定です。
@@ -44,39 +44,38 @@ func (h *Handler) LoginHandler(c echo.Context) error { // [!code ++]
 `LoginHandler` の外に以下の構造体を追加します。
 ```go
 type User struct { // [!code ++]
-    Username   string `json:"username,omitempty"  db:"Username"` // [!code ++]
-    HashedPass string `json:"-"  db:"HashedPass"` // [!code ++]
+	Username   string `json:"username,omitempty"  db:"Username"` // [!code ++]
+	HashedPass string `json:"-"  db:"HashedPass"` // [!code ++]
 } // [!code ++]
 ```
 `LoginHandler` を実装していきます。
 ```go
 func (h *Handler) LoginHandler(c echo.Context) error {
 	// リクエストを受け取り、reqに格納する // [!code ++]
-    var req LoginRequestBody // [!code ++]
+	var req LoginRequestBody // [!code ++]
 	err := c.Bind(&req) // [!code ++]
 	if err != nil { // [!code ++]
-	    return c.String(http.StatusBadRequest, "bad request body") // [!code ++]
+		return c.String(http.StatusBadRequest, "bad request body") // [!code ++]
 	} // [!code ++]
-	
-    // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
-    if req.Password == "" || req.Username == "" { // [!code ++]
-        return c.String(http.StatusBadRequest, "Username or Password is empty") // [!code ++]
-    } // [!code ++]
-	
+
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
+	if req.Password == "" || req.Username == "" { // [!code ++]
+		return c.String(http.StatusBadRequest, "Username or Password is empty") // [!code ++]
+	} // [!code ++]
+
 	// データベースからユーザーを取得する // [!code ++]
-    user := User{} // [!code ++]
-    err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username) // [!code ++]
-    if err != nil { // [!code ++]
-        if errors.Is(err, sql.ErrNoRows) { // [!code ++]
-            return c.NoContent(http.StatusUnauthorized) // [!code ++]
-        } else { // [!code ++]
-            log.Println(err) // [!code ++]
-            return c.NoContent(http.StatusInternalServerError) // [!code ++]
-        } // [!code ++]
-    } // [!code ++]
+	user := User{} // [!code ++]
+	err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username) // [!code ++]
+	if err != nil { // [!code ++]
+		if errors.Is(err, sql.ErrNoRows) { // [!code ++]
+			return c.NoContent(http.StatusUnauthorized) // [!code ++]
+		} else { // [!code ++]
+			log.Println(err) // [!code ++]
+			return c.NoContent(http.StatusInternalServerError) // [!code ++]
+		} // [!code ++]
+	} // [!code ++]
 }
 ```
-
 req への代入は signUpHandler と同じです。UserName と Password が入っているかも確認しましょう。
 
 パスワードの一致チェックをするために、データベースからユーザーを取得してきましょう。
@@ -91,7 +90,7 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 :::
 ```go
 func (h *Handler) LoginHandler(c echo.Context) error {
-    (省略)
+	(省略)
 	// データベースからユーザーを取得する
 	user := User{}
 	err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
@@ -128,7 +127,7 @@ func (h *Handler) LoginHandler(c echo.Context) error {
 従って、これらのエラーの内容に応じて、 500 (Internal Server Error), 401 (Unauthorized) を返却するか、処理を続行するかを選択していきます。
 ```go
 func (h *Handler) LoginHandler(c echo.Context) error {
-    (省略)
+	(省略)
 	// パスワードが一致しているかを確かめる
 	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
 	if err != nil {
@@ -158,14 +157,14 @@ func (h *Handler) LoginHandler(c echo.Context) error {
 
 ```go
 func main() {
-    (省略)
+	(省略)
 	e.Use(session.Middleware(store)) // セッション管理のためのミドルウェアを追加
 
 	e.POST("/signup", h.SignUpHandler)
 	e.POST("/login", h.LoginHandler) // [!code ++]
 
 	e.GET("/cities/:cityName", h.GetCityInfoHandler)
-    (省略)
+	(省略)
 }
 ```
 
@@ -219,18 +218,18 @@ func UserAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc { // [!code ++]
 
 ```go
 func main() {
-    (省略)
+	(省略)
 	e.POST("/login", h.LoginHandler)
-	
-	e.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code --]
-    e.POST("/cities", h.PostCityHandler) // [!code --]
-    withAuth := e.Group("") // [!code ++]
-    withAuth.Use(handler.UserAuthMiddleware) // [!code ++]
-    withAuth.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code ++]
-    withAuth.POST("/cities", h.PostCityHandler) // [!code ++]
 
-    err = e.Start(":8080")
-    (省略)
+	e.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code --]
+	e.POST("/cities", h.PostCityHandler) // [!code --]
+	withAuth := e.Group("") // [!code ++]
+	withAuth.Use(handler.UserAuthMiddleware) // [!code ++]
+	withAuth.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code ++]
+	withAuth.POST("/cities", h.PostCityHandler) // [!code ++]
+
+	err = e.Start(":8080")
+	(省略)
 }
 ```
 
@@ -260,14 +259,14 @@ func GetMeHandler(c echo.Context) error { // [!code ++]
 `main.go`に`withAuth.GET("/me", handler.GetMeHandler)`を追加しましょう。
 ```go
 func main() {
-    (省略)
-    withAuth := e.Group("")
-    withAuth.Use(handler.UserAuthMiddleware)
-    withAuth.GET("/me", handler.GetMeHandler) // [!code ++]
-    withAuth.GET("/cities/:cityName", h.GetCityInfoHandler)
-    withAuth.POST("/cities", h.PostCityHandler)
+	(省略)
+	withAuth := e.Group("")
+	withAuth.Use(handler.UserAuthMiddleware)
+	withAuth.GET("/me", handler.GetMeHandler) // [!code ++]
+	withAuth.GET("/cities/:cityName", h.GetCityInfoHandler)
+	withAuth.POST("/cities", h.PostCityHandler)
 
-    err = e.Start(":8080")
-    (省略)
+	err = e.Start(":8080")
+	(省略)
 }
 ```
