@@ -43,7 +43,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("conntected")
+	fmt.Println("connected")
 
 	cityName := os.Args[1] //[!code ++]
 
@@ -51,9 +51,11 @@ func main() {
 	err = db.Get(&city, "SELECT * FROM city WHERE Name = ?", "Tokyo")  //[!code --]
 	err = db.Get(&city, "SELECT * FROM city WHERE Name = ?", cityName) //[!code ++]
 	if errors.Is(err, sql.ErrNoRows) {
-		log.Printf("no such city Name = '%s'\n", "Tokyo")
-		return //[!code ++]
-	} else if err != nil {
+		log.Printf("no such city Name = '%s'\n", "Tokyo") //[!code --]
+		log.Printf("no such city Name = '%s'\n", cityName) //[!code ++]
+		return
+	}
+	if err != nil {
 		log.Fatalf("DB Error: %s\n", err)
 	}
 

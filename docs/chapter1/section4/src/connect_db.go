@@ -45,13 +45,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("conntected")
+	fmt.Println("connected")
 	// #region get
 	var city City
 	err = db.Get(&city, "SELECT * FROM city WHERE Name = ?", "Tokyo")
 	if errors.Is(err, sql.ErrNoRows) {
 		log.Printf("no such city Name = '%s'\n", "Tokyo")
-	} else if err != nil {
+		return
+	}
+	if err != nil {
 		log.Fatalf("DB Error: %s\n", err)
 	}
 	// #endregion get

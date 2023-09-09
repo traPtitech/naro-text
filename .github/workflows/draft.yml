@@ -1,0 +1,70 @@
+name: Copy Assets to Draft Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  copy-assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Copy assets from latest to draft release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const latest = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+
+            if (!latest.data.assets || latest.data.assets.length === 0) {
+              console.log("No assets found in latest release");
+              return;
+            }
+
+            const assets = latest.data.assets;
+
+            const draft = await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: "draft" + Date.now(),
+              draft: true
+            });
+
+            for (const asset of assets) {
+              if (asset.browser_download_url.includes("releases/download")) {
+                // download data
+                const download = await github.request({
+                  method: "GET",
+                  url: asset.url,
+                  headers: {
+                    Accept: "application/octet-stream",
+                    Authorization: "Bearer " + process.env.GITHUB_TOKEN,
+                  },
+                  responseType: "arraybuffer"
+                });
+                // upload data
+                const upload = await github.rest.repos.uploadReleaseAsset({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  release_id: draft.data.id,
+                  name: asset.name,
+                  data: download.data,
+                  headers: {
+                    "Content-Type": asset.content_type,
+                    "Content-Length": asset.size,
+                  },
+                });
+                core.info(upload.data.name);
+              }
+            }

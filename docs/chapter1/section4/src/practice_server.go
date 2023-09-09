@@ -48,7 +48,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("conntected")
+	fmt.Println("connected")
 	db = _db
 	//#region echo
 	e := echo.New()
@@ -67,7 +67,8 @@ func getCityInfoHandler(c echo.Context) error {
 	var city City
 	if err := db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName); errors.Is(err, sql.ErrNoRows) {
 		return echo.NewHTTPError(http.StatusNotFound, fmt.Sprintf("No such city Name = %s", cityName))
-	} else if err != nil {
+	}
+	if err != nil {
 		log.Fatalf("failed to get city: %s", err)
 	}
 
@@ -84,7 +85,8 @@ func postCityHandler(c echo.Context) error { //[!code ++]
 	//[!code ++]
 	result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population) //[!code ++]
 	if err != nil {                                                                                                                                                       //[!code ++]
-		log.Fatalf("failed to insert city data: %s", err) //[!code ++]
+		log.Printf("DB Error: %s", err)                                                   //[!code ++]
+		return echo.NewHTTPError(http.StatusInternalServerError, "internal server error") //[!code ++]
 	} //[!code ++]
 	//[!code ++]
 	id, _ := result.LastInsertId() //[!code ++]

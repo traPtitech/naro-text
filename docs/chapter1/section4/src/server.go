@@ -48,7 +48,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("conntected")
+	fmt.Println("connected")
 	db = _db
 
 	e := echo.New()
@@ -65,8 +65,10 @@ func getCityInfoHandler(c echo.Context) error {
 	var city City
 	if err := db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName); errors.Is(err, sql.ErrNoRows) {
 		return echo.NewHTTPError(http.StatusNotFound, fmt.Sprintf("No such city Name = %s", cityName))
-	} else if err != nil {
-		log.Fatalf("DB Error: %s", err)
+	}
+	if err != nil {
+		log.Printf("DB Error: %s", err)
+		return echo.NewHTTPError(http.StatusInternalServerError, "internal server error")
 	}
 
 	return c.JSON(http.StatusOK, city)
