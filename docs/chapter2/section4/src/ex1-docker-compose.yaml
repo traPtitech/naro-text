@@ -1,0 +1,15 @@
+services:
+  greeting1:
+    build: .
+    environment:
+      GREETING_MESSAGE: こんにちは
+      PORT: 8080
+    ports:
+      - "127.0.0.1:3000:8080"
+  greeting2:
+    build: .
+    environment:
+      GREETING_MESSAGE: Hello
+      PORT: 8081
+    ports:
+      - "127.0.0.1:3001:8081"

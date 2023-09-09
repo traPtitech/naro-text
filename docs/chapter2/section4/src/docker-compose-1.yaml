@@ -1,0 +1,8 @@
+services:
+  greeting:
+    build: .
+    environment: #docker run の -e
+      GREETING_MESSAGE: こんにちは
+      PORT: 8080
+    ports: #docker run の -p
+      - "127.0.0.1:3000:8080"

@@ -4,7 +4,15 @@
 
 `main.go` の handler の設定部分を見てみましょう。
 
-<<<@/chapter2/section1/src/0/main_handler.go#handler{go:line-numbers}
+```go
+h := handler.NewHandler(db)
+e := echo.New()
+
+e.GET("/cities/:cityName", h.GetCityInfoHandler)
+e.POST("/cities", h.PostCityHandler)
+
+err = e.Start(":8080")
+```
 
 今回の目標は、 `/cities/` で始まる api 2 つ (`getCityInfoHandler`, `postCityHandler`) に対して、
 ログインしているかどうかを判定して、ログインしていなければリクエストを拒否するように実装することです。
@@ -38,58 +46,89 @@ go get -u github.com/srinathgs/mysqlstore
 
 ## 下準備
 
-### ハッシュソルトの設定
-
-まず、`main.go`の`var`の箇所に、 `salt` を追加します。
-
-<<<@/chapter2/section1/src/0/main_handler.go#var
-
-ここで新しく定義した`salt`という変数は、パスワード等をハッシュ値へと変換する際に、パスワード等の末尾に付与するランダムな文字列のことです。
-
-全員が同じハッシュ処理を使用していたとすると、他のサービスで保存されているハッシュされたパスワードと自分のサービスで保存されるものが一致したときにパスワードが特定できてしまいます（レインボーテーブル攻撃）。
-
-このような処理をすることで、それらの可能性を防ぐことができます。
-
-`salt` は他と一致しない独自の文字列にする必要があります。環境変数に隠しているので、環境変数を更新しましょう。
-
-ハッシュ値は 32 バイト, 64 バイト, 128 バイトにする事が推奨されているようです。
-
-<<<@/chapter2/section1/src/0/.env
-
 ### テーブルの作成
 
-更に、アカウントを管理するテーブル `users` を作成します。
+アカウントを管理するテーブル `users` を作成しましょう。`main.go`に以下を追加します。
 
-<<<@/chapter2/section1/src/0/handlers.go#setup_table
+```go
+type LoginRequestBody struct {
+	Username string `json:"username,omitempty" form:"username"`
+	Password string `json:"password,omitempty" form:"password"`
+}
+```
 
 ## signUpHandler の実装
 
 続いて、アカウントを作成するハンドラーである `signUpHandler` を `handler.go` に実装していきましょう。
 
 ```go
-func signUpHandler(c echo.Context) error {
-}
+func (h *Handler) SignUpHandler(c echo.Context) error { // [!code ++]
+} // [!code ++]
 ```
 
-この `signUpHandler` に以下のものを順番に実装していきます。最悪コピー&ペーストでも動くはず。
+この `signUpHandler` に以下のものを順番に実装していきます。
 
 ### 1. リクエストの受け取り
 
-<<<@/chapter2/section1/src/0/final/code.go#request
+`signUpHandler` の外に以下の構造体を追加します。
 
-まず初めに、 req 変数に requestBody の json 情報を格納します。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
+```go
+type LoginRequestBody struct {
+	Username string `json:"username,omitempty" form:"username"`
+	Password string `json:"password,omitempty" form:"password"`
+}
+```
+
+次に、`signUpHandler`の中に以下を追加します。
+
+```go
+func (h *Handler) SignUpHandler(c echo.Context) error {
+	// リクエストを受け取り、reqに格納する // [!code ++]
+	req := LoginRequestBody{} // [!code ++]
+	c.Bind(&req) // [!code ++]
+}
+```
+
+ここでは、req 変数に requestBody の json 情報を格納しています。`LoginRequestBody` 型を見れば分かる通り、ここには UserName と
 Password が格納されています。
 
 ### 2. リクエストの検証
 
-<<<@/chapter2/section1/src/0/final/code.go#valid
+```go
+func (h *Handler) SignUpHandler(c echo.Context) error {
+    // リクエストを受け取り、reqに格納する
+    req := LoginRequestBody{}
+    c.Bind(&req)
+    
+    // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
+    if req.Password == "" || req.Username == "" { // [!code ++]
+        return c.String(http.StatusBadRequest, "Username or Password is empty") // [!code ++]
+    } // [!code ++]
+}
+```
 
 ここでは、UserName と Password が正しく入っているのかをチェック（バリデーションといいます）します。
 入っていない場合は、与えられた入力が正しくない間違った形式なので、 400 (Bad Request) をレスポンスします。
 
 ### 3. アカウントの存在チェック
 
-<<<@/chapter2/section1/src/0/final/code.go#check_user
+```go
+func (h *Handler) SignUpHandler(c echo.Context) error {
+    (省略)
+	
+	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック// [!code ++]
+	var count int// [!code ++]
+	err := h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)// [!code ++]
+    if err != nil {// [!code ++]
+        log.Println(err)// [!code ++]
+        return c.NoContent(http.StatusInternalServerError)// [!code ++]
+    }// [!code ++]
+    // 存在したら409 Conflictを返す// [!code ++]
+    if count > 0 {// [!code ++]
+        return c.String(http.StatusConflict, "Username is already used")// [!code ++]
+    }// [!code ++]
+}
+```
 
 `"SELECT COUNT(*) FROM users WHERE Username=?", req.Username` で、指定された UserName を持つユーザーの数を見ます。
 
@@ -102,16 +141,49 @@ Password が格納されています。
 ここまでは「リクエストを実行しても本当に問題がないか」を検証していました。
 ユーザーはまだ存在していなくて、パスワードとユーザー名がある事まで確認できれば、リクエストを処理できます。なのでここから処理を行っていきます。
 
-<<<@/chapter2/section1/src/0/final/code.go#hash
+```go
+func (h *Handler) SignUpHandler(c echo.Context) error {
+    (省略)
+	
+    // パスワードをハッシュ化する// [!code ++]
+    hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)// [!code ++]
+    // ハッシュ化に失敗したら500 InternalServerErrorを返す// [!code ++]
+    if err != nil {// [!code ++]
+        log.Println(err)// [!code ++]
+        return c.NoContent(http.StatusInternalServerError)// [!code ++]
+    }// [!code ++]
+}
+```
 
 まずはパスワードのハッシュ化です。 **パスワードは平文で保存してはいけません！** パスワードを DB に保管するときは、必ずハッシュ化をしましょう。
-ソルトは前節で説明しました。
+
+:::info 参考: ソルトについて  
+ソルトという手法を用いることで、事前計算されたテーブルを使用する攻撃から守ることができます。
+
+ここで用いている`bcrypt`というライブラリでは、これを自動でやってくれています。
+
+参考: <https://en.wikipedia.org/wiki/Salt_(cryptography)>
+:::
 
 `bcrypt`というのはいい感じにハッシュ化してくれるライブラリです。セキュリティに関わるものは自分で実装すると穴だらけになりやすいので、積極的にライブラリに頼りましょう。
 
 ### 5. ユーザーの作成
 
-<<<@/chapter2/section1/src/0/final/code.go#add_user
+```go
+func (h *Handler) SignUpHandler(c echo.Context) error {
+    (省略)
+	
+	// ユーザーを登録する// [!code ++]
+	_, err = h.db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)// [!code ++]
+	// 登録に失敗したら500 InternalServerErrorを返す// [!code ++]
+	if err != nil {// [!code ++]
+		log.Println(err)// [!code ++]
+		return c.NoContent(http.StatusInternalServerError)// [!code ++]
+	}// [!code ++]
+	// 登録に成功したら201 Createdを返す// [!code ++]
+	return c.NoContent(http.StatusCreated)// [!code ++]
+}
+```
 
 `Username`, `HashedPassword` を持つ User レコードをデータベースに追加しましょう。
 
@@ -124,13 +196,65 @@ Password が格納されています。
 
 もし err がなければ、それはうまく成功したということです。 201 (Created) をレスポンスしましょう！
 
-これで実装は終わりです。すべてを実装すると以下のようになります。
+## 完成！
+これで実装は終わりです。すべてを実装したら、以下のようになります。
 
-<<<@/chapter2/section1/src/0/signUpHandler.go
+```go
+func (h *Handler) SignUpHandler(c echo.Context) error {
+	// リクエストを受け取り、reqに格納する
+	req := LoginRequestBody{}
+	c.Bind(&req)
+
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
+	if req.Password == "" || req.Username == "" {
+		return c.String(http.StatusBadRequest, "Username or Password is empty")
+	}
+
+	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック
+	var count int
+	err := h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
+	if err != nil {
+		log.Println(err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+	// 存在したら409 Conflictを返す
+	if count > 0 {
+		return c.String(http.StatusConflict, "Username is already used")
+	}
+
+	// パスワードをハッシュ化する
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	// ハッシュ化に失敗したら500 InternalServerErrorを返す
+	if err != nil {
+		log.Println(err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+
+	// ユーザーを登録する
+	_, err = h.db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
+	// 登録に失敗したら500 InternalServerErrorを返す
+	if err != nil {
+		log.Println(err)
+		return c.NoContent(http.StatusInternalServerError)
+	}
+	// 登録に成功したら201 Createdを返す
+	return c.NoContent(http.StatusCreated)
+}
+```
 
 最後に、`main.go` に、先ほど書いたハンドラーを追加しましょう。
 
-<<<@/chapter2/section1/src/0/handlers.go#signup
+```go
+h := handler.NewHandler(db)
+e := echo.New()
+
+e.POST("/signup", h.SignUpHandler) // [!code ++]
+
+e.GET("/cities/:cityName", h.GetCityInfoHandler)
+e.POST("/cities", h.PostCityHandler)
+
+err = e.Start(":8080")
+```
 
 :::warning
 このコードは後々の回で使用するので、エンドポイントのパス (`/signup` など) は変更しないでください！
@@ -138,7 +262,9 @@ Password が格納されています。
 エンドポイントの追加は問題ないので、試したい場合は新しくハンドラーを実装しましょう。
 :::
 
-ここまでできたら、実行して、Postman 等を用いて正しく実装できているかデバッグしてみましょう。
+ここまでできたら、実行して、Postman 等を用いて正しく実装できているかデバッグしてみましょう。以下は例です。
+![](postman1/../images/0/postman2.png)
+上手く作成できれば Status 201 が返ってくるはずです。
 
 正しく API を叩いたあとに、テーブルに意図したユーザー名と、ハッシュ化されたパスワードが入っていますか？
 

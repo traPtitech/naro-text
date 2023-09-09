@@ -15,11 +15,13 @@
 ## loginHandler の実装
 
 ```go
-func signUpHandler(c echo.Context) error {
+func loginHandler(c echo.Context) error {
 }
 ```
 
 つづいて `loginHandler` を実装していきます。これも `handler.go` に実装しましょう。
+
+<<<@/chapter2/section1/src/0/final/code.go#User
 
 <<<@/chapter2/section1/src/0/final/code.go#post_req
 
@@ -31,7 +33,7 @@ req への代入は signUpHandler と同じです。UserName と Password が入
 もしそのエラーなら 401 (Unauthorized)、そうでなければ 500 (Internal Server Error) です。
 もし 404 (Not Found) とすると、「このユーザーはパスワードが違うのではなく存在しないんだ」という事がわかってしまい（このユーザーは存在していてパスワードは違う事も分かります）、セキュリティ上のリスクに繋がります。
 
-ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。 参考: https://pkg.go.dev/errors#Is
+ここで、エラーチェックは `==` を使ってはいけません。 `errors.Is` を使いましょう。 参考: <https://pkg.go.dev/errors#Is>
 
 <<<@/chapter2/section1/src/0/final/code.go#post_hash
 
@@ -96,13 +98,13 @@ withAuth.POST("/cities", postCityHandler) // [!code ++]
 
 これで、この章の目標である「ログインしないと利用できないようにする」が達成されました。
 
-## getWhoAmIHandler の実装
+## getMeHandler の実装
 
-最後に、 `getWhoAmIHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
+最後に、 `getMeHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
 
-<<<@/chapter2/section1/src/0/final/code.go#whoami
+<<<@/chapter2/section1/src/0/final/code.go#me
 
 アクセスしているユーザーの`userName`をセッションから取得して返しています。
 `userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
 
-`withAuth.GET("/whoami", getWhoAmIHandler)` を忘れずに追加しましょう。
+`withAuth.GET("/me", getMeHandler)` を忘れずに追加しましょう。

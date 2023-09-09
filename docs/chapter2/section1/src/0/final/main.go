@@ -9,18 +9,22 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo-contrib/session"
-	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/srinathgs/mysqlstore"
 )
 
 var (
-	db   *sqlx.DB
-	salt = ""
+	db *sqlx.DB
 )
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf(".envファイルが読み込めませんでした。: %v", err)
+	}
+
 	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
 		log.Fatal(err)
@@ -36,8 +40,6 @@ func main() {
 		Collation: "utf8mb4_unicode_ci",
 		Loc:       jst,
 	}
-
-	salt = os.Getenv("HASH_SALT")
 
 	_db, err := sqlx.Open("mysql", conf.FormatDSN())
 
@@ -70,7 +72,7 @@ func main() {
 	withAuth.Use(userAuthMiddleware)
 	withAuth.GET("/cities/:cityName", getCityInfoHandler)
 	withAuth.POST("/cities", postCityHandler)
-	withAuth.GET("/whoami", getWhoAmIHandler)
+	withAuth.GET("/me", getMeHandler)
 
 	e.Start(":8080")
 }
