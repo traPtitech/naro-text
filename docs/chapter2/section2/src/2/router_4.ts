@@ -22,7 +22,7 @@ const router = createRouter({
   /*[!code ++]*/ if (to.path === '/login') {
     return true //[!code ++]
   } //[!code ++]
-  const res = await fetch('/api/whoami') //[!code ++]
+  const res = await fetch('/api/me') //[!code ++]
   if (res.ok) return true //[!code ++]
   return '/login' //[!code ++]
 }) //[!code ++]
