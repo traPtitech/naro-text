@@ -34,6 +34,11 @@ func main() {
 
 `e.Use(middleware.Logger())` は文字通りログを取るものです。ついでに入れましょう。
 
+:::tip
+`"secret-token"`は、暗号化/復号化の際に使われる秘密鍵です。  
+実際に運用するときはこの"secret-token"を独自の値にしてください。環境変数などで管理するのが良いでしょう。
+:::
+
 ## LoginHandler の実装
 続いて、`LoginHandler` を `handler.go` に実装していきましょう。
 
