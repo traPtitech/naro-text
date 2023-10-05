@@ -5,19 +5,47 @@
 `main.go` の handler の設定部分を見てみましょう。
 
 ```go
-func main () {
-	(省略)
-	h := handler.NewHandler(db)  // [!code hl]
-	e := echo.New()  // [!code hl]
-	// [!code hl]
-	e.GET("/cities/:cityName", h.GetCityInfoHandler)  // [!code hl]
-	e.POST("/cities", h.PostCityHandler)  // [!code hl]
-	// [!code hl]
-	err = e.Start(":8080")  // [!code hl]
-	(省略)
+func main() {
+	// .envファイルから環境変数を読み込み
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// データーベースの設定
+	jst, err := time.LoadLocation("Asia/Tokyo")
+	if err != nil {
+		log.Fatal(err)
+	}
+	conf := mysql.Config{
+		User:      os.Getenv("DB_USERNAME"),
+		Passwd:    os.Getenv("DB_PASSWORD"),
+		Net:       "tcp",
+		Addr:      os.Getenv("DB_HOSTNAME") + ":" + os.Getenv("DB_PORT"),
+		DBName:    os.Getenv("DB_DATABASE"),
+		ParseTime: true,
+		Collation: "utf8mb4_unicode_ci",
+		Loc:       jst,
+	}
+
+	// データベースに接続
+	db, err := sqlx.Open("mysql", conf.FormatDSN())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+    h := handler.NewHandler(db)  // [!code hl]
+    e := echo.New()  // [!code hl]
+    // [!code hl]
+    e.GET("/cities/:cityName", h.GetCityInfoHandler)  // [!code hl]
+    e.POST("/cities", h.PostCityHandler)  // [!code hl]
+    // [!code hl]
+    err = e.Start(":8080")  // [!code hl]
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ```
-
 今回の目標は、 `/cities/` で始まる api 2 つ (`getCityInfoHandler`, `postCityHandler`) に対して、
 ログインしているかどうかを判定して、ログインしていなければリクエストを拒否するように実装することです。
 
