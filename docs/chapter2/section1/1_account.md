@@ -222,7 +222,7 @@ func (h *Handler) SignUpHandler(c echo.Context) error {
 
 今回は、`bcrypt`というライブラリがハッシュ化を行っています。
 
-参考: <https://en.wikipedia.org/wiki/Salt_(cryptography)>
+参考: <https://ja.wikipedia.org/wiki/%E3%82%BD%E3%83%AB%E3%83%88_(%E6%9A%97%E5%8F%B7)>
 :::
 
 `bcrypt`というのはいい感じにハッシュ化してくれるライブラリです。セキュリティに関わるものは自分で実装すると穴だらけになりやすいので、積極的にライブラリに頼りましょう。
