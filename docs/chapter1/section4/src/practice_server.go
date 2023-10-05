@@ -48,7 +48,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("connected")
+	log.Println("connected")
 	db = _db
 	//#region echo
 	e := echo.New()
@@ -62,7 +62,7 @@ func main() {
 // #endregion echo
 func getCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
-	fmt.Println(cityName)
+	log.Println(cityName)
 
 	var city City
 	if err := db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName); errors.Is(err, sql.ErrNoRows) {

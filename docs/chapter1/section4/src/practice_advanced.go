@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -43,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("connected")
+	log.Println("connected")
 
 	cityName := os.Args[1]
 
@@ -57,7 +56,7 @@ func main() {
 		log.Fatalf("DB Error: %s\n", err)
 	}
 
-	fmt.Printf("%sの人口は%d人です\n", city.Name, city.Population)
+	log.Printf("%sの人口は%d人です\n", city.Name, city.Population)
 
 	var population int                                                                           //[!code ++]
 	err = db.Get(&population, "SELECT Population FROM country WHERE Code = ?", city.CountryCode) //[!code ++]
@@ -71,5 +70,5 @@ func main() {
 	//[!code ++]
 	percent := (float64(city.Population) / float64(population)) * 100 //[!code ++]
 	//[!code ++]
-	fmt.Printf("これは%sの人口の%f%%です\n", city.CountryCode, percent) //[!code ++]
+	log.Printf("これは%sの人口の%f%%です\n", city.CountryCode, percent) //[!code ++]
 }

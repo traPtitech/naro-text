@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -45,7 +44,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("connected")
+	log.Println("connected")
 	// #region get
 	var city City
 	err = db.Get(&city, "SELECT * FROM city WHERE Name = ?", "Tokyo")
@@ -57,5 +56,5 @@ func main() {
 		log.Fatalf("DB Error: %s\n", err)
 	}
 	// #endregion get
-	fmt.Printf("Tokyoの人口は%d人です\n", city.Population)
+	log.Printf("Tokyoの人口は%d人です\n", city.Population)
 }
