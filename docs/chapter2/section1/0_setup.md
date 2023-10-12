@@ -65,7 +65,7 @@ DB_DATABASE="world"
 3. `.env`ファイルの環境変数を、プログラムで読むようにした。
 
 それでは、`go run main.go` で実行してみましょう。
-:::warning
+:::tip
 `main package`を複数ファイルに分割した場合、`go run main.go`だと`main.go`のみがビルドされるため、  
 `go run .`や`go run main1.go main2.go`のようにして複数ファイルを読み込む必要があります。  
 詳しくは`go help run`を参照してください。
