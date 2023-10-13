@@ -285,7 +285,7 @@
   --vp-code-block-bg: #161618;
   --vp-code-block-divider-color: var(--vp-c-divider);
 
-  --vp-code-line-highlight-color: #ececec;
+  --vp-code-line-highlight-color: rgba(0, 0, 0, 0.5);
   --vp-code-line-number-color: var(--vp-c-code-dimm);
 
   --vp-code-copy-code-bg: var(--vp-code-block-bg-light);
