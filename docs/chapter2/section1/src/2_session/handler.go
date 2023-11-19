@@ -1,15 +1,23 @@
-package main
+package handler
 
 import (
 	"database/sql"
 	"errors"
-	"fmt"
+	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 )
+
+type Handler struct {
+	db *sqlx.DB
+}
+
+func NewHandler(db *sqlx.DB) *Handler {
+	return &Handler{db: db}
+}
 
 type City struct {
 	ID          int            `json:"id,omitempty"  db:"ID"`
@@ -29,54 +37,66 @@ type User struct {
 	HashedPass string `json:"-"  db:"HashedPass"`
 }
 
-type Me struct {
-	Username string `json:"username,omitempty"  db:"username"`
-}
+func (h *Handler) SignUpHandler(c echo.Context) error {
+	// リクエストを受け取り、reqに格納する
+	req := LoginRequestBody{}
+	err := c.Bind(&req)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
+	}
 
-func signUpHandler(c echo.Context) error {
-	var req LoginRequestBody
-	c.Bind(&req)
-
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
 	if req.Password == "" || req.Username == "" {
 		return c.String(http.StatusBadRequest, "Username or Password is empty")
 	}
-	var count int
 
-	err := db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
+	// 登録しようとしているユーザーが既にデータベース内に存在するかチェック
+	var count int
+	err = h.db.Get(&count, "SELECT COUNT(*) FROM users WHERE Username=?", req.Username)
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
-
+	// 存在したら409 Conflictを返す
 	if count > 0 {
 		return c.String(http.StatusConflict, "Username is already used")
 	}
 
-	pw := req.Password + salt
-
-	hashedPass, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
+	// パスワードをハッシュ化する
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	// ハッシュ化に失敗したら500 InternalServerErrorを返す
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	_, err = db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
+	// ユーザーを登録する
+	_, err = h.db.Exec("INSERT INTO users (Username, HashedPass) VALUES (?, ?)", req.Username, hashedPass)
+	// 登録に失敗したら500 InternalServerErrorを返す
 	if err != nil {
 		log.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
+	// 登録に成功したら201 Createdを返す
 	return c.NoContent(http.StatusCreated)
 }
 
-func loginHandler(c echo.Context) error {
+func (h *Handler) LoginHandler(c echo.Context) error {
+	// リクエストを受け取り、reqに格納する
 	var req LoginRequestBody
-	c.Bind(&req)
+	err := c.Bind(&req)
+	if err != nil {
+		return c.String(http.StatusBadRequest, "bad request body")
+	}
 
+	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
 	if req.Password == "" || req.Username == "" {
 		return c.String(http.StatusBadRequest, "Username or Password is empty")
 	}
+
+	// データベースからユーザーを取得する
 	user := User{}
-	err := db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
+	err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return c.NoContent(http.StatusUnauthorized)
@@ -85,8 +105,8 @@ func loginHandler(c echo.Context) error {
 			return c.NoContent(http.StatusInternalServerError)
 		}
 	}
-
-	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password + salt))
+	// パスワードが一致しているかを確かめる
+	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
 	if err != nil {
 		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
 			return c.NoContent(http.StatusUnauthorized)
@@ -95,38 +115,42 @@ func loginHandler(c echo.Context) error {
 		}
 	}
 
+	// セッションストアに登録する
 	sess, err := session.Get("sessions", c)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return c.String(http.StatusInternalServerError, "something wrong in getting session")
 	}
 	sess.Values["userName"] = req.Username
 	sess.Save(c.Request(), c.Response())
 
 	return c.NoContent(http.StatusOK)
-
 }
 
-func getCityInfoHandler(c echo.Context) error {
+func (h *Handler) GetCityInfoHandler(c echo.Context) error {
 	cityName := c.Param("cityName")
 
 	var city City
-	db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
-	if !city.Name.Valid {
-		return c.NoContent(http.StatusNotFound)
+	err := h.db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return c.NoContent(http.StatusNotFound)
+		}
+		log.Printf("failed to get city data: %s\n", err)
+		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	return c.JSON(http.StatusOK, city)
 }
 
-func postCityHandler(c echo.Context) error {
+func (h *Handler) PostCityHandler(c echo.Context) error {
 	var city City
 	err := c.Bind(&city)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
 	}
 
-	result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
+	result, err := h.db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)", city.Name, city.CountryCode, city.District, city.Population)
 	if err != nil {
 		log.Printf("failed to insert city data: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
@@ -134,16 +158,10 @@ func postCityHandler(c echo.Context) error {
 
 	id, err := result.LastInsertId()
 	if err != nil {
-		fmt.Printf("failed to get last insert id: %s\n", err)
+		log.Printf("failed to get last insert id: %s\n", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 	city.ID = int(id)
 
 	return c.JSON(http.StatusCreated, city)
-}
-
-func getWhoAmIHandler(c echo.Context) error {
-	return c.JSON(http.StatusOK, Me{
-		Username: c.Get("userName").(string),
-	})
 }
