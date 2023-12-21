@@ -2,7 +2,11 @@
   "plugins": {},
   "filters": {
     "allowlist": {
-      "allow": [":::", "/:::.*/", "リーダブルコード"]
+      "allow": [
+        ":::",
+        "/:::.*/",
+        "リーダブルコード"
+      ]
     }
   },
   "rules": {
@@ -14,7 +18,13 @@
       "sentence-length": false,
       "no-exclamation-question-mark": false,
       "max-kanji-continuous-len": {
-        "allow": ["開発基礎講習会"]
+        "allow": [
+          "開発基礎講習会",
+          "静的経路制御",
+          "経路制御手法",
+          "動的経路制御",
+          "直接相互接続"
+        ]
       }
     },
     "preset-ja-spacing": {
@@ -24,7 +34,9 @@
     },
     "spellcheck-tech-word": true,
     "prh": {
-      "rulePaths": ["./prh.yaml"]
+      "rulePaths": [
+        "./prh.yaml"
+      ]
     }
   }
 }
