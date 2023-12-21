@@ -1,0 +1,39 @@
+@startuml dhcp
+  participant "DHCP Server" as server
+  participant "DHCP Client" as client
+
+  client -> server: DHCP Discover
+  note over client, server #LightBlue
+  <#LightBlue,#LightBlue>| Destination Addr | 255.255.255.255 |
+  | Source Addr | 0.0.0.0 |
+  | op | 1 |
+  | DHCP message type | DHCPDISCOVER |
+  ...
+  end note
+  server -> client: DHCP Offer
+  note over client, server #LightBlue
+  <#LightBlue,#LightBlue>| Destination Addr | 255.255.255.255 |
+  | Source Addr | 203.0.113.1 |
+  | op | 2 |
+  | yiaddr | 198.51.100.2 |
+  | DHCP message type | DHCPOFFER |
+  ...
+  end note
+  client -> server: DHCP Request
+  note over client, server #LightBlue
+  <#LightBlue,#LightBlue>| Destination Addr | 255.255.255.255 |
+  | Source Addr | 0.0.0.0 |
+  | op | 1 |
+  | DHCP message type | DHCPREQUEST |
+  ...
+  end note
+  server -> client: DHCP ACK
+  note over client, server #LightBlue
+  <#LightBlue,#LightBlue>| Destination Addr | 255.255.255.255 |
+  | Source Addr | 203.0.113.1 |
+  | op | 2 |
+  | yiaddr | 198.51.100.2 |
+  | DHCP message type | DHCPACK |
+  ...
+  end note
+@enduml
