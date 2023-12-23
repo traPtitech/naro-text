@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { chapter1SidebarItems } from './sidebarConfigs/chapters/chapter1/chapter1'
 import { chapter2SidebarItems } from './sidebarConfigs/chapters/chapter2/chapter2'
+import { chapter4SidebarItems } from './sidebarConfigs/chapters/chapter4/chapter4'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -20,7 +21,8 @@ export default defineConfig({
 
     sidebar: {
       '/chapter1/': chapter1SidebarItems,
-      '/chapter2/': chapter2SidebarItems
+      '/chapter2/': chapter2SidebarItems,
+      '/chapter4/': chapter4SidebarItems
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/traPtitech/naro-text' }],
     search: {

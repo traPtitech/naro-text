@@ -12,7 +12,7 @@ Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンシ
 
 ## WSL の導入(Windows を使っている人のみ)
 
-すでに WSL をインストールしている方はこの手順は飛ばして大丈夫です。
+すでに WSL をインストールしている方はこの手順を飛ばして大丈夫です。
 
 WSL は Windows 上で Linux を動かすための仕組みで、`Windows Subsystem for Linux`の略です。
 
@@ -34,7 +34,7 @@ Homebrew とは、様々なアプリケーションをインストールしや�
 
 ## VSCode の導入
 
-すでに VSCode をインストールしている方はこの手順は飛ばして大丈夫です。
+すでに VSCode をインストールしている方はこの手順を飛ばして大丈夫です。
 
 以下のサイトから使用している OS に合った VSCode のインストーラーをダウンロードして、それを実行してインストールしてください。
 
@@ -66,7 +66,7 @@ https://golang.org/doc/install
 
 Mac のタブを選択し、ダウンロードページに飛んで自分のアーキテクチャの pkg をダウンロード=>インストーラ起動で設定完了です。
 
-もしくはHomebrewがすでにインストールされている人は、`brew install go@1.20`を実行することでも導入できます。
+もしくは Homebrew がすでにインストールされている人は、`brew install go@1.20`を実行することでも導入できます。
 
 ::: info
 M1/M2 Mac の人は Apple macOS (ARM64) を、Intel Mac の人は Apple macOS (x86-64) を選択してください。
