@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -42,7 +41,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("connected")
+	log.Println("connected")
 
 	var cities []City
 	err = db.Select(&cities, "SELECT * FROM city WHERE CountryCode = 'JPN'") //?を使わない場合、第3引数以降は不要
@@ -50,9 +49,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("日本の都市一覧")
+	log.Println("日本の都市一覧")
 	for _, city := range cities {
-		fmt.Printf("都市名: %s, 人口: %d\n", city.Name, city.Population)
+		log.Printf("都市名: %s, 人口: %d\n", city.Name, city.Population)
 	}
 }
 

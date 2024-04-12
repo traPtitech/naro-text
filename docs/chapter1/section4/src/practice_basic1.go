@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -43,7 +42,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("connected")
+	log.Println("connected")
 
 	cityName := os.Args[1] //[!code ++]
 
@@ -59,5 +58,5 @@ func main() {
 		log.Fatalf("DB Error: %s\n", err)
 	}
 
-	fmt.Printf("Tokyoの人口は%d人です\n", city.Population)
+	log.Printf("Tokyoの人口は%d人です\n", city.Population)
 }
