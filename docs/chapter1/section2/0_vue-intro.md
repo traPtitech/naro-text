@@ -32,7 +32,7 @@ $ brew install node
 ```
 2. PATH を通す
 
-1.を実行すると、最後に`If you need to have node first in your PATH, run:`というメッセージが出るので、これに続くコマンドを実行してください。
+前述のコマンドを実行すると、最後に`If you need to have node first in your PATH, run:`というメッセージが出るので、これに続くコマンドを実行してください。
 
 3. バージョンを確認
 
@@ -40,7 +40,7 @@ $ brew install node
 $ node -v
 ```
 
-を実行して、バージョン番号が表示されれば OK。
+上記のコマンドを実行して、バージョン番号が表示されれば OK。
 
 #### Windows(WSL)
 

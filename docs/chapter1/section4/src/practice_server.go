@@ -65,7 +65,8 @@ func getCityInfoHandler(c echo.Context) error {
 	log.Println(cityName)
 
 	var city City
-	if err := db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName); errors.Is(err, sql.ErrNoRows) {
+	err := db.Get(&city, "SELECT * FROM city WHERE Name=?", cityName)
+	if errors.Is(err, sql.ErrNoRows) {
 		return echo.NewHTTPError(http.StatusNotFound, fmt.Sprintf("No such city Name = %s", cityName))
 	}
 	if err != nil {

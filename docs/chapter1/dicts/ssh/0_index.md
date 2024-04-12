@@ -1,7 +1,7 @@
 # SSH鍵の登録
 
-GitHub に push/pull などをするには、SSH 鍵を登録する必要があります(Personal Access Token でも可能ですが、SSH の方が便利です)。
-常に鍵を登録してあるかどうかは [SSH and GPG keys](https://github.com/settings/keys) で確認できます。
+GitHub に push/pull などをするには、SSH 鍵を登録する必要があります(Personal Access Token でも可能ですが、SSH の方が便利です)。  
+既に鍵を登録してあるかどうかは [SSH and GPG keys](https://github.com/settings/keys) で確認できます。
 
 まだ登録していない人は以下の手順で作成・登録してください。
 ### 鍵の生成

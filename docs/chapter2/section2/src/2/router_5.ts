@@ -27,7 +27,7 @@ router.beforeEach(async (to) => {
   if (to.meta.isPublic) {
     return true
   }
-  const res = await fetch('/api/whoami')
+  const res = await fetch('/api/me')
   if (res.ok) return true
   return '/login'
 })
