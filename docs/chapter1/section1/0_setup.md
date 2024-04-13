@@ -73,7 +73,7 @@ M1/M2 Mac の人は Apple macOS (ARM64) を、Intel Mac の人は Apple macOS (x
 
 ::: details 確認方法
 1. 左上の :apple: のアイコンから、「この Mac について」
-2. 画像の青枠の場所で確認できます。
+2. 画像の青枠の場所で確認できる。
 ![Mac CPU Arch](./images/mac-cpu-arch_1.png)
 ![Mac CPU Arch](./images/mac-cpu-arch_2.png)
 
@@ -143,7 +143,7 @@ Mac は M1/M2 の場合、 Apple Chip を、Intel の場合、Intel Chip を選�
 ### Compose V2 の有効化
 1. 右上の歯車アイコンから `General` に移動する。
 2. 下にスクロールし、`Use Docker Compose V2` にチェックを入れる
-4. 最後に、右下の `Apply & Restart` をクリックして設定は完了です。
+4. 最後に、右下の `Apply & Restart` をクリックして設定は完了。
 
 ![Compose V2](./images/setup-composev2.png)
 ### WSL2の追加設定
@@ -152,6 +152,6 @@ Mac は M1/M2 の場合、 Apple Chip を、Intel の場合、Intel Chip を選�
 1. 右上の歯車アイコンから `Resources` => `WSL Integration` に移動する。
 2.  `Enable integration with my default WSL distro`にチェックを入れる。
 3. 下に出てくる Distro をすべて有効化する。
-4. 最後に、右下の `Apply & Restart` をクリックして設定は完了です。
+4. 最後に、右下の `Apply & Restart` をクリックして設定は完了。
 
 ![WSL Integration](./images/setup-wsl-backend.png)
