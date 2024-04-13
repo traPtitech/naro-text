@@ -125,9 +125,9 @@ func (h *Handler) LoginHandler(c echo.Context) error {
 
 これは `bcrypt.CompareHashAndPassword` が行ってくれるのでそれに乗っかりましょう。
 
-- この関数はハッシュが一致すれば返り値が `nil` となる
-- 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が返ってくる
-- 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かになる
+- この関数はハッシュが一致すれば返り値が `nil` となります
+- 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が返ってきます
+- 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かです
 
 従って、これらのエラーの内容に応じて、 500 (Internal Server Error), 401 (Unauthorized) を返却するか、処理を続行するかを選択していきます。
 ```go

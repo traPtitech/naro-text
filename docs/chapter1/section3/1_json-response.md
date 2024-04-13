@@ -70,7 +70,7 @@ POST ではサーバーにデータを送ることができます。
 
 1. Postman で Body タブを選択
 2. ラジオボタンの`raw`を選択
-3. 右に出てくるプルダウンから`JSON(application/json)`を選択
+3. 右に出てくるプルダウンから`JSON(application/json)`を選択します  
 POST で渡せるデータの型は複数あり、上記の操作で JSON を使うということを明示しています。
 
 以下のように自分の traQ ID を POST してみましょう。
