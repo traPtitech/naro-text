@@ -61,7 +61,7 @@ https://code.visualstudio.com/download
 ### 直接インストールする方法
 
 https://golang.org/doc/install  
-インストールが終わった後に`go version`してみて`go version go1.20.5`と出れば成功です。
+インストールが終わった後に`go version`してみて`go version go1.22.2`と出れば成功です。
 #### Mac
 
 Mac のタブを選択し、ダウンロードページに飛んで自分のアーキテクチャの pkg をダウンロード=>インストーラ起動で設定完了です。
@@ -84,8 +84,8 @@ M1/M2 Mac の人は Apple macOS (ARM64) を、Intel Mac の人は Apple macOS (x
 #### Windows (WSL2)
 ``` bash
 sudo apt install tar git
-wget https://go.dev/dl/go1.20.5.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.22.2.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.2.linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bash_profile
 source ~/.bash_profile
 ```
@@ -115,8 +115,8 @@ source ~/.zshrc
 
 ``` bash
 asdf plugin add golang
-asdf install golang 1.20.5
-asdf global golang 1.20.5
+asdf install golang 1.22.2
+asdf global golang 1.22.2
 ```
 
 ### Go のツールのインストール(全員)
