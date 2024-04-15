@@ -138,14 +138,6 @@ https://www.docker.com/products/docker-desktop/
 Mac は M1/M2 の場合、 Apple Chip を、Intel の場合、Intel Chip を選択してください。
 :::
 
-インストール後起動したら、以下の手順に従って、Compose v2 を有効化してください。
-
-### Compose V2 の有効化
-1. 右上の歯車アイコンから `General` に移動する。
-2. 下にスクロールし、`Use Docker Compose V2` にチェックを入れる
-4. 最後に、右下の `Apply & Restart` をクリックして設定は完了です。
-
-![Compose V2](./images/setup-composev2.png)
 ### WSL2の追加設定
 #### WSL Backendの有効化
 
