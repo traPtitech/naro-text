@@ -1,3 +1,9 @@
+---
+next:
+  text: 'きれいなコードを書くために'
+  link: '/chapter1/dicts/clean-code/0_index'
+---
+
 # はじめに
 
 Web エンジニアになろう講習会へようこそ。
