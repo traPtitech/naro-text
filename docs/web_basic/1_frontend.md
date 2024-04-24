@@ -236,7 +236,7 @@ index.html で読み込みます。
   <meta charset="UTF-8">
   <!-- ./以下にあるstyle.cssをstylesheetとして読み込みますよと言う意味 -->
   <link rel="stylesheet" href="./style.css">
-  <title>hijiki51の自己紹介</title>
+  <title>noc7tの自己紹介</title>
 </head>
 ```
 
@@ -250,8 +250,8 @@ index.html で読み込みます。
     <h2>基本情報</h2>
     <img src="./icon.png" alt="アイコン" id="icon">
     <ul>
-      <li>traP ID: hijiki51</li>
-      <li>所属: 理学院物理学系</li>
+      <li>traP ID: noc7t</li>
+      <li>所属: 理学院地球惑星科学系</li>
 ```
 
 
