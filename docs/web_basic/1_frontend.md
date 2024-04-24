@@ -1,10 +1,4 @@
 # 第 1 回 | フロントエンド　
-次回↓
-https://md.trap.jp/KpxBEVMbQzWF7suRtz-xmA
-
-[toc]
-
-
 
 ## Webページを作る3言語
 - HTML
