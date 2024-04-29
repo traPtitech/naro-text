@@ -62,7 +62,7 @@
 ### 商品のリストデータを表示する
 
 先ほど定義したリストの情報を表示していきます。  
-React ではリストデータをfor文のようにループさせて表示させるには、`map`を使います。  
+React ではリストデータを for 文のようにループさせて表示させるには、`map`を使います。  
 `map` を使うときには`key`を設定しなければいけません(理由(やや難): [Rendering Lists – React](https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key))。
 
 参考: [Rendering Lists – React](https://react.dev/learn/rendering-lists)
@@ -151,4 +151,4 @@ Todo リストを作りましょう。
 スタイルが気になる人は CSS なども書きましょう。
 
 ## 制作物を公開する
-VueのTodo リストを公開したときと同様の方法で公開できるはずです。やってみましょう。
+Vue の Todo リストを公開したときと同様の方法で公開できるはずです。やってみましょう。
