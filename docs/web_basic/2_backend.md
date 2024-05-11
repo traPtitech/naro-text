@@ -41,7 +41,7 @@ IPv4 が枯渇してきているので IPv6 も増えてきている。
      - Body
 
 ### MDNを見ろ🫵🫵🫵🫵🫵
-MDNにはこの世の全てが書いてある
+MDN にはこの世の全てが書いてある。
 
 :::
 
@@ -141,7 +141,6 @@ curl コマンドのオプションとして、リクエストなどの情報を
 ```sh
 $ curl localhost:8080/hello -vvv
 ```
-とすると
 
 ![`curl localhost:8080/hello -vvv`の結果](images/curl-vvv.png)
 
@@ -249,7 +248,7 @@ const httpGetRequest = async () => {
 
 ここに受け取った値を HTML にセットする処理を書きます（前回書きましたね）。
 `data.String`や`data.Bool`、`data.Number`のように書くことでそれぞれのデータにアクセスできます(`jsonData`の構造体を定義したときにタグをつけて JSON のキー名を変更した場合には、ここも`data.string`のように書く必要があります)。
-`async` `await`という見慣れない書き方が出てきましたが、これはこの講習会で説明するには難しいので、`await` = 処理を待つ、`async` = `await`を使えるようにする、ぐらいの認識でOKです。
+`async` `await`という見慣れない書き方が出てきましたが、`await` = 処理を待つ、`async` = `await`を使えるようにする、ぐらいの認識で OK です。
 
 :::details 答え
 
@@ -271,7 +270,7 @@ const httpGetRequest = async () => {
 :::
 
 ### 発展課題2
-フロントで TimeZone を入力すると、その地域の現在時刻が表示されるようにしてみよう
+フロントで TimeZone を入力すると、その地域の現在時刻が表示されるようにしてみよう。
 
 :::tip タイムゾーン一覧
 
