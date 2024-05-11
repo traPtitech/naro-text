@@ -5,7 +5,8 @@ export const webBasicSidebarItems: DefaultTheme.SidebarItem[] = [
     text: 'web 基礎講習会',
     items: [
       { text: 'はじめに', link: '/web_basic/0_index' },
-      { text: '第 1 回 | フロントエンド', link: '/web_basic/1_frontend' }
+      { text: '第 1 回 | フロントエンド', link: '/web_basic/1_frontend' },
+      { text: '第 2 回 | バックエンド', link: '/web_basic/2_backend' }
     ]
   }
 ]
