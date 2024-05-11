@@ -1,6 +1,8 @@
-# 第 1 回 | フロントエンド　
+# 第1回 | フロントエンド
 
-## Webページを作る3言語
+:::details 座学編まとめ
+
+### Webページを作る3言語
 - HTML
     - ページの**構造**を記述するもの
 - CSS
@@ -32,6 +34,7 @@
     - **概要: https://developer.mozilla.org/ja/docs/Web/JavaScript**
     - 仕様書: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_Resources
 
+:::
 
 ## 実際にページを作る
 ### GitHub Codespacesの開き方
@@ -39,7 +42,7 @@
 
 #### Githubアカウントを作る
 以下を参考にしながら、作成してください
-https://qiita.com/ayatokura/items/9eabb7ae20752e6dc79d 
+https://zenn.dev/keison8864/articles/069d9be35b92c2
 
 #### GitHub Codespacesを起動する
 
@@ -256,7 +259,7 @@ index.html で読み込みます。
 
 
 そのセレクタを指定して`style.css`にスタイルを記述します。
-```css=
+```css
 #icon {
   width: 100px;
 }
