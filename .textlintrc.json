@@ -25,7 +25,13 @@
     },
     "preset-ja-spacing": {
       "ja-space-between-half-and-full-width": {
-        "space": "always"
+        "space": "always",
+        "allows": [
+          "第1回",
+          "第2回",
+          "SysAd班",
+          "/Web(サイト|アプリ|エンジニア|フロント|バックエンド)/"
+        ]
       }
     },
     "spellcheck-tech-word": true,
