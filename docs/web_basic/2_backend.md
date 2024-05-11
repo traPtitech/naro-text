@@ -63,7 +63,7 @@ func main() {
 
 `Ctrl+S`で保存すると自動でライブラリがインポートされます。
 
-![`import fmt`が書き込まれている](images/go_importing_library.png)
+![`import fmt`が書き込まれている](images/go_import_library.png)
 
 この状態で以下のコマンドを GitHub Codespaces 内のターミナルで実行して、以下のように`Hello, World!`が出れば OK です。
 以下のような表記がされている場合は`$`を入力しないで`go run main.go`などだけを入力するようにしてください。 (`$`はすでに入力されているはずです!)
