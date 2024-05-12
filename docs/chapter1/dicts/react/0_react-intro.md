@@ -196,7 +196,7 @@ React では先ほど述べたように、`useState`を使うことで「値を�
 
 ##### 7 行目
 
-`return()`内に書くJSXでは`{}`内に JavaScript が書けるので、count 変数の中身を表示しています。
+JSXでは`{}`内に JavaScript が書けるので、count 変数の中身を表示しています。
 
 ```tsx
   <div>回数： {count}</div>
