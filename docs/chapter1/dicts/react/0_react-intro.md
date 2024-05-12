@@ -28,7 +28,7 @@ Done. Now run:
 `$ npm install`
 
 ```bash
-mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm i
+$ npm i
 
 added 218 packages, and audited 219 packages in 12s
 
@@ -43,7 +43,7 @@ found 0 vulnerabilities
 `$ npm run dev`
 
 ```bash
-mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm run dev
+$ npm run dev
 
 > todolist@0.0.0 dev
 > vite
@@ -72,7 +72,7 @@ $ git init
 
 ### React とは
 
-以下のリンクから公式ドキュメントに飛ぶことができます。  
+以下のリンクから公式ドキュメ ントに飛ぶことができます。  
 [React](https://react.dev/)
 
 日本ではよく使われているフレームワークなのですが traP ではあんまり使われておらず、使われているのは traPCollection くらいです。
@@ -81,7 +81,7 @@ $ git init
 
 Vue では`.vue`という拡張子でコンポーネントファイルを作成していましたが、React では`.tsx`という拡張子でコンポーネントファイルを作ることができます。
 
-基本的には TypeScript を書いて、`return()`内に HTML(tsx, jsx)を書きます。
+基本的には TypeScript を書いて、`return()`内に HTML(JSX)を書きます。
 
 
 #### Sample.tsx
@@ -138,7 +138,7 @@ CSS ファイルの読み込みを削除します。
 
 #### src/pages/App.tsx
 
-##### 4 行目
+##### 1 行目
 
 ```ts
 import ClickCounter from "./components/ClickCounter.tsx"
@@ -146,12 +146,14 @@ import ClickCounter from "./components/ClickCounter.tsx"
 
 `ClickCounter` コンポーネントを読み込む部分です。
 
-##### 9-23行目
+##### 5-7行目
 テンプレート部分です。  
 React のコンポーネントは 1 つのタグの中に収まっている必要があります。  
-そのため、多くの場合 div タグで囲まれています。
+そのため、多くの場合 div タグか React.Fragment で囲まれています。
 
-##### 7 行目
+参考: [Fragment – React](https://react.dev/reference/react/Fragment)
+
+##### 6 行目
 
 ```tsx
 <ClickCounter />
@@ -194,7 +196,7 @@ React では先ほど述べたように、`useState`を使うことで「値を�
 
 ##### 7 行目
 
-`return()`内では`{}`内に JavaScript が書けるので、count 変数の中身を表示しています。
+`return()`内に書くJSXでは`{}`内に JavaScript が書けるので、count 変数の中身を表示しています。
 
 ```tsx
   <div>回数： {count}</div>
