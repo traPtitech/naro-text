@@ -77,7 +77,7 @@ React ではリストデータを for 文のようにループさせて表示さ
 
 ### 商品を追加する
 
-フォームを使って、入力された文字を変数に格納します。
+フォームを使って、入力された文字を変数に格納します。  
 参考： [input – React](https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable)
 
 これを使って商品を追加できるようにしてみます。
