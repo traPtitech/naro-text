@@ -2,11 +2,7 @@
   "plugins": {},
   "filters": {
     "allowlist": {
-      "allow": [
-        ":::",
-        "/:::.*/",
-        "リーダブルコード"
-      ]
+      "allow": [":::", "/:::.*/", "リーダブルコード"]
     }
   },
   "rules": {
@@ -18,25 +14,29 @@
       "sentence-length": false,
       "no-exclamation-question-mark": false,
       "max-kanji-continuous-len": {
-        "allow": [
-          "開発基礎講習会",
-          "静的経路制御",
-          "経路制御手法",
-          "動的経路制御",
-          "直接相互接続"
-        ]
+        "allow": ["開発基礎講習会", "静的経路制御", "経路制御手法", "動的経路制御", "直接相互接続"]
+      },
+      "no-mix-dearu-desumasu": {
+        "preferInHeader": "",
+        "preferInBody": "ですます",
+        "preferInList": "",
+        "strict": false
       }
     },
     "preset-ja-spacing": {
       "ja-space-between-half-and-full-width": {
-        "space": "always"
+        "space": "always",
+        "allows": [
+          "第1回",
+          "第2回",
+          "SysAd班",
+          "/Web(サイト|アプリ|エンジニア|フロント|バックエンド)/"
+        ]
       }
     },
     "spellcheck-tech-word": true,
     "prh": {
-      "rulePaths": [
-        "./prh.yaml"
-      ]
+      "rulePaths": ["./prh.yaml"]
     }
   }
 }
