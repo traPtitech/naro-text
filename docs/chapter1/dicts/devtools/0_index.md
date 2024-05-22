@@ -1,5 +1,5 @@
 # DevToolsについて
-この章では、Webアプリ開発において欠かせないDevToolsについて説明します。この章では基本的な内容に絞って説明していますので、DevToolsについてより詳細に知りたい人は[公式のドキュメント](https://developer.chrome.com/docs/devtools?hl=ja)を参照してください。なお、DevToolsはさまざまなWebブラウザにある機能ですが、今回はChrome DevToolsを題材に話を進めます。
+この章では、Webアプリ開発において欠かせないDevToolsについて説明します。DevToolsはさまざまなWebブラウザにある機能ですが、今回はChrome DevToolsを題材に説明を進めます。なお、この章では基本的な内容を中心に扱っていますので、DevToolsについてより詳細に知りたい人は[Chrome DevToolsの公式ドキュメント](https://developer.chrome.com/docs/devtools?hl=ja)などを参照してください。
 [[toc]]
 ## DevToolsって何？
 DevToolsとは、Webブラウザに直接組み込まれたウェブデベロッパーツールのセットです。これを使うことにより、そのページで使われているCSSを把握したり、どのようなエラーが生じているかを確認したりと、Web開発に必要な非常に多くのことを実現することができます。
