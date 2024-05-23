@@ -11,24 +11,25 @@ Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンシ
 :::
 
 :::warning
-以下の作業では、Mac と Windows で手順が違います。
-まずは自分の PC の OS を以下から選んでください。
-
-<div style="font-size: 1.2rem; font-weight: bold;">
-    <input type="radio" id="windows" value="windows" v-model="userOs" />
-    <label for="windows">Windows</label>
-    <input type="radio" id="unix" value="unix" v-model="userOs" />
-    <label for="unix">macOS / Linux</label>
-</div>
-:::
-
-:::warning
 コマンドは手入力ではなく、コピー & ペースト で入力してください。  
 手入力だと写し間違いの可能性があります。  
 この際、1 行ずつコピーするようにしてください。
 :::
 
 ## 事前準備
+
+:::info
+以下の作業では、Mac と Windows で手順が違います。
+まずは自分の PC の OS を以下から選んでください。
+
+<div style="font-size: 1.2rem; font-weight: bold;">
+    <input type="radio" id="windows" value="windows" v-model="userOs" />
+    <label for="windows">Windows</label>
+    <br>
+    <input type="radio" id="unix" value="unix" v-model="userOs" />
+    <label for="unix">macOS / Linux</label>
+</div>
+:::
 
 <div v-if="userOs==='windows'">
 <h3>WSL の導入</h3>
@@ -55,6 +56,8 @@ Homebrew とは、様々なアプリケーションをインストールしや�
 
 参考: https://brew.sh/index_ja
 </div>
+
+<div v-if="userOs!==undefined">
 
 ## VSCode の導入
 
@@ -118,6 +121,7 @@ sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.2.linux-amd64.ta
 echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bash_profile
 source ~/.bash_profile
 ```
+
 </div>
 
 ### with asdf(バージョン管理ツール)
@@ -265,26 +269,33 @@ $ node -v
 https://www.docker.com/products/docker-desktop/  
 上のリンクからそれぞれの OS にあったものをダウンロードしてインストールしてください。
 
+<div v-if="userOs==='unix'">
+
 :::info
 Mac は M1/M2 の場合、 Apple Chip を、Intel の場合、Intel Chip を選択してください。
 :::
 
-### WSL2の追加設定
+</div>
 
-#### WSL Backendの有効化
+<div v-if="userOs==='windows'">
+
+<h3>WSL2の追加設定 - WSL Backend の有効化</h3>
 
 1. 右上の歯車アイコンから `Resources` => `WSL Integration` に移動する。
-2.  `Enable integration with my default WSL distro`にチェックを入れる。
+2. `Enable integration with my default WSL distro`にチェックを入れる。
 3. 下に出てくる Distro をすべて有効化する。
 4. 最後に、右下の `Apply & Restart` をクリックして設定は完了です。
 
 ![WSL Integration](./images/setup-wsl-backend.png)
+</div>
 
 ## Postmanのインストール
 
 [Postman | API Development Environment](https://www.getpostman.com/) は GUI で HTTP リクエストを行えるアプリケーションです。
 
 [ダウンロードページ](https://www.postman.com/downloads/)
+
+</div>
 
 <script setup lang="ts">
 import { ref } from 'vue'
