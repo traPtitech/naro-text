@@ -2,14 +2,6 @@
 
 [[toc]]
 
-::: tip
-質問をするときにはできるだけスクリーンショットを貼るようにしましょう。テキストだけで説明しても解決に必要な情報を全て伝えるのは難しいです。
-
-Mac: `Control + Shift + Command + 4`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に`Command + V`で貼り付けられます。
-
-Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に`Ctrl + V`で貼り付けられます。
-:::
-
 :::warning
 コマンドは手入力ではなく、コピー & ペースト で入力してください。  
 手入力だと写し間違いの可能性があります。  
@@ -23,11 +15,26 @@ Windows: `Winキー + Shift + S`を押すと、矩形選択でスクリーンシ
 まずは自分の PC の OS を以下から選んでください。
 
 <div style="font-size: 1.2rem; font-weight: bold;">
-    <input type="radio" id="windows" value="windows" v-model="userOs" />
-    <label for="windows">Windows</label>
-    <br>
-    <input type="radio" id="unix" value="unix" v-model="userOs" />
-    <label for="unix">macOS / Linux</label>
+  <input type="radio" id="windows" value="windows" v-model="userOs" />
+  <label for="windows">Windows</label>
+  <br>
+  <input type="radio" id="unix" value="unix" v-model="userOs" />
+  <label for="unix">macOS / Linux</label>
+</div>
+:::
+
+::: tip
+質問をするときにはできるだけスクリーンショットを貼るようにしましょう。テキストだけで説明しても解決に必要な情報を全て伝えるのは難しいです。
+
+<div v-if="userOs==='windows'">
+
+`Control + Shift + Command + 4`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に`Command + V`で貼り付けられます。
+
+</div>
+<div v-if="userOs==='unix'">
+
+`Winキー + Shift + S`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に`Ctrl + V`で貼り付けられます。
+
 </div>
 :::
 
@@ -57,7 +64,7 @@ Homebrew とは、様々なアプリケーションをインストールしや�
 参考: https://brew.sh/index_ja
 </div>
 
-<div v-if="userOs!==undefined">
+<div v-if="userOs">
 
 ## VSCode の導入
 
@@ -83,56 +90,32 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 
 インストールが終わったら、反映させるために VSCode を 1 度閉じて開きなおしてください。
 
-## Go と Task のインストール
+## asdf の導入 (任意)
 
-直接インストールする方法と asdf を使ったインストールの 2 種類がありますが、asdf を使った方が後からバージョンを上げるのが簡単になるので、長期的にオススメです。
-どちらか好みのほうを選択しましょう。
+asdf とは、一つのプログラムの複数のバージョンを PC 内で管理できるようにするものです。
+それ以外にもあとからバージョンを更新するのが容易にもなるので長期的に見るとオススメです。
+しかし、本講習会で必須というわけではないので任意とします。
 
-### 直接インストールする方法
+:::info
+以下の作業では、asdf を使うかどうかで手順が違います。
+どちらか一方を選んで次の作業に移ってください。
 
-https://golang.org/doc/install  
-インストールが終わった後に`go version`してみて`go version go1.22.2`と出れば成功です。
-
-<div v-if="userOs==='unix'">
-
-Mac のタブを選択し、ダウンロードページに飛んで自分のアーキテクチャの pkg をダウンロード=>インストーラ起動で設定完了です。
-
-もしくは Homebrew がすでにインストールされている人は、`brew install go@1.20`を実行することでも導入できます。
-
-::: info
-M1/M2 Mac の人は Apple macOS (ARM64) を、Intel Mac の人は Apple macOS (x86-64) を選択してください。
-
-::: details 確認方法
-
-1. 左上の :apple: のアイコンから、「この Mac について」
-2. 画像の青枠の場所で確認できます。
-![Mac CPU Arch](./images/mac-cpu-arch_1.png)
-![Mac CPU Arch](./images/mac-cpu-arch_2.png)
-
+<div style="font-size: 1.2rem; font-weight: bold;">
+  <input type="radio" id="true" value="true" v-model="useAsdf" />
+  <label for="true">asdf を使う</label>
+  <br>
+  <input type="radio" id="false" value="false" v-model="useAsdf" />
+  <label for="false">asdf を使わない</label>
+</div>
 :::
-</div>
 
-<div v-if="userOs==='windows'">
-
-``` bash
-sudo apt install tar git
-wget https://go.dev/dl/go1.22.2.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.2.linux-amd64.tar.gz
-echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bash_profile
-source ~/.bash_profile
-```
-
-</div>
-
-### with asdf(バージョン管理ツール)
-
-asdf を導入したのち、 asdf 経由で go を導入します。
-
-#### asdf導入
+<div v-if="useAsdf==='true'">
 
 [公式資料](https://asdf-vm.com/#/core-manage-asdf)
 
-::: code-group
+以下のコマンドにより asdf の導入を行います。
+
+<div v-if="userOs==='windows'">
 
 ``` bash [Windows(WSL2)]
 sudo apt install git
@@ -142,52 +125,93 @@ echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
 source ~/.bashrc
 ```
 
+</div>
+<div v-if="userOs==='unix'">
+
 ``` zsh [Mac]
 brew install asdf
 echo -e '\n. $(brew --prefix asdf)/libexec/asdf.sh' >> ${ZDOTDIR:-~}/.zshrc
 source ~/.zshrc
 ```
 
-:::
+</div>
 
-##### Go の導入
+</div>
+
+<div v-if="useAsdf">
+
+## Go と Task のインストール
+
+ここでは、Go というプログラミング言語の導入をします。
+この講習会では Go という言語でサーバーサイドの制作を行います。
+
+<div v-if="useAsdf==='false'">
+<div v-if="userOs==='unix'">
+
+先ほど導入した Homebrew を用いてインストールします。
+
+```bash
+brew install go@1.22
+```
+
+</div>
+
+<div v-if="userOs==='windows'">
+
+``` bash
+sudo apt install tar git
+wget https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bash_profile
+source ~/.bash_profile
+```
+
+</div>
+
+ここまでで、以下のコマンドを実行して
+
+```bash
+go version
+```
+
+`go version go.1.22.3`と表示されればインストール完了です。
+ここまでできれば、次は以下のコマンドも実行して Task のインストールをしてください。
+
+```sh
+go run github.com/go-task/task/v3/cmd/task@latest init
+```
+
+</div>
+
+<div v-if="useAsdf==='true'">
 
 ``` bash
 asdf plugin add golang
-asdf install golang 1.22.2
-asdf global golang 1.22.2
-```
-
-### Go のツールのインストール
-
-VSCode で Windows ならば`Ctrl`+`Shift`+`P`、Mac ならば`Command`+`Shift`+`P`を押して出てくるコマンドパレットに`gotools`と入力して、出てきた「Go: Install/Update Tools」をクリックしてください。
-
-![](images/vscode_gotools.png)
-
-利用可能なツールの一覧が出てくるので、全てにチェックを入れて「OK」をクリックします。
-
-出力で`All tools successfully installed. You are ready to Go. :)`と出ているのが確認できたら成功です。
-
-## Taskのインストール
-
-Go をインストールした方法に応じて、以下をコマンドラインで実行してください。
-
-:::code-group
-
-```sh [asdf (WSL, Mac)]
+asdf install golang 1.22.3
+asdf global golang 1.22.3
 go run github.com/go-task/task/v3/cmd/task@latest init
 asdf reshim golang
 ```
 
-```sh [直接 (WSL, Mac)]
-go run github.com/go-task/task/v3/cmd/task@latest init
+ここまでで、以下のコマンドを実行して
+
+```bash
+go version
 ```
 
-:::
+`go version go1.22.3`と表示されれば Go の導入は完了。
+
+```bash
+task --version
+```
+
+と入力して`Task version: 3.37.2`と表示されれば Task の導入も完了です。
+
+</div>
 
 :::info 詳しく知りたい人向け。
 
-**`task`って何だ。**
+**`Task`って何だ。**
 
 Task は、Go で動いているタスクランナーです。これによって長いコマンドを短くできたり、複数のコマンドを 1 回で実行できたりと、開発においてとても便利なツールです。テンプレートリポジトリに`Taskfile.yaml`というファイルがありますが、このファイルによってコマンドの設定をしています。公式ドキュメントは英語しかありませんが、興味のある人は目を通してみてください。
 
@@ -197,72 +221,71 @@ Task GitHub [https://github.com/go-task/task](https://github.com/go-task/task)
 
 :::
 
+### Go のツールのインストール
+
+VSCode で<span v-if="userOs==='windows'">`Ctrl`+`Shift`+`P`</span><span v-if="userOs==='unix'">`Command`+`Shift`+`P`</span>を押して出てくるコマンドパレットに`gotools`と入力して、出てきた「Go: Install/Update Tools」をクリックしてください。
+
+![](images/vscode_gotools.png)
+
+利用可能なツールの一覧が出てくるので、全てにチェックを入れて「OK」をクリックします。
+
+:::tip
+一番上の入力欄の左にあるチェックボックスを押すと一括選択ができます。
+:::
+
+出力で`All tools successfully installed. You are ready to Go. :)`と出ているのが確認できたら成功です。
+
 ## Node.jsの導入
 
-Vue を使うために、Node.js を入れます。自分の環境に合わせたものを選んで実行してください。
+Vue を使うために、Node.js を入れます。
+この講習会では、クライアントサイドを Vue を用いて制作します。
 
-### 簡単
-
-前の章で asdf を使って Go をインストールした人はこちらではなくて、「バージョン管理を考える」の方を見てください。
+<div v-if="useAsdf==='false'">
 
 <div v-if="userOs==='unix'">
 
-#### mac
-
-1. Homebrew を用いてインストール
+以下のコマンドで、Homebrew を用いてインストールします。
 
 ```zsh
-$ brew install node
+brew install node
 ```
 
-2. PATH を通す
-
-前述のコマンドを実行すると、最後に`If you need to have node first in your PATH, run:`というメッセージが出るので、これに続くコマンドを実行してください。
-
-3. バージョンを確認
-
-```zsh
-$ node -v
-```
-
-上記のコマンドを実行して、バージョン番号が表示されれば OK。
+このコマンドを実行すると、最後に`If you need to have node first in your PATH, run:`というメッセージが出るので、これに続くコマンドを実行してください。
 
 </div>
 <div v-if="userOs==='windows'">
 
-#### Windows(WSL)
-
 ```bash
-$ curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-$ sudo apt-get install -y nodejs
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+sudo apt-get install -y nodejs
 ```
 
-バージョンを確認します。
-
-```bash
-$ node -v
-```
-
-を実行して、バージョン番号が表示されれば OK。
+</div>
 </div>
 
-### バージョン管理を考える
+<div v-if="useAsdf==='true'">
 
-Go のインストールにも用いた asdf を用いてインストールすることで、プロジェクトごとに自動で手元の Node.js のバージョンを変えることができます。
+asdf を用いてインストールすると、プロジェクトごとに自動で手元の Node.js のバージョンを変えることができます。
 
 ```bash
-$ asdf plugin add nodejs
-$ asdf install nodejs latest
-$ asdf global nodejs latest
+asdf plugin add nodejs
+asdf install nodejs latest
+asdf global nodejs latest
 ```
 
 これで、デフォルトで現在出ている最新のバージョンが適用されるようになりました。
 
+</div>
+
+<div v-if="useAsdf">
+ここで、インストールが正常にできているかを確認します。
+
 ```bash
-$ node -v
+node -v
 ```
 
 を実行して、バージョン番号が表示されれば OK。
+</div>
 
 ## Docker Desktopのインストール
 
@@ -296,8 +319,10 @@ Mac は M1/M2 の場合、 Apple Chip を、Intel の場合、Intel Chip を選�
 [ダウンロードページ](https://www.postman.com/downloads/)
 
 </div>
+</div>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const userOs = ref();
+const userOs = ref<"windows" | "unix" | undefined>()
+const useAsdf = ref<"true" | "false" | undefined>()
 </script>
