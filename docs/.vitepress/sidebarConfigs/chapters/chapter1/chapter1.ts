@@ -18,7 +18,15 @@ export const chapter1SidebarItems: DefaultTheme.SidebarItem[] = [
           ...section1SidebarItems,
           ...section2SidebarItems,
           ...section3SidebarItems,
-          ...section4SidebarItems
+          ...section4SidebarItems,
+          {
+            text: 'React入門',
+            link: '/chapter1/dicts/react/0_react-intro'
+          },
+          {
+            text: 'アプリを作ってみよう(React)',
+            link: '/chapter1/dicts/react/1_create-app'
+          }
         ]
       }
     ]

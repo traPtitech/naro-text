@@ -6,6 +6,9 @@ hero:
   name: "Webエンジニアになろう講習会"
   tagline: traP SysAd班
 features:
+  - title: Web開発の基礎
+    details: Web開発の基礎的な知識を学びます。
+    link: /web_basic/0_index.md
   - title: 第一部
     details: 基本的なWebアプリの開発を学びます。
     link: /chapter1/index.md
