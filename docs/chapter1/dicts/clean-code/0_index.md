@@ -1,3 +1,13 @@
+---
+prev: 
+  text: 'はじめに'
+  link: '/chapter1/index'
+next:
+  text: '環境構築'
+  link: '/chapter1/section1/0_setup'
+---
+
+
 # きれいなコードを書くために
 
 この章では、きれいなコードを書くためにはどうすればよいか、具体的な例とともに説明します。
