@@ -1,7 +1,8 @@
 ---
 next:
   text: 'きれいなコードを書くために'
-  link: './dicts/clean-code/0_index.md'
+
+  link: '/chapter1/dicts/clean-code/0_index'
 ---
 
 # はじめに
