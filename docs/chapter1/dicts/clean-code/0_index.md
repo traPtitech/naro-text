@@ -4,7 +4,7 @@ prev:
   link: '/chapter1/index'
 next:
   text: '環境構築'
-  link: '/chapter1/section1/0_setup'
+  link: '/chapter1/section1/0_setup-windows'
 ---
 
 
