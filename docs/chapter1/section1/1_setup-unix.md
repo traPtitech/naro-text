@@ -73,7 +73,7 @@ go version
 ここまでできれば、次は以下のコマンドも実行して Task のインストールをしてください。
 
 ```sh
-go run github.com/go-task/task/v3/cmd/task@latest init
+go install github.com/go-task/task/v3/cmd/task@latest
 ```
 
 :::info 詳しく知りたい人向け。
