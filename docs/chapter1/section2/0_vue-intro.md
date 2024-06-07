@@ -19,61 +19,6 @@ $ git clone git@github.com:traPtitech/traQ.git
 
 :::
 
-## Node.jsの導入
-Vue を使うために、Node.js を入れます。自分の環境に合わせたものを選んで実行してください。
-
-### 簡単
-前の章で asdf を使って Go をインストールした人はこちらではなくて、「バージョン管理を考える」の方を見てください。
-#### mac
-1. Homebrew を用いてインストール
-
-```zsh
-$ brew install node
-```
-2. PATH を通す
-
-前述のコマンドを実行すると、最後に`If you need to have node first in your PATH, run:`というメッセージが出るので、これに続くコマンドを実行してください。
-
-3. バージョンを確認
-
-```zsh
-$ node -v
-```
-
-上記のコマンドを実行して、バージョン番号が表示されれば OK。
-
-#### Windows(WSL)
-
-```bash
-$ curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-$ sudo apt-get install -y nodejs
-```
-
-バージョンを確認します。
-
-```bash
-$ node -v
-```
-
-を実行して、バージョン番号が表示されれば OK。
-
-### バージョン管理を考える
-Go のインストールにも用いた asdf を用いてインストールすることで、プロジェクトごとに自動で手元の Node.js のバージョンを変えることができます。
-
-```bash
-$ asdf plugin add nodejs
-$ asdf install nodejs latest
-$ asdf global nodejs latest
-```
-
-これで、デフォルトで現在出ている最新のバージョンが適用されるようになりました。
-
-```bash
-$ node -v
-```
-
-を実行して、バージョン番号が表示されれば OK。
-
 ## Vue テンプレートのクローン
 
 `~/develop`ディレクトリの中にテンプレートリポジトリをクローンしてプログラムを書きます。  
@@ -242,26 +187,6 @@ HelloWorld コンポーネントを読み込み → 登録 → 描画してい�
 
 Chrome Devtool に Vue 向けのデバッグ機能を追加してくれます。  
 [Vue devtools - Chrome ウェブストア](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=ja)
-
-#### ESLint
-
-座学編で紹介した、VSCode の拡張機能。  
-コードの書き方をチェックしてくれます。  
-[ESLint - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-
-#### Prettier
-
-座学編で紹介した、VSCode の拡張機能。  
-コードのフォーマットを整えてくれます。  
-保存時に自動で実行されるような設定をしておくと便利です。  
-[Prettier - Code formatter - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-#### Volar
-
-VSCode の Vue3 向けの統合プラグイン。  
-[Vue Language Features (Volar) - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=vue.volar)
-
-インストールが終わったら、反映させるために VSCode を 1 度閉じて開きなおしてください。
 
 ### ソースコードの書き進め方
 

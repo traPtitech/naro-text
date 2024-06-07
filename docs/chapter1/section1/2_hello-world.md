@@ -3,6 +3,7 @@
 `~/develop/go-hello`ディレクトリの中にプログラムを作成します。
 
 ## VSCodeで`~/develop/go-hello`ディレクトリを開く
+
 - ディレクトリ作成
 `mkdir -p ~/develop/go-hello`
 
@@ -11,7 +12,6 @@
 
 - vscode を開く
 `code .`
-
 
 ## `main.go`の作成
 
@@ -28,6 +28,7 @@
 `go run main.go`
 
 うまくできれば結果は次のようになります。
+
 ```bash
 hijiki51@DESKTOP-JF9KJFE:~/develop/go-hello$ go run main.go
 Hello, World!

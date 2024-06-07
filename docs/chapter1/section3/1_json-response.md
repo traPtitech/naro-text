@@ -37,11 +37,6 @@ type jsonData struct {
 
 ## Postmanでリクエストしてみよう
 
-### Postmanのインストール
-[Postman | API Development Environment](https://www.getpostman.com/) は GUI で HTTP リクエストを行えるアプリケーションです。
-
-[ダウンロードページ](https://www.postman.com/downloads/)
-
 Postman を起動したら、workspace を作成して移動し、`Ctrl + N`->`HTTP`または`Overview`タブの横にある`+`を押して、リクエスト設定画面を開きます。
 
 ![](assets/postman.png)
