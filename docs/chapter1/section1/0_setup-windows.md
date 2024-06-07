@@ -30,7 +30,7 @@ https://pg-basic.trap.show/text/chapter-0/enviroment/windows.html#step-1-install
 
 すでに VSCode をインストールしている方はこの手順を飛ばして大丈夫です。
 
-以下のサイトから使用している OS に合った VSCode のインストーラーをダウンロードして、それを実行してインストールしてください。
+以下のサイトから`windows`の VSCode のインストーラーをダウンロードして、それを実行してインストールしてください。
 
 https://code.visualstudio.com/download
 
