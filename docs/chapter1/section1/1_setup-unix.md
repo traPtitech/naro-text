@@ -26,7 +26,7 @@ Homebrew とは、様々なアプリケーションをインストールしや�
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-参考: https://brew.sh/index_ja
+参考: https://brew.sh/ja/
 
 ## VSCode の導入
 
