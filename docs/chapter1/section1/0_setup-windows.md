@@ -115,8 +115,8 @@ asdf とは、一つのプログラムの複数のバージョンを PC 内で�
 sudo apt install git
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
 echo '. $HOME/.asdf/asdf.sh' >> ~/.rc
-echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.rc
-source ~/.rc
+echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ## Node.jsの導入
