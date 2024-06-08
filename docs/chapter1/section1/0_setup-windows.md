@@ -59,8 +59,8 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 sudo apt install tar git
 wget https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
-echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bash_profile
-source ~/.bash_profile
+echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
+source ~/.profile
 ```
 
 ここまでで、以下のコマンドを実行して
@@ -113,10 +113,10 @@ asdf とは、一つのプログラムの複数のバージョンを PC 内で�
 
 ``` bash
 sudo apt install git
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.3
-echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
-echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
-source ~/.bashrc
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+echo '. $HOME/.asdf/asdf.sh' >> ~/.rc
+echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.rc
+source ~/.rc
 ```
 
 ## Node.jsの導入
