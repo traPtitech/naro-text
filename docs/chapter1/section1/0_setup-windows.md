@@ -114,7 +114,7 @@ asdf とは、一つのプログラムの複数のバージョンを PC 内で�
 ``` bash
 sudo apt install git
 git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
-echo '. $HOME/.asdf/asdf.sh' >> ~/.rc
+echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
 echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
 source ~/.bashrc
 ```
