@@ -71,7 +71,7 @@ GitHub Pages で公開された URL は GitHub Actions の実行が終わり次�
 ![](images/2/site-url.png)
 
 今回の設定ファイルを入れたものは以下のブランチに入っています。参考にしてみてください。  
-[traPtitech/naro-template-frontend at example/todolist](https://github.com/traPtitech/naro-template-frontend/tree/example/todolist)
+[traPtitech/naro-template-frontend at example/deploy](https://github.com/traPtitech/naro-template-frontend/tree/example/deploy)
 
 ### まとめ
 お疲れさまでした！  
