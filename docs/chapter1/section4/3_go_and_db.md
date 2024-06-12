@@ -44,7 +44,7 @@ export DB_DATABASE="world"
 
 今回は手元で動いているデータベースを使うのでパスワードなどが知られても問題ありませんが、実際には環境変数など外部の人に知られたくない、GitHub などに上げたくないファイルもあります。そのような場合は、`.gitignore`というファイルを使うことで特定のファイルやフォルダを Git 管理の対象外にできます。`.gitignore`ファイルの最後に`.env`を追記しましょう。
 
-```txt
+```html
 ...
 # Go workspace file
 go.work
@@ -76,7 +76,7 @@ $ go run main.go
 
 出力はこのようになります。
 
-```txt
+```html
 connected
 Tokyoの人口は7980230人です
 ```
@@ -124,7 +124,7 @@ $ go run main.go {都市の名前}
 <<< @/chapter1/section4/src/select.go#main{27 go:line-numbers}
 以下のように日本の都市一覧を取得できます。
 
-```txt
+```html
 connected
 日本の都市一覧
 都市名: Tokyo, 人口: 7980230

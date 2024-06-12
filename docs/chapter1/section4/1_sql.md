@@ -14,7 +14,7 @@ mysql> SHOW DATABASES;
 
 以下のように出力されるはずです。
 
-```txt
+```html
 +--------------------+
 | Database           |
 +--------------------+
@@ -44,7 +44,7 @@ mysql> USE world;
 mysql> SHOW TABLES;
 ```
 
-```txt
+```html
 +-----------------+
 | Tables_in_world |
 +-----------------+
@@ -69,7 +69,7 @@ mysql> DESCRIBE city;
 mysql> SHOW COLUMNS FROM city;
 ```
 
-```txt
+```html
 +-------------+----------+------+-----+---------+----------------+
 | Field       | Type     | Null | Key | Default | Extra          |
 +-------------+----------+------+-----+---------+----------------+
@@ -96,7 +96,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/getting-information.html
 mysql> SELECT Name, Population FROM city;
 ```
 
-```txt
+```html
 +-----------------------------------+------------+
 | Name                              | Population |
 +-----------------------------------+------------+
@@ -123,7 +123,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/select.html
 mysql> SELECT * FROM city;
 ```
 
-```txt
+```html
 +------+-----------------------------------+-------------+----------------------+------------+
 | ID   | Name                              | CountryCode | District             | Population |
 +------+-----------------------------------+-------------+----------------------+------------+
@@ -148,7 +148,7 @@ mysql> SELECT * FROM city;
 mysql> SELECT * FROM city LIMIT 5;
 ```
 
-```txt
+```html
 +----+----------------+-------------+---------------+------------+
 | ID | Name           | CountryCode | District      | Population |
 +----+----------------+-------------+---------------+------------+
@@ -169,7 +169,7 @@ mysql> SELECT * FROM city LIMIT 5;
 mysql> SELECT * FROM city LIMIT 5 OFFSET 10;
 ```
 
-```txt
+```html
 +----+-----------+-------------+---------------+------------+
 | ID | Name      | CountryCode | District      | Population |
 +----+-----------+-------------+---------------+------------+
@@ -190,7 +190,7 @@ mysql> SELECT * FROM city LIMIT 5 OFFSET 10;
 mysql> SELECT * FROM city WHERE Population >= 8000000;
 ```
 
-```txt
+```html
 +------+-------------------+-------------+------------------+------------+
 | ID   | Name              | CountryCode | District         | Population |
 +------+-------------------+-------------+------------------+------------+
@@ -212,7 +212,7 @@ mysql> SELECT * FROM city WHERE Population >= 8000000;
 mysql> SELECT * FROM city WHERE CountryCode = "JPN" AND Population > 5000000;
 ```
 
-```txt
+```html
 +------+-------+-------------+----------+------------+
 | ID   | Name  | CountryCode | District | Population |
 +------+-------+-------------+----------+------------+
@@ -229,7 +229,7 @@ mysql> SELECT * FROM city WHERE CountryCode = "JPN" AND Population > 5000000;
 SELECT * FROM city WHERE Population >= 8000000 ORDER BY Population DESC;
 ```
 
-```txt
+```html
 +------+-------------------+-------------+------------------+------------+
 | ID   | Name              | CountryCode | District         | Population |
 +------+-------------------+-------------+------------------+------------+
@@ -258,7 +258,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/sorting-rows.html
 mysql> SELECT * FROM city WHERE District IN ("Kagawa", "Tokushima", "Ehime", "Kochi");
 ```
 
-```txt
+```html
 +------+-----------+-------------+-----------+------------+
 | ID   | Name      | CountryCode | District  | Population |
 +------+-----------+-------------+-----------+------------+
@@ -286,7 +286,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/comparison-operators.html#operator_in
 mysql> DESCRIBE countrylanguage;
 ```
 
-```txt
+```html
 +-------------+---------------+------+-----+---------+-------+
 | Field       | Type          | Null | Key | Default | Extra |
 +-------------+---------------+------+-----+---------+-------+
@@ -304,7 +304,7 @@ mysql> DESCRIBE countrylanguage;
 mysql> SELECT country.Name, countrylanguage.Language FROM country JOIN countrylanguage ON country.Code = countrylanguage.CountryCode WHERE countrylanguage.Language = "Chinese";
 ```
 
-```txt
+```html
 +--------------------------+----------+
 | Name                     | Language |
 +--------------------------+----------+
@@ -348,7 +348,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/join.html
 mysql> SELECT Name, District AS Prefecture FROM city WHERE CountryCode = "JPN";
 ```
 
-```txt
+```html
 +---------------------+------------+
 | Name                | Prefecture |
 +---------------------+------------+
@@ -388,7 +388,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/problems-with-alias.html
 mysql> SELECT COUNT(*) FROM city WHERE CountryCode = "JPN";
 ```
 
-```txt
+```html
 +----------+
 | count(*) |
 +----------+
@@ -408,7 +408,7 @@ https://dev.mysql.com/doc/refman/8.0/ja/aggregate-functions.html#function_count
 SELECT CountryCode, COUNT(*) FROM city GROUP BY CountryCode;
 ```
 
-```txt
+```html
 +-------------+----------+
 | CountryCode | COUNT(*) |
 +-------------+----------+
@@ -444,7 +444,7 @@ mysql> INSERT INTO city (Name, CountryCode, District, Population) VALUES ("oooka
 mysql> SELECT * FROM city ORDER BY ID DESC LIMIT 1;
 ```
 
-```txt
+```html
 +------+-----------+-------------+----------+------------+
 | ID   | Name      | CountryCode | District | Population |
 +------+-----------+-------------+----------+------------+
@@ -465,7 +465,7 @@ mysql> UPDATE city SET Population = 9999 WHERE ID = 4080;
 mysql> SELECT * FROM city WHERE ID = 4080;
 ```
 
-```txt
+```html
 +------+-----------+-------------+----------+------------+
 | ID   | Name      | CountryCode | District | Population |
 +------+-----------+-------------+----------+------------+
@@ -491,7 +491,7 @@ mysql> DELETE FROM city WHERE ID = 4080;
 mysql> SELECT * FROM city WHERE ID = 4080;
 ```
 
-```txt
+```html
 Empty set (0.00 sec)
 ```
 
