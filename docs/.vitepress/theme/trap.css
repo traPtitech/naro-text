@@ -281,7 +281,7 @@
 :root:not(.dark) .vp-adaptive-theme {
   --vp-c-code-dimm: var(--vp-c-text-2);
 
-  --vp-code-block-color: var(--vp-c-text-1);
+  --vp-code-block-color: var(--vp-c-text-dark-1);
   --vp-code-block-bg: #161618;
   --vp-code-block-divider-color: var(--vp-c-divider);
 
