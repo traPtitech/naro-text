@@ -6,7 +6,7 @@ import PingPage from './pages/PingPage.vue' //[!code ++]
 const routes = [
   { path: '/', name: 'home', component: HomePage },
   { path: '/ping', name: 'ping', component: PingPage }, //[!code ++]
-  { path: '/:path(.*)', component: NotFound }
+  { path: '/:path(.*)*', component: NotFound }
 ]
 
 const router = createRouter({

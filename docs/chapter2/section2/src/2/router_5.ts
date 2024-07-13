@@ -15,7 +15,7 @@ const routes = [
     meta: { isPublic: true }
   },
   { path: '/city/:cityName', name: 'city', component: CityPage, props: true },
-  { path: '/:path(.*)', component: NotFound, meta: { isPublic: true } }
+  { path: '/:path(.*)*', component: NotFound, meta: { isPublic: true } }
 ]
 
 const router = createRouter({
