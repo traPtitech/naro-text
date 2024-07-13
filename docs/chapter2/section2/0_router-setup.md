@@ -81,7 +81,7 @@ Vue Router を読み込むように`src/main.ts`を以下のように変更し�
 
 <<<@/chapter2/section2/src/1/routes.ts{typescript:line-numbers}
 
-この後、皆さんにはいくつかのページとその`path`の対応を追加してもらうわけですが、どの`path`にもマッチしなかった場合、任意の`path`にマッチする`/:path(.*)`がマッチし、NotFound ページが表示されます。
+この後、皆さんにはいくつかのページとその`path`の対応を追加してもらうわけですが、どの`path`にもマッチしなかった場合、任意の`path`にマッチする`/:path(.*)*`がマッチし、NotFound ページが表示されます。
 
 `src/pages/NotFound.vue`を以下の内容で作成してください。
 
