@@ -13,7 +13,7 @@ type City struct {
 }
 
 // #region calculate
-func calculatePopulation(cities []City) map[string]int64 {
+func sumPopulationByCountryCode(cities []City) map[string]int64 {
 	result := make(map[string]int64)
 	for _, city := range cities {
 		if city.CountryCode.Valid {
