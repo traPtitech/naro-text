@@ -26,6 +26,10 @@
 
 <<<@/chapter2/section2/src/2/router.ts{typescript:line-numbers}
 
+また併せて、`src/App.vue`にリンクを追加します。
+
+<<<@/chapter2/section2/src/2/App.vue{vue:line-numbers}
+
 `http://localhost:5173/ping`にアクセスすると以下のような画面が表示されれば OK です。
 
 ![](images/2/ping.png)

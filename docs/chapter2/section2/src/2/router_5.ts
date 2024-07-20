@@ -7,7 +7,7 @@ import CityPage from './pages/CityPage.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomePage, meta: { isPublic: true } },
-  { path: '/ping', name: 'ping', component: PingPage },
+  { path: '/ping', name: 'ping', component: PingPage, meta: { isPublic: true } },
   {
     path: '/login',
     name: 'login',
@@ -15,7 +15,7 @@ const routes = [
     meta: { isPublic: true }
   },
   { path: '/city/:cityName', name: 'city', component: CityPage, props: true },
-  { path: '/:path(.*)', component: NotFound, meta: { isPublic: true } }
+  { path: '/:path(.*)*', component: NotFound, meta: { isPublic: true } }
 ]
 
 const router = createRouter({

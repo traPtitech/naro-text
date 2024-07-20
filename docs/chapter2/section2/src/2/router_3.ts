@@ -10,7 +10,7 @@ const routes = [
   { path: '/ping', name: 'ping', component: PingPage },
   { path: '/login', name: 'login', component: LoginPage },
   { path: '/city/:cityName', name: 'city', component: CityPage, props: true }, //[!code ++]
-  { path: '/:path(.*)', component: NotFound }
+  { path: '/:path(.*)*', component: NotFound }
 ]
 
 const router = createRouter({
