@@ -1,4 +1,4 @@
-# naro-text
+# naro-text-rs
 
 ## 記法
 https://vitepress.dev/guide/markdown
