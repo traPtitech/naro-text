@@ -1,6 +1,9 @@
 {
   "name": "naro-text-rs",
   "type": "module",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",

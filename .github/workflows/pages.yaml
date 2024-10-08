@@ -1,9 +1,9 @@
-name: Deploy from develop
+name: Deploy
 on:
   workflow_dispatch: {}
   push:
     branches:
-      - develop
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
