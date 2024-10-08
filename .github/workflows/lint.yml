@@ -30,7 +30,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Build
-        run: npm run docs:build
+        run: npm run build
   format:
     runs-on: ubuntu-latest
     permissions:
