@@ -6,10 +6,10 @@ import { webBasicSidebarItems } from './sidebarConfigs/chapters/webBasic/webBasi
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/naro-text/',
-  title: 'なろう講習会',
-  description: 'Webエンジニアになろう講習会のテキスト',
-  head: [['link', { rel: 'icon', href: '/naro-text/favicon.ico' }]],
+  base: '/naro-text-rs/',
+  title: 'なろう講習会 in Rust',
+  description: 'Webエンジニアになろう講習会のテキスト in Rust',
+  head: [['link', { rel: 'icon', href: '/naro-text-rs/favicon.ico' }]],
   markdown: {
     theme: {
       light: 'github-dark',
@@ -26,7 +26,7 @@ export default defineConfig({
       '/chapter2/': chapter2SidebarItems,
       '/chapter4/': chapter4SidebarItems
     },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/traPtitech/naro-text' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/traP-jp/naro-text-rs' }],
     search: {
       provider: 'local',
       options: {

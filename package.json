@@ -1,5 +1,5 @@
 {
-  "name": "nero-text",
+  "name": "naro-text-rs",
   "type": "module",
   "scripts": {
     "docs:dev": "vitepress dev docs",
@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/node": "^20.12.11",
     "prettier": "3.2.5",
-    "textlint": "^14.0.4",
+    "textlint": "^14.2.1",
     "textlint-rule-ja-no-abusage": "^3.0.0",
     "textlint-rule-ja-no-mixed-period": "^3.0.1",
     "textlint-rule-ja-simple-user-dictionary": "^1.0.1",

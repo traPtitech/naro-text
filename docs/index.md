@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "Webエンジニアになろう講習会"
-  tagline: traP SysAd班
+  name: "Webエンジニアになろう講習会 in Rust"
+  tagline: traP SysAd班 & naro-rs編集チーム
 features:
   - title: Web開発の基礎
     details: Web開発の基礎的な知識を学びます。
