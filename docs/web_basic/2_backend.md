@@ -45,72 +45,61 @@ MDN にはこの世の全てが書いてある。
 
 :::
 
-## Go言語でHello World
-
+## RustでHello World
 
 前回と同様に GitHub Codespaces を起動してください。(前回とリポジトリが違います!)
-https://github.com/traPtitech/develop-base-training-backend
+https://github.com/traP-jp/develop-base-training-backend-rs
 
-`main.go`ファイルを開き、以下のように書いて保存してみましょう。
+`src/main.rs`ファイルを開きましょう。以下のコードが書かれているはずです。
 
-```go
-package main
-
-func main() {
-	fmt.Println("Hello, World!")
+```rs
+fn main() {
+    println!("Hello, world!");
 }
 ```
 
-`Ctrl+S`で保存すると自動でライブラリがインポートされます。
-
-![`import fmt`が書き込まれている](images/go_import_library.png)
-
 この状態で以下のコマンドを GitHub Codespaces 内のターミナルで実行して、以下のように`Hello, World!`が出れば OK です。
-以下のような表記がされている場合は`$`を入力しないで`go run main.go`などだけを入力するようにしてください。 (`$`はすでに入力されているはずです!)
+以下のような表記がされている場合は`$`を入力しないで`cargo run`などだけを入力するようにしてください。 (`$`はすでに入力されているはずです!)
 
 ```bash
-$ go run main.go
+$ cargo run
 ```
 
-![](images/go_run_main_go.png)
+![](images/cargo_run_hello_world.png)
 
 ## サーバーアプリケーションを作る
 
-次の内容を`main.go`に書き込んでください。
+次の内容を`main.rs`に書き込んでください。
 
-```go
-package main
+```rs
+use axum::{routing::get, Router};
 
-import (
-	"net/http"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-)
+#[tokio::main]
+async fn main() {
+    let app = Router::new().route("/hello", get(String::from("Hello, World.\n")));
 
-func main() {
-	e := echo.New()
-	e.Use(middleware.CORS())
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:8080")
+        .await
+        .unwrap();
 
-	e.GET("/hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World.\n")
-	})
-    
-	e.Logger.Fatal(e.Start(":8080")) 
+    println!("listening on {}", listener.local_addr().unwrap());
+    axum::serve(listener, app).await.unwrap();
 }
 ```
 
-次のコマンドををターミナルで実行してください。
+次のコマンドをターミナルで実行してください。
 
 ```sh
-$ go mod tidy
-$ go run main.go
+$ cargo add axum
+$ cargo add tokio --features rt-multi-thread,macros
+$ cargo run
 ```
 
 以下のような画面が出れば起動できています。
-コードに変更を加えたら一旦止めてもう 1 回`go run main.go`で起動しないと変更が反映されないので注意してください。
+コードに変更を加えたら一旦止めてもう 1 回`cargo run`で起動しないと変更が反映されないので注意してください。
 止めるときは`Ctrl+C`で終了できます。止めないと次に起動するときにポート番号を変えないとエラーが出てしまうので、使い終わったら止めるようにしましょう。
 
-![echoを実行している様子](images/go_run_echo.png)
+![axumを実行している様子](images/cargo_run_axum.png)
 
 :::tip ターミナルの開き方
 ツールバー > Terminal > New Terminal でその時開いているディレクトリでターミナルが開きます。 
@@ -158,73 +147,65 @@ Github Codespases には URL が設定されているので、皆さんの PC �
 
 例
 ![jikosyokai](images/jikosyokai.png)
-完成したら URL を #event/workshop/web-basic チャンネルに投稿してください
+:::info
+完成したら URL を #event/workshop/naro-rs チャンネルに投稿してください
 :::
 
 ## JSONレスポンスを返す
 レスポンスとして JSON を返すようにしましょう
 :::info
-Go 言語の構造体についてわからない人は
-https://go-tour-jp.appspot.com/moretypes/2
+Rust の構造体についてわからない人は
+https://doc.rust-jp.rs/book-ja/ch05-01-defining-structs.html
 を見るといいでしょう。
 :::
 
-JSON をレスポンスとして返すためには、`c.JSON`メソッドに構造体を渡します。
+JSON と構造体を相互変換するために、``serde`` というフレームワークを用います。
 
-```go
-package main
+次のコマンドをターミナルで実行してください。
 
-import (
-	"net/http"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-)
+```sh
+$ cargo add serde serde_json --features serde/derive
+```
 
-type jsonData struct {
-	Number int
-	String string
-	Bool bool
+JSON をレスポンスとして返すためには、`Json` に定義した構造体を渡します。
+
+```rs
+use axum::{routing::get, Json, Router};
+
+#[tokio::main]
+async fn main() {
+    let app = Router::new()
+        .route("/hello", get(String::from("Hello, World.\n")))
+        .route("/json", get(json_handler));
+
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:8080")
+        .await
+        .unwrap();
+
+    println!("listening on {}", listener.local_addr().unwrap());
+    axum::serve(listener, app).await.unwrap();
 }
 
-func main() {
-	e := echo.New()
-    
-	e.Use(middleware.CORS())
-
-	e.GET("/hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World.\n")
-	})
-
-	e.GET("/json", jsonHandler)
-
-	e.Logger.Fatal(e.Start(":8080"))
+#[derive(serde::Serialize)]
+struct JsonData {
+    number: i32,
+    string: String,
+    bool: bool,
 }
 
-func jsonHandler(c echo.Context) error {
-	res := jsonData{
-		Number: 10,
-		String: "This is test.",
-		Bool: false,
-	}
+async fn json_handler() -> Json<JsonData> {
+    let res = JsonData {
+        number: 10,
+        string: String::from("This is test."),
+        bool: true,
+    };
 
-	return c.JSON(http.StatusOK, &res)
+    Json(res)
 }
 ```
 
 ![JSON形式のレスポンスが返ってきている様子](images/json-response.png)
 
-タグを追加することで構造体のフィールドに対応する、JSON のキー名を指定できます。Go の構造体のフィールドはパスカルケースですが、json のフィールドはキャメルケース / スネークケースになることが多いため、変換した方が良いですね。
-
-```go
-type jsonData struct {
-	Number int    `json:"number,omitempty"`
-	String string `json:"string,omitempty"`
-	Bool   bool   `json:"bool,omitempty"`
-}
-```
-
-参考: [encoding/json#Marshal](https://pkg.go.dev/encoding/json#Marshal)
-注意: 上のリンク先にも書いてありますが、`omitempty`を指定した場合には、`0`や`false`、`""`(空文字)のような falsy なデータがレスポンスに含まれなくなります。
 
 ## 発展課題
 
@@ -247,7 +228,7 @@ const httpGetRequest = async () => {
 ```
 
 ここに受け取った値を HTML にセットする処理を書きます（前回書きましたね）。
-`data.String`や`data.Bool`、`data.Number`のように書くことでそれぞれのデータにアクセスできます(`jsonData`の構造体を定義したときにタグをつけて JSON のキー名を変更した場合には、ここも`data.string`のように書く必要があります)。
+`data.string`や`data.bool`、`data.number`のように書くことでそれぞれのデータにアクセスできます。
 `async` `await`という見慣れない書き方が出てきましたが、`await` = 処理を待つ、`async` = `await`を使えるようにする、ぐらいの認識で OK です。
 
 :::details 答え
