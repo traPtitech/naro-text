@@ -27,26 +27,25 @@ next:
 
 そんな時、次のようなコードが出てきたらあなたはすっと理解できるでしょうか。
 
-```go
-var (	
-	a = 4 // X1-X3
-	b = 7
-	c = 2
-	d = 5 // Y1-Y3
-	e = 1
-	f = 9
-) 
-func main() {
-	tmp_var := 252521.0
-	if tmp_var < math.Sqrt(float64((0-a)*(0-a)+(0-d)*(0-d))) {
-		tmp_var = math.Sqrt(float64((a-0)*(a-0) + (d-0)*(d-0)))
+```rs
+fn main() {
+    let a = 4; // X1-X3
+    let b = 7;
+    let c = 2;
+    let d = 5; // Y1-Y3
+    let e = 1;
+    let f = 9;
+    let mut tmp_var = 252521.0;
+    if tmp_var > (((0-a)*(0-a)+(0-d)*(0-d)) as f64).sqrt() {
+		tmp_var = (((a-0)*(a-0) + (d-0)*(d-0)) as f64).sqrt();
 	} 
-	if tmp_var > math.Sqrt(float64((0-b)*(0-b)+(0-e)*(0-e))) {
-	tmp_var = math.Sqrt(float64((-b)*(-b) + (-e)*(-e)))}
+	if tmp_var > (((0-b)*(0-b)+(0-e)*(0-e)) as f64).sqrt() {
+	tmp_var = (((-b)*(-b) + (-e)*(-e)) as f64).sqrt();
 	}
-	if tmp_var < math.Sqrt(float64((0-c)*(0-c)+(0-f)*(0-f))) { 
-	fmt.Println(math.Sqrt(float64((c)*(c) + (f)*(f))))} else { 
-	fmt.Println(tmp_var) }} 
+	if tmp_var > (((0-c)*(0-c)+(0-f)*(0-f)) as f64).sqrt() { 
+	println!("{}", ((((c)*(c) + (f)*(f) )) as f64).sqrt());} else { 
+	println!("{}", tmp_var); }}
+
 ```
 
 まず`tmp_var`は何を指しているのだろうかという疑問が湧くでしょう。
@@ -54,7 +53,7 @@ func main() {
 
 では、次のコードはどうでしょうか。
 
-<<< @/chapter1/dicts/clean-code/src/example.go
+<<< @/chapter1/dicts/clean-code/src/example.rs
 
 このコードであれば、原点からの距離を計算して、最も近い距離を出力するということがすぐに理解できます。
 
@@ -67,36 +66,34 @@ func main() {
 
 基本どの言語にもフォーマッタというものがあります。これは、コードを自動でフォーマットしてくれるものです。
 例えば、次のようなものがあげられます。
+- `rustfmt` (rust)
 - `gofmt`(go)
 - `prettier`(JavaScript)
 - `black`(Python)
 
 さっきのコードにフォーマッタをかけてみましょう。
 
-```go
+```rs
 
-var (
-	a = 4 // X1-X3
-	b = 7
-	c = 2
-	d = 5 // Y1-Y3
-	e = 1
-	f = 9
-)
-
-func main() {
-	tmp_var := 252521.0
-	if tmp_var < math.Sqrt(float64((0-a)*(0-a)+(0-d)*(0-d))) {
-		tmp_var = math.Sqrt(float64((a-0)*(a-0) + (d-0)*(d-0)))
-	}
-	if tmp_var > math.Sqrt(float64((0-b)*(0-b)+(0-e)*(0-e))) {
-		tmp_var = math.Sqrt(float64((-b)*(-b) + (-e)*(-e)))
-	}
-	if tmp_var < math.Sqrt(float64((0-c)*(0-c)+(0-f)*(0-f))) {
-		fmt.Println(math.Sqrt(float64((c)*(c) + (f)*(f))))
-	} else {
-		fmt.Println(tmp_var)
-	}
+fn main() {
+    let a = 4; // X1-X3
+    let b = 7;
+    let c = 2;
+    let d = 5; // Y1-Y3
+    let e = 1;
+    let f = 9;
+    let mut tmp_var = 252521.0;
+    if tmp_var > (((0 - a) * (0 - a) + (0 - d) * (0 - d)) as f64).sqrt() {
+        tmp_var = (((a - 0) * (a - 0) + (d - 0) * (d - 0)) as f64).sqrt();
+    }
+    if tmp_var > (((0 - b) * (0 - b) + (0 - e) * (0 - e)) as f64).sqrt() {
+        tmp_var = (((-b) * (-b) + (-e) * (-e)) as f64).sqrt();
+    }
+    if tmp_var > (((0 - c) * (0 - c) + (0 - f) * (0 - f)) as f64).sqrt() {
+        println!("{}", (((c) * (c) + (f) * (f)) as f64).sqrt());
+    } else {
+        println!("{}", tmp_var);
+    }
 }
 ```
 これだけでもだいぶ見やすくなりましたね。
@@ -107,28 +104,26 @@ func main() {
 
 実際には、`tmp_var`は「原点からの距離の最小値」を表しています。であるならば、そのような内容を表す名前をつけるべきです。
 先ほどのコードに意味のある名前を付けてみましょう。
-```go
-var (	
-	a = 4 // X1-X3
-	b = 7
-	c = 2
-	d = 5 // Y1-Y3
-	e = 1
-	f = 9
-) 
-func main() {
-	minDistance := 252521.0
-	if minDistance < math.Sqrt(float64((0-a)*(0-a)+(0-d)*(0-d))) {
-		minDistance = math.Sqrt(float64((a-0)*(a-0) + (d-0)*(d-0)))
-	}
-	if minDistance > math.Sqrt(float64((0-b)*(0-b)+(0-e)*(0-e))) {
-		minDistance = math.Sqrt(float64((-b)*(-b) + (-e)*(-e)))
-	}
-	if minDistance < math.Sqrt(float64((0-c)*(0-c)+(0-f)*(0-f))) {
-		fmt.Println(math.Sqrt(float64((c)*(c) + (f)*(f))))
-	} else {
-		fmt.Println(minDistance)
-	}
+```rs
+fn main() {
+    let a = 4; // X1-X3
+    let b = 7;
+    let c = 2;
+    let d = 5; // Y1-Y3
+    let e = 1;
+    let f = 9;
+    let mut min_distance = 252521.0;
+    if min_distance > (((0 - a) * (0 - a) + (0 - d) * (0 - d)) as f64).sqrt() {
+        min_distance = (((a - 0) * (a - 0) + (d - 0) * (d - 0)) as f64).sqrt();
+    }
+    if min_distance > (((0 - b) * (0 - b) + (0 - e) * (0 - e)) as f64).sqrt() {
+        min_distance = (((-b) * (-b) + (-e) * (-e)) as f64).sqrt();
+    }
+    if min_distance > (((0 - c) * (0 - c) + (0 - f) * (0 - f)) as f64).sqrt() {
+        println!("{}", (((c) * (c) + (f) * (f)) as f64).sqrt());
+    } else {
+        println!("{}", min_distance);
+    }
 }
 ```
 
@@ -145,9 +140,9 @@ func main() {
 - 「型」を表すものは、先頭を大文字にして、単語のつなぎ目も大文字にする
 - 「定数」を表すものは、すべて大文字にして、単語のつなぎ目はアンダースコアにする
 - 「関数」を表すものは、先頭を小文字にして、単語のつなぎ目はアンダースコアにする
-- 「変数」を表すものは、先頭を小文字にして、単語のつなぎ目は大文字にする
+- 「変数」を表すものは、先頭を小文字にして、単語のつなぎ目はアンダースコアにする
 
-このように定めることで、`TEST_NAME`は定数、`test_name`は関数、`testName`は変数ということがわかります。
+このように定めることで、`TEST_NAME`は定数、`test_name`は関数や変数ということがわかります。
 
 今、「先頭を大文字にして、単語のつなぎ目も大文字にする」という形式が出てきましたが、それには名前が存在して、以下の表のようになっています。
 
@@ -191,201 +186,232 @@ class Movie {
 それを避けるために、適切なサイズで関数として切り出したりして、コードを分割、共通化することが重要です。
 
 先ほどのコードをもう一度見てみましょう。
-```go
-var (	
-	a = 4 // X1-X3
-	b = 7
-	c = 2
-	d = 5 // Y1-Y3
-	e = 1
-	f = 9
-) 
-func main() {
-	minDistance := 252521.0
-	if minDistance < math.Sqrt(float64((0-a)*(0-a)+(0-d)*(0-d))) {
-		minDistance = math.Sqrt(float64((a-0)*(a-0) + (d-0)*(d-0)))
-	}
-	if minDistance > math.Sqrt(float64((0-b)*(0-b)+(0-e)*(0-e))) {
-		minDistance = math.Sqrt(float64((-b)*(-b) + (-e)*(-e)))
-	}
-	if minDistance < math.Sqrt(float64((0-c)*(0-c)+(0-f)*(0-f))) {
-		fmt.Println(math.Sqrt(float64((c)*(c) + (f)*(f))))
-	} else {
-		fmt.Println(minDistance)
-	}
+```rs
+fn main() {
+    let a = 4; // X1-X3
+    let b = 7;
+    let c = 2;
+    let d = 5; // Y1-Y3
+    let e = 1;
+    let f = 9;
+    let mut min_distance = 252521.0;
+    if min_distance > (((0 - a) * (0 - a) + (0 - d) * (0 - d)) as f64).sqrt() {
+        min_distance = (((a - 0) * (a - 0) + (d - 0) * (d - 0)) as f64).sqrt();
+    }
+    if min_distance > (((0 - b) * (0 - b) + (0 - e) * (0 - e)) as f64).sqrt() {
+        min_distance = (((-b) * (-b) + (-e) * (-e)) as f64).sqrt();
+    }
+    if min_distance > (((0 - c) * (0 - c) + (0 - f) * (0 - f)) as f64).sqrt() {
+        println!("{}", (((c) * (c) + (f) * (f)) as f64).sqrt());
+    } else {
+        println!("{}", min_distance);
+    }
 }
 ```
 まだまだ読みにくいですね。ここで、`if`文の中に距離を求める処理が何度も出てきていることがわかります。これを関数として切り出してみましょう。
 
-```go
-var (	
-	a = 4 // X1-X3
-	b = 7
-	c = 2
-	d = 5 // Y1-Y3
-	e = 1
-	f = 9
-) 
-func distance(x1, y1, x2, y2 int) float64 {
-	dx := float64(x1 - x2)
-	dy := float64(y1 - y2)
-	return math.Sqrt(dx*dx + dy*dy)
+```rs
+fn distance(x1: i32, y1: i32, x2: i32, y2: i32) -> f64 {
+    let dx = (x1 - x2) as f64;
+    let dy = (y1 - y2) as f64;
+    (dx * dx + dy * dy).sqrt()
 }
-func main() {
-	minDistance := 252521.0
-	if minDistance < distance(0,0,a,d) {
-		minDistance = distance(0,0,a,d)
-	} 
-	if minDistance > distance(0,0,b,e) {
-		minDistance = distance(0,0,b,e)
-	}
-	if minDistance < distance(0,0,c,f) {
-		fmt.Println(distance(0,0,c,f))
-	} else {
-		fmt.Println(minDistance)
-	}
+
+fn main() {
+    let a = 4; // X1-X3
+    let b = 7;
+    let c = 2;
+    let d = 5; // Y1-Y3
+    let e = 1;
+    let f = 9;
+    let mut min_distance = 252521.0;
+    if min_distance > distance(0, 0, a, d) {
+        min_distance = distance(0, 0, a, d);
+    }
+    if min_distance > distance(0, 0, b, e) {
+        min_distance = distance(0, 0, b, e);
+    }
+    if min_distance > distance(0, 0, c, f) {
+        println!("{}", distance(0, 0, c, f));
+    } else {
+        println!("{}", min_distance);
+    }
+}
+
 ```
 
 計算部分がなくなって少しわかりやすくなったでしょうか。しかし、今度は`distance()`の引数が何を表しているのか使う側からだと分かりにくいという問題があります。`distance(x1,x2,y1,y2)`なのか、`distance(x1,y1,x2,y2)`なのか見た目からは分かりません。
 そこで、「座標」としてまとめてしまいましょう。
 
-```go
+```rs
+#[derive(Clone, Copy)]
+struct Point {
+    x: i32,
+    y: i32,
+}
 
-type Point struct {
-	x int
-	y int
+fn distance(a: Point, b: Point) -> f64 {
+    let dx = (a.x - b.x) as f64;
+    let dy = (a.y - b.y) as f64;
+    (dx * dx + dy * dy).sqrt()
 }
-var points = []Point{{4, 5}, {7, 1}, {2, 9}}
-func distance(a, b Point) float64 {
-	dx := float64(a.x - b.x)
-	dy := float64(a.y - b.y)
-	return math.Sqrt(dx*dx + dy*dy)
+
+fn main() {
+    let points = [
+        Point { x: 4, y: 5 },
+        Point { x: 7, y: 1 },
+        Point { x: 2, y: 9 },
+    ];
+    let mut min_distance = 252521.0;
+    let origin = Point { x: 0, y: 0 };
+    if min_distance > distance(origin, points[0]) {
+        min_distance = distance(origin, points[0]);
+    }
+    if min_distance > distance(origin, points[1]) {
+        min_distance = distance(origin, points[1]);
+    }
+    if min_distance > distance(origin, points[2]) {
+        println!("{}", distance(origin, points[2]));
+    } else {
+        println!("{}", min_distance);
+    }
 }
-func main() {
-	minDistance := 252521.0
-	origin := Point{0, 0}
-	if minDistance < distance(origin, points[0]) {
-		minDistance = distance(origin, points[0])
-	} 
-	if minDistance > distance(origin, points[1]) {
-		minDistance = distance(origin, points[1])
-	}
-	if minDistance < distance(origin, points[2]) {
-		fmt.Println(distance(origin, points[2]))
-	} else {
-		fmt.Println(minDistance)
-	}
+
 ```
 なんか同じ計算をしているのが見えてきましたね。`for`文でまとめちゃいましょう。
 
-```go
-type Point struct {
-	x int
-	y int
+```rs
+#[derive(Clone, Copy)]
+struct Point {
+    x: i32,
+    y: i32,
 }
-var points = []Point{{4, 5}, {7, 1}, {2, 9}}
-func distance(a, b Point) float64 {
-	dx := float64(a.x - b.x)
-	dy := float64(a.y - b.y)
-	return math.Sqrt(dx*dx + dy*dy)
+
+fn distance(a: Point, b: Point) -> f64 {
+    let dx = (a.x - b.x) as f64;
+    let dy = (a.y - b.y) as f64;
+    (dx * dx + dy * dy).sqrt()
 }
-func main() {
-	minDistance := 252521.0
-	origin := Point{0, 0}
-	for _, p := range points {
-		if minDistance < distance(origin, p) {
-			minDistance = distance(origin, p)
-		}
-	}
-	fmt.Println(minDistance)
+
+fn main() {
+    let points = [
+        Point { x: 4, y: 5 },
+        Point { x: 7, y: 1 },
+        Point { x: 2, y: 9 },
+    ];
+    let mut min_distance = 252521.0;
+    let origin = Point { x: 0, y: 0 };
+    for &p in &points {
+        if min_distance > distance(origin, p) {
+            min_distance = distance(origin, p);
+        }
+    }
+    println!("{}", min_distance);
 }
 ```
 
-## 名前を付けよう
+## 数字の意味を明確にしよう
 
 最後に`252521.0`とは何の数字でしょうか。今回の処理を考えると、`minDistance`と比較したときに、最初は必ず値を更新する必要があります。なので、十分大きな値を設定したのでしょう。
-しかし、それであれば、`float64`の最大値を設定するのがいいでしょう。
-```go
-type Point struct {
-	x int
-	y int
+しかし、それであれば、`f64`の最大値を設定するのがいいでしょう。
+Rust では、``f64::MAX`` や ``f64::INFINITY`` といった定数が用意されているため、これらのいずれかを用いましょう。
+```rs
+#[derive(Clone, Copy)]
+struct Point {
+    x: i32,
+    y: i32,
 }
-var points = []Point{{4, 5}, {7, 1}, {2, 9}}
-func distance(a, b Point) float64 {
-	dx := float64(a.x - b.x)
-	dy := float64(a.y - b.y)
-	return math.Sqrt(dx*dx + dy*dy)
+
+fn distance(a: Point, b: Point) -> f64 {
+    let dx = (a.x - b.x) as f64;
+    let dy = (a.y - b.y) as f64;
+    (dx * dx + dy * dy).sqrt()
 }
-func main() {
-	minDistance := 1.79769313486231570814527423731704356798070e+308
-	origin := Point{0, 0}
-	for _, p := range points {
-		if minDistance < distance(origin, p) {
-			minDistance = distance(origin, p)
-		}
-	}
-	fmt.Println(minDistance)
+
+fn main() {
+    let points = [
+        Point { x: 4, y: 5 },
+        Point { x: 7, y: 1 },
+        Point { x: 2, y: 9 },
+    ];
+    let mut min_distance = f64::INFINITY;
+    let origin = Point { x: 0, y: 0 };
+    for &p in &points {
+        if min_distance > distance(origin, p) {
+            min_distance = distance(origin, p);
+        }
+    }
+    println!("{}", min_distance);
 }
 ```
 
-さて、数値を置き換えましたが、結局この数字が何か一目でわからないという問題は解決していません。そこで、この数字に名前を付けましょう。
-:::info
-このように、名前がついていなくて、意味が分かりにくい数字を「マジックナンバー」と呼びます。
-:::
-
-```go
-type Point struct {
-	x int
-	y int
-}
-var points = []Point{{4, 5}, {7, 1}, {2, 9}}
-const maxFloat64 = 1.79769313486231570814527423731704356798070e+308
-func distance(a, b Point) float64 {
-	dx := float64(a.x - b.x)
-	dy := float64(a.y - b.y)
-	return math.Sqrt(dx*dx + dy*dy)
-}
-func main() {
-	minDistance := maxFloat64
-	origin := Point{0, 0}
-	for _, p := range points {
-		if minDistance < distance(origin, p) {
-			minDistance = distance(origin, p)
-		}
-	}
-	fmt.Println(minDistance)
-}
-```
 最初のコードと比べると圧倒的に読みやすくなりましたね。
 
 ## コメントをつけよう
 ここまで、がんばってコードをきれいにしてきました。しかし、それでも理解するのが難しい部分はあります。例えば、数学的に難解な暗号処理をしていたり、複雑なアルゴリズムを使うときです。
 そういう時は、必ずコメントをつけましょう。
-```go
-type Point struct {
-	x int
-	y int
+```rs
+#[derive(Clone, Copy)]
+struct Point {
+    x: i32,
+    y: i32,
 }
-var points = []Point{{4, 5}, {7, 1}, {2, 9}}
-const maxFloat64 = 1.79769313486231570814527423731704356798070e+308
-func distance(a, b Point) float64 {
-	dx := float64(a.x - b.x)
-	dy := float64(a.y - b.y)
-	return math.Sqrt(dx*dx + dy*dy)
+
+fn distance(a: Point, b: Point) -> f64 {
+    let dx = (a.x - b.x) as f64;
+    let dy = (a.y - b.y) as f64;
+    (dx * dx + dy * dy).sqrt()
 }
-func main() {
-	minDistance := maxFloat64
-	origin := Point{0, 0}
-	// 入力した点のうち最も原点に近い点を探し、その距離を求める
-	for _, p := range points {
-		if minDistance < distance(origin, p) {
-			minDistance = distance(origin, p)
-		}
-	}
-	fmt.Println(minDistance)
+
+fn main() {
+    let points = [
+        Point { x: 4, y: 5 },
+        Point { x: 7, y: 1 },
+        Point { x: 2, y: 9 },
+    ];
+    let mut min_distance = f64::INFINITY;
+    let origin = Point { x: 0, y: 0 };
+    // 入力した点のうち最も原点に近い点を探し、その距離を求める
+    for &p in &points {
+        if min_distance > distance(origin, p) {
+            min_distance = distance(origin, p);
+        }
+    }
+    println!("{}", min_distance);
 }
 ```
 
+## おまけ
+Rust のイテレータを使用すると、``min_distance`` を求める操作をメソッドチェイン(メソッドの連鎖)で書くことができます。
+
+```rs
+#[derive(Clone, Copy)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn distance(a: Point, b: Point) -> f64 {
+    let dx = (a.x - b.x) as f64;
+    let dy = (a.y - b.y) as f64;
+    (dx * dx + dy * dy).sqrt()
+}
+
+fn main() {
+    let points = [
+        Point { x: 4, y: 5 },
+        Point { x: 7, y: 1 },
+        Point { x: 2, y: 9 },
+    ];
+    let origin = Point { x: 0, y: 0 };
+    // 入力した点のうち最も原点に近い点を探し、その距離を求める
+    let min_distance = points
+        .iter()
+        .map(|&p| distance(origin, p))
+        .fold(f64::INFINITY, f64::min);
+    println!("{}", min_distance);
+}
+```
 
 ## おわりに
 
