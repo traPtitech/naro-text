@@ -6,6 +6,7 @@ import { webBasicSidebarItems } from './sidebarConfigs/chapters/webBasic/webBasi
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/naro-text-rs/',
   title: 'なろう講習会 in Rust',
   description: 'Webエンジニアになろう講習会のテキスト in Rust',
   head: [['link', { rel: 'icon', href: '/naro-text-rs/favicon.ico' }]],
