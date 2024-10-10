@@ -25,11 +25,22 @@ $ man mkdir
 変えた場合には適宜読み替えてください。
 :::
 
-作ったディレクトリの中に`main.rs`を作成し、以下のプログラムを書き込みます。
+作成したディレクトリを、Rust プロジェクトとして初期化します。
+以下のコマンドを実行してみましょう。
+```bash
+# Rust プロジェクトの初期化をする。
+$ cargo init
+```
+
+すると、`src/main.rs`を含むいくつかのファイルが生成されます。
+
+`src/main.rs`に以下のプログラムを書き込みましょう。
 
 <<<@/chapter1/section3/src/1-1_hello-server.rs
 
-Echo は、[Go の標準ライブラリ](https://pkg.go.dev/std)に入っていない外部ライブラリなので、外部からダウンロードしなければなりません。しかし、Go にはそれを自動でやってくれる [Go module](https://go.dev/doc/tutorial/create-module) という便利な機能があるので使ってみましょう。以下を VSCode 内のターミナルで実行してください。(他のターミナルでも可)
+axum は、[Rust の標準ライブラリ](https://doc.rust-lang.org/std/)に入っていない外部ライブラリなので、外部からダウンロードしなければなりません。しかし、`cargo` という Rust のパッケージマネージャを使えば、簡単にダウンロードできます。
+
+以下を VSCode 内のターミナルで実行してください。(他のターミナルでも可)
 
 :::tip
 **ターミナルの開き方**
@@ -39,15 +50,10 @@ Echo は、[Go の標準ライブラリ](https://pkg.go.dev/std)に入ってい�
 :::
 
 ```bash
-# Go module を初期化して、足りない物をインストールし、使われてない物を削除する。
-
-$ go mod init develop
-$ go mod tidy
+# Rust プロジェクトに axum と tokio の依存を追加する。
+$ cargo add axum
+$ cargo add tokio --features rt-multi-thread,macros
 ```
-
-:::tip
-本来この `develop` の所にはリポジトリ名を入れることが多いです。詳しくは[公式ドキュメント](https://go.dev/doc/modules/managing-dependencies#naming_module)を参照してください。
-:::
 
 続けて、`main.rs` を実行してサーバーを立てましょう。
 ```bash
