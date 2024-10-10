@@ -14,8 +14,8 @@ export const section4SidebarItems: DefaultTheme.SidebarItem[] = [
     link: '/chapter1/section4/2_sql_exercise'
   },
   {
-    text: 'Goでデータベースを扱う',
-    link: '/chapter1/section4/3_go_and_db'
+    text: 'Rustでデータベースを扱う',
+    link: '/chapter1/section4/3_rust_and_db'
   },
   {
     text: 'サーバーからデータベースを扱う',
