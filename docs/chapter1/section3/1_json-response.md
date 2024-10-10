@@ -7,33 +7,19 @@ JSON について分からない人は
 :::
 
 :::tip
-Go の構造体についてわからない人は↓を見ると良いです。
+Rust の構造体についてわからない人は↓を見ると良いです。
 
-https://go-tour-jp.appspot.com/moretypes/2
+https://doc.rust-jp.rs/book-ja/ch05-01-defining-structs.html
 :::
 
-JSON をレスポンスとして返すためには、`c.JSON`メソッドに構造体を渡します。  
-先ほどの章で作成した`main.go`に、以下のようなエンドポイントを追加して、`JSON`レスポンスを返してみましょう。
+JSON をレスポンスとして返すためには、`Json` に構造体を渡します。  
+先ほどの章で作成した`main.rs`に、以下のようなエンドポイントを追加して、`JSON`レスポンスを返してみましょう。
 
-<<<@/chapter1/section3/src/2-1_json-server.go
+<<<@/chapter1/section3/src/2-1_json-server.rs
 
 書き換えたら、<a href='http://localhost:8080/json' target="_blank" rel="noopener noreferrer">localhost:8080/json</a> にアクセスして確認してみましょう。
 
 ![](assets/json_server.png)
-
-タグを追加することで構造体のフィールドに対応する、JSON のキー名を指定できます。  
-Go の構造体のフィールドはパスカルケースですが、JSON のフィールドは普通キャメルケース / スネークケースであるため、`main.go`の構造体を以下のように書き換えましょう。
-
-```go
-type jsonData struct {
-    // Numner -> number (omitemptyは、ゼロ値の場合はそのフィールドを出力しないという意味)
-	Number int    `json:"number,omitempty"`
-	String string `json:"string,omitempty"`
-	Bool   bool   `json:"bool,omitempty"`
-}
-```
-
-参考: [encoding/json#Marshal](https://pkg.go.dev/encoding/json#Marshal)
 
 ## Postmanでリクエストしてみよう
 
