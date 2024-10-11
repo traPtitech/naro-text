@@ -18,27 +18,25 @@ http://example.com/path/param1/param2?query1=param3&query2=param4
 Hello, {ユーザー名}.
 ```
 
-Echo ではパスに`/:hoge`のようなコロンから始まる文字列を含めると、ハンドラに渡される`Context`の`Param`関数を使うことで取得できます。  
-考えうる名前全てに対して 1 つずつハンドラを設定するのは不可能なので、パスパラメーターを取得して、それをもとにレスポンスを生成します。
+axum ではパスに`/:hoge`のようなコロンから始まる文字列を含めると、ハンドラに渡される `Path` という構造体に格納されます。
+考えうるユーザー名全てに対して 1 つずつハンドラを設定するのは不可能なので、パスパラメーターを取得して、それをもとにレスポンスを生成します。
 
-<<<@/chapter1/section3/src/3-1_param-server.go
+<<<@/chapter1/section3/src/3-1_param-server.rs
 
-サーバーを立て直した後、<a href='http://localhost:8080/hello/pikachu' target="_blank" rel="noopener noreferrer">localhost:8080/hello/pikachu</a> にアクセスして実際に機能していることを確かめましょう。  また、URL の `pikachu` の部分を自分の名前や任意の文字列にしても動く事を確認しましょう。
+サーバーを立て直した後、<a href='http://localhost:8080/hello/kenken' target="_blank" rel="noopener noreferrer">localhost:8080/hello/kenken</a> にアクセスして実際に機能していることを確かめましょう。  また、URL の `kenken` の部分を自分の名前や任意の文字列にしても動く事を確認しましょう。
 
-`/hello/:username`とすることで`c.Param("username")`によって`pikachu`をとれることが分かりました。
+`/hello/:username`とすることで`Path(username)`によって`kenken`をとれることが分かりました。
 
 ### 参考
-[Echoガイド](https://echo.labstack.com/guide)  
-[Echoガイド routing](https://echo.labstack.com/guide/routing)  
-[Echo godoc](https://pkg.go.dev/github.com/labstack/echo/v4)  
-[Context godoc](https://golang.org/pkg/context/)
+[Path in axum::extract](https://docs.rs/axum/latest/axum/extract/struct.Path.html)
 
 ## クエリパラメータを取得してみよう
 ```
-/hello/pikachu?page=2&lang=ja
+/hello/kenken?page=2&lang=ja
 ```
 
-パスパラメーターでは`c.Param("param")`を使いましたが、クエリパラメーターは`c.QueryParam("param")`で取得できます。  
+パスパラメーターでは`Path(param)`を使いましたが、クエリパラメーターは受け取るための構造体を定義し、
+`Query(params)`を使って取得します。
 クエリパラメータは順不同で`?lang=ja&page=2`でも同じ意味になります。
 ### 基本問題
 
@@ -49,13 +47,13 @@ language: {言語名}
 page: {ページ数}
 ```
 
-書いたらサーバーを立て直した後、<a href='http://localhost:8080/hello/pikachu?page=5&lang=ja' target="_blank" rel="noopener noreferrer">localhost:8080/hello/pikachu?page=5&lang=ja</a> にアクセスして実際に機能していることを確かめましょう。
+書いたらサーバーを立て直した後、<a href='http://localhost:8080/hello/kenken?page=5&lang=ja' target="_blank" rel="noopener noreferrer">localhost:8080/hello/kenken?page=5&lang=ja</a> にアクセスして実際に機能していることを確かめましょう。
 :::details 解答
-<<<@/chapter1/section3/src/3-2_query-server.go
+<<<@/chapter1/section3/src/3-2_query-server.rs
 :::
 
 このクエリパラメータは検索のリクエストを受け取るときに使うことが多いです。  
 例として、Google 検索だとこんな風になってます([Google検索のパラメータ(URLパラメータ)一覧](http://www13.plala.or.jp/bigdata/google.html))。
 
 ### 参考
-[Echoでのクエリパラメータの取り方](https://echo.labstack.com/guide/request#query-parameters-1)
+[Query in axum::extract](https://docs.rs/axum/latest/axum/extract/struct.Query.html)
