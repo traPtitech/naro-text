@@ -186,7 +186,7 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
-// 構造体を JSON に変換するためにserde::Serializeを導出する
+// 構造体を JSON に変換するためにserde::Serializeトレイトを導出する
 #[derive(serde::Serialize)]
 struct JsonData {
     number: i32,

@@ -18,7 +18,7 @@ async fn main() {
 }
 
 // JSONで返すための構造体を定義
-// 構造体を JSON に変換するためにserde::Serializeを導出する
+// 構造体を JSON に変換するためにserde::Serializeトレイトを導出する
 #[derive(serde::Serialize)]
 struct JsonData {
     number: i32,

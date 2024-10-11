@@ -88,17 +88,12 @@ inspectある?
 ## 自分のサーバーでPOSTを受け取ってみよう
 
 POST で JSON を受け取って、内容をそのまま返すサーバーを作ってみます。  
-`e.GET`と同じように、`e.POST`と書くことで POST を受け取ることができます。  
-POST のハンドラは、受け取りたい JSON を示す空の変数を先に用意し、`Context`の`Bind`に渡すことで送られてきたデータを取り出すことができます。  
-データが存在しなかったりした場合には、返り値の`err`にエラーが入ります。  
-逆にエラーがないときは`err`に`nil`が返ってくるので、`if`で条件分岐をします。
+`get()`と同じように、`post()`と書くことで POST を受け取ることができます。  
+POST のハンドラでは `Result` 型を受け取っています。
+パースに成功した場合は、match の中の Ok に入り、失敗した場合は Err に入ります。
 
-<<< @/chapter1/section3/src/2-2_echo-server.go
+<<< @/chapter1/section3/src/2-2_echo-server.rs
 
 Postman を使って実際に受け取れている / 送り返せているか確認してみましょう。
-
-:::info
-omitempty を指定していると false, 0, 空文字("")は返ってきません。(omitempty は、ゼロ値の場合はそのフィールドを出力しないという意味でしたね。)
-:::
 
 ![](assets/postman-echo.png)
