@@ -7,33 +7,19 @@ JSON について分からない人は
 :::
 
 :::tip
-Go の構造体についてわからない人は↓を見ると良いです。
+Rust の構造体についてわからない人は↓を見ると良いです。
 
-https://go-tour-jp.appspot.com/moretypes/2
+https://doc.rust-jp.rs/book-ja/ch05-01-defining-structs.html
 :::
 
-JSON をレスポンスとして返すためには、`c.JSON`メソッドに構造体を渡します。  
-先ほどの章で作成した`main.go`に、以下のようなエンドポイントを追加して、`JSON`レスポンスを返してみましょう。
+JSON をレスポンスとして返すためには、`Json` に構造体を渡します。  
+先ほどの章で作成した`main.rs`に、以下のようなエンドポイントを追加して、`JSON`レスポンスを返してみましょう。
 
-<<<@/chapter1/section3/src/2-1_json-server.go
+<<<@/chapter1/section3/src/2-1_json-server.rs
 
 書き換えたら、<a href='http://localhost:8080/json' target="_blank" rel="noopener noreferrer">localhost:8080/json</a> にアクセスして確認してみましょう。
 
 ![](assets/json_server.png)
-
-タグを追加することで構造体のフィールドに対応する、JSON のキー名を指定できます。  
-Go の構造体のフィールドはパスカルケースですが、JSON のフィールドは普通キャメルケース / スネークケースであるため、`main.go`の構造体を以下のように書き換えましょう。
-
-```go
-type jsonData struct {
-    // Numner -> number (omitemptyは、ゼロ値の場合はそのフィールドを出力しないという意味)
-	Number int    `json:"number,omitempty"`
-	String string `json:"string,omitempty"`
-	Bool   bool   `json:"bool,omitempty"`
-}
-```
-
-参考: [encoding/json#Marshal](https://pkg.go.dev/encoding/json#Marshal)
 
 ## Postmanでリクエストしてみよう
 
@@ -102,17 +88,12 @@ inspectある?
 ## 自分のサーバーでPOSTを受け取ってみよう
 
 POST で JSON を受け取って、内容をそのまま返すサーバーを作ってみます。  
-`e.GET`と同じように、`e.POST`と書くことで POST を受け取ることができます。  
-POST のハンドラは、受け取りたい JSON を示す空の変数を先に用意し、`Context`の`Bind`に渡すことで送られてきたデータを取り出すことができます。  
-データが存在しなかったりした場合には、返り値の`err`にエラーが入ります。  
-逆にエラーがないときは`err`に`nil`が返ってくるので、`if`で条件分岐をします。
+`get()`と同じように、`post()`と書くことで POST を受け取ることができます。  
+POST のハンドラでは `Result` 型を受け取っています。
+パースに成功した場合は、match の中の Ok に入り、失敗した場合は Err に入ります。
 
-<<< @/chapter1/section3/src/2-2_echo-server.go
+<<< @/chapter1/section3/src/2-2_echo-server.rs
 
 Postman を使って実際に受け取れている / 送り返せているか確認してみましょう。
-
-:::info
-omitempty を指定していると false, 0, 空文字("")は返ってきません。(omitempty は、ゼロ値の場合はそのフィールドを出力しないという意味でしたね。)
-:::
 
 ![](assets/postman-echo.png)
