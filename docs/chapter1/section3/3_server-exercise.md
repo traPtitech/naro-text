@@ -25,7 +25,7 @@ pong
 $ curl -X GET "http://localhost:8080/ping" # pong
 ```
 :::details 解答
-<<<@/chapter1/section3/src/4-1_ping.go
+<<<@/chapter1/section3/src/4-1_ping.rs
 :::
 
 ## 基本問題 GET /fizzbuzz
@@ -74,7 +74,7 @@ $ curl -X GET "http://localhost:8080/fizzbuzz?count=a" # Bad Request
 **/fizzbuzzが上手く動いたら、講習会の実況用チャンネルに↑の実行結果を投稿しましょう！**
 
 :::details 解答
-<<<@/chapter1/section3/src/4-2_fizzbuzz.go
+<<<@/chapter1/section3/src/4-2_fizzbuzz.rs
 :::
 
 ## 基本問題 POST /add
