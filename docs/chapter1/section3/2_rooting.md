@@ -21,7 +21,7 @@ Hello, {ユーザー名}.
 Echo ではパスに`/:hoge`のようなコロンから始まる文字列を含めると、ハンドラに渡される`Context`の`Param`関数を使うことで取得できます。  
 考えうる名前全てに対して 1 つずつハンドラを設定するのは不可能なので、パスパラメーターを取得して、それをもとにレスポンスを生成します。
 
-<<<@/chapter1/section3/src/3-1_param-server.go
+<<<@/chapter1/section3/src/3-1_param-server.rs
 
 サーバーを立て直した後、<a href='http://localhost:8080/hello/pikachu' target="_blank" rel="noopener noreferrer">localhost:8080/hello/pikachu</a> にアクセスして実際に機能していることを確かめましょう。  また、URL の `pikachu` の部分を自分の名前や任意の文字列にしても動く事を確認しましょう。
 
@@ -51,7 +51,7 @@ page: {ページ数}
 
 書いたらサーバーを立て直した後、<a href='http://localhost:8080/hello/pikachu?page=5&lang=ja' target="_blank" rel="noopener noreferrer">localhost:8080/hello/pikachu?page=5&lang=ja</a> にアクセスして実際に機能していることを確かめましょう。
 :::details 解答
-<<<@/chapter1/section3/src/3-2_query-server.go
+<<<@/chapter1/section3/src/3-2_query-server.rs
 :::
 
 このクエリパラメータは検索のリクエストを受け取るときに使うことが多いです。  
