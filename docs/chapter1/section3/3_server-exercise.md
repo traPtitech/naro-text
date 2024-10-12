@@ -25,7 +25,7 @@ pong
 $ curl -X GET "http://localhost:8080/ping" # pong
 ```
 :::details 解答
-<<<@/chapter1/section3/src/4-1_ping.go
+<<<@/chapter1/section3/src/4-1_ping.rs
 :::
 
 ## 基本問題 GET /fizzbuzz
@@ -74,7 +74,7 @@ $ curl -X GET "http://localhost:8080/fizzbuzz?count=a" # Bad Request
 **/fizzbuzzが上手く動いたら、講習会の実況用チャンネルに↑の実行結果を投稿しましょう！**
 
 :::details 解答
-<<<@/chapter1/section3/src/4-2_fizzbuzz.go
+<<<@/chapter1/section3/src/4-2_fizzbuzz.rs
 :::
 
 ## 基本問題 POST /add
@@ -117,7 +117,7 @@ $ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -
 $ curl -X POST "http://localhost:8080/add" -H "Content-Type: application/json" -d '{"left": 100}' # Bad Request
 ```
 :::details 解答
-<<<@/chapter1/section3/src/4-3_add.go
+<<<@/chapter1/section3/src/4-3_add.rs
 :::
 
 ## 発展問題 GET /students/:class/:studentNumber
@@ -175,18 +175,22 @@ status code: `404`
 ```
 
 :::tip
-ヒント: 最後の課題のデータは次のような構造体を用意して、json.Unmarshal すると定義しやすいです。
-```go
-type Student struct {
-	Number int    `json:"student_number"`
-	Name   string `json:"name"`
+ヒント: 最後の課題のデータは次のような構造体を用意して、serde_json::from_str すると定義しやすいです。
+```rs
+#[derive(serde::Serialize, serde::Deserialize, clone::Clone)]
+struct Student {
+    student_number: u32,
+    name: String,
 }
-type Class struct {
-	Number   int       `json:"class_number"`
-	Students []Student `json:"students"`
+
+#[derive(serde::Deserialize)]
+struct Class {
+    class_number: u32,
+    students: Vec<Student>,
 }
 ```
 :::
+
 
 **完成したら、以下のコマンドをターミナルで実行して上手く機能しているか確認しましょう。**
 ```bash
@@ -203,7 +207,7 @@ $ curl -X GET "http://localhost:8080/students/5/1" # Student Not Found
 #!/bin/bash
 
 # ↓これを自分のIDに変更してください
-ID=pikachu
+ID=kenken
 # ↑これを自分のIDに変更してください
 
 echo ""
@@ -273,7 +277,7 @@ echo ""
 ペーストした後、ファイル内の以下の部分を自分の ID に書き換えてください。
 ```
 # ↓これを自分のIDに変更してください
-ID=pikachu
+ID=kenken
 # ↑これを自分のIDに変更してください
 ```
 
@@ -289,16 +293,15 @@ $ ./test.sh # シェルスクリプトtest.shを実行
 $ ./test.sh 
 
 ====================
-[TEST] /pikachu
-curl -X GET http://localhost:8080/pikachu
-始めまして、@pikachuです。
-ケモノ(特に四足歩行)や、低頭身デフォルメマスコット(TDM)が大好きです。
-普段はVRChatに生息しています。twitter: @pikachu0310VRC
+[TEST] /kenken
+curl -X GET http://localhost:8080/kenken
+始めまして、@kenkenです。
+きらら作品(特に恋する小惑星、スロウスタート)が好きです。
+
 ====================
 [TEST] /ping
 curl -X GET http://localhost:8080/ping
 pong
-
 ====================
 [TEST] /fizzbuzz 1of3
 -X GET http://localhost:8080/fizzbuzz?count=20
@@ -365,32 +368,31 @@ Bad Request
 ====================
 [TEST] /add 1of4
 curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 18781, \"right\": 18783}"
-{"answer":37564}
-
+{"result":37564}
 ====================
 [TEST] /add 2of4
 curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 0, \"right\": -0}"
-{"answer":0}
-
+{"result":0}
 ====================
 [TEST] /add 3of4
 curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": a, \"right\": b}"
 {"error":"Bad Request"}
-
 ====================
 [TEST] /add 4of4
 curl -X POST http://localhost:8080/add -H "Content-Type: application/json" -d "{\"left\": 100}"
 {"error":"Bad Request"}
-
 ====================
-[TEST] /students 1of2
+[TEST] /students 1of3
 curl -X GET http://localhost:8080/students/1/1
 {"student_number":1,"name":"pikachu"}
-
 ====================
-[TEST] /students 2of2
+[TEST] /students 2of3
 curl -X GET http://localhost:8080/students/3/4
-{"error":"Student Not Found"}
+{"error":"Student not found"}
+====================
+[TEST] /students 3of3
+curl -X GET http://localhost:8080/students/5/1
+{"error":"Student not found"}
 ```
 :::
 
