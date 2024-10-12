@@ -44,13 +44,19 @@ async fn fizzbuzz_handler(Query(query): Query<FizzBuzzQuery>) -> (StatusCode, St
 
 // fizzBuzzの処理
 fn fizzbuzz(n: i32) -> String {
-    (1..=n)
-        .map(|i| match (i % 3, i % 5) {
-            (0, 0) => "FizzBuzz".to_string(),
-            (0, _) => "Fizz".to_string(),
-            (_, 0) => "Buzz".to_string(),
-            (_, _) => i.to_string(),
-        })
-        .collect::<Vec<String>>()
-        .join("\n")
+    let mut result = String::new();
+    for i in 1..=n {
+        if i % 15 == 0 {
+            result.push_str("FizzBuzz\n");
+        } else if i % 3 == 0 {
+            result.push_str("Fizz\n");
+        } else if i % 5 == 0 {
+            result.push_str("Buzz\n");
+        } else {
+            result.push_str(&i.to_string());
+            result.push('\n');
+        }
+    }
+    result
 }
+
