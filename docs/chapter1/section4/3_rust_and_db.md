@@ -1,34 +1,24 @@
-# Goでデータベースを扱う
+# Rustでデータベースを扱う
 
-ここからは Go でプログラムを書いてデータベースを扱っていきます。`task up`を実行してデータベースが立ち上がっていることを確認してください。
-まずは VSCode で先ほどクローンしてきたリポジトリを開きましょう。画像のようなファイルが入っているはずです。 main.go を開いてください。
+ここからは Rust でプログラムを書いてデータベースを扱っていきます。`task up`を実行してデータベースが立ち上がっていることを確認してください。
+まずは VSCode で先ほどクローンしてきたリポジトリを開きましょう。画像のようなファイルが入っているはずです。 main.rs を開いてください。
 ![](images/files.png)
 
 ## データベースに接続する
 
-### Goのプログラムを書く
+### Rustのプログラムを書く
 
 サンプルのプログラムが書いてありますが、データベースと接続できるように書き換えます。
-Go でデータベースに接続するためのライブラリは様々ありますが、今回は SQL 文を書く sqlx を使います。
+Rust でデータベースに接続するためのライブラリは様々ありますが、今回は SQL 文を書く SQLx を使います。
 
 - 参考
-  - [jmoiron/sqlx: a set of extensions on go's standard `database/sql` library.](https://pkg.go.dev/github.com/jmoiron/sqlx)
-  - [Illustrated guide to SQLX](https://jmoiron.github.io/sqlx/)
+  - [launchbadge/sqlx: 🧰 The Rust SQL Toolkit](https://github.com/launchbadge/sqlx)
+  - [sqlx - Rust](https://docs.rs/sqlx/latest/sqlx/)
 
-<<< @/chapter1/section4/src/connect_db.go{go:line-numbers}
+<<< @/chapter1/section4/src/connect_db.rs{rust:line-numbers}
 
-`// #region`などのコメントは無視してください。
-
-書き換えた後、 import の周りで赤字のエラーが出た場合は、ターミナルで`go mod tidy`を実行してください。
-26 から 40 行目でデータベースに接続するための設定をして、42 行目の`db, err := sqlx.Open("mysql", conf.FormatDSN())`でデータベースに接続しています。32 行目などで`os.Getenv()`という関数が出てきていますが、これは環境変数と呼ばれる、コンピューター側で設定してプログラムで使えるようにしている変数です。今は必要なデータベースのパスワードなどの環境変数を何も設定していないので、設定します。
-
-:::info 詳しく知りたい人向け
-**dsn とは**
-
-42 行目に`FormatDSN`という関数がありますが、`DSN`は「**D**ata **S**ource **N**ame」の頭文字をとったものです。プログラムがデータベースを指定するために使われます。今回の`FormatDSN`という関数は、データベースのユーザー名、パスワード、使うデータベース、どこにデータベースのサーバーがあるのか、用いる標準時、文字種などの設定を`conf`という変数から読み取って DSN を組み立てています。
-
-[Wikipedia DSN(英語)](https://en.wikipedia.org/wiki/Data_source_name)
-:::
+`get_option` 関数により、データベースに接続するための設定を構成し、`MySqlPool::connect_with` でデータベースに接続しています。
+`env::var` により、環境変数を読み込んでいます。環境変数を使うことで、プログラムの動作を変えることなく、データベースの接続情報を変更できます。
 
 ### 環境変数を設定する
 
@@ -46,10 +36,9 @@ export DB_DATABASE="world"
 
 ```txt
 ...
-# Go workspace file
-go.work
+# Added by cargo
 
-.tool-versions
+/target
 .env // [!code ++]
 ```
 
@@ -71,7 +60,7 @@ $ source .env
 ### 実行する
 
 ```sh
-$ go run main.go
+$ cargo run
 ```
 
 出力はこのようになります。
@@ -81,30 +70,29 @@ connected
 Tokyoの人口は7980230人です
 ```
 
-`main.go`を解説してきます。
+`main.rs`を解説してきます。
 
-<<< @/chapter1/section4/src/connect_db.go#city
+<<< @/chapter1/section4/src/connect_db.rs#city
 
-この`City`構造体の横にあるバッククオートで囲まれたタグに`db`でデータベースのカラム名を指定します。これによってライブラリがデータベースから取得したレコードを構造体に上手くあてはめてくれます。
+`#[derive(sqlx::FromRow)]`を使うことで、SQL 文で取得したレコードを構造体へ変換できるようになります。`#[sqlx(rename_all = "PascalCase")]` によって、データベースのカラム名が`PascalCase`に変換されます。また、`#[sqlx(rename = "ID")]` によって、`ID`というカラム名を`id`というフィールドに変換しています。
 
-参考: [Struct タグについて | text.Baldanders.info](https://text.baldanders.info/golang/struct-tag/)
+<<< @/chapter1/section4/src/connect_db.rs#get
 
-<<< @/chapter1/section4/src/connect_db.go#get
-
-`City`型の`city`という変数のポインタを sqlx ライブラリの`Get`関数の第 1 引数に指定します。第 2 引数には SQL 文を書きます。`Name = ?`としていますが、第 3 引数以降の値が順番に`?`へと当てはめられて SQL 文が実行され、取得したレコードが`city`変数に代入されます。
+`sqlx::query_as` により、SQL 文を実行して結果を構造体に変換しています。SQL 文中の `?`  に対して、`bind` で値を順番に結び付けることができます。
+`fetch_one` により 1 つのレコードを取得しています。
 
 ### 基本問題
 
 ```sh
-$ go run main.go {都市の名前}
+$ cargo run {都市の名前}
 ```
 
 と入力して、同様に人口を表示するようにしましょう。
 
-ヒント：[Go言語 - os.Argsでコマンドラインパラメータを受け取る - 覚えたら書く](https://blog.y-yuki.net/entry/2017/04/30/000000)
+ヒント：[コマンドライン引数を受け付ける - The Rust Programming Language 日本語版](https://doc.rust-jp.rs/book-ja/ch12-01-accepting-command-line-arguments.html)
 
 :::details 答え
-<<< @/chapter1/section4/src/practice_basic1.go
+<<< @/chapter1/section4/src/practice_basic1.rs
 :::
 
 ### 応用問題
@@ -114,14 +102,14 @@ $ go run main.go {都市の名前}
 ヒント： 1 回のクエリでも取得できますが、2 回に分けた方が楽に考えられます。
 
 :::details 答え
-<<< @/chapter1/section4/src/practice_advanced.go
+<<< @/chapter1/section4/src/practice_advanced.rs
 :::
 
 ## 複数レコードを取得する
 
-`Get`関数の代わりに`Select`関数を使い、第 1 引数を配列のポインタに変えると、複数レコードを取得できます。`main.go`の`main`関数を以下のように書き換えて実行してみましょう。
+`fetch_one`関数の代わりに`fetch_all`関数を使い、第 1 引数を配列のポインタに変えると、複数レコードを取得できます。`main.rs`の`main`関数を以下のように書き換えて実行してみましょう。
 
-<<< @/chapter1/section4/src/select.go#main{27 go:line-numbers}
+<<< @/chapter1/section4/src/select.rs#main{rs:line-numbers}
 以下のように日本の都市一覧を取得できます。
 
 ```txt
@@ -140,21 +128,29 @@ connected
 
 ## レコードを書き換える
 
-`INSERT`や`UPDATE`、`DELETE`を実行したい場合は、`Exec`関数を使うことができます。第 1 引数に SQL 文を渡し、第 2 引数以降は`?`に当てはめたい値を入れます。
+`INSERT`や`UPDATE`、`DELETE`を実行したい場合は、`query`関数を使うことができます。
 
-```go
-result, err := db.Exec("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?,?,?,?)", name, countryCode, district, population)
+```rs
+let result = sqlx::query("INSERT INTO city (Name, CountryCode, District, Population) VALUES (?, ?, ?, ?)")
+    .bind(city.name)
+    .bind(city.country_code)
+    .bind(city.district)
+    .bind(city.population)
+    .execute(&pool)
+    .await?;
 ```
 
-例えば`INSERT`ならば、このように使うことができます。`result`には操作によって変更があったレコード数などの情報が入っています。
+例えば`INSERT`ならば、このように使うことができます。return で返ってくる`result`には、`INSERT`で何件のレコードが追加されたかなどの情報が入っています。
 
 :::info 詳しく知りたい人向け
-**なぜ「`?`」を使うのか**
+**なぜSQL文で「`?`」を使うのか**
 
-sqlx で変数を含む SQL を使いたいときは「`?`」を使わなくてはいけません。これはセキュリティ上の問題です。例として、国のコードからその国の都市の情報一覧を取得することを考えましょう。`fmt`ライブラリの`Sprintf`関数を使うとこのように処理を書くことができます。
+sqlx で変数を含む SQL を使いたいときは「`?`」を使わなくてはいけません。これはセキュリティ上の問題です。例として、国のコードからその国の都市の情報一覧を取得することを考えましょう。`format!`を使って SQL 文を作成すると以下のようになります。
 
-```go
-err = db.Select(&city, fmt.Sprintf("SELECT * FROM city WHERE CountryCode = '%s'", code))
+```rs
+sqlx::query_as::<_, City>(
+    format!("SELECT * FROM city WHERE CountryCode = '{}'", code).as_str(),
+)
 ```
 
 `code`に入っている値がただの国名コードなら問題はないのですが、`JPN' OR 'A' = 'A`という値が入っていたらどうなるでしょうか。データベースで実行されるとき、SQL 文は下のようになります。

@@ -2,7 +2,7 @@
 
 ## リポジトリの準備
 
-なろう講習会のバックエンド用のテンプレートリポジトリ、[https://github.com/traPtitech/naro-template-backend](https://github.com/traPtitech/naro-template-backend) を使います。リンクから GitHub のリポジトリにアクセスしてください。右上の「Use this template」と書かれたボタンをクリックし、「Create a new repository」から自分のアカウントにリポジトリを作ります。リポジトリ名は`naro-backend`など適当なものにしましょう。
+なろう講習会 in Rust のバックエンド用のテンプレートリポジトリ、[https://github.com/traP-jp/naro-rs-template-backend](https://github.com/traP-jp/naro-rs-template-backend) を使います。リンクから GitHub のリポジトリにアクセスしてください。右上の「Use this template」と書かれたボタンをクリックし、「Create a new repository」から自分のアカウントにリポジトリを作ります。リポジトリ名は`naro-rs-backend`など適当なものにしましょう。
 
 ![](images/template.png)
 
