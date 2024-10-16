@@ -2,7 +2,7 @@
 
 Echo を使い、データベースからデータを取得するサーバーアプリケーションを作りましょう。
 
-<<< @/chapter1/section4/src/server.go{go:line-numbers}
+<<< @/chapter1/section4/src/server.rs{rs:line-numbers}
 
 都市が見つかったら`200`を、見つからなかったら`404`を返しています。
 Postman からリクエストを送ってみましょう。
@@ -26,13 +26,7 @@ Postman からリクエストを送ってみましょう。
 
 :::details 答え
 
-- `main`関数内部
-
-<<< @/chapter1/section4/src/practice_server.go#echo
-
-- `postCityHandler`関数を定義
-
-<<< @/chapter1/section4/src/practice_server.go#func
+<<< @/chapter1/section4/src/practice_server.rs{rs:line-numbers}
 
 :::
 
