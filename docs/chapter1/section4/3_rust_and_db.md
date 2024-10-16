@@ -57,6 +57,12 @@ $ source .env
 このコマンドによって読み込んだ環境変数は、コマンドを入力したターミナルを終了すると消えてしまいます。また、コマンドを入力したターミナル以外では環境変数として読み込まれません。新しくターミナルを開きなおした場合などは、もう一度実行してください。
 :::
 
+### クレートの依存関係を追加する
+```sh
+$ cargo add axum anyhow serde serde_json tokio --features tokio/full,serde/derive
+$ cargo add sqlx --features mysql,migrate,chrono,runtime-tokio
+```
+
 ### 実行する
 
 ```sh
