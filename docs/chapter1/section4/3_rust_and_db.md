@@ -1,23 +1,22 @@
-# Goでデータベースを扱う
+# Rustでデータベースを扱う
 
-ここからは Go でプログラムを書いてデータベースを扱っていきます。`task up`を実行してデータベースが立ち上がっていることを確認してください。
-まずは VSCode で先ほどクローンしてきたリポジトリを開きましょう。画像のようなファイルが入っているはずです。 main.go を開いてください。
+ここからは Rust でプログラムを書いてデータベースを扱っていきます。`task up`を実行してデータベースが立ち上がっていることを確認してください。
+まずは VSCode で先ほどクローンしてきたリポジトリを開きましょう。画像のようなファイルが入っているはずです。 main.rs を開いてください。
 ![](images/files.png)
 
 ## データベースに接続する
 
-### Goのプログラムを書く
+### Rustのプログラムを書く
 
 サンプルのプログラムが書いてありますが、データベースと接続できるように書き換えます。
-Go でデータベースに接続するためのライブラリは様々ありますが、今回は SQL 文を書く sqlx を使います。
+Rust でデータベースに接続するためのライブラリは様々ありますが、今回は SQL 文を書く SQLx を使います。
 
 - 参考
-  - [jmoiron/sqlx: a set of extensions on go's standard `database/sql` library.](https://pkg.go.dev/github.com/jmoiron/sqlx)
-  - [Illustrated guide to SQLX](https://jmoiron.github.io/sqlx/)
+  - [launchbadge/sqlx: 🧰 The Rust SQL Toolkit](https://github.com/launchbadge/sqlx)
+  - [sqlx - Rust](https://docs.rs/sqlx/latest/sqlx/)
 
-<<< @/chapter1/section4/src/connect_db.go{go:line-numbers}
+<<< @/chapter1/section4/src/connect_db.rs{rust:line-numbers}
 
-`// #region`などのコメントは無視してください。
 
 書き換えた後、 import の周りで赤字のエラーが出た場合は、ターミナルで`go mod tidy`を実行してください。
 26 から 40 行目でデータベースに接続するための設定をして、42 行目の`db, err := sqlx.Open("mysql", conf.FormatDSN())`でデータベースに接続しています。32 行目などで`os.Getenv()`という関数が出てきていますが、これは環境変数と呼ばれる、コンピューター側で設定してプログラムで使えるようにしている変数です。今は必要なデータベースのパスワードなどの環境変数を何も設定していないので、設定します。
@@ -71,7 +70,7 @@ $ source .env
 ### 実行する
 
 ```sh
-$ go run main.go
+$ cargo run
 ```
 
 出力はこのようになります。
@@ -81,30 +80,30 @@ connected
 Tokyoの人口は7980230人です
 ```
 
-`main.go`を解説してきます。
+`main.rs`を解説してきます。
 
-<<< @/chapter1/section4/src/connect_db.go#city
+<<< @/chapter1/section4/src/connect_db.rs#city
 
 この`City`構造体の横にあるバッククオートで囲まれたタグに`db`でデータベースのカラム名を指定します。これによってライブラリがデータベースから取得したレコードを構造体に上手くあてはめてくれます。
 
 参考: [Struct タグについて | text.Baldanders.info](https://text.baldanders.info/golang/struct-tag/)
 
-<<< @/chapter1/section4/src/connect_db.go#get
+<<< @/chapter1/section4/src/connect_db.rs#get
 
 `City`型の`city`という変数のポインタを sqlx ライブラリの`Get`関数の第 1 引数に指定します。第 2 引数には SQL 文を書きます。`Name = ?`としていますが、第 3 引数以降の値が順番に`?`へと当てはめられて SQL 文が実行され、取得したレコードが`city`変数に代入されます。
 
 ### 基本問題
 
 ```sh
-$ go run main.go {都市の名前}
+$ cargo run {都市の名前}
 ```
 
 と入力して、同様に人口を表示するようにしましょう。
 
-ヒント：[Go言語 - os.Argsでコマンドラインパラメータを受け取る - 覚えたら書く](https://blog.y-yuki.net/entry/2017/04/30/000000)
+ヒント：[コマンドライン引数を受け付ける - The Rust Programming Language 日本語版](https://doc.rust-jp.rs/book-ja/ch12-01-accepting-command-line-arguments.html)
 
 :::details 答え
-<<< @/chapter1/section4/src/practice_basic1.go
+<<< @/chapter1/section4/src/practice_basic1.rs
 :::
 
 ### 応用問題
