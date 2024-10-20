@@ -18,13 +18,20 @@ DB_PORT="3306"
 DB_DATABASE="world"
 ```
 
-3. `go mod tidy` を実行しましょう。
+3. `source .env` を実行しましょう。
+
+4. 以下のコマンドを実行し、クレートの依存関係を追加しましょう。
+
+```sh
+$ cargo add axum anyhow serde serde_json tokio --features tokio/full,serde/derive,axum/macros
+$ cargo add sqlx --features mysql,migrate,chrono,runtime-tokio
+```
 
 以上でセットアップはできているはずです。
 
 ## ファイルの分割
 
-このまま演習を始めてしまうとファイルが長くなりすぎてしまうので、ファイルを別のパッケージとして分割します。
+このまま演習を始めてしまうとファイルが長くなりすぎてしまうので、ファイルを別のモジュールとして分割します。
 :::tip
 パッケージとは、関連する複数のファイルをまとめる単位のことです。  
 ディレクトリとパッケージは一対一に対応しています。原則的に、ディレクトリ名とパッケージ名は同じにします。    
@@ -32,44 +39,43 @@ DB_DATABASE="world"
 パッケージの外部に公開する変数や関数などのシンボルは、先頭を大文字にする必要があります。  
 逆に言えば、先頭が大文字でないシンボルは、パッケージの外部からはアクセスできません。  
 詳しくは以下を参照してください。
-[A Tour of Go - Packages](https://go.dev/tour/basics/1)  
-[Effective Go - package-names](https://golang.org/doc/effective_go#package-names)
+[The Rust Programming Language 日本語版 - パッケージとクレート](https://doc.rust-jp.rs/book-ja/ch07-01-packages-and-crates.html)
 :::
-各エンドポイントでの処理はハンドラーと呼ばれますが、それを `handler/handler.go` に移動してみましょう。手順は以下の通りです。
 
-### handler.go の作成
-
-1. `handler` というディレクトリを新しく作成し、その中に `handler.go` というファイルを作成する。
-2. `handler.go` を以下のように記述する。
-
-<<<@/chapter2/section1/src/first/handler.go{go:line-numbers}
-
-ファイルを編集したら、`go mod tidy` を実行しましょう。
-
-### main.go の編集
-
-`main.go`を以下のように編集しましょう。
-
-<<<@/chapter2/section1/src/first/main.go{go:line-numbers}
-
-ファイルを編集したら、`go mod tidy` を実行しましょう。  
+まずは、`src` ディレクトリに
 ![](images/0/file-tree.png)
-ここまで出来たら、画像のようになっているはずです。
+
+この画像のようなディレクトリ構造を作成しましょう。
+
+
+
+それぞれのファイルを編集していきます。
+
+#### handler.rs
+
+<<<@/chapter2/section1/src/first/handler.rs{rs:line-numbers}
+
+#### main.rs
+
+<<<@/chapter2/section1/src/first/main.rs{rs:line-numbers}
+
+#### repository.rs
+
+<<<@/chapter2/section1/src/first/repository.rs{rs:line-numbers}
+
+#### handler/country.rs
+
+<<<@/chapter2/section1/src/first/handler/country.rs{rs:line-numbers}
+
+#### repository/country.rs
+
+<<<@/chapter2/section1/src/first/repository/country.rs{rs:line-numbers}
+
+## 変更点の説明
 
 ## 準備完了
 
-ファイルの分割で変更したのは、以下の 3 点です。
-
-1. `handler`パッケージを作成し、コードを分割した。
-2. `handler`という`db`をフィールドに持つ構造体を作成し、その構造体のメソッドとして`GetCityInfoHandler`や`PostCityHandler`を定義した。
-3. `.env`ファイルの環境変数を、プログラムで読むようにした。
-
-それでは、`go run main.go` で実行してみましょう。
-:::tip
-`main package`を複数ファイルに分割した場合、`go run main.go`だと`main.go`のみがビルドされるため、  
-`go run .`や`go run main1.go main2.go`のようにして複数ファイルを読み込む必要があります。  
-詳しくは`go help run`を参照してください。
-:::
+それでは、`cargo run` で実行してみましょう。
 
 ![](images/0/echo.png)
 
