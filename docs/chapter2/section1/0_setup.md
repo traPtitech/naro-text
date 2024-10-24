@@ -4,7 +4,7 @@
 
 今回の演習は、[(第一部)サーバーからデータベースを扱う](../../chapter1/section4/4_server_and_db) の状態から開始します。
 
-もしファイルを削除してしまった場合は、以下の手順でセットアップしましょう。
+**第一部から繰り返し受講している方も、** 以下の手順でセットアップを行ってください。
 
 1. [データベースを扱う準備](../../chapter1/section4/0_prepare) からプロジェクトをセットアップしましょう。
 
@@ -24,8 +24,25 @@ DB_DATABASE="world"
 
 ```sh
 $ cargo add axum anyhow serde serde_json tokio --features tokio/full,serde/derive,axum/macros
-$ cargo add sqlx --features mysql,migrate,chrono,runtime-tokio
+$ cargo add async-session tracing tracing-subscriber --features tracing-subscriber/env-filter,tracing-subscriber/fmt
+$ cargo add tower-http --features add-extension,trace,fs
 ```
+
+また、 cargo.toml に以下の記述を足しましょう。
+
+```toml
+[dependencies.sqlx]
+version = "0.7"
+features = ["mysql", "migrate", "chrono", "runtime-tokio", "macros"] 
+
+[dependencies.async-sqlx-session]
+git = "https://github.com/maxcountryman/async-sqlx-session.git"
+default-features = false
+branch = "sqlx-0.7"
+features = ["mysql"]
+```
+
+``[dependencies]`` に既に `sqlx` がある場合は、その行を削除してください。
 
 以上でセットアップはできているはずです。
 
@@ -34,22 +51,19 @@ $ cargo add sqlx --features mysql,migrate,chrono,runtime-tokio
 このまま演習を始めてしまうとファイルが長くなりすぎてしまうので、ファイルを別のモジュールとして分割します。
 :::tip
 パッケージとは、関連する複数のファイルをまとめる単位のことです。  
-ディレクトリとパッケージは一対一に対応しています。原則的に、ディレクトリ名とパッケージ名は同じにします。    
-パッケージによって、機能を分離でき、変数や関数の公開範囲を最低限にできる等沢山の恩恵が得られます。  
-パッケージの外部に公開する変数や関数などのシンボルは、先頭を大文字にする必要があります。  
-逆に言えば、先頭が大文字でないシンボルは、パッケージの外部からはアクセスできません。  
 詳しくは以下を参照してください。
 [The Rust Programming Language 日本語版 - パッケージとクレート](https://doc.rust-jp.rs/book-ja/ch07-01-packages-and-crates.html)
 :::
 
-まずは、`src` ディレクトリに
+まずは、`src` ディレクトリにファイルを追加していきます。
+
+
 ![](images/0/file-tree.png)
 
 この画像のようなディレクトリ構造を作成しましょう。
+次に、それぞれのファイルにコードを追加していきます。
 
-
-
-それぞれのファイルを編集していきます。
+### ファイルの内容
 
 #### handler.rs
 
@@ -72,12 +86,16 @@ $ cargo add sqlx --features mysql,migrate,chrono,runtime-tokio
 <<<@/chapter2/section1/src/first/repository/country.rs{rs:line-numbers}
 
 ## 変更点の説明
+今までは`main.rs`に全てのコードを記述しており、データベースやハンドラーの処理が混ざっていましたが、ここではそれらの処理をファイルに分割しました。
 
+ルーティングの処理を`handler.rs`に、データベースの初期化や接続を`repository.rs`に分割しました。
+`handler`のサブモジュールとして`country.rs`を作成し、都市に関する API の処理を記述しました。
+同様に`repository`のサブモジュールとして`country.rs`を作成し、都市に関するデータベースの処理を記述しました。
 ## 準備完了
 
 それでは、`cargo run` で実行してみましょう。
 
-![](images/0/echo.png)
+![](images/0/cargo.png)
 
 無事起動が出来たら、ターミナルで`task up`を実行してデーターベースを起動し、<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスして実際に動いていることを確認しましょう。
 
