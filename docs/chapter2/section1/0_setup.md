@@ -93,11 +93,11 @@ features = ["mysql"]
 同様に`repository`のサブモジュールとして`country.rs`を作成し、都市に関するデータベースの処理を記述しました。
 ## 準備完了
 
-それでは、`cargo run` で実行してみましょう。
+それでは、`task up` でデータベースを立ち上げてから `cargo run` で実行してみましょう。
 
 ![](images/0/cargo.png)
 
-無事起動が出来たら、ターミナルで`task up`を実行してデーターベースを起動し、<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスして実際に動いていることを確認しましょう。
+<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスして実際に動いていることを確認しましょう。
 
 ![](images/0/Tokyo.png)
 
