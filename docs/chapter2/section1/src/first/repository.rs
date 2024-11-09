@@ -1,4 +1,3 @@
-//use async_sqlx_session::MySqlSessionStore;
 use sqlx::mysql::MySqlConnectOptions;
 use sqlx::mysql::MySqlPool;
 use std::env;
