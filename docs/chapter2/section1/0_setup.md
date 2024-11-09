@@ -23,7 +23,7 @@ DB_DATABASE="world"
 4. 以下のコマンドを実行し、クレートの依存関係を追加しましょう。
 
 ```sh
-$ cargo add axum anyhow serde serde_json tokio --features tokio/full,serde/derive,axum/macros
+$ cargo add axum anyhow serde serde_json tokio bcrypt --features tokio/full,serde/derive,axum/macros
 $ cargo add async-session tracing tracing-subscriber --features tracing-subscriber/env-filter,tracing-subscriber/fmt
 $ cargo add tower-http --features add-extension,trace,fs
 ```
