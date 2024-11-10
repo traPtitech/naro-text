@@ -3,88 +3,86 @@
 テストを書く前に、テスト対象になる処理が必要です。今回は、「与えられた City のリストから国ごとの人口の和」を計算する処理を書いてみます。
 
 ::: details ヒント
-- 国ごとにデータを分けて持つには`map`を使えばいいでしょう
-- 国単位で集計するので map の key は `CountryCode` を使うといいでしょう
-- データが入っていない場合もあるので、条件分岐には気を付けてください
+- 国ごとにデータを分けて持つには `std::collections::HashMap` を使えばいいでしょう
+- 国単位で集計するので map の key は `country_code` を使うといいでしょう
+- `country_code` が空文字列である City は、和を計算せず無視してください
 :::
 
 ::: details 参考実装
 
-<<<@/chapter2/section3/src/calculate_population.go#calculate
+<<<@/chapter2/section3/src/sum_population_by_country.rs#calculate
 
 :::
 
-そうしたら、このコードが期待した値を返すかテストを書いてみましょう。
+このメソッドが期待した値を返すかどうか、テストを書いて確認していきましょう。
 
-まず、`calculate_test.go`を作成します。
+メソッド 1 つなど、小さい単位でのテストは、ユニットテストと呼ばれます。
+ユニットテストは同じファイル内にテストを書くのが一般的です。
 
-::: tip
-Go では、`_test`がファイル名の後ろについているファイルはテストファイルとして認識されます。
-:::
+同じファイル内の一番下にテストを書いていきます。
 
-続いて、`calculate_test.go`にテスト関数を実装していきます。
+```rs
+// #[cfg(test)] 属性を追加したモジュールはテストモジュールとして扱われる // [!code ++]
+#[cfg(test)] // [!code ++]
+mod tests { // [!code ++]
+    use super::{sum_population_by_country, City}; // [!code ++]
+    use std::collections::HashMap; // [!code ++]
 
-```go
-package main
-
-import "testing"
-// Testで始まる関数はテスト関数として認識されます
-// testingはGoのテストのための標準ライブラリです
-func Test_calculatePopulation(t *testing.T) {
-    // ここにテストを書いていく
-}
+    fn test_sum_population_by_country() { // [!code ++]
+        // ここにテストを追加する // [!code ++]
+    } // [!code ++]
+} // [!code ++]
 ```
 
 まずは、空のリストを渡したときに、空のマップが返ってくることをテストしてみましょう。
 
-```go
-package main
+```rs
+// #[cfg(test)] 属性を追加したモジュールはテストモジュールとして扱われる
+#[cfg(test)]
+mod tests {
+    use super::{sum_population_by_country, City};
+    use std::collections::HashMap;
 
-import "testing"
-
-func Test_calculatePopulation(t *testing.T) {
-	// ここにテストを書いていく
-	cities := []City{}
-	got := calculatePopulation(cities)
-	want := map[string]int{}
-	// 長さが0になっているかどうかを確認する
-	if len(got) != 0 {
-		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
-	}
+    #[test]
+    fn test_sum_population_by_country() {
+        // ここにテストを追加する
+        let cities = vec![]; // [!code ++]
+        let result = sum_population_by_country(cities); // [!code ++]
+        assert!(result.is_empty()); // [!code ++]
+    }
 }
-
 ```
 
-書き終わったら、関数の左上にある`run test`か、そのさらに左にある再生ボタンを押して、テストを実行してみましょう。
+書き終わったら、関数の左上またはモジュールの左上にある `run test` を押して、テストを実行してみましょう。
 
 ![](./images/run_test.png)
 
 すると、VSCode の Output にテストの結果が表示されます。
-```
-=== RUN   Test_calculatePopulation
---- PASS: Test_calculatePopulation (0.00s)
-PASS
-ok  	test	0.001s
-```
 
-テストが正常に終了したことがわかりますね。
+![](./images/test_result.png)
+
+テストが正常に終了したことがわかります。
 
 ## 様々なケースをテストしてみよう
 
-次に、`calculatePopulation`のテストをもう少し充実させてみましょう。
+次に、 `sum_population_by_country` のテストをもう少し充実させてみましょう。
 
 これから複数のテストを書くため、先ほどのテストの関数名を変更します。
 
-```go
-func Test_calculatePopulation_empty(t *testing.T) {
-  // ここにテストを書いていく
-  cities := []City{}
-  got := calculatePopulation(cities)
-  want := map[string]int{}
-  // 長さが0になっているかどうかを確認する
-  if len(got) != 0 {
-    t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
-  }
+```rs
+// #[cfg(test)] 属性を追加したモジュールはテストモジュールとして扱われる
+#[cfg(test)]
+mod tests {
+    use super::{sum_population_by_country, City};
+    use std::collections::HashMap;
+
+    #[test]
+    fn test_sum_population_by_country_empty() { // [!code warning]
+        // ここにテストを追加する
+        let cities = vec![];
+        let result = sum_population_by_country(cities);
+        assert!(result.is_empty());
+    }
 }
 ```
 ### 課題
@@ -92,16 +90,22 @@ func Test_calculatePopulation_empty(t *testing.T) {
 
 - 1 つの国のみのデータが入っている場合
 - 複数の国のデータが入っている場合
-- 空のデータ(`city.CountryCode.Valid = false`)が入っている場合
+- 空文字列の `country_code` が入っている場合
 
 ::: details 答え
 
 #### 1 つの国のみのデータが入っている場合
-<<<@/chapter2/section3/src/calculate_population_test.go#single
+<<<@/chapter2/section3/src/sum_population_by_country.rs#single
 
 #### 複数の国のデータが入っている場合
-<<<@/chapter2/section3/src/calculate_population_test.go#multiple
+<<<@/chapter2/section3/src/sum_population_by_country.rs#multiple
 
-#### 空のデータ(`city.CountryCode.Valid = false`)が入っている場合
-<<<@/chapter2/section3/src/calculate_population_test.go#null
-::: 
+#### 空文字列の `country_code` が入っている場合
+<<<@/chapter2/section3/src/sum_population_by_country.rs#empty_country_code
+:::
+
+実装が終わったら、モジュールの左上にある `run test` を押して、テストを実行してみましょう。
+
+![](./images/test_result_all.png)
+
+モジュール内の全てのテストが成功したことを確認できます。
