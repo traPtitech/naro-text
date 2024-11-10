@@ -42,7 +42,7 @@ impl Repository {
 これらはセッションストアの設定です。
 セッションの情報を記憶するための場所をデータベース上に設定して、`session_store` からアクセスできるようにしています。
 
-## LoginHandler の実装
+## `login` ハンドラの実装
 続いて、`login` ハンドラを `handler/auth.rs` に実装していきましょう。
 
 ```rs
