@@ -33,12 +33,9 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: "1.20"
+      - uses: actions/checkout@v4
       - name: Run tests
-        run: go test ./...
+        run: cargo test
 ```
 
 以下、このファイルについて解説していきます。
@@ -58,12 +55,9 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: "1.20"
+      - uses: actions/checkout@v4
       - name: Run tests
-        run: go test ./...
+        run: cargo test
 ```
 
 `name`は、この GitHub Actions の名前です。
@@ -85,12 +79,9 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: "1.20"
+      - uses: actions/checkout@v4
       - name: Run tests
-        run: go test ./...
+        run: cargo test
 ```
 
 `on`は、この GitHub Actions が実行されるタイミングを設定します。
@@ -104,17 +95,14 @@ on:
     branches:
       - main
   pull_request:
-jobs: // [!code focus:11]
+jobs: // [!code focus:8]
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: "1.20"
+      - uses: actions/checkout@v4
       - name: Run tests
-        run: go test ./...
+        run: cargo test
 ```
 
 `jobs`は、この GitHub Actions で実行する処理を設定します。
@@ -134,12 +122,9 @@ jobs:
     name: Test
     runs-on: ubuntu-latest  // [!code focus]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: "1.20"
+      - uses: actions/checkout@v4
       - name: Run tests
-        run: go test ./...
+        run: cargo test
 ```
 
 `runs-on`は、この GitHub Actions を実行する環境を設定します。今回は Ubuntu の最新バージョンを指定しています。
@@ -161,13 +146,10 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    steps: // [!code focus:10]
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
-        with:
-          go-version: "1.20"
+    steps: // [!code focus:8]
+      - uses: actions/checkout@v4
       - name: Run tests
-        run: go test ./...
+        run: cargo test
 ```
 
 `steps`は、この GitHub Actions で実際に実行する処理を順番に記述していくところです。
@@ -176,15 +158,13 @@ jobs:
 
 `uses`は、GitHub Actions で提供されているモジュールを利用するための設定です。
 
-例えば、`actions/checkout@v3`は、リポジトリをクローンし、指定したブランチに移動するモジュールです。
+例えば、`actions/checkout@v4`は、リポジトリをクローンし、指定したブランチに移動するモジュールです。
 デフォルトでは、Actions がトリガーされたブランチに移動します。
-
-同様に、`actions/setup-go@v4`は、Go の環境をセットアップするモジュールです。ここでは`with`を使って引数を渡すことで、Go のバージョンを指定しています。
 
 #### `run`
 
 `run`は、シンプルにコマンドを実行するための記法です。
-ここでは、`go test ./...`を実行して、テストを実行しています。
+ここでは、`cargo test`を実行して、テストを実行しています。
 
 
 ## 課題
@@ -192,20 +172,21 @@ jobs:
 
 ::: details 答え
 ```yaml
-on:
+name: CI
+on: 
   push: 
     branches:
       - main
   pull_request:
+
 jobs:
-  build:
+  test:
+    name: Test
     runs-on: ubuntu-latest
-    - uses: actions/checkout@v3
-    - uses: actions/setup-go@v4
-        with:
-          go-version: "1.20"
-    - run: go mod download
-    - run: go build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: cargo build
 ```
 :::
 
