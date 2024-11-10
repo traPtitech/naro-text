@@ -3,9 +3,9 @@
 ## pingページの作成
 
 接続の練習のためサーバーに`/ping`エンドポイントを実装しておきましょう。
-サーバーのリポジトリの`main.go`の`main`関数を書き換えます。
+サーバーのリポジトリの`handler.rs`を書き換えます。
 
-<<<@/chapter2/section2/src/2/main.go{go:line-numbers}
+<<<@/chapter2/section2/src/2/handler.rs{rs:line-numbers}
 
 次にフロントエンドから`/ping`エンドポイントにアクセスしてみるコードを書いてみましょう。
 
