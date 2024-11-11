@@ -9,6 +9,8 @@
 - `/greeting`への GET リクエストに、環境変数 `GREETING_MESSAGE`の値を返す。
 - 起動するポートを環境変数`PORT`で指定できる。
 
+ただし、 listen する IP アドレスとして、**必ず `0.0.0.0` を指定してください。**
+
 :::details 答え
 <<< @/chapter2/section4/src/main.rs
 
@@ -51,11 +53,11 @@ Dockerfile を書くと自分で必要な機能がそろったコンテナを立
 
 ただ、アプリケーションを動かすだけであれば一度書いた Dockerfile を使いまわすことも可能なので、テンプレートを探してきてそれを使っても構いません。
 
-以下が Go のプログラムを動かすための最小の Dockerfile です。
+以下が Rust のプログラムを動かすための最小の Dockerfile です。
 
 ```Dockerfile
-# Go のベースイメージを指定
-FROM golang:1.20.5-alpine
+# Rust のベースイメージを指定
+FROM rust:latest
 
 # コマンドを実行するコンテナ内のディレクトリをworkに指定
 WORKDIR /work
@@ -63,11 +65,11 @@ WORKDIR /work
 # ローカルのカレントディレクトリをコンテナのカレントディレクトリ(work)にコピー
 COPY . .
 
-# Go のプログラムをビルド
-RUN go build -o app
+# Rust のプログラムをビルド
+RUN cargo build --release
 
 # ビルドしたものを実行
-ENTRYPOINT ./app
+ENTRYPOINT ["./target/release/naro-server"]
 ```
 
 naro_server ディレクトリ内に`Dockerfile`というファイルを作り、上のコードを書きましょう。

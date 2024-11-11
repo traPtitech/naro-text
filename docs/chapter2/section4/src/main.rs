@@ -9,7 +9,7 @@ async fn main() {
 
     let app = Router::new().route("/greeting", get(greeting_handler));
 
-    let addr = std::net::SocketAddr::from(([127, 0, 0, 1], port));
+    let addr = std::net::SocketAddr::from(([0, 0, 0, 0], port));
 
     let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
 
