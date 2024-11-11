@@ -4,36 +4,32 @@
 
 ### コードを書く
 
-`naro_server`というディレクトリを作り、その中でコードを書いてください。第 1 部でやったように、 Go を使って下の条件を満たすサーバーアプリケーションを作ってください。
+`naro_server`というディレクトリを作り、その中でコードを書いてください。第 1 部でやったように、 Rust を使って下の条件を満たすサーバーアプリケーションを作ってください。
 
 - `/greeting`への GET リクエストに、環境変数 `GREETING_MESSAGE`の値を返す。
 - 起動するポートを環境変数`PORT`で指定できる。
 
-`go mod`コマンドで外部ライブラリを管理しましょう。
-
-https://go.dev/ref/mod
-
-```sh
-go mod init naro_server
-go mod tidy
-```
+ただし、 listen する IP アドレスとして、**必ず `0.0.0.0` を指定してください。**
 
 :::details 答え
-<<< @/chapter2/section4/src/main.go
+<<< @/chapter2/section4/src/main.rs
+
+※ `axum` や `tokio` の依存関係を追加する必要があります。
 :::
 
 ### ビルドして実行する
 
-今までは`go run`コマンドでプログラムを実行していましたが、Go では`go build`コマンドでコンパイルして実行ファイルを生成し、そのファイルを用いてプログラムを実行できます。
+今までは`cargo run`コマンドでプログラムを実行していましたが、Rust では`cargo build`コマンドでコンパイルして実行ファイルを生成し、そのファイルを用いてプログラムを実行できます。
 
 ```sh
-go build -o server
+cargo build --release
 ```
 
-上のコマンドを実行すると`server`というファイルが生成され、`./server`で実行できます。
+`--release`オプションをつけることで、最適化されたバイナリが生成されます。
 
+以下のコマンドで実行できます。
 ```sh
-GREETING_MESSAGE="こんにちは" PORT="8080" ./server
+GREETING_MESSAGE="こんにちは" PORT="8080" ./target/release/naro-server
 ```
 
 実行前に環境変数を設定しています。
@@ -57,11 +53,11 @@ Dockerfile を書くと自分で必要な機能がそろったコンテナを立
 
 ただ、アプリケーションを動かすだけであれば一度書いた Dockerfile を使いまわすことも可能なので、テンプレートを探してきてそれを使っても構いません。
 
-以下が Go のプログラムを動かすための最小の Dockerfile です。
+以下が Rust のプログラムを動かすための最小の Dockerfile です。
 
 ```Dockerfile
-# Go のベースイメージを指定
-FROM golang:1.20.5-alpine
+# Rust のベースイメージを指定
+FROM rust:latest
 
 # コマンドを実行するコンテナ内のディレクトリをworkに指定
 WORKDIR /work
@@ -69,11 +65,11 @@ WORKDIR /work
 # ローカルのカレントディレクトリをコンテナのカレントディレクトリ(work)にコピー
 COPY . .
 
-# Go のプログラムをビルド
-RUN go build -o app
+# Rust のプログラムをビルド
+RUN cargo build --release
 
 # ビルドしたものを実行
-ENTRYPOINT ./app
+ENTRYPOINT ["./target/release/naro-server"]
 ```
 
 naro_server ディレクトリ内に`Dockerfile`というファイルを作り、上のコードを書きましょう。
