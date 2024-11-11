@@ -4,36 +4,30 @@
 
 ### コードを書く
 
-`naro_server`というディレクトリを作り、その中でコードを書いてください。第 1 部でやったように、 Go を使って下の条件を満たすサーバーアプリケーションを作ってください。
+`naro_server`というディレクトリを作り、その中でコードを書いてください。第 1 部でやったように、 Rust を使って下の条件を満たすサーバーアプリケーションを作ってください。
 
 - `/greeting`への GET リクエストに、環境変数 `GREETING_MESSAGE`の値を返す。
 - 起動するポートを環境変数`PORT`で指定できる。
 
-`go mod`コマンドで外部ライブラリを管理しましょう。
-
-https://go.dev/ref/mod
-
-```sh
-go mod init naro_server
-go mod tidy
-```
-
 :::details 答え
-<<< @/chapter2/section4/src/main.go
+<<< @/chapter2/section4/src/main.rs
+
+※ `axum` や `tokio` の依存関係を追加する必要があります。
 :::
 
 ### ビルドして実行する
 
-今までは`go run`コマンドでプログラムを実行していましたが、Go では`go build`コマンドでコンパイルして実行ファイルを生成し、そのファイルを用いてプログラムを実行できます。
+今までは`cargo run`コマンドでプログラムを実行していましたが、Rust では`cargo build`コマンドでコンパイルして実行ファイルを生成し、そのファイルを用いてプログラムを実行できます。
 
 ```sh
-go build -o server
+cargo build --release
 ```
 
-上のコマンドを実行すると`server`というファイルが生成され、`./server`で実行できます。
+`--release`オプションをつけることで、最適化されたバイナリが生成されます。
 
+以下のコマンドで実行できます。
 ```sh
-GREETING_MESSAGE="こんにちは" PORT="8080" ./server
+GREETING_MESSAGE="こんにちは" PORT="8080" ./target/release/naro-server
 ```
 
 実行前に環境変数を設定しています。
