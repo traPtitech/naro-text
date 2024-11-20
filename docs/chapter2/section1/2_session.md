@@ -350,6 +350,8 @@ pub async fn get_user_id_by_session_id( // [!code ++]
 ```
 
 最後に、Middleware を設定しましょう。
+ログインが必要なエンドポイントを `with_auth_router` でまとめ、Middleware を適用します。
+
 `handler.rs` に以下を追加してください。
 
 ```rs
@@ -365,17 +367,22 @@ mod auth;
 mod country;
 
 pub fn make_router(app_state: Repository) -> Router {
-    let city_router = Router::new()
+    let city_router = Router::new() // [!code --]
+    let with_auth_router = Router::new() // [!code ++]
         .route("/cities/:city_name", get(country::get_city_handler))
         .route("/cities", post(country::post_city_handler));
         .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware)); // [!code ++]
 
     let auth_router = Router::new()
         .route("/signup", post(auth::sign_up))
-        .route("/login", post(auth::login))
-        .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware)); // [!code ++]
+        .route("/login", post(auth::login)); 
 
-    ...(省略)
+    Router::new()
+        .nest("/", city_router) // [!code --]
+        .nest("/", with_auth_router) // [!code ++]
+        .nest("/", auth_router)
+        .nest("/", ping_router)
+        .with_state(app_state)
 }
 ```
 
@@ -447,8 +454,7 @@ pub async fn delete_user_session(&self, session_id: String) -> anyhow::Result<()
 let auth_router = Router::new()
     .route("/signup", post(auth::sign_up))
     .route("/login", post(auth::login))
-    .route("/logout", post(auth::logout))　// [!code ++]
-    .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware));
+    .route("/logout", post(auth::logout));　// [!code ++]
 ```
 
 
@@ -519,10 +525,9 @@ impl Repository {
 最後に、`handler.rs` に `me` ハンドラを追加します。
 
 ```rs
-let auth_router = Router::new()
-        .route("/signup", post(auth::sign_up))
-        .route("/login", post(auth::login))
-        .route("/logout", post(auth::logout))
+let with_auth_router = Router::new()
+        .route("/cities/:city_name", get(country::get_city_handler))
+        .route("/cities", post(country::post_city_handler))
         .route("/me", get(auth::me)) // [!code ++]
         .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware));
 ```
