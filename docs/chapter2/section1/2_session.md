@@ -49,7 +49,7 @@ impl Repository {
 pub async fn login( // [!code ++]
     State(state): State<Repository>, // [!code ++]
     Json(body): Json<Login>, // [!code ++]
-) -> Result<StatusCode, StatusCode> { // [!code ++]
+) -> Result<impl IntoResponse, StatusCode> { // [!code ++]
 } // [!code ++]
 ```
 
@@ -115,7 +115,7 @@ impl Repository {
 pub async fn login( // [!code ++]
     State(state): State<Repository>, // [!code ++]
     Json(body): Json<Login>, // [!code ++]
-) -> Result<StatusCode, StatusCode> { // [!code ++]
+) -> Result<impl IntoResponse, StatusCode> { // [!code ++]
     // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
     if body.username.is_empty() || body.password.is_empty() { // [!code ++]
         return Err(StatusCode::BAD_REQUEST); // [!code ++]
@@ -140,7 +140,7 @@ pub async fn login( // [!code ++]
 pub async fn login(
     State(state): State<Repository>,
     Json(body): Json<Login>,
-) -> Result<StatusCode, StatusCode> {
+) -> Result<impl IntoResponse, StatusCode> {
     // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
     if body.username.is_empty() || body.password.is_empty() {
         return Err(StatusCode::BAD_REQUEST);
@@ -169,10 +169,10 @@ pub async fn login(
 データベースでエラーが起きた場合や、検証の操作に失敗した場合は 500 (Internal Server Error), パスワードが間違っていた場合 401 (Unauthorized) を返却しています。
 
 ```rs
-pub async fn login(
-    State(state): State<Repository>,
+pub async fn login( 
+    State(state): State<Repository>, 
     Json(body): Json<Login>,
-) -> Result<StatusCode, StatusCode> {
+) -> Result<impl IntoResponse, StatusCode> {
     ...(省略)
     
     // パスワードが一致しているかを確かめる
@@ -182,19 +182,18 @@ pub async fn login(
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
     {
         return Err(StatusCode::UNAUTHORIZED);
-    }
+    } 
 
     // セッションストアに登録する // [!code ++]
-    state // [!code ++]
+    let session_id = state // [!code ++]
         .create_user_session(id.to_string()) // [!code ++]
         .await // [!code ++]
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?; // [!code ++]
-
-    Ok(StatusCode::OK) // [!code ++]
+    
 }
 ```
 
-`id` をセッションストアに登録します。
+`id` をセッションストアに登録して、セッション id を取得します。
 
 ここで用いる、セッションストアに登録するメソッド `create_user_session` を実装していきます。
 
@@ -207,26 +206,55 @@ use async_session::{Session, SessionStore}; // [!code ++]
 use super::Repository; // [!code ++]
 
 impl Repository { // [!code ++]
-    pub async fn create_user_session(&self, user_id: String) -> anyhow::Result<()> { // [!code ++]
+    pub async fn create_user_session(&self, user_id: String) -> anyhow::Result<String> { // [!code ++]
         let mut session = Session::new(); // [!code ++]
 
         session // [!code ++]
             .insert("user_id", user_id) // [!code ++]
             .with_context(|| "Failed to insert user_id")?; // [!code ++]
 
-        let result = self // [!code ++]
+        let session_id = self // [!code ++]
             .session_store // [!code ++]
             .store_session(session) // [!code ++]
             .await // [!code ++]
-            .with_context(|| "Failed to store session") // [!code ++]
-            .with_context(|| "Failed to store session")?; // [!code ++]
+            .with_context(|| "Failed to store session")? // [!code ++]
+            .with_context(|| "Failed to create session")?; // [!code ++]
 
-        match result { // [!code ++]
-            Some(_) => Ok(()), // [!code ++]
-            None => Err(anyhow::anyhow!("Failed to store session")), // [!code ++]
-        } // [!code ++]
+        Ok(session_id) // [!code ++]
     } // [!code ++]
 } // [!code ++]
+```
+
+セッションに `user_id` を登録し、セッションストアに保存します。
+セッション id を返却します。
+
+`handler/auth.rs` に戻り、ヘッダーにセッション id を設定する処理を追加します。
+
+```rs
+pub async fn login(
+    State(state): State<Repository>,
+    Json(body): Json<Login>,
+) -> Result<impl IntoResponse, StatusCode> {
+    ...(省略)
+
+    // セッションストアに登録する
+    let session_id = state
+        .create_user_session(id.to_string())
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    // クッキーをセットする // [!code ++]
+    let mut headers = header::HeaderMap::new(); // [!code ++]
+
+    headers.insert( // [!code ++]
+        header::SET_COOKIE, // [!code ++]
+        format!("session_id={}; HttpOnly; SameSite=Strict", session_id) // [!code ++]
+            .parse() // [!code ++]
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?, // [!code ++]
+    ); // [!code ++]
+
+    Ok((StatusCode::OK, headers)) // [!code ++]
+}
 ```
 
 ここまで書いたら、 `login` ハンドラを使えるようにしましょう。

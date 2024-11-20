@@ -1,4 +1,9 @@
-use axum::{extract::State, http::StatusCode, Json};
+use axum::{
+    extract::State,
+    http::{header, StatusCode},
+    response::IntoResponse,
+    Json,
+};
 use serde::Deserialize;
 
 use crate::repository::Repository;
@@ -47,7 +52,7 @@ pub struct Login {
 pub async fn login(
     State(state): State<Repository>,
     Json(body): Json<Login>,
-) -> Result<StatusCode, StatusCode> {
+) -> Result<impl IntoResponse, StatusCode> {
     // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
     if body.username.is_empty() || body.password.is_empty() {
         return Err(StatusCode::BAD_REQUEST);
@@ -72,10 +77,20 @@ pub async fn login(
     }
 
     // セッションストアに登録する
-    state
+    let session_id = state
         .create_user_session(id.to_string())
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
-    Ok(StatusCode::OK)
+    // クッキーをセットする
+    let mut headers = header::HeaderMap::new();
+
+    headers.insert(
+        header::SET_COOKIE,
+        format!("session_id={}; HttpOnly; SameSite=Strict", session_id)
+            .parse()
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?,
+    );
+
+    Ok((StatusCode::OK, headers))
 }
