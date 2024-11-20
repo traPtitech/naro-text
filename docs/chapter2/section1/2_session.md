@@ -285,99 +285,243 @@ pub fn make_router(app_state: Repository) -> Router {
 <<<@/chapter2/section1/src/2_session/repository.rs{rs:line-numbers}[repository.rs]
 :::
 
-## userAuthMiddleware の実装
+## Middleware の実装
 
-続いて、`userAuthMiddleware` を実装します。
+続いて、`auth_middleware` を実装します。
 まず、これは Handler ではなく Middleware と呼ばれます。
 
 送られてくるリクエストは、Middleware を経由して、 Handler に流れていきます。
 
-Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と記述します。 Middleware の実装は難しいので、なんとなく理解できれば十分です。
+Middleware から次の Middleware/Handler を呼び出す際は `next.run(req)` と記述します。 
 
-以下を`handler.go`に追加しましょう。
-```go
-func UserAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc { // [!code ++]
-	return func(c echo.Context) error { // [!code ++]
-		sess, err := session.Get("sessions", c) // [!code ++]
-		if err != nil { // [!code ++]
-			log.Println(err) // [!code ++]
-			return c.String(http.StatusInternalServerError, "something wrong in getting session") // [!code ++]
-		} // [!code ++]
-		if sess.Values["userName"] == nil { // [!code ++]
-			return c.String(http.StatusUnauthorized, "please login") // [!code ++]
-		} // [!code ++]
-		c.Set("userName", sess.Values["userName"].(string)) // [!code ++]
-		return next(c) // [!code ++]
-	} // [!code ++]
+以下を`handler/auth.rs`に追加してください。
+
+```rs
+pub async fn auth_middleware( // [!code ++]
+    State(state): State<Repository>, // [!code ++]
+    TypedHeader(cookie): TypedHeader<Cookie>, // [!code ++]
+    mut req: Request, // [!code ++]
+    next: Next, // [!code ++]
+) -> Result<impl IntoResponse, StatusCode> { // [!code ++]
+
+    // セッションIDを取得する // [!code ++]
+    let session_id = cookie // [!code ++]
+        .get("session_id") // [!code ++]
+        .ok_or(StatusCode::UNAUTHORIZED)? // [!code ++]
+        .to_string(); // [!code ++]
+
+    // セッションストアからユーザーIDを取得する // [!code ++]
+    let user_id = state // [!code ++]
+        .get_user_id_by_session_id(&session_id) // [!code ++]
+        .await // [!code ++]
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)? // [!code ++]
+        .ok_or(StatusCode::UNAUTHORIZED)?; // [!code ++]
+
+    // リクエストにユーザーIDを追加する // [!code ++]
+    req.extensions_mut().insert(user_id); // [!code ++]
+
+    // 次のミドルウェアを呼び出す // [!code ++]
+    Ok(next.run(req).await) // [!code ++]
 } // [!code ++]
 ```
 
-関数が関数を呼び出していて混乱しそうですが、 2 行目から 13 行目が本質で、外側はおまじないと考えて良いです。
-
 この Middleware はリクエストを送ったユーザーがログインしているのかをチェックし、
-ログインしているなら Context (`c`) にそのユーザーの UserName を設定します。
+ログインしているならリクエスト(`req`) に `user_id` を追加します。
 
-セッションを取得し、ログイン時に設定した `userName` の値を確認しに行きます。
+Cookie からセッション id を取得し、セッションストアからユーザー id を取得します。
+ここで、セッション id がなかった場合や、不正なセッション id だった場合は 401 (Unauthorized) を返却します。
+正しくログインされていれば、次の Middleware/Handler を呼び出します。
 
-ここで名前が入っていればリクエストの送信者はログイン済みで、そうでなければログインをしていないことが分かります。
+ここで使用した、 `get_user_id_by_session_id` メソッドを `repository/users_session.rs` に追加します。
 
-これを利用して、ログインしていない場合には処理をここで止めて 401 (Unauthorized) を返却し、していれば次の処理 (`next(c)`)
-に進みます。
+```rs
+pub async fn get_user_id_by_session_id( // [!code ++]
+    &self, // [!code ++]
+    session_id: &String, // [!code ++]
+) -> anyhow::Result<Option<String>> { // [!code ++]
+    let session = self // [!code ++]
+        .session_store // [!code ++]
+        .load_session(session_id.clone()) // [!code ++]
+        .await // [!code ++]
+        .with_context(|| "Failed to load session")?; // [!code ++]
+
+    Ok(session.and_then(|s| s.get::<String>("user_id"))) // [!code ++]
+} // [!code ++]
+```
 
 最後に、Middleware を設定しましょう。
-グループ機能を利用して、 `withAuth` に設定されてるエンドポイントは `userAuthMiddleware` を処理してから処理する、という設定をします。
+`handler.rs` に以下を追加してください。
 
-```go
-func main() {
-	(省略)
-	e.POST("/login", h.LoginHandler)
+```rs
+use axum::{
+    middleware::from_fn_with_state, // [!code ++]
+    routing::{get, post},
+    Router,
+};
 
-	e.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code --]
-	e.POST("/cities", h.PostCityHandler) // [!code --]
-	withAuth := e.Group("") // [!code ++]
-	withAuth.Use(handler.UserAuthMiddleware) // [!code ++]
-	withAuth.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code ++]
-	withAuth.POST("/cities", h.PostCityHandler) // [!code ++]
+use crate::repository::Repository;
 
-	err = e.Start(":8080")
-	(省略)
+mod auth;
+mod country;
+
+pub fn make_router(app_state: Repository) -> Router {
+    let city_router = Router::new()
+        .route("/cities/:city_name", get(country::get_city_handler))
+        .route("/cities", post(country::post_city_handler));
+
+    let auth_router = Router::new()
+        .route("/signup", post(auth::sign_up))
+        .route("/login", post(auth::login))
+        .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware)); // [!code ++]
+
+    ...(省略)
 }
 ```
 
 これで、この章の目標である「ログインしないと利用できないようにする」が達成されました。
 
-## GetMeHandler の実装
+## logout ハンドラの実装
 
-最後に、 `GetMeHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
+ログアウト機能をまだ実装していなかったので、 `logout` ハンドラを実装していきます。
 
-以下を `handler.go` に追加しましょう。
-```go
-type Me struct { // [!code ++]
-	Username string `json:"username,omitempty"  db:"username"` // [!code ++]
+まず、`handler/auth.rs` に以下を追加してください。
+
+```rs
+pub async fn logout( // [!code ++]
+    State(state): State<Repository>, // [!code ++]
+    TypedHeader(cookie): TypedHeader<Cookie>, // [!code ++]
+) -> Result<impl IntoResponse, StatusCode> { // [!code ++]
+    // セッションIDを取得する // [!code ++]
+    let session_id = cookie // [!code ++]
+        .get("session_id") // [!code ++]
+        .ok_or(StatusCode::UNAUTHORIZED)? // [!code ++]
+        .to_string(); // [!code ++]
+
+    // セッションストアから削除する // [!code ++]
+    state // [!code ++]
+        .delete_user_session(session_id) // [!code ++]
+        .await // [!code ++]
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?; // [!code ++]
+
+    // クッキーを削除する  // [!code ++]
+    let mut headers = header::HeaderMap::new(); // [!code ++]
+    headers.insert( // [!code ++]
+        header::SET_COOKIE, // [!code ++]
+        "session_id=; HttpOnly; SameSite=Strict; Max-Age=0" // [!code ++]
+            .parse() // [!code ++]
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?, // [!code ++]
+    ); // [!code ++]
+
+    Ok((StatusCode::OK, headers)) // [!code ++]
 } // [!code ++]
 ```
-```go
-func GetMeHandler(c echo.Context) error { // [!code ++]
-	return c.JSON(http.StatusOK, Me{ // [!code ++]
-		Username: c.Get("userName").(string), // [!code ++]
-	}) // [!code ++]
+
+ログアウトするときは、ログインするときとは逆にセッションと Cookie を削除します。
+
+ここで呼び出す `delete_user_session` メソッドを `repository/users_session.rs` に追加します。
+
+```rs
+pub async fn delete_user_session(&self, session_id: String) -> anyhow::Result<()> { // [!code ++]
+    let session = self // [!code ++]
+        .session_store // [!code ++]
+        .load_session(session_id.clone()) // [!code ++]
+        .await // [!code ++]
+        .with_context(|| "Failed to load session")? // [!code ++]
+        .with_context(|| "Failed to find session")?; // [!code ++]
+
+    self.session_store // [!code ++]
+        .destroy_session(session) // [!code ++]
+        .await // [!code ++]
+        .with_context(|| "Failed to destroy session")?; // [!code ++]
+
+    Ok(()) // [!code ++]
 } // [!code ++]
 ```
 
-アクセスしているユーザーの`userName`をセッションから取得して返しています。
-`userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
+セッション ID からセッションを取得し、セッションストアから削除します。
 
-`main.go`に`withAuth.GET("/me", handler.GetMeHandler)`を追加しましょう。
-```go
-func main() {
-	(省略)
-	withAuth := e.Group("")
-	withAuth.Use(handler.UserAuthMiddleware)
-	withAuth.GET("/me", handler.GetMeHandler) // [!code ++]
-	withAuth.GET("/cities/:cityName", h.GetCityInfoHandler)
-	withAuth.POST("/cities", h.PostCityHandler)
+最後に、`handler.rs` に `logout` ハンドラを追加します。
 
-	err = e.Start(":8080")
-	(省略)
+```rs
+let auth_router = Router::new()
+    .route("/signup", post(auth::sign_up))
+    .route("/login", post(auth::login))
+    .route("/logout", post(auth::logout))　// [!code ++]
+    .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware));
+```
+
+
+## me ハンドラの実装
+
+最後に、 `me` ハンドラを実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
+
+以下を `handler/auth.rs` に追加してください。
+
+```rs
+#[derive(Serialize)] // [!code ++]
+pub struct Me { // [!code ++]
+    pub username: String, // [!code ++]
+}// [!code ++]
+```
+
+```rs
+pub async fn me(State(state): State<Repository>, req: Request) -> Result<Json<Me>, StatusCode> { // [!code ++]
+    // リクエストからユーザーIDを取得する // [!code ++]
+    let user_id = req // [!code ++]
+        .extensions() // [!code ++]
+        .get::<String>() // [!code ++]
+        .ok_or(StatusCode::UNAUTHORIZED)? // [!code ++]
+        .to_string(); // [!code ++]
+
+    // データベースからユーザー名を取得する // [!code ++]
+    let username = state // [!code ++]
+        .get_user_name_by_id( // [!code ++]
+            user_id // [!code ++]
+                .parse() // [!code ++]
+                .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?, // [!code ++]
+        ) // [!code ++]
+        .await // [!code ++]
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?; // [!code ++]
+
+    Ok(Json(Me { username })) // [!code ++]
+} // [!code ++]
+```
+
+リクエストからユーザー ID を取得し、データベースからユーザー名を取得します。
+
+ここで呼び出す `get_user_name_by_id` メソッドを `repository/users.rs` に追加します。
+
+```rs
+impl Repository {
+    ...(省略)
+
+    pub async fn delete_user_session(&self, session_id: String) -> anyhow::Result<()> { // [!code ++]
+        let session = self// [!code ++]
+            .session_store// [!code ++]
+            .load_session(session_id.clone()) // [!code ++]
+            .await// [!code ++]
+            .with_context(|| "Failed to load session")? // [!code ++]
+            .with_context(|| "Failed to find session")?; // [!code ++]
+
+        self.session_store // [!code ++]
+            .destroy_session(session) // [!code ++]
+            .await // [!code ++]
+            .with_context(|| "Failed to destroy session")?; // [!code ++]
+
+        Ok(()) // [!code ++]
+    } // [!code ++]
+
+    ...(省略)
 }
+```
+
+最後に、`handler.rs` に `me` ハンドラを追加します。
+
+```rs
+let auth_router = Router::new()
+        .route("/signup", post(auth::sign_up))
+        .route("/login", post(auth::login))
+        .route("/logout", post(auth::logout))
+        .route("/me", get(auth::me)) // [!code ++]
+        .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware));
 ```
