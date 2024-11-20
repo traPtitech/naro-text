@@ -3,7 +3,7 @@
 [[toc]]
 
 :::warning
-コマンドは手入力ではなく、コピー & ペースト で入力してください。  
+コマンドは手入力ではなく、コピー & ペーストで入力してください。  
 手入力だと写し間違いの可能性があります。  
 この際、1 行ずつコピーするようにしてください。
 :::
@@ -13,7 +13,7 @@
 ::: tip
 質問をするときにはできるだけスクリーンショットを貼るようにしましょう。テキストだけで説明しても解決に必要な情報を全て伝えるのは難しいです。
 
-`Control + Shift + Command + 4`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に` Command + V`で貼り付けられます。
+`Control + Shift + Command + 4`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に`Command + V`で貼り付けられます。
 :::
 
 ### Homebrew の導入
@@ -32,17 +32,17 @@ Homebrew とは、様々なアプリケーションをインストールしや�
 
 すでに VSCode をインストールしている方はこの手順を飛ばして大丈夫です。
 
-以下のサイトから`macOS`の VSCodeインストーラーをダウンロードして、それを実行してインストールしてください。
+以下のサイトから`macOS`の VSCode インストーラーをダウンロードして、それを実行してインストールしてください。
 
 https://code.visualstudio.com/download
 
 ### 拡張機能の導入
 
-VSCode は拡張機能により様々な言語でのプログラミングをラクにすることができます。  
+VSCode は拡張機能により様々な言語でのプログラミングをラクにできます。  
 次回以降に使うものも最初にまとめて導入しておきましょう。
 
-- [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
-  - Go 言語で書いたコードをチェックしてくれたり、プログラムを書くときに補完 (予測変換のような機能) を使えるようになったりします。
+- [Rust Analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+  - Rust 言語で書いたコードをチェックしてくれたり、プログラムを書くときに補完 (予測変換のような機能) を使えるようになったりします。
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
   - コードの書き方をチェックしてくれます。
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
@@ -52,10 +52,29 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 
 インストールが終わったら、反映させるために VSCode を 1 度閉じて開きなおしてください。
 
+## Rust のインストール
+
+Rust をインストールします。
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+このコマンドを実行すると、Rust のインストーラーが起動します。  
+選択肢を求められたら、 `Enter` を押してください。
+
+インストールが終わったら、一度ターミナルを再起動してください。
+その後、以下のコマンドを実行して、Rust のバージョンを確認してください。
+
+```bash
+rustc --version
+```
+
+`rustc 1.82.0 (f6e511eec 2024-10-15)` のように、バージョン番号が表示されればインストール完了です。
+
 ## Go と Task のインストール
 
 ここでは、Go というプログラミング言語の導入をします。
-この講習会では Go という言語でサーバーサイドの制作を行います。
 
 先ほど導入した Homebrew を用いてインストールします。
 
@@ -104,7 +123,7 @@ VSCode で `Command`+`Shift`+`P` を押して出てくるコマンドパレッ�
 
 ## asdf の導入
 
-asdf とは、一つのプログラムの複数のバージョンを PC 内で管理できるようにするものです。
+asdf とは、1 つのプログラムの複数のバージョンを PC 内で管理できるようにするものです。
 それ以外にもあとからバージョンを更新するのが容易にもなるので長期的に見るとオススメです。
 しかし、本講習会で必須というわけではないので任意とします。
 
@@ -115,7 +134,7 @@ asdf とは、一つのプログラムの複数のバージョンを PC 内で�
 
 [公式資料](https://asdf-vm.com/#/core-manage-asdf)
 
-以下のコマンドにより asdf の導入を行います。
+以下のコマンドにより asdf を導入します。
 
 ``` zsh [Mac]
 brew install asdf
