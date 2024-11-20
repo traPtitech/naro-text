@@ -1,277 +1,528 @@
 # セッション管理機構の実装
 
 ## セッションストアを設定する
-`main.go`に以下を追加しましょう。
-```go
-func main() {
-	(省略)
-	// usersテーブルが存在しなかったら、usersテーブルを作成する
-	_, err = db.Exec("CREATE TABLE IF NOT EXISTS users (Username VARCHAR(255) PRIMARY KEY, HashedPass VARCHAR(255))")
-	if err != nil {
-		log.Fatal(err)
-	}
+`repository.rs`に以下を追加しましょう。
+```rs
+use async_sqlx_session::MySqlSessionStore; // [!code ++]
+use sqlx::mysql::MySqlConnectOptions;
+use sqlx::mysql::MySqlPool;
+use std::env;
 
-	// セッションの情報を記憶するための場所をデータベース上に設定 // [!code ++]
-	store, err := mysqlstore.NewMySQLStoreFromConnection(db.DB, "sessions", "/", 60*60*24*14, []byte("secret-token")) // [!code ++]
-	if err != nil { // [!code ++]
-		log.Fatal(err) // [!code ++]
-	} // [!code ++]
+pub mod country;
+pub mod users;
 
-	h := handler.NewHandler(db)
-	e := echo.New()
-	e.Use(middleware.Logger())       // ログを取るミドルウェアを追加 // [!code ++]
-	e.Use(session.Middleware(store)) // セッション管理のためのミドルウェアを追加 // [!code ++]
-
-	e.POST("/signup", h.SignUpHandler)
-	(省略)
+#[derive(Clone)]
+pub struct Repository {
+    pool: MySqlPool,
+    session_store: MySqlSessionStore, // [!code ++]
 }
+
+impl Repository {
+    pub async fn connect() -> anyhow::Result<Self> {
+        let options = get_options()?;
+        let pool = sqlx::MySqlPool::connect_with(options).await?;
+
+        let session_store = // [!code ++]
+            MySqlSessionStore::from_client(pool.clone()).with_table_name("user_sessions"); // [!code ++]
+
+        Ok(Self {
+            pool,
+            session_store, // [!code ++]
+        })
+    }
+
+    pub async fn migrate(&self) -> anyhow::Result<()> {
+        sqlx::migrate!("./migrations").run(&self.pool).await?;
+        Ok(())
+    }
+}
+...(省略)
 ```
+
 これらはセッションストアの設定です。
+セッションの情報を記憶するための場所をデータベース上に設定して、`session_store` からアクセスできるようにしています。
 
-最初に、セッションの情報を記憶するための場所をデータベース上に設定します。
+## `login` ハンドラの実装
+続いて、`login` ハンドラを `handler/auth.rs` に実装していきましょう。
 
-この仕組みを使用するために、 `e.Use(session.Middleware(store))` を含めてセッションストアを使ってね〜、って echo に命令しています。
-
-`e.Use(middleware.Logger())` は文字通りログを取るものです。ついでに入れましょう。
-
-:::tip
-`"secret-token"`は、暗号化/復号化の際に使われる秘密鍵です。  
-実際に運用するときはこの"secret-token"を独自の値にしてください。環境変数などで管理するのが良いでしょう。
-:::
-
-## LoginHandler の実装
-続いて、`LoginHandler` を `handler.go` に実装していきましょう。
-
-```go
-func (h *Handler) LoginHandler(c echo.Context) error { // [!code ++]
+```rs
+pub async fn login( // [!code ++]
+    State(state): State<Repository>, // [!code ++]
+    Json(body): Json<Login>, // [!code ++]
+) -> Result<impl IntoResponse, StatusCode> { // [!code ++]
 } // [!code ++]
 ```
-`LoginHandler` の外に以下の構造体を追加します。
-```go
-type User struct { // [!code ++]
-	Username   string `json:"username,omitempty"  db:"Username"` // [!code ++]
-	HashedPass string `json:"-"  db:"HashedPass"` // [!code ++]
+
+`login` ハンドラの外に以下の構造体を追加します。
+```rs
+#[derive(Deserialize)] // [!code ++]
+pub struct Login { // [!code ++]
+    pub username: String, // [!code ++]
+    pub password: String, // [!code ++]
 } // [!code ++]
 ```
-`LoginHandler` を実装していきます。
-```go
-func (h *Handler) LoginHandler(c echo.Context) error {
-	// リクエストを受け取り、reqに格納する // [!code ++]
-	var req LoginRequestBody // [!code ++]
-	err := c.Bind(&req) // [!code ++]
-	if err != nil { // [!code ++]
-		return c.String(http.StatusBadRequest, "bad request body") // [!code ++]
-	} // [!code ++]
 
-	// バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
-	if req.Password == "" || req.Username == "" { // [!code ++]
-		return c.String(http.StatusBadRequest, "Username or Password is empty") // [!code ++]
-	} // [!code ++]
+`login` ハンドラの中身を実装する前に、必要になるデータベース操作のメソッドを追加します。ここで必要になるのは以下の 2 つです。
 
-	// データベースからユーザーを取得する // [!code ++]
-	user := User{} // [!code ++]
-	err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username) // [!code ++]
-	if err != nil { // [!code ++]
-		if errors.Is(err, sql.ErrNoRows) { // [!code ++]
-			return c.NoContent(http.StatusUnauthorized) // [!code ++]
-		} else { // [!code ++]
-			log.Println(err) // [!code ++]
-			return c.NoContent(http.StatusInternalServerError) // [!code ++]
-		} // [!code ++]
-	} // [!code ++]
-}
-```
-req への代入は signUpHandler と同じです。UserName と Password が入っているかも確認しましょう。
+- `username` から `id` を取得するメソッド
+- `id` と `password` の組が登録されているものと一致するかを確認するメソッド
 
-パスワードの一致チェックをするために、データベースからユーザーを取得してきましょう。
+この 2 つを `repository/users.rs` に追加します。
+```rs
+use super::Repository;
 
-ユーザーが存在しなかった場合は `sql.ErrNoRows` というエラーが返ってきます。
-もしそのエラーなら 401 (Unauthorized)、そうでなければ 500 (Internal Server Error) です。
-もし 404 (Not Found) とすると、「このユーザーはパスワードが違うのではなく存在しないんだ」という事がわかってしまい（このユーザーは存在していてパスワードは違う事も分かります）、セキュリティ上のリスクに繋がります。
+impl Repository {
+    pub async fn is_exist_username(&self, username: String) -> sqlx::Result<bool> {
+        ...(省略)
+    }
 
-:::tip
-ここで、エラーチェックは基本的に errors.Is を使いましょう。     
-参考: <https://pkg.go.dev/errors#Is>
-:::
-```go
-func (h *Handler) LoginHandler(c echo.Context) error {
-	(省略)
-	// データベースからユーザーを取得する
-	user := User{}
-	err = h.db.Get(&user, "SELECT * FROM users WHERE username=?", req.Username)
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return c.NoContent(http.StatusUnauthorized)
-		} else {
-			log.Println(err)
-			return c.NoContent(http.StatusInternalServerError)
-		}
-	}
-	// パスワードが一致しているかを確かめる // [!code ++]
-	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password)) // [!code ++]
-	if err != nil { // [!code ++]
-		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) { // [!code ++]
-			return c.NoContent(http.StatusUnauthorized) // [!code ++]
-		} else { // [!code ++]
-			return c.NoContent(http.StatusInternalServerError) // [!code ++]
-		} // [!code ++]
-	} // [!code ++]
+    pub async fn create_user(&self, username: String) -> sqlx::Result<u64> {
+        ...(省略)
+    }
+
+    pub async fn get_user_id_by_name(&self, username: String) -> sqlx::Result<u64> { // [!code ++]
+        let result = sqlx::query_scalar("SELECT id FROM users WHERE username = ?") // [!code ++]
+            .bind(&username) // [!code ++]
+            .fetch_one(&self.pool) // [!code ++]
+            .await?; // [!code ++]
+        Ok(result) // [!code ++]
+    } // [!code ++]
+
+    pub async fn save_user_password(&self, id: i32, password: String) -> anyhow::Result<()> {
+        ...(省略)
+    }
+
+    pub async fn verify_user_password(&self, id: u64, password: String) -> anyhow::Result<bool> { // [!code ++]
+        let hash = // [!code ++]
+            sqlx::query_scalar::<_, String>("SELECT hashed_pass FROM user_passwords WHERE id = ?") // [!code ++]
+                .bind(id) // [!code ++]
+                .fetch_one(&self.pool) // [!code ++]
+                .await?; // [!code ++]
+
+        Ok(bcrypt::verify(password, &hash)?) // [!code ++]
+    } // [!code ++]
 }
 ```
 
 データベースに保存されているパスワードはハッシュ化されています。
 
 ハッシュ化は不可逆な処理なので、ハッシュ化されたものから原文を調べることはできません。確認する際はもらったパスワードをハッシュ化することで行います。
+`bcrypt::verify` によってパスワードの検証ができます。
 
-これは `bcrypt.CompareHashAndPassword` が行ってくれるのでそれに乗っかりましょう。
+`handler/auth.rs` に戻り、`login` ハンドラを実装していきます。
 
-- この関数はハッシュが一致すれば返り値が `nil` となります
-- 一致しない場合、 `bcrypt.ErrMismatchedHashAndPassword` が返ってきます
-- 処理中にこれ以外の問題が発生した場合は、返り値はエラー型の何かです
+```rs
+pub async fn login( // [!code ++]
+    State(state): State<Repository>, // [!code ++]
+    Json(body): Json<Login>, // [!code ++]
+) -> Result<impl IntoResponse, StatusCode> { // [!code ++]
+    // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す) // [!code ++]
+    if body.username.is_empty() || body.password.is_empty() { // [!code ++]
+        return Err(StatusCode::BAD_REQUEST); // [!code ++]
+    } // [!code ++]
 
-従って、これらのエラーの内容に応じて、 500 (Internal Server Error), 401 (Unauthorized) を返却するか、処理を続行するかを選択していきます。
-```go
-func (h *Handler) LoginHandler(c echo.Context) error {
-	(省略)
-	// パスワードが一致しているかを確かめる
-	err = bcrypt.CompareHashAndPassword([]byte(user.HashedPass), []byte(req.Password))
-	if err != nil {
-		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
-			return c.NoContent(http.StatusUnauthorized)
-		} else {
-			return c.NoContent(http.StatusInternalServerError)
-		}
-	}
+    // データベースからユーザーを取得する // [!code ++]
+    let id = state // [!code ++]
+        .get_user_id_by_name(body.username.clone()) // [!code ++]
+        .await // [!code ++]
+        .map_err(|e| match e { // [!code ++]
+            sqlx::Error::RowNotFound => StatusCode::UNAUTHORIZED, // [!code ++]
+            _ => StatusCode::INTERNAL_SERVER_ERROR, // [!code ++]
+        })?; // [!code ++]
+} // [!code ++]
+```
 
-	// セッションストアに登録する // [!code ++]
-	sess, err := session.Get("sessions", c) // [!code ++]
-	if err != nil { // [!code ++]
-		log.Println(err) // [!code ++]
-		return c.String(http.StatusInternalServerError, "something wrong in getting session") // [!code ++]
-	} // [!code ++]
-	sess.Values["userName"] = req.Username // [!code ++]
-	sess.Save(c.Request(), c.Response()) // [!code ++]
+ユーザーが存在しなかった場合は `sqlx::Error::RowNotFound` というエラーが返ってきます。
+もしそのエラーなら 401 (Unauthorized)、そうでなければ 500 (Internal Server Error) です。
+もし 404 (Not Found) とすると、「このユーザーはパスワードが違うのではなく存在しないんだ」という事がわかってしまい（このユーザーは存在していてパスワードは違う事も分かります）、セキュリティ上のリスクに繋がります。
 
-	return c.NoContent(http.StatusOK) // [!code ++]
+```rs
+pub async fn login(
+    State(state): State<Repository>,
+    Json(body): Json<Login>,
+) -> Result<impl IntoResponse, StatusCode> {
+    // バリデーションする(PasswordかUsernameが空文字列の場合は400 BadRequestを返す)
+    if body.username.is_empty() || body.password.is_empty() {
+        return Err(StatusCode::BAD_REQUEST);
+    }
+
+    // データベースからユーザーを取得する
+    let id = state
+        .get_user_id_by_name(body.username.clone())
+        .await
+        .map_err(|e| match e {
+            sqlx::Error::RowNotFound => StatusCode::UNAUTHORIZED,
+            _ => StatusCode::INTERNAL_SERVER_ERROR,
+        })?;
+
+    // パスワードが一致しているかを確かめる // [!code ++]
+    if !state // [!code ++]
+        .verify_user_password(id, body.password.clone()) // [!code ++]
+        .await // [!code ++]
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)? // [!code ++]
+    { // [!code ++]
+        return Err(StatusCode::UNAUTHORIZED); // [!code ++]
+    } // [!code ++]
 }
 ```
-セッションストアに登録します。
-セッションの `userName` という値にそのユーザーの名前を格納していることは覚えておきましょう。
 
-ここまで書いたら、 `LoginHandler` を使えるようにしましょう。
+データベースでエラーが起きた場合や、検証の操作に失敗した場合は 500 (Internal Server Error), パスワードが間違っていた場合 401 (Unauthorized) を返却しています。
 
-```go
-func main() {
-	(省略)
-	e.Use(session.Middleware(store)) // セッション管理のためのミドルウェアを追加
+```rs
+pub async fn login( 
+    State(state): State<Repository>, 
+    Json(body): Json<Login>,
+) -> Result<impl IntoResponse, StatusCode> {
+    ...(省略)
+    
+    // パスワードが一致しているかを確かめる
+    if !state
+        .verify_user_password(id, body.password.clone())
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
+    {
+        return Err(StatusCode::UNAUTHORIZED);
+    } 
 
-	e.POST("/signup", h.SignUpHandler)
-	e.POST("/login", h.LoginHandler) // [!code ++]
+    // セッションストアに登録する // [!code ++]
+    let session_id = state // [!code ++]
+        .create_user_session(id.to_string()) // [!code ++]
+        .await // [!code ++]
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?; // [!code ++]
+    
+}
+```
 
-	e.GET("/cities/:cityName", h.GetCityInfoHandler)
-	(省略)
+`id` をセッションストアに登録して、セッション id を取得します。
+
+ここで用いる、セッションストアに登録するメソッド `create_user_session` を実装していきます。
+
+ファイル `repository/users_session.rs` を作成し、以下を記述してください。
+
+```rs
+use anyhow::Context; // [!code ++]
+use async_session::{Session, SessionStore}; // [!code ++]
+
+use super::Repository; // [!code ++]
+
+impl Repository { // [!code ++]
+    pub async fn create_user_session(&self, user_id: String) -> anyhow::Result<String> { // [!code ++]
+        let mut session = Session::new(); // [!code ++]
+
+        session // [!code ++]
+            .insert("user_id", user_id) // [!code ++]
+            .with_context(|| "Failed to insert user_id")?; // [!code ++]
+
+        let session_id = self // [!code ++]
+            .session_store // [!code ++]
+            .store_session(session) // [!code ++]
+            .await // [!code ++]
+            .with_context(|| "Failed to store session")? // [!code ++]
+            .with_context(|| "Failed to create session")?; // [!code ++]
+
+        Ok(session_id) // [!code ++]
+    } // [!code ++]
+} // [!code ++]
+```
+
+セッションに `user_id` を登録し、セッションストアに保存します。
+セッション id を返却します。
+
+`handler/auth.rs` に戻り、ヘッダーにセッション id を設定する処理を追加します。
+
+```rs
+pub async fn login(
+    State(state): State<Repository>,
+    Json(body): Json<Login>,
+) -> Result<impl IntoResponse, StatusCode> {
+    ...(省略)
+
+    // セッションストアに登録する
+    let session_id = state
+        .create_user_session(id.to_string())
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    // クッキーをセットする // [!code ++]
+    let mut headers = header::HeaderMap::new(); // [!code ++]
+
+    headers.insert( // [!code ++]
+        header::SET_COOKIE, // [!code ++]
+        format!("session_id={}; HttpOnly; SameSite=Strict", session_id) // [!code ++]
+            .parse() // [!code ++]
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?, // [!code ++]
+    ); // [!code ++]
+
+    Ok((StatusCode::OK, headers)) // [!code ++]
+}
+```
+
+ここまで書いたら、 `login` ハンドラを使えるようにしましょう。
+`handler.rs` に以下を追加してください。
+
+```rs
+pub fn make_router(app_state: Repository) -> Router {
+    let city_router = Router::new()
+        .route("/cities/:city_name", get(country::get_city_handler))
+        .route("/cities", post(country::post_city_handler));
+
+    let auth_router = Router::new()
+        .route("/signup", post(auth::sign_up))
+        .route("/login", post(auth::login)); // [!code ++]
+
+    Router::new()
+        .nest("/", city_router)
+        .nest("/", auth_router)
+        .with_state(app_state)
 }
 ```
 
 :::details ここまでの全体像
 ::: code-group
-<<<@/chapter2/section1/src/2_session/main.go{go:line-numbers}[main.go]
-<<<@/chapter2/section1/src/2_session/handler.go{go:line-numbers}[handler.go]
+<<<@/chapter2/section1/src/2_session/auth.rs{rs:line-numbers}[auth.rs]
+<<<@/chapter2/section1/src/2_session/users.rs{rs:line-numbers}[users.rs]
+<<<@/chapter2/section1/src/2_session/users_session.rs{rs:line-numbers}[users_session.rs]
+<<<@/chapter2/section1/src/2_session/repository.rs{rs:line-numbers}[repository.rs]
 :::
 
-## userAuthMiddleware の実装
+## Middleware の実装
 
-続いて、`userAuthMiddleware` を実装します。
+続いて、`auth_middleware` を実装します。
 まず、これは Handler ではなく Middleware と呼ばれます。
 
 送られてくるリクエストは、Middleware を経由して、 Handler に流れていきます。
 
-Middleware から次の Middleware/Handler を呼び出す際は `next(c)` と記述します。 Middleware の実装は難しいので、なんとなく理解できれば十分です。
+Middleware から次の Middleware/Handler を呼び出す際は `next.run(req)` と記述します。 
 
-以下を`handler.go`に追加しましょう。
-```go
-func UserAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc { // [!code ++]
-	return func(c echo.Context) error { // [!code ++]
-		sess, err := session.Get("sessions", c) // [!code ++]
-		if err != nil { // [!code ++]
-			log.Println(err) // [!code ++]
-			return c.String(http.StatusInternalServerError, "something wrong in getting session") // [!code ++]
-		} // [!code ++]
-		if sess.Values["userName"] == nil { // [!code ++]
-			return c.String(http.StatusUnauthorized, "please login") // [!code ++]
-		} // [!code ++]
-		c.Set("userName", sess.Values["userName"].(string)) // [!code ++]
-		return next(c) // [!code ++]
-	} // [!code ++]
+以下を`handler/auth.rs`に追加してください。
+
+```rs
+pub async fn auth_middleware( // [!code ++]
+    State(state): State<Repository>, // [!code ++]
+    TypedHeader(cookie): TypedHeader<Cookie>, // [!code ++]
+    mut req: Request, // [!code ++]
+    next: Next, // [!code ++]
+) -> Result<impl IntoResponse, StatusCode> { // [!code ++]
+
+    // セッションIDを取得する // [!code ++]
+    let session_id = cookie // [!code ++]
+        .get("session_id") // [!code ++]
+        .ok_or(StatusCode::UNAUTHORIZED)? // [!code ++]
+        .to_string(); // [!code ++]
+
+    // セッションストアからユーザーIDを取得する // [!code ++]
+    let user_id = state // [!code ++]
+        .get_user_id_by_session_id(&session_id) // [!code ++]
+        .await // [!code ++]
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)? // [!code ++]
+        .ok_or(StatusCode::UNAUTHORIZED)?; // [!code ++]
+
+    // リクエストにユーザーIDを追加する // [!code ++]
+    req.extensions_mut().insert(user_id); // [!code ++]
+
+    // 次のミドルウェアを呼び出す // [!code ++]
+    Ok(next.run(req).await) // [!code ++]
 } // [!code ++]
 ```
 
-関数が関数を呼び出していて混乱しそうですが、 2 行目から 13 行目が本質で、外側はおまじないと考えて良いです。
-
 この Middleware はリクエストを送ったユーザーがログインしているのかをチェックし、
-ログインしているなら Context (`c`) にそのユーザーの UserName を設定します。
+ログインしているならリクエスト(`req`) に `user_id` を追加します。
 
-セッションを取得し、ログイン時に設定した `userName` の値を確認しに行きます。
+Cookie からセッション id を取得し、セッションストアからユーザー id を取得します。
+ここで、セッション id がなかった場合や、不正なセッション id だった場合は 401 (Unauthorized) を返却します。
+正しくログインされていれば、次の Middleware/Handler を呼び出します。
 
-ここで名前が入っていればリクエストの送信者はログイン済みで、そうでなければログインをしていないことが分かります。
+ここで使用した、 `get_user_id_by_session_id` メソッドを `repository/users_session.rs` に追加します。
 
-これを利用して、ログインしていない場合には処理をここで止めて 401 (Unauthorized) を返却し、していれば次の処理 (`next(c)`)
-に進みます。
+```rs
+pub async fn get_user_id_by_session_id( // [!code ++]
+    &self, // [!code ++]
+    session_id: &String, // [!code ++]
+) -> anyhow::Result<Option<String>> { // [!code ++]
+    let session = self // [!code ++]
+        .session_store // [!code ++]
+        .load_session(session_id.clone()) // [!code ++]
+        .await // [!code ++]
+        .with_context(|| "Failed to load session")?; // [!code ++]
+
+    Ok(session.and_then(|s| s.get::<String>("user_id"))) // [!code ++]
+} // [!code ++]
+```
 
 最後に、Middleware を設定しましょう。
-グループ機能を利用して、 `withAuth` に設定されてるエンドポイントは `userAuthMiddleware` を処理してから処理する、という設定をします。
+`handler.rs` に以下を追加してください。
 
-```go
-func main() {
-	(省略)
-	e.POST("/login", h.LoginHandler)
+```rs
+use axum::{
+    middleware::from_fn_with_state, // [!code ++]
+    routing::{get, post},
+    Router,
+};
 
-	e.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code --]
-	e.POST("/cities", h.PostCityHandler) // [!code --]
-	withAuth := e.Group("") // [!code ++]
-	withAuth.Use(handler.UserAuthMiddleware) // [!code ++]
-	withAuth.GET("/cities/:cityName", h.GetCityInfoHandler) // [!code ++]
-	withAuth.POST("/cities", h.PostCityHandler) // [!code ++]
+use crate::repository::Repository;
 
-	err = e.Start(":8080")
-	(省略)
+mod auth;
+mod country;
+
+pub fn make_router(app_state: Repository) -> Router {
+    let city_router = Router::new()
+        .route("/cities/:city_name", get(country::get_city_handler))
+        .route("/cities", post(country::post_city_handler));
+        .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware)); // [!code ++]
+
+    let auth_router = Router::new()
+        .route("/signup", post(auth::sign_up))
+        .route("/login", post(auth::login))
+        .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware)); // [!code ++]
+
+    ...(省略)
 }
 ```
 
 これで、この章の目標である「ログインしないと利用できないようにする」が達成されました。
 
-## GetMeHandler の実装
+## logout ハンドラの実装
 
-最後に、 `GetMeHandler` を実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
+ログアウト機能をまだ実装していなかったので、 `logout` ハンドラを実装していきます。
 
-以下を `handler.go` に追加しましょう。
-```go
-type Me struct { // [!code ++]
-	Username string `json:"username,omitempty"  db:"username"` // [!code ++]
+まず、`handler/auth.rs` に以下を追加してください。
+
+```rs
+pub async fn logout( // [!code ++]
+    State(state): State<Repository>, // [!code ++]
+    TypedHeader(cookie): TypedHeader<Cookie>, // [!code ++]
+) -> Result<impl IntoResponse, StatusCode> { // [!code ++]
+    // セッションIDを取得する // [!code ++]
+    let session_id = cookie // [!code ++]
+        .get("session_id") // [!code ++]
+        .ok_or(StatusCode::UNAUTHORIZED)? // [!code ++]
+        .to_string(); // [!code ++]
+
+    // セッションストアから削除する // [!code ++]
+    state // [!code ++]
+        .delete_user_session(session_id) // [!code ++]
+        .await // [!code ++]
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?; // [!code ++]
+
+    // クッキーを削除する  // [!code ++]
+    let mut headers = header::HeaderMap::new(); // [!code ++]
+    headers.insert( // [!code ++]
+        header::SET_COOKIE, // [!code ++]
+        "session_id=; HttpOnly; SameSite=Strict; Max-Age=0" // [!code ++]
+            .parse() // [!code ++]
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?, // [!code ++]
+    ); // [!code ++]
+
+    Ok((StatusCode::OK, headers)) // [!code ++]
 } // [!code ++]
 ```
-```go
-func GetMeHandler(c echo.Context) error { // [!code ++]
-	return c.JSON(http.StatusOK, Me{ // [!code ++]
-		Username: c.Get("userName").(string), // [!code ++]
-	}) // [!code ++]
+
+ログアウトするときは、ログインするときとは逆にセッションと Cookie を削除します。
+
+ここで呼び出す `delete_user_session` メソッドを `repository/users_session.rs` に追加します。
+
+```rs
+pub async fn delete_user_session(&self, session_id: String) -> anyhow::Result<()> { // [!code ++]
+    let session = self // [!code ++]
+        .session_store // [!code ++]
+        .load_session(session_id.clone()) // [!code ++]
+        .await // [!code ++]
+        .with_context(|| "Failed to load session")? // [!code ++]
+        .with_context(|| "Failed to find session")?; // [!code ++]
+
+    self.session_store // [!code ++]
+        .destroy_session(session) // [!code ++]
+        .await // [!code ++]
+        .with_context(|| "Failed to destroy session")?; // [!code ++]
+
+    Ok(()) // [!code ++]
 } // [!code ++]
 ```
 
-アクセスしているユーザーの`userName`をセッションから取得して返しています。
-`userAuthMiddleware` を実行したあとなので、`c.Get("userName").(string)` によって userName を取得できます。
+セッション ID からセッションを取得し、セッションストアから削除します。
 
-`main.go`に`withAuth.GET("/me", handler.GetMeHandler)`を追加しましょう。
-```go
-func main() {
-	(省略)
-	withAuth := e.Group("")
-	withAuth.Use(handler.UserAuthMiddleware)
-	withAuth.GET("/me", handler.GetMeHandler) // [!code ++]
-	withAuth.GET("/cities/:cityName", h.GetCityInfoHandler)
-	withAuth.POST("/cities", h.PostCityHandler)
+最後に、`handler.rs` に `logout` ハンドラを追加します。
 
-	err = e.Start(":8080")
-	(省略)
+```rs
+let auth_router = Router::new()
+    .route("/signup", post(auth::sign_up))
+    .route("/login", post(auth::login))
+    .route("/logout", post(auth::logout))　// [!code ++]
+    .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware));
+```
+
+
+## me ハンドラの実装
+
+最後に、 `me` ハンドラを実装します。叩いたときに自分の情報が返ってくるエンドポイントです。
+
+以下を `handler/auth.rs` に追加してください。
+
+```rs
+#[derive(Serialize)] // [!code ++]
+pub struct Me { // [!code ++]
+    pub username: String, // [!code ++]
+}// [!code ++]
+```
+
+```rs
+pub async fn me(State(state): State<Repository>, req: Request) -> Result<Json<Me>, StatusCode> { // [!code ++]
+    // リクエストからユーザーIDを取得する // [!code ++]
+    let user_id = req // [!code ++]
+        .extensions() // [!code ++]
+        .get::<String>() // [!code ++]
+        .ok_or(StatusCode::UNAUTHORIZED)? // [!code ++]
+        .to_string(); // [!code ++]
+
+    // データベースからユーザー名を取得する // [!code ++]
+    let username = state // [!code ++]
+        .get_user_name_by_id( // [!code ++]
+            user_id // [!code ++]
+                .parse() // [!code ++]
+                .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?, // [!code ++]
+        ) // [!code ++]
+        .await // [!code ++]
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?; // [!code ++]
+
+    Ok(Json(Me { username })) // [!code ++]
+} // [!code ++]
+```
+
+リクエストからユーザー ID を取得し、データベースからユーザー名を取得します。
+
+ここで呼び出す `get_user_name_by_id` メソッドを `repository/users.rs` に追加します。
+
+```rs
+impl Repository {
+    ...(省略)
+
+    pub async fn delete_user_session(&self, session_id: String) -> anyhow::Result<()> { // [!code ++]
+        let session = self// [!code ++]
+            .session_store// [!code ++]
+            .load_session(session_id.clone()) // [!code ++]
+            .await// [!code ++]
+            .with_context(|| "Failed to load session")? // [!code ++]
+            .with_context(|| "Failed to find session")?; // [!code ++]
+
+        self.session_store // [!code ++]
+            .destroy_session(session) // [!code ++]
+            .await // [!code ++]
+            .with_context(|| "Failed to destroy session")?; // [!code ++]
+
+        Ok(()) // [!code ++]
+    } // [!code ++]
+
+    ...(省略)
 }
+```
+
+最後に、`handler.rs` に `me` ハンドラを追加します。
+
+```rs
+let auth_router = Router::new()
+        .route("/signup", post(auth::sign_up))
+        .route("/login", post(auth::login))
+        .route("/logout", post(auth::logout))
+        .route("/me", get(auth::me)) // [!code ++]
+        .route_layer(from_fn_with_state(app_state.clone(), auth::auth_middleware));
 ```

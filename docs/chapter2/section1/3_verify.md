@@ -6,8 +6,14 @@
 
 :::details 完成形
 ::: code-group
-<<<@/chapter2/section1/src/final/main.go{go:line-numbers}[main.go]
-<<<@/chapter2/section1/src/final/handler.go{go:line-numbers}[handler.go]
+<<<@/chapter2/section1/src/final/main.rs{rs:line-numbers}[main.rs]
+<<<@/chapter2/section1/src/final/handler.rs{rs:line-numbers}[handler.rs]
+<<<@/chapter2/section1/src/final/repository.rs{rs:line-numbers}[repository.rs]
+<<<@/chapter2/section1/src/final/handler/country.rs{rs:line-numbers}[handler/country.rs]
+<<<@/chapter2/section1/src/final/repository/country.rs{rs:line-numbers}[repository/country.rs]
+<<<@/chapter2/section1/src/final/handler/auth.rs{rs:line-numbers}[handler/auth.rs]
+<<<@/chapter2/section1/src/final/repository/users.rs{rs:line-numbers}[repository/users.rs]
+<<<@/chapter2/section1/src/final/repository/users_session.rs{rs:line-numbers}[repository/users_session.rs]
 :::
 
 ## 検証

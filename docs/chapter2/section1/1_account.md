@@ -374,6 +374,8 @@ pub async fn sign_up(
 ::: code-group
 <<<@/chapter2/section1/src/1_account/auth.rs{rs:line-numbers}[auth.rs]
 <<<@/chapter2/section1/src/1_account/users.rs{rs:line-numbers}[users.rs]
+<<<@/chapter2/section1/src/1_account/main.rs{rs:line-numbers}[main.rs]
+<<<@/chapter2/section1/src/1_account/repository.rs{rs:line-numbers}[repository.rs]
 :::
 
 最後に、`handler.rs` に、先ほど書いたハンドラーを追加しましょう。
@@ -413,6 +415,7 @@ $ task db
 ```sql
 mysql> USE world;
 mysql> SELECT * FROM users;
+mysql> SELECT * FROM user_passwords;
 ```
 ![](images/3/database1-user.png)
 
