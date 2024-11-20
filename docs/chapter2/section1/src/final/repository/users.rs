@@ -17,7 +17,7 @@ impl Repository {
         Ok(result.last_insert_id())
     }
 
-    pub async fn get_user_id_by_name(&self, username: String) -> sqlx::Result<u64> {
+    pub async fn get_user_id_by_name(&self, username: String) -> sqlx::Result<i32> {
         let result = sqlx::query_scalar("SELECT id FROM users WHERE username = ?")
             .bind(&username)
             .fetch_one(&self.pool)
@@ -25,7 +25,7 @@ impl Repository {
         Ok(result)
     }
 
-    pub async fn get_user_name_by_id(&self, id: u64) -> sqlx::Result<String> {
+    pub async fn get_user_name_by_id(&self, id: i32) -> sqlx::Result<String> {
         let result = sqlx::query_scalar("SELECT username FROM users WHERE id = ?")
             .bind(id)
             .fetch_one(&self.pool)
@@ -45,7 +45,7 @@ impl Repository {
         Ok(())
     }
 
-    pub async fn verify_user_password(&self, id: u64, password: String) -> anyhow::Result<bool> {
+    pub async fn verify_user_password(&self, id: i32, password: String) -> anyhow::Result<bool> {
         let hash =
             sqlx::query_scalar::<_, String>("SELECT hashed_pass FROM user_passwords WHERE id = ?")
                 .bind(id)

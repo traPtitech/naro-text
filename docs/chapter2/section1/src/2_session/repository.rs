@@ -29,6 +29,7 @@ impl Repository {
 
     pub async fn migrate(&self) -> anyhow::Result<()> {
         sqlx::migrate!("./migrations").run(&self.pool).await?;
+        self.session_store.migrate().await?;
         Ok(())
     }
 }
