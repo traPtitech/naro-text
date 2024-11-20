@@ -33,6 +33,7 @@ impl Repository {
 
     pub async fn migrate(&self) -> anyhow::Result<()> {
         sqlx::migrate!("./migrations").run(&self.pool).await?;
+        self.session_store.migrate().await?;
         Ok(())
     }
 }
@@ -80,7 +81,7 @@ impl Repository {
         ...(省略)
     }
 
-    pub async fn get_user_id_by_name(&self, username: String) -> sqlx::Result<u64> { // [!code ++]
+    pub async fn get_user_id_by_name(&self, username: String) -> sqlx::Result<i32> { // [!code ++]
         let result = sqlx::query_scalar("SELECT id FROM users WHERE username = ?") // [!code ++]
             .bind(&username) // [!code ++]
             .fetch_one(&self.pool) // [!code ++]
@@ -92,7 +93,7 @@ impl Repository {
         ...(省略)
     }
 
-    pub async fn verify_user_password(&self, id: u64, password: String) -> anyhow::Result<bool> { // [!code ++]
+    pub async fn verify_user_password(&self, id: i32, password: String) -> anyhow::Result<bool> { // [!code ++]
         let hash = // [!code ++]
             sqlx::query_scalar::<_, String>("SELECT hashed_pass FROM user_passwords WHERE id = ?") // [!code ++]
                 .bind(id) // [!code ++]
