@@ -46,14 +46,20 @@
 リクエストの方の Headers で Cookie をセットします。
 
 Key に`Cookie`を
-Value に`sessions={コピーした値};`をセットします(既に自動で入っている場合もあります、その場合は追加しなくて大丈夫です)。
+Value に`session_id={コピーした値};`をセットします(既に自動で入っている場合もあります、その場合は追加しなくて大丈夫です)。
 
 もう一度 <a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a> にアクセスすると正常に API が取れるようになりました。  
 (注意:`GET`です)
 ![](images/3/postman6-authorized.png)
 
 ここで、作成されたユーザーがデータベースに保存されていることを確認してみましょう。
-`mysql > SELECT * FROM users;`
+
+```bash
+SELECT * FROM users;
+SELECT * FROM user_passwords;
+SELECT * FROM user_sessions;
+```
+
 ![](images/3/database1-user.png)
 
 ユーザー名とハッシュ化されたパスワードが確認できますね。
