@@ -24,13 +24,8 @@ next:
     - vCPU x2
     - memory 1GB
 
-Exec this script:  
-`curl https://raw.githubusercontent.com/hijiki51/InternetArchLecture/main/setup/setup.sh | bash`
-
-
-### 再起動時の設定
-現状 docker と bridge の接続がコンテナの停止によって切断されてしまう。
-そのため、コンテナを再起動したときには以下の手順で復旧作業を行う。
+マシンイメージ構築(Packer)＆Terraform
+https://github.com/traPtitech/naro-infra
 
 #### サーバー
 ```sh
