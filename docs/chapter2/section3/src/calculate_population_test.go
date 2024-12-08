@@ -2,152 +2,187 @@ package main
 
 import (
 	"database/sql"
+	"maps"
 	"testing"
 )
 
-func Test_calculatePopulation(t *testing.T) {
+func Test_sumPopulationByCountryCode(t *testing.T) {
 	// ここにテストを書いていく
 	cities := []City{}
-	got := calculatePopulation(cities)
-	want := map[string]int64{}
-	// 長さが等しいかを確認する
+	got := sumPopulationByCountryCode(cities)
+	want := map[string]int{}
+	// 長さが0になっているかどうかを確認する
 	if len(got) != 0 {
-		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
+		t.Errorf("sumPopulationByCountryCode(%v) = %v, want %v", cities, got, want)
 	}
 }
 
-// #region single
-// 1 つの国のみのデータが入っている場合
-func Test_calculatePopulation_single(t *testing.T) {
-	cities := []City{
+func Sample1(t *testing.T) {
+	cases := []struct {
+		name   string
+		cities []City
+		want   map[string]int64
+	}{
 		{
-			CountryCode: sql.NullString{
-				String: "JPN",
-				Valid:  true,
-			},
-			Population: sql.NullInt64{
-				Int64: 100,
-				Valid: true,
-			},
+			name:   "empty input",
+			cities: []City{},
+			want:   map[string]int64{},
 		},
+		// #region single
 		{
-			CountryCode: sql.NullString{
-				String: "JPN",
-				Valid:  true,
+			name: "single country",
+			cities: []City{
+				{
+					CountryCode: sql.NullString{
+						String: "JPN",
+						Valid:  true,
+					},
+					Population: sql.NullInt64{
+						Int64: 100,
+						Valid: true,
+					},
+				},
 			},
-			Population: sql.NullInt64{
-				Int64: 200,
-				Valid: true,
-			},
+			want: map[string]int64{"JPN": 100},
 		},
+		// #endregion single
+		// #region multiple
+		{
+			name: "multiple countries",
+			cities: []City{
+				{
+					CountryCode: sql.NullString{
+						String: "JPN",
+						Valid:  true,
+					},
+					Population: sql.NullInt64{
+						Int64: 100,
+						Valid: true,
+					},
+				},
+				{
+					CountryCode: sql.NullString{
+						String: "USA",
+						Valid:  true,
+					},
+					Population: sql.NullInt64{
+						Int64: 200,
+						Valid: true,
+					},
+				},
+			},
+			want: map[string]int64{"JPN": 100, "USA": 200},
+		},
+		// #endregion multiple
+		// #region null
+		{
+			name: "empty country code",
+			cities: []City{
+				{
+					CountryCode: sql.NullString{
+						String: "",
+						Valid:  false,
+					},
+					Population: sql.NullInt64{
+						Int64: 100,
+						Valid: true,
+					},
+				},
+			},
+			want: map[string]int64{},
+		},
+		// #endregion null
 	}
-	got := calculatePopulation(cities)
-	want := map[string]int64{
-		"JPN": 300,
-	}
-	// 長さが0になっているかどうかを確認する
-	if len(got) != len(want) {
-		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
-	}
-	// JPNの人口が100になっているかどうかを確認する
-	if got["JPN"] != want["JPN"] {
-		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
+	for _, tt := range cases {
+		// サブテストの実行
+		t.Run(tt.name, func(t *testing.T) {
+			got := sumPopulationByCountryCode(tt.cities)
+			if !maps.Equal(got, tt.want) {
+				t.Errorf("sumPopulationByCountryCode(%v) = %v, want %v", tt.cities, got, tt.want)
+			}
+		})
 	}
 }
 
-// #endregion single
-
-// #region multiple
-// 複数の国のデータが入っている場合
-func Test_calculatePopulation_multiple(t *testing.T) {
-	cities := []City{
+func Sample2(t *testing.T) {
+	// #region test_cases
+	cases := []struct {
+		name   string
+		cities []City
+		want   map[string]int64
+	}{
 		{
-			CountryCode: sql.NullString{
-				String: "JPN",
-				Valid:  true,
-			},
-			Population: sql.NullInt64{
-				Int64: 100,
-				Valid: true,
-			},
+			name:   "empty input",
+			cities: []City{},
+			want:   map[string]int64{},
 		},
 		{
-			CountryCode: sql.NullString{
-				String: "JPN",
-				Valid:  true,
+			name: "single country",
+			cities: []City{
+				{
+					CountryCode: sql.NullString{
+						String: "JPN",
+						Valid:  true,
+					},
+					Population: sql.NullInt64{
+						Int64: 100,
+						Valid: true,
+					},
+				},
 			},
-			Population: sql.NullInt64{
-				Int64: 200,
-				Valid: true,
-			},
+			want: map[string]int64{"JPN": 100},
 		},
 		{
-			CountryCode: sql.NullString{
-				String: "USA",
-				Valid:  true,
+			name: "multiple countries",
+			cities: []City{
+				{
+					CountryCode: sql.NullString{
+						String: "JPN",
+						Valid:  true,
+					},
+					Population: sql.NullInt64{
+						Int64: 100,
+						Valid: true,
+					},
+				},
+				{
+					CountryCode: sql.NullString{
+						String: "USA",
+						Valid:  true,
+					},
+					Population: sql.NullInt64{
+						Int64: 200,
+						Valid: true,
+					},
+				},
 			},
-			Population: sql.NullInt64{
-				Int64: 300,
-				Valid: true,
+			want: map[string]int64{"JPN": 100, "USA": 200},
+		},
+		{
+			name: "empty country code",
+			cities: []City{
+				{
+					CountryCode: sql.NullString{
+						String: "",
+						Valid:  false,
+					},
+					Population: sql.NullInt64{
+						Int64: 100,
+						Valid: true,
+					},
+				},
 			},
+			want: map[string]int64{},
 		},
 	}
-	got := calculatePopulation(cities)
-	want := map[string]int64{
-		"JPN": 300,
-		"USA": 300,
-	}
-	// 長さが0になっているかどうかを確認する
-	if len(got) != len(want) {
-		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
-	}
-	for k, v := range got {
-		// 国ごとの人口が一致しているかどうかを確認する
-		if v != want[k] {
-			t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
-		}
+	// #endregion test_cases
+	for _, tt := range cases {
+		// サブテストの実行
+		t.Run(tt.name, func(t *testing.T) {
+			got := sumPopulationByCountryCode(tt.cities)
+			if !maps.Equal(got, tt.want) {
+				t.Errorf("sumPopulationByCountryCode(%v) = %v, want %v", tt.cities, got, tt.want)
+			}
+		})
 	}
 }
-
-// #endregion multiple
-
-// #region null
-// 空のデータ(`city.CountryCode.Valid = false`)が入っている場合
-func Test_calculatePopulation_null(t *testing.T) {
-	cities := []City{
-		{
-			CountryCode: sql.NullString{
-				String: "",
-				Valid:  false,
-			},
-			Population: sql.NullInt64{
-				Int64: 100,
-				Valid: true,
-			},
-		},
-		{
-			CountryCode: sql.NullString{
-				String: "JPN",
-				Valid:  true,
-			},
-			Population: sql.NullInt64{
-				Int64: 200,
-				Valid: true,
-			},
-		},
-	}
-	got := calculatePopulation(cities)
-	want := map[string]int64{
-		"JPN": 200,
-	}
-	// 長さが1になっているかどうかを確認する
-	if len(got) != len(want) {
-		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
-	}
-	// JPNの人口が100になっているかどうかを確認する
-	if got["JPN"] != want["JPN"] {
-		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
-	}
-}
-
-// #endregion null
