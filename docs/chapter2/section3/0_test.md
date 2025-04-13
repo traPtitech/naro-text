@@ -30,7 +30,7 @@ package main
 import "testing"
 // Testで始まる関数はテスト関数として認識されます
 // testingはGoのテストのための標準ライブラリです
-func Test_calculatePopulation(t *testing.T) {
+func Test_sumPopulationByCountryCode(t *testing.T) {
     // ここにテストを書いていく
 }
 ```
@@ -42,14 +42,14 @@ package main
 
 import "testing"
 
-func Test_calculatePopulation(t *testing.T) {
+func Test_sumPopulationByCountryCode(t *testing.T) {
 	// ここにテストを書いていく
 	cities := []City{}
-	got := calculatePopulation(cities)
+	got := sumPopulationByCountry(cities)
 	want := map[string]int{}
 	// 長さが0になっているかどうかを確認する
 	if len(got) != 0 {
-		t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
+		t.Errorf("sumPopulationByCountryCode(%v) = %v, want %v", cities, got, want)
 	}
 }
 
@@ -71,22 +71,47 @@ ok  	test	0.001s
 
 ## 様々なケースをテストしてみよう
 
-次に、`calculatePopulation`のテストをもう少し充実させてみましょう。
+様々なケースをテストするために使われるテストの方法として、テーブル駆動テスト (Table Driven Tests) というものがあります。
+これは、入力と求める出力を一緒に書いたテストケースをテーブルとして用意しておく方法です。
 
-これから複数のテストを書くため、先ほどのテストの関数名を変更します。
+具体的にコードを見てみましょう。
 
 ```go
-func Test_calculatePopulation_empty(t *testing.T) {
-  // ここにテストを書いていく
-  cities := []City{}
-  got := calculatePopulation(cities)
-  want := map[string]int{}
-  // 長さが0になっているかどうかを確認する
-  if len(got) != 0 {
-    t.Errorf("calculatePopulation(%v) = %v, want %v", cities, got, want)
-  }
+package main
+
+import (
+	"maps"
+	"testing"
+)
+
+func Test_sumPopulationByCountryCode(t *testing.T) {
+	// ここにテストケースを書いていく
+	cases := []struct {
+		name   string           // テストケースの名前
+		cities []City           // テストケースの入力
+		want   map[string]int64 // 期待される結果
+	}{
+		{
+			name:   "empty input",
+			cities: []City{},
+			want:   map[string]int64{},
+		},
+	}
+	for _, tt := range cases {
+		// サブテストの実行
+		t.Run(tt.name, func(t *testing.T) {
+			got := sumPopulationByCountryCode(tt.cities)
+			if !maps.Equal(got, tt.want) {
+				t.Errorf("sumPopulationByCountryCode(%v) = %v, want %v", tt.cities, got, tt.want)
+			}
+		})
+	}
 }
 ```
+
+テーブル駆動テストのメリットは、テストケースの追加が簡単なことです。
+新しくテストケースを追加するには、`cases`に追加するだけです。
+
 ### 課題
 次のテストを実装してください。
 
@@ -96,6 +121,8 @@ func Test_calculatePopulation_empty(t *testing.T) {
 
 ::: details 答え
 
+`cases`に追加するものだけ示しています。
+
 #### 1 つの国のみのデータが入っている場合
 <<<@/chapter2/section3/src/calculate_population_test.go#single
 
@@ -104,4 +131,7 @@ func Test_calculatePopulation_empty(t *testing.T) {
 
 #### 空のデータ(`city.CountryCode.Valid = false`)が入っている場合
 <<<@/chapter2/section3/src/calculate_population_test.go#null
+
+#### 最終的なテストケース
+<<<@/chapter2/section3/src/calculate_population_test.go#test_cases
 ::: 
