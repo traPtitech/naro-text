@@ -92,10 +92,12 @@ https://twitter.com/motcho_tw/status/870589211832795136
 
 - X (Twitter)
   - どんどんフォローするのがよい
+- 技術知見共有サイト(Zenn, Stackoverflow等)
+- その他テックブログ
+  - RSS購読サービスでチェックできる
 - はてなブックマーク
   - 見てる人が多い
   - いろんな情報源を横断して見れる
-- 技術知見共有サイト(Zenn, Stackoverflow等)
 
 ---
 ## いろいろな情報源
@@ -109,8 +111,6 @@ https://twitter.com/motcho_tw/status/870589211832795136
 - 仕様書 （RFC とか）
   - 今は読めなくていい（難解なので）
   - 基本的に英語
-- その他テックブログ
-  - RSS購読サービスでチェックできる
 - 内部実装
   - （読めたら）最強
 
@@ -336,18 +336,18 @@ Webサービスを考えるにあたっての**主役**になる5要素
 ---
 ## 言語とか
 
-### サーバーサイド
-
-- Go, Rust, Java, JavaScript, TypeScript, Python, Ruby(Ruby on Rails), PHPなどなど
-- モダンな言語だとGo（採用企業も多い）, Rust（最近増えてる）
-- traQのサーバーもGo
-
 ### クライアント
 
 - 基本的にWebならHTML / CSS / JavaScriptからは逃げられない
   - Wasmというものもあるが、普通のWebアプリではわざわざ使うメリットがあまりない
 - React（近年のプロダクトに多い）, Vue（traP内最大手）, Svelteなどなど
   - JavaScriptの代わりにTypeScriptを使って開発することが多い
+
+### サーバーサイド
+
+- Go, Rust, Java, JavaScript, TypeScript, Python, Ruby(Ruby on Rails), PHPなどなど
+- モダンな言語だとGo（採用企業も多い）, Rust（最近増えてる）
+- traQのサーバーもGo
 
 ---
 ## 今熱いこと
