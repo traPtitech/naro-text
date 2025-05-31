@@ -352,21 +352,15 @@ Webサービスを考えるにあたっての**主役**になる5要素
 ---
 ## 今熱いこと
 
-- セキュリティ関連
-  - **パスキー**
-  - Shared Signal Framework
-  - Identity Assurance / Verifiable Credential
-- ネットワーク関連
-  - Connect RPC
-- アプリケーション関連
-  - **Cloudflare workers**
-- 開発環境
-  - **GitHub Copilot**
-  - GitHub Codespaces / Cloud Workstations
-  - WebContainer API
-  - Bun / deno
-- 保守・メンテナンス関連
-  - Open Telemetry
+- AI関連
+  - エディタ (Cursorなど)
+  - エージェント
+  - Model Context Protocol (MCP)
+- React Server Components
+- TypeScriptコンパイラがGoに移植される
+- GraphQL Federation
+- WebGPU
+- DuckDB
 
 ---
 ## 結局何から始めればいいの？
