@@ -7,7 +7,7 @@
 /* カラートークン */
 
 :root {
-  --text: #000009;
+  --text: hsl(178, 10%, 10%);
   --background: #f8fbfb;
   --gray: #808080;
   --primary: #14a39e;
@@ -244,7 +244,7 @@ strong {
   text-emphasis-color: hsl(344, 90%, 60%);
   -webkit-text-emphasis-style: circle;
   text-emphasis-style: circle;
-  font-weight: bold;
+  font-weight: 800;
 }
 
 /* マーカーで背景に線を引く */
@@ -252,7 +252,7 @@ strong {
   background: hsla(200, 80%, 60%, 0.6);
   display: inline;
   padding: 0 8px;
-  font-weight: bold;
+  font-weight: 800;
 }
 
 /* マーカーで下に線を引く */
@@ -260,7 +260,7 @@ strong {
   background: linear-gradient(transparent 70%, hsla(344, 90%, 60%, 0.6) 0) no-repeat;
   display: inline;
   padding: 0 4px;
-  font-weight: bold;
+  font-weight: 800;
 }
 
 
