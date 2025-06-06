@@ -1,8 +1,12 @@
 ---
 marp: true
 paginate: true
-theme: default
+theme: SysAd
 ---
+
+<!--
+_class: title
+-->
 
 # データベース入門
 
