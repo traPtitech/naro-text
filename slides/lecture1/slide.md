@@ -4,7 +4,7 @@ theme: SysAd
 ---
 
 <style>
-img {
+img:not(.emoji) {
   display: block;
   margin: 0 auto;
 }
@@ -338,7 +338,7 @@ _class: section-head
 
 ![height:200px](images/traq-frontend.png)
 
-## いろんなクライアントから同じデータが見られるのはなぜ？🤔
+## 色んなクライアントから同じデータが見られるのはなぜ？🤔
 
 ログインさえすればPCでもスマホでもクライアントを問わず、同じユーザーとして自分向けの表示を見ることができます。
 
