@@ -515,6 +515,6 @@ _class: section-head
 - A tour of GoのBasicsまでを読んでくる
   - https://go-tour-jp.appspot.com/list からできます
   - コードも実行してみてください
-- 期限: 第2回まで
+- 期限: 第3回まで
 - わからないこと、もっと知りたいことがあれば質問！！
   - 講習会時間外でも #event/workshop/webapp/sodan にぜひ聞いて下さい
