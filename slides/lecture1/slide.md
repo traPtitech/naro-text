@@ -3,6 +3,13 @@ marp: true
 theme: SysAd
 ---
 
+<style>
+img {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+
 <!--
 _class: title
 -->
@@ -113,7 +120,9 @@ _class: section-head
 
 ---
 
-<!--TODO: 「質問する奴は偉い」の画像を入れる-->
+# 質問する奴は偉い
+
+![width:600px](images/question-importance.png)
 
 https://twitter.com/motcho_tw/status/870589211832795136
 
@@ -129,8 +138,6 @@ https://twitter.com/motcho_tw/status/870589211832795136
 
 # いろいろな情報源
 
-<!--TODO: スクショを貼る-->
-
 - X (Twitter)
   - どんどんフォローするのがよい
 - 技術知見共有サイト(Zenn, Stackoverflow等)
@@ -140,11 +147,41 @@ https://twitter.com/motcho_tw/status/870589211832795136
   - 見てる人が多い
   - いろんな情報源を横断して見れる
 
+![Qiita](images/screenshot-qiita.png)
+![Zenn](images/screenshot-zenn.png)
+![Hatena](images/screenshot-hatena.png)
+![DevelopersIO](images/screenshot-developersio.png)
+
+<style scoped>
+img {
+  position: absolute;
+  width: 300px;
+
+  &[alt*="Qiita"] {
+    top: 50px;
+    right: 150px;
+  }
+
+  &[alt*="Zenn"] {
+    top: 200px;
+    right: 100px;
+  }
+
+  &[alt*="Hatena"] {
+    top: 300px;
+    right: 50px;
+  }
+
+  &[alt*="DevelopersIO"] {
+    top: 350px;
+    right: 200px;
+  }
+}
+</style>
+
 ---
 
 # いろいろな情報源
-
-<!--TODO: スクショを貼る-->
 
 - 公式ドキュメント
   - 慣れてきたらこれをまず見てほしい
@@ -155,6 +192,26 @@ https://twitter.com/motcho_tw/status/870589211832795136
   - 基本的に英語
 - 内部実装
   - (読めたら) 最強
+
+![Golang](images/screenshot-golang.png)
+![Vite](images/screenshot-vite.png)
+
+<style scoped>
+img {
+  position: absolute;
+  width: 400px;
+
+  &[alt*="Golang"] {
+    top: 100px;
+    right: 100px;
+  }
+
+  &[alt*="Vite"] {
+    top: 300px;
+    right: 50px;
+  }
+}
+</style>
 
 ---
 
@@ -223,21 +280,36 @@ _class: section-head
 
 # 今日の題材
 
-<!--TODO: 図を貼る-->
-
 ## <span class="underlined">traQを通してWebサービスについて知る</span>
+
+<div class="image-container">
+  <img src="images/traq-mobile.png">
+  <img src="images/traq-pc.png">
+</div>
+
+<style scoped>
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.image-container img {
+  max-height: 400px;
+  object-fit: contain;
+}
+</style>
 
 ---
 
 # traQ概念図
 
-<!--TODO: 図を貼る-->
+![height:400px](images/traq-concept-1.png)
 
 ---
 
 # 登場人物1　フロントエンド
 
-<!--TODO: 図を貼る-->
+![height:200px](images/traq-frontend.png)
 
 - 別名：クライアント、Web UIなど
 - 私達 (= エンドユーザー) が直接見て操作する部分
@@ -247,7 +319,7 @@ _class: section-head
 
 # 登場人物2　ネットワーク
 
-<!--TODO: 図を貼る-->
+![height:200px](images/traq-network.png)
 
 - いわゆるインターネット (通信)
 - 様々なデータを決められたやり方でやり取りするパイプ
@@ -257,13 +329,13 @@ _class: section-head
 
 # traQ概念図（再掲）
 
-<!--TODO: 図を貼る-->
+![height:400px](images/traq-concept-1.png)
 
 ---
 
 # 疑問1
 
-<!--TODO: 図を貼る-->
+![height:200px](images/traq-frontend.png)
 
 ## いろんなクライアントから同じデータが見られるのはなぜ？🤔
 
@@ -275,7 +347,7 @@ _class: section-head
 
 # 登場人物3　サーバーアプリケーション
 
-<!--TODO: 図を貼る-->
+![height:200px](images/traq-server-app.png)
 
 - サーバー（鯖）、バックエンドなどとも
 - 接続してきたクライアントや**リクエストの内容に応じて**色々処理する
@@ -287,7 +359,7 @@ _class: section-head
 
 # 登場人物4　物理サーバー
 
-<!--TODO: 図を貼る-->
+![height:200px](images/traq-physical-server.png)
 
 - サーバー（鯖）、インスタンス、サーバーマシンなどとも
 - サーバーアプリケーションのプログラムが実際に動くマシン
@@ -300,17 +372,34 @@ _class: section-head
 
 # 注意
 
-<!--TODO: 図を貼る-->
+<div class="image-container">
+  <img src="images/traq-server-app.png">
+  <img src="images/traq-physical-server.png">
+</div>
 
 - 物理サーバーとサーバーアプリケーションは紛らわしい！
 - どちらもサーバー、バックエンドなどと呼ばれる
 - 気を付けますが、混乱したときは聞いてください
 
+
+<style scoped>
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.image-container img {
+  max-height: 200px;
+  object-fit: contain;
+}
+</style>
+
 ---
 
 # traQ概念図
 
-<!--TODO: 図を貼る-->
+![height:500px](images/traq-concept-2.png)
 
 ---
 
@@ -336,8 +425,6 @@ _class: section-head
 
 # 疑問2
 
-<!--TODO: 図を貼る-->
-
 ## メッセージをどこに保管する？🤔
 
 traQには多くのメッセージなどの情報が保管されていますが、サーバーアプリケーションは実行が終了すると、メモリに保存されているデータは消えてしまいます。
@@ -348,7 +435,7 @@ traQには多くのメッセージなどの情報が保管されていますが�
 
 # 登場人物5　データベース
 
-<!--TODO: 図を貼る-->
+![height:200px](images/traq-database.png)
 
 - DB（**D**ata**B**ase）と略されることも
 - <span class="underlined">データの保存に特化した</span>アプリケーション
@@ -372,13 +459,13 @@ traQには多くのメッセージなどの情報が保管されていますが�
 
 # traQ概念図
 
-<!--TODO: 図を貼る-->
+![bg contain](images/traq-concept-3.png)
 
 ---
 
 # traQ概念図
 
-<!--TODO: 図を貼る-->
+![bg contain blur opacity:.5](images/traq-concept-3.png)
 
 基本的な**構成**はこんな感じ
 Webサービスを考えるにあたっての**主役**になる5要素
@@ -404,11 +491,13 @@ Webサービスを考えるにあたっての**主役**になる5要素
 
 # Webエンジニアになるにあたって
 
-<!--TODO: 図を貼る-->
+![bg 75%](images/web-engineer-growth.png)
 
 ---
 
 # Webエンジニアになるにあたって
+
+![bg 75% blur opacity:.5](images/web-engineer-growth.png)
 
 - 最初は大変かもしれないけど、その後は**やりたいことが自分の手**でできるようになるので楽しい！
 - 大変なことの大部分は、知識や環境構築に関する部分
@@ -461,19 +550,13 @@ Webサービスを考えるにあたっての**主役**になる5要素
 
 # 今日話したこと
 
-<!--TODO: 図を貼る-->
-
----
-
-# 今日話したこと
-
-<!--TODO: 図を貼る-->
+![height:500px](images/traq-concept-3.png)
 
 ---
 
 # マスタリングTCP/IP
 
-<!--TODO: 画像を貼る-->
+![height:250px](images/mastering-tcp-ip.png)
 
 - 今日話さなかったデータのやり取りについてよくまとまった本
 - これを覚えておけば困らない
@@ -492,17 +575,34 @@ _class: section-head
 
 # ブラウザ
 
-<!--TODO: 図を貼る-->
+<div class="image-container">
+  <img src="images/browser-chrome.png">
+  <img src="images/browser-firefox.png">
+  <img src="images/browser-edge.png">
+</div>
 
 - Webアプリを開発する上ではChromeかFirefoxかEdgeを使いましょう
 - ただし、**今回の講習では** Chromeを使用してください
 - Chrome: https://www.google.com/chrome/
 
+<style scoped>
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.image-container img {
+  height: 150px;
+  object-fit: contain;
+}
+</style>
+
 ---
 
 # Go言語
 
-<!--TODO: Gopherくんを貼る-->
+![height:200px](images/gopher.png)
 
 - Google製の言語
 - 簡潔な言語仕様・高速な動作・公式ライブラリが充実していることが売り
