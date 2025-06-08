@@ -3,6 +3,20 @@ marp: true
 theme: SysAd
 ---
 
+<style>
+.columns {
+  display: flex;
+  align-items: center;
+}
+.columns img {
+  width: 500px;
+  margin-right: 1em;
+}
+.columns .text {
+  flex: 1;
+}
+</style>
+
 <!--
 _class: title
 -->
@@ -23,13 +37,13 @@ _class: section-head
 
 # traQ概念図
 
-<!--TODO: 図の挿入-->
+![w:1000](assets/traq-concept.png)
 
 ---
 
 # 今日の範囲
 
-<!--TODO: 図の挿入-->
+![w:1000](assets/traq-concept-grayscale.png)
 
 ---
 
@@ -69,24 +83,107 @@ _class: section-head
 
 # 汚いコード
 
-<!--TODO: 図の挿入-->
+```go
+var (
+  a = 4 // X1-X3
+  b = 7
+  c = 2
+  d = 5 // Y1-Y3
+  e = 1
+  f = 9
+) 
+func main() {
+  tmp_var := 252521.0
+  if tmp_var < math.Sqrt(float64((0-a)*(0-a)+(0-d)*(0-d))) {
+    tmp_var = math.Sqrt(float64((a-0)*(a-0) + (d-0)*(d-0)))
+  }
+  if tmp_var > math.Sqrt(float64((0-b)*(0-b)+(0-e)*(0-e))) {
+  } else {
+  tmp_var = math.Sqrt(float64((-b)*(-b) + (-e)*(-e)))
+  }
+  if tmp_var < math.Sqrt(float64((0-c)*(0-c)+(0-f)*(0-f))) { 
+  fmt.Println(math.Sqrt(float64((c)*(c) + (f)*(f))))} else { 
+  fmt.Println(tmp_var) }} 
+```
 
 ---
 
 # きれいなコード
 
-<!--TODO: 図の挿入-->
+```go
+type Point struct {
+  x int
+  y int
+} 
+var points = []Point{{4, 5}, {7, 1}, {2, 9}} 
+func distance(a, b Point) float64 {
+  dx := float64(a.x - b.x)
+  dy := float64(a.y - b.y)
+  return math.Sqrt(dx*dx + dy*dy) 
+} 
+func main() {
+  origin := Point{0, 0}
+  ans := math.MaxFloat64
+  for _, point := range points { 
+    dist := distance(origin, point) 
+    if dist < ans { 
+      ans = dist 
+    } 
+  } 
+  fmt.Println(ans)
+} 
+```
 
 ---
 
 # どちらも同じ処理が書かれているが……
 
-<!--TODO: 図の挿入-->
+<style>
+.clean-code {
+  width: 600px
+}
+</style>
 
-- 処理の内容：わかりやすい / わかりづらい
-- 処理の変更：しやすい / しづらい
-  - 距離の定義が変わったらどう書き換えれば？
-  - ポイントの数が変わったらどこに何を足せば？
+<div class="columns">
+
+<div class="clean-code">
+
+```go
+type Point struct {
+  x int
+  y int
+} 
+var points = []Point{{4, 5}, {7, 1}, {2, 9}} 
+func distance(a, b Point) float64 {
+  dx := float64(a.x - b.x)
+  dy := float64(a.y - b.y)
+  return math.Sqrt(dx*dx + dy*dy) 
+} 
+func main() {
+  origin := Point{0, 0}
+  ans := math.MaxFloat64
+  for _, point := range points { 
+    dist := distance(origin, point) 
+    if dist < ans { 
+      ans = dist 
+    } 
+  } 
+  fmt.Println(ans)
+} 
+```
+
+</div>
+
+<div>
+
+きれいなコードは
+- 処理がわかりやすい
+- 処理の変更がしやすい
+  - 距離の定義の変更
+  - ポイントの追加
+
+</div>
+</div>
 
 ---
 
@@ -111,11 +208,15 @@ _class: section-head
 
 # その1: インデントを使おう
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
-- インデントを使うとプログラムの構造がわかりやすくなる
+![w:800](assets/good-indent.png)
+
+- プログラムの構造がわかりやすくなる
 - 基本的には括弧の中を一段ネスト (深く) する
   - 括弧のペアが同じ深さになるように
+
+</div>
 
 ---
 
@@ -143,15 +244,23 @@ _class: section-head
 
 ---
 
+
 # リーダブルコード
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
-- 「読みやすいコード」について詳しくまとまっている本
-- 変数名やコメントのつけ方など詳しく乗っている
-- 前半だけでも借りて読んでみるのを勧めます
+![](assets/readable-code.png)
+
+<div>
+
+「読みやすいコード」について詳しくまとまっている本
+- 変数名やコメントのつけ方など
+- 前半だけでも借りて読んでみよう
   - 部室に一冊おいてあります
-  - 持ってる部員も多い
+
+</div>
+
+</div>
 
 ---
 
@@ -189,12 +298,23 @@ _class: section-head
 
 # その1: Linter / Formatter を使おう
 
-<!--TODO: 図の挿入-->
+<style>
+.small {
+  font-size: 30px
+}
+</style>
 
-- コードを自動でチェック・フォーマットするツール
+<div class="columns">
+
+![w:200](assets/eslint.png)<span class="small">ESLint</span><br>
+![w:200](assets/prettier.png)<span class="small">Prettier</span>
+
+- コードを自動でチェック・フォーマット
   - インデントや括弧、命名などを指摘・修正してくれる
 - 設定ファイルでルールを変更・共有できます
-  - チーム・プロジェクト内で管理して統一された<br>フォーマットになるようにしよう
+  - チーム・プロジェクト内で管理して統一されたフォーマットになるようにしよう
+
+</div>
 
 ---
 
@@ -212,10 +332,16 @@ _class: section-head
 
 # その3: ペアプロ・モブプロをしよう
 
+<div class="columns">
+
 - 一つのコードを複数人で見ながらコーディングすること
 - リアルタイムコードレビューみたいな感じ
 - スキルや知識の共有、集中力の向上などの利点がある
 - **QSoC に参加しよう！ (講師もTAも)**
+
+![](assets/pair-programming.png)
+
+</div>
 
 ---
 
@@ -259,18 +385,22 @@ _class: section-head
 
 # Java Applet
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
 - 1996年発表
 - ブラウザでJavaが動く
-- 読み込みが遅かった（数十秒から数分）ため、大手のブラウザに採用されなくなった
-- Java11以降Java Runtime Environmentからセキュリティ上の理由で廃止
+- 遅かった（数十秒から数分）ため、大手のブラウザに採用されなくなった
+- Java11〜 セキュリティ上の理由で廃止
+
+![](assets/java-applet.png)
+
+</div>
 
 ---
 
 # Flash
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
 - Flashゲームのフラッシュ
 - YouTubeやニコニコでも使われていた
@@ -279,22 +409,28 @@ _class: section-head
   - [Ruﬄe](https://ruffle.rs/)というエミュレータが有志でつくられている
   - https://trap.jp/post/1124/
 
+![w:400](assets/adobe-flash.png)
+
+</div>
+
 ---
 
 # JavaScript
 
-<!--TODO: 図の挿入-->
+<div class="columns">
+
+![](assets/javascript.png)
 
 - 1995年登場
 - Web関係ならどこにでもいる（クライアント ＆ サーバー）
 - Webに無関係なアプリの開発にも使われる大人気言語
 - Ajax (非同期通信)の登場とともに広がりを見せる
 
+</div>
+
 ---
 
 # JavaScript
-
-<!--TODO: 図の挿入-->
 
 - Ecma Internationalという機関によって仕様が策定される
   - 実装は各ブラウザベンダーによって独自に行われる
@@ -336,18 +472,25 @@ _class: section-head
 
 # Webフロント開発
 
-<!--TODO: 図の挿入 & 文字位置調整-->
-
-1. フレームワーク
-2. バンドラー
-3. HTML / CSS / JavaScript
-4. ランタイム
+![](assets/web-frontend-concept.png)
 
 ---
 
 # フレームワーク
 
-<!--TODO: 図の挿入-->
+<div class="columns">
+
+<span>　</span>
+
+![w:150](assets/react.png)
+
+![w:170](assets/vue.png)
+
+![w:200](assets/angular.png)
+
+![w:150](assets/svelte.png)
+
+</div>
 
 - Webサイトを開発する方法を提供してくれるもの
   - フレームワークごとにソースコードの風景が異なる
@@ -359,20 +502,37 @@ _class: section-head
 
 # モジュールバンドラー
 
-<!--TODO: 図の挿入-->
+<div class="columns">
+
+![w:150](assets/vite.png)
+
+![w:200](assets/parcel.png)
+
+![w:150](assets/esbuild.png)
+
+![w:200](assets/webpack.png)
+
+![w:100](assets/rollup.png)
+
+</div>
 
 - Webサイトは HTML + CSS + JavaScript で出来ている
-  - この組み合わせしかブラウザは認識できない
 - フレームワークはWebサイトを作りやすい機能満載
   - だけど、ソースコードはその組み合わせじゃない
-- 最後に HTML + CSS + JavaScript に変換するマシン\
+- 最後に HTML + CSS + JavaScript に変換するシステム\
   ＝ **モジュールバンドラー**
 
 ---
 
 # ランタイム
 
-<!--TODO: 図の挿入-->
+<div class="columns">
+
+![w:500](assets/nodejs.png)
+
+![w:500](assets/deno.png)
+
+</div>
 
 - JavaScriptの実行環境 = JavaScriptを解釈して実行する
 - もちろんブラウザもランタイム
