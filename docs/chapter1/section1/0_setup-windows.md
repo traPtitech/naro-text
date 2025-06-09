@@ -102,33 +102,15 @@ VSCode で `Ctrl`+`Shift`+`P` を押して出てくるコマンドパレット�
 
 出力で`All tools successfully installed. You are ready to Go. :)`と出ているのが確認できたら成功です。
 
-## asdf の導入
-
-asdf とは、一つのプログラムの複数のバージョンを PC 内で管理できるようにするものです。
-それ以外にもあとからバージョンを更新するのが容易にもなるので長期的に見るとオススメです。
-
-[公式資料](https://asdf-vm.com/#/core-manage-asdf)
-
-以下のコマンドにより asdf の導入を行います。
-
-``` bash
-sudo apt install git
-go install github.com/asdf-vm/asdf/cmd/asdf@v0.18.0
-echo 'export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"' >> .bash_profile
-```
-
 ## Node.jsの導入
 
 Vue を使うために、Node.js を入れます。
 この講習会では、クライアントサイドを Vue を用いて制作します。
 
 ```bash
-asdf plugin add nodejs
-asdf install nodejs latest
-asdf global nodejs latest
+curl -o- https://fnm.vercel.app/install | bash
+fnm install 22
 ```
-
-これで、デフォルトで現在出ている最新のバージョンが適用されるようになりました。
 
 ここで、インストールが正常にできているかを確認します。
 
