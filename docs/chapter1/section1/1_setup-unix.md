@@ -41,6 +41,10 @@ https://code.visualstudio.com/download
 VSCode は拡張機能により様々な言語でのプログラミングをラクにすることができます。  
 次回以降に使うものも最初にまとめて導入しておきましょう。
 
+:::warning
+下記に書いてある拡張機能は必ず導入してください！ `⌘ + Shift + X` で拡張機能のインストール画面を開くことができます。
+:::
+
 - [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
   - Go 言語で書いたコードをチェックしてくれたり、プログラムを書くときに補完 (予測変換のような機能) を使えるようになったりします。
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
@@ -95,6 +99,11 @@ VSCode で `Command`+`Shift`+`P` を押して出てくるコマンドパレッ�
 ![](images/vscode_gotools.png)
 
 利用可能なツールの一覧が出てくるので、全てにチェックを入れて「OK」をクリックします。
+
+:::warning
+ここで `gotools` と入力しても何も出てこない場合は、拡張機能が入っていない可能性があります。
+"拡張機能の導入" のセクションを確認してください。
+:::
 
 :::tip
 一番上の入力欄の左にあるチェックボックスを押すと一括選択ができます。
