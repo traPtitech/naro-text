@@ -60,7 +60,7 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 先ほど導入した Homebrew を用いてインストールします。
 
 ```bash
-brew install go@1.22
+brew install go
 ```
 
 ここまでで、以下のコマンドを実行して
@@ -69,7 +69,7 @@ brew install go@1.22
 go version
 ```
 
-`go version go.1.22.3`と表示されればインストール完了です。
+バージョン番号が表示されればインストール完了です。
 ここまでできれば、次は以下のコマンドも実行して Task のインストールをしてください。
 
 ```sh
@@ -102,40 +102,18 @@ VSCode で `Command`+`Shift`+`P` を押して出てくるコマンドパレッ�
 
 出力で`All tools successfully installed. You are ready to Go. :)`と出ているのが確認できたら成功です。
 
-## asdf の導入
-
-asdf とは、一つのプログラムの複数のバージョンを PC 内で管理できるようにするものです。
-それ以外にもあとからバージョンを更新するのが容易にもなるので長期的に見るとオススメです。
-しかし、本講習会で必須というわけではないので任意とします。
-
-:::info
-以下の作業では、asdf を使うかどうかで手順が違います。
-どちらか一方を選んで次の作業に移ってください。
-:::
-
-[公式資料](https://asdf-vm.com/#/core-manage-asdf)
-
-以下のコマンドにより asdf の導入を行います。
-
-``` zsh [Mac]
-brew install asdf
-echo -e '\n. $(brew --prefix asdf)/libexec/asdf.sh' >> ${ZDOTDIR:-~}/.zshrc
-source ~/.zshrc
-```
-
 ## Node.jsの導入
 
-Vue を使うために、Node.js を入れます。
+Vue を使うために、Node.js を入れます。ここでは fnm という Node.js 専用のバージョンマネージャーを用いてインストールします。
 この講習会では、クライアントサイドを Vue を用いて制作します。
 
 ```bash
-asdf plugin add nodejs
-asdf install nodejs latest
-asdf global nodejs latest
+curl -o- https://fnm.vercel.app/install | bash
+# もし必要なら指示に従って source コマンドを実行する
+fnm install --lts
 ```
 
-これで、デフォルトで現在出ている最新のバージョンが適用されるようになりました。
-
+これで、デフォルトで現在出ている最新のLTSバージョンが適用されるようになりました。
 ここで、インストールが正常にできているかを確認します。
 
 ```bash

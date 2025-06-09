@@ -57,8 +57,8 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 
 ``` bash
 sudo apt install tar git
-wget https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.24.4.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.4.linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
 source ~/.profile
 ```
@@ -69,7 +69,7 @@ source ~/.profile
 go version
 ```
 
-`go version go.1.22.3`と表示されればインストール完了です。
+`go version go.1.24.4`と表示されればインストール完了です。
 ここまでできれば、次は以下のコマンドも実行して Task のインストールをしてください。
 
 ```sh
@@ -102,36 +102,18 @@ VSCode で `Ctrl`+`Shift`+`P` を押して出てくるコマンドパレット�
 
 出力で`All tools successfully installed. You are ready to Go. :)`と出ているのが確認できたら成功です。
 
-## asdf の導入
-
-asdf とは、一つのプログラムの複数のバージョンを PC 内で管理できるようにするものです。
-それ以外にもあとからバージョンを更新するのが容易にもなるので長期的に見るとオススメです。
-
-[公式資料](https://asdf-vm.com/#/core-manage-asdf)
-
-以下のコマンドにより asdf の導入を行います。
-
-``` bash
-sudo apt install git
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
-echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
-echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
-source ~/.bashrc
-```
-
 ## Node.jsの導入
 
-Vue を使うために、Node.js を入れます。
+Vue を使うために、Node.js を入れます。ここでは fnm という Node.js 専用のバージョンマネージャーを用いてインストールします。
 この講習会では、クライアントサイドを Vue を用いて制作します。
 
 ```bash
-asdf plugin add nodejs
-asdf install nodejs latest
-asdf global nodejs latest
+curl -o- https://fnm.vercel.app/install | bash
+# もし必要なら指示に従って source コマンドを実行する
+fnm install --lts
 ```
 
-これで、デフォルトで現在出ている最新のバージョンが適用されるようになりました。
-
+これで、デフォルトで現在出ている最新のLTSバージョンが適用されるようになりました。
 ここで、インストールが正常にできているかを確認します。
 
 ```bash
