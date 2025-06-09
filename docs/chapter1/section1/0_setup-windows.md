@@ -57,8 +57,8 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 
 ``` bash
 sudo apt install tar git
-wget https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.24.4.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.4.linux-amd64.tar.gz
 echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
 source ~/.profile
 ```
@@ -69,7 +69,7 @@ source ~/.profile
 go version
 ```
 
-`go version go.1.22.3`と表示されればインストール完了です。
+`go version go.1.24.4`と表示されればインストール完了です。
 ここまでできれば、次は以下のコマンドも実行して Task のインストールをしてください。
 
 ```sh
