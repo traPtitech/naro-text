@@ -104,14 +104,16 @@ VSCode で `Command`+`Shift`+`P` を押して出てくるコマンドパレッ�
 
 ## Node.jsの導入
 
-Vue を使うために、Node.js を入れます。
+Vue を使うために、Node.js を入れます。ここでは fnm という Node.js 専用のバージョンマネージャーを用いてインストールします。
 この講習会では、クライアントサイドを Vue を用いて制作します。
 
 ```bash
 curl -o- https://fnm.vercel.app/install | bash
-fnm install 22
+# もし必要なら指示に従って source コマンドを実行する
+fnm install --lts
 ```
 
+これで、デフォルトで現在出ている最新のLTSバージョンが適用されるようになりました。
 ここで、インストールが正常にできているかを確認します。
 
 ```bash
