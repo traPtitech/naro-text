@@ -406,11 +406,13 @@ TCPには、パケットが確実に届くことを保証する仕組みがあ�
 # まとめ
 - <small>HTTPリクエストは、メソッド、パス、クエリパラメータ、ヘッダー、ボディから構成される</small>
 - <small>HTTPレスポンスは、ステータスコード、ヘッダー、ボディから構成される</small>
-- <small>HTTPはTCP/IPの上で動作する</small>
+- <small>HTTPはTCP/IPの上で動作する<cite>※</cite></small>
 - <small>TCPはデータの順序制御と到達保証を提供するプロトコル</small>
 - <small>IPアドレスはインターネット上の機械の住所のようなもの</small>
 
-
+<div class="cite">
+※ HTTP/3はUDP/IP上のプロトコルであるQUICの上で動作します．
+</div>
 
 ---
 # 参考文献
