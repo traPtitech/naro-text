@@ -128,10 +128,11 @@ _class: section-head
 
 # DB  (DataBase) とは
 
-- DataBase → データ基地 → データの蓄積場所  
-- 図書館もDBの一種  
-- 効率よく検索やデータ挿入が可能  
-- RDBの操作には <span class="underlined">SQL</span> と呼ばれる言語を用いる  
+- DataBase → データ基地 → データを蓄積し、管理する場所
+- 図書館もDBの一種
+  - カテゴリや著者名に基づいて本を探せる
+  - 効率よく検索、追加、削除ができる 
+- <span class="underlined">SQL</span>と呼ばれる言語がよく使われる
 
 ---
 
