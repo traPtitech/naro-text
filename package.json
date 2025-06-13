@@ -11,6 +11,7 @@
     "fmt:fix": "prettier --write docs"
   },
   "devDependencies": {
+    "@marp-team/marp-cli": "^4.2.0",
     "@types/node": "^22.14.1",
     "prettier": "3.5.3",
     "textlint": "^14.6.0",

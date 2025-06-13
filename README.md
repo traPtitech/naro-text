@@ -31,3 +31,7 @@ https://vitepress.dev/guide/markdown
 | フロントエンド | 5173       |
 | バックエンド   | 8080       |
 | Adminer        | 8081       |
+
+## workflow - slides.ymlについて
+- スライドのビルドとアップロードを行う GitHub Actions のワークフローです。
+- リリース時に自動で実行され、スライドが該当するReleaseのAssetsにアップロードされます。
