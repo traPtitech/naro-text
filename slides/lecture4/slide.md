@@ -116,13 +116,13 @@ _class: section-head
 
 # Webサービス概観
 
-* (図示)*
+![bg contain](assets/traq-concept-3.png)
 
 ---
 
 # Webサービス概観
 
-* (図示)*
+![bg contain](assets/traq-concept-4.png)
 
 ---
 
