@@ -136,14 +136,14 @@ _class: section-head
 
 ---
 
-# SQLの例
+# SQL
 
-`city` テーブルから `Name`, `Population` の2カラムを選択する
+**S**tructured **Q**uery **L**anguageの略
 
- <br>
+例: `city` テーブルから `Name`, `Population` の2カラムを選択する
 
 ```sql
-SELECT Name Population FROM city;
+SELECT Name, Population FROM city;
 ```
 
 ---
