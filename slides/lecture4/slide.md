@@ -148,10 +148,10 @@ SELECT Name, Population FROM city;
 
 ---
 
-# DBMS  (DataBase Management System)
+# DBMS  (**D**ata**B**ase **M**anagement **S**ystem)
 
-- データベースの情報管理を行う  
-- “データの整合性”を保つ役割  
+- データベースの情報管理を行う
+- “データの整合性”を保つ役割
 - 図書館でいう司書のような存在
 
 ---
