@@ -138,12 +138,12 @@ _class: section-head
 
 # SQL
 
-**S**tructured **Q**uery **L**anguageの略
+**S**tructured **Q**uery **L**anguage
 
-例: `city` テーブルから `Name`, `Population` の2カラムを選択する
+例: `member` テーブルから `Name`, `Team` の3カラムを選択する
 
 ```sql
-SELECT Name, Team FROM member;
+SELECT Id, Name, Team FROM member;
 ```
 
 ---
