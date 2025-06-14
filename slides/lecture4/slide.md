@@ -143,7 +143,7 @@ _class: section-head
 例: `city` テーブルから `Name`, `Population` の2カラムを選択する
 
 ```sql
-SELECT Name, Population FROM city;
+SELECT Name, Team FROM member;
 ```
 
 ---
