@@ -207,8 +207,7 @@ SELECT Id, Name, Team FROM member;
   - RDBMS以外のDBMS
 - 高パフォーマンス、サーバー分散
 - SQLを<span class="underlined">使えない</span>
-- ACID特性を<span class="underlined">持たない</span>ものが多い
-  - データ取り扱いに制限があったり、取り出しに工夫が必要
+- 整合性を<span class="underlined">保たない</span>場合も
 
 ---
 
@@ -216,7 +215,8 @@ SELECT Id, Name, Team FROM member;
 
 - NoSQLの利点を取り入れたRDBMS
 - 高パフォーマンス、サーバー分散
-- SQLを使える、ACID特性を持つ
+- SQLを使える、整合性を保つ
+- まだ新しく情報が少ない
 
 ---
 
