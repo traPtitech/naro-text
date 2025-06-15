@@ -168,35 +168,57 @@ SELECT Id, Name, Team FROM member;
 
 - データベースの情報管理を行うアプリ
 - <span class="underlined">データの整合性</span>を保つ役割
-- **ACID特性**
-  - DBMSが持つべき整合性としてよく使われる
-  - 気になった方は調べてみてください
+
+<div class="columns-3">
+  <img src="./assets/mysql.png"/>
+  <img src="./assets/postgresql.png"/>
+  <img src="./assets/mongodb.png"/>
+</div>
+<div>
 
 ---
 
-# RDBMS  (Relational DBMS)
+# RDBMS（Relational DBMS）（1/2）
 
 - 表形式でデータを格納 （テーブル）
 - 管理する情報の種類を列（カラム）にする  
-- 1つのデータを1行（レコード）で管理  
-- テーブル同士の関連付けが容易  
+- 1つのデータを1行（レコード）で管理
+
+---
+
+# RDBMS（2/2）
+
+- テーブル同士に**関係**（**Relation**）を作れる
 - 例: 特定のカラムにあるテーブルから制限をかける
   - 部員テーブルの “所属班” は “班” テーブルの値しか挿入できない
+- 整合性: **ACID特性**
+  - 関係が壊れたりデータが無くなったりしない
+  - 気になった方は調べてみてください
 
 ---
 
 # NoSQL
 
 - Not Only SQLの略
-- RDBMS以外のDBMS全般
-- 各DBMSごとに異なるデータ格納方法で高パフォーマンスを実現
-- データ取り扱いに制限があったり、取り出しに工夫が必要
+  - RDBMS以外のDBMS
+- 高パフォーマンス、サーバー分散
+- SQLを<span class="underlined">使えない</span>
+- ACID特性を<span class="underlined">持たない</span>ものが多い
+  - データ取り扱いに制限があったり、取り出しに工夫が必要
+
+---
+
+# NewSQL
+
+- NoSQLの利点を取り入れたRDBMS
+- 高パフォーマンス、サーバー分散
+- SQLを使える、ACID特性を持つ
 
 ---
 
 # 様々なDBMS
 
-* (MongoDB, Redis, Cassandra, etc.)*
+![](./assets/db.png)
 
 ---
 
