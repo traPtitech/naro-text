@@ -192,7 +192,7 @@ SELECT Id, Name, Team FROM member;
 
 - テーブル同士に**関係**（**Relation**）を作れる
 - 例: 特定のカラムにあるテーブルから制限をかける
-  - 部員テーブルの“所属班”は“班”テーブルの値しか挿入できない
+  - 部員テーブルの“所属班”は“班”テーブルの”班名”しか挿入できない
 
 <div class="center">
   <img src="./assets/relation.png" width="80%"/>
