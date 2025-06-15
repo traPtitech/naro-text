@@ -233,7 +233,7 @@ SELECT Id, Name, Team FROM member;
   - 漏洩するとデータが盗まれる
 
 <div class="center">
-  <img src="./assets/password.png" width="70%"/>
+  <img src="./assets/password.png" width="80%"/>
 </div>
 
 
