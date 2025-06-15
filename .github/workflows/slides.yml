@@ -1,0 +1,23 @@
+name: Deploy
+permissions:
+  contents: write
+on:
+  release: 
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: build slides
+        run: ./build-slides.sh
+      - name: Upload asset to release
+        uses: csexton/release-asset-action@v3
+        with:
+          pattern: "slides/dist/*.pdf"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
