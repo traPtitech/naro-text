@@ -14,6 +14,22 @@ Webエンジニアになろう講習会 第4回
 
 ---
 
+# 自己紹介
+
+<div class="columns"> 
+  <div>
+    <img src="assets/icon.png"/>
+  </div>
+  <div>
+    <h2>Kentaro1043</h2>
+    <div>数理・計算科学系</div>
+    <div>インフラやってます</div>
+    <div>Kubernetesが好きです</div>
+  </div>
+</div>
+
+---
+
 <!--
 _class: section-head
 -->
