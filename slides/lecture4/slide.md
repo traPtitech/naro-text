@@ -1,6 +1,5 @@
 ---
 marp: true
-paginate: true
 theme: SysAd
 ---
 
@@ -251,6 +250,12 @@ SELECT Id, Name, Team FROM member;
 
 ---
 
-# Webエンジニアになるにあたって
+<!--
+_class: section-head
+-->
+# なろう講習会 第一部 完！
 
-* (まとめ・次回予告)*
+お疲れ様でした！
+
+本日の実習範囲:
+データベースを扱う準備～サーバーからデータベースを扱う
