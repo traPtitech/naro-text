@@ -112,13 +112,17 @@ _class: section-head
 
 # Webサービス概観
 
-![bg contain](assets/traq-concept-3.png)
+<div class="center">
+  <img src="./assets/traq-concept-3.png" width="100%"/>
+</div>
 
 ---
 
 # Webサービス概観
 
-![bg contain](assets/traq-concept-4.png)
+<div class="center">
+  <img src="./assets/traq-concept-4.png" width="100%"/>
+</div>
 
 ---
 
