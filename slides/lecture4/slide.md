@@ -152,6 +152,9 @@ SELECT Id, Name, Team FROM member;
 
 - データベースの情報管理を行うアプリ
 - <span class="underlined">データの整合性</span>を保つ役割
+- 整合性を保つ: **ACID特性**
+  - 関係が壊れたりデータが勝手に無くなったりしない
+  - 気になった方は調べてみてください
 
 <div class="columns-3">
   <img src="./assets/mysql.png"/>
@@ -167,9 +170,10 @@ SELECT Id, Name, Team FROM member;
 - 表形式でデータを格納 （テーブル）
 - 管理する情報の種類を列（カラム）にする  
 - 1つのデータを1行（レコード）で管理
-- 整合性を保つ: **ACID特性**
-  - 関係が壊れたりデータが勝手に無くなったりしない
-  - 気になった方は調べてみてください
+
+<div class="center">
+  <img src="./assets/table.png"/>
+</div>
 
 ---
 
