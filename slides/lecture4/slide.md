@@ -140,7 +140,7 @@ _class: section-head
 
 **S**tructured **Q**uery **L**anguage
 
-例: `member` テーブルから `Name`, `Team` の3カラムを選択する
+例: `member` テーブルから<br>`Id`, `Name`, `Team` の3カラムを選択する
 
 ```sql
 SELECT Id, Name, Team FROM member;
