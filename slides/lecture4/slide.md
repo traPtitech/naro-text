@@ -239,6 +239,22 @@ SELECT Id, Name, Team FROM member;
 
 ---
 
+# Webエンジニアになるにあたって
+
+<div class="center">
+  <img src="./assets/web-engineer-growth.png" width="90%"/>
+</div>
+
+---
+
+# Webエンジニアになるにあたって
+
+<div class="center">
+  <img src="./assets/web-engineer-growth-2.png" width="90%"/>
+</div>
+
+---
+
 <!--
 _class: section-head
 -->
