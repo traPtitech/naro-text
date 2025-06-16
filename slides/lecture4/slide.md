@@ -195,7 +195,7 @@ SELECT Id, Name, Team FROM member;
   - RDBMS以外のDBMS
 - 高パフォーマンス、サーバー分散
 - SQLを<span class="underlined">使えない</span>
-- 整合性を<span class="underlined">保たない</span>場合も
+- 整合性が<span class="underlined">保たれない・弱い</span>場合も
 
 ---
 
