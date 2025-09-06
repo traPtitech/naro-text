@@ -159,32 +159,32 @@ section.end h1 {
   text-align: center;
 }
 
+.align-center {
+  align-items: center;
+}
+
 .columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-  align-items: center;
 }
 
 .columns-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
-  align-items: center;
 }
 
 .columns-4 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
-  align-items: center;
 }
 
 .columns-6 {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 1rem;
-  align-items: center;
 }
 
 .span-2 {
