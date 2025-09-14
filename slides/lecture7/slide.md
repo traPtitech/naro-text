@@ -291,7 +291,7 @@ _class: section-head
 
 - 開発を効率化するための**自動化手法**
   - できることは自動化する
-- GitHubなどのホストサービスで提供される
+- GitHubなどのホスティングサービスで提供される
   - GitHubの場合はGitHub Actions
 
 ---
@@ -358,7 +358,7 @@ _class: section-head
 
 - 開発を効率化するための**自動化手法**
   - できることは自動化する
-- GitHubなどのホストサービスで提供される
+- GitHubなどのホスティングサービスで提供される
   - GitHubの場合はGitHub Actions
 
 ---
