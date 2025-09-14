@@ -12,6 +12,18 @@ Webエンジニアになろう講習会
 
 ---
 
+# 自己紹介
+
+## あきも
+
+24B 数理・計算科学系
+rucQ開発がんばった
+traQチームにもいるよ
+
+![bg right:40% 80%](./assets/akimo.webp)
+
+---
+
 <!--
 _class: section-head
 -->
