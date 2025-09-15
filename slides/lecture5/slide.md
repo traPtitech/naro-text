@@ -174,7 +174,7 @@ HTTPはステートレス(状態を持たない)
 ---
 
 # JWTの構造（3つのパーツ）
-JWTは「.」で区切られた3つの部分でできています：
+JWT*は「.」で区切られた3つの部分でできています：
 
 ```
 ヘッダー.ペイロード.署名
@@ -186,6 +186,11 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
 eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.
 SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 ```
+
+<div class="cite">
+*ここで説明しているものは正確にはJWS(JSON Web Signature)と呼ばれるものの構造ですが，理解を簡単にするためにJWTとして説明しています．
+JWTはJWSのペイロードにJSON形式のクレームを含むものです．
+</div>
 
 ---
 
@@ -303,6 +308,16 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 
 ---
 
+# OAuth 2.0の(簡単な)仕組み
+![w:800](./assets/images/oauth-authorization-code-flow.png)
+
+<div class="cite">
+Authorization Code Flowの図です．
+認可コードを挟むのは、PKCEという仕組みを使うためです．
+</div>
+
+---
+
 # OAuth 2.0のいいところ・気をつけるところ
 
 <div class="columns">
@@ -338,6 +353,12 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     </div>
 </div>
 
+---
+# OpenID Connectの仕組み
+- OpenID ConnectはOAuth 2.0の上に成り立っている
+- アクセストークンと一緒にIDトークンが返ってくる
+    - IDトークンはJWT形式で、ユーザーの情報が含まれている
+    - IDトークンを検証することで、ユーザーが誰であるかを確認できる
 
 ---
 # OpenID ConnectのPros & Cons
