@@ -17,11 +17,12 @@ Webエンジニアになろう講習会 第6回
 
 <div class="columns">
   <div>
- <img src="assets/icon.png" alt="Kentaro1043のアイコン" />
+    <img src="assets/icon.png" alt="Kentaro1043のアイコン" />
   </div>
   <div>
- <h2>Kentaro1043</h2>
- <div>数理・計算科学系</div>
+    <h2>Kentaro1043</h2>
+    <div>数理・計算科学系</div>
+    <div>k8sが好きです☸</div>
   </div>
 </div>
 
@@ -63,7 +64,7 @@ _class: section-head
 
 # セキュリティ: 被害
 
-- サービスを公開する→サーバーが外部に<span class="underlined">公開される</span>
+- サービスを公開する→サーバーが外部に公開される
 - サーバーに侵入されると...
   - サービスの停止
   - データの破損、流出
@@ -76,50 +77,49 @@ _class: section-head
 
 # セキュリティ: 対策
 
-1. ログイン情報を漏らさない
+1. 不正なログインを防ぐ
 2. 不要なポートは閉じる
 3. ソフトウェアを最新に保つ
 4. 流出しても影響が無いようにする
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 サーバーは常に攻撃されている
 
 ```log
-Disconnected from authenticating user root 80.94.93.119 port 19976 [preauth]
-Received disconnect from 80.94.93.119 port 19976:11:  [preauth]
-Connection closed by authenticating user root 185.156.73.233 port 56948 [preauth]
-Disconnected from authenticating user root 193.46.255.33 port 23924 [preauth]
-Received disconnect from 193.46.255.33 port 23924:11:  [preauth]
-Disconnected from authenticating user root 193.46.255.7 port 38508 [preauth]
-Received disconnect from 193.46.255.7 port 38508:11:  [preauth]
-Connection closed by invalid user git 194.0.234.18 port 47130 [preauth]
-Invalid user git from 194.0.234.18 port 47130
-Disconnected from authenticating user root 193.46.255.217 port 23786 [preauth]
-Received disconnect from 193.46.255.217 port 23786:11:  [preauth]
-Connection closed by invalid user a 80.94.95.115 port 59186 [preauth]
 Invalid user a from 80.94.95.115 port 59186
+Connection closed by invalid user a 80.94.95.115 port 59186 [preauth]
+Received disconnect from 193.46.255.217 port 23786:11:  [preauth]
+Disconnected from authenticating user root 193.46.255.217 port 23786 [preauth]
+Invalid user git from 194.0.234.18 port 47130
+Connection closed by invalid user git 194.0.234.18 port 47130 [preauth]
+Received disconnect from 193.46.255.7 port 38508:11:  [preauth]
+Disconnected from authenticating user root 193.46.255.7 port 38508 [preauth]
+Received disconnect from 193.46.255.33 port 23924:11:  [preauth]
+Disconnected from authenticating user root 193.46.255.33 port 23924 [preauth]
+Connection closed by authenticating user root 185.156.73.233 port 56948 [preauth]
+Received disconnect from 80.94.93.119 port 19976:11:  [preauth]
+Disconnected from authenticating user root 80.94.93.119 port 19976 [preauth]
 ```
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 ## 対策
 
 - パスワードを長く複雑なものにする
 - パスワードよりも強力な認証方式を使う
   - SSH: 公開鍵認証方式
-- ファイアウォールの導入
 - fail2banの導入
   - 不正なログイン試行を検知してIPをブロック
 - ログを記録・監視
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 DBの認証情報も同様
 
@@ -127,11 +127,11 @@ DBの認証情報も同様
 - GitHubに認証情報をpushしない
 - 漏れても影響を最小限に
   - 適切な権限を設定
-  - アプリからのログインに管理者ユーザーを使わない
+  - アプリ用のユーザーとして管理者を使わない
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 巧妙なリクエストを送って、不正にデータを取得したり、権限昇格をしたりする攻撃
 
@@ -162,7 +162,7 @@ for _, city := range cities {
 
 ## SQL injection
 
-使い方
+正しい使い方
 
 ```bash
 $ go run main.go JPN
