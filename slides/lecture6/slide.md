@@ -22,7 +22,6 @@ Webエンジニアになろう講習会 第6回
   <div>
  <h2>Kentaro1043</h2>
  <div>数理・計算科学系</div>
- <div>インフラが好きです</div>
   </div>
 </div>
 
@@ -54,140 +53,102 @@ Webエンジニアになろう講習会 第6回
 
 ---
 
-# 目次
+<!--
+_class: section-head
+-->
 
-- 座学
-  - <span style="color:red">Webサービスセキュリティ入門</span>
-  - ブラウザセキュリティ入門
-- 実習
-  - vue-routerの設定
-  - プロキシの設定
-  - サーバーとの通信
+# Webサービス<br />セキュリティ入門
 
 ---
 
-# Webサービスセキュリティ入門
+# セキュリティ: 被害
 
-- サーバー内の情報が流出しないように気を付ける
-  - 認証情報を守る
-  - ポートを閉じる
-  - ライブラリに頼る
-- たとえ流出してもわからないようにする
-  - ハッシュ化する
-  - パスワードの痕跡を残さない
-- 他の人の攻撃を手伝わないようにする
-  - 不要なポートは閉じる
-  - パッチを当てる
+- サービスを公開する→サーバーが外部に<span class="underlined">公開される</span>
+- サーバーに侵入されると...
+  - サービスの停止
+  - データの破損、流出
+    - <span class="underlined">個人情報保護法</span>→<span class="underlined">報告義務</span>が発生する場合あり
+    - 損害賠償、裁判沙汰にも
+  - 攻撃に利用される
+    - DDoS攻撃、スパムメール
 
 ---
 
-# 脆弱性は生まれるもの
+# セキュリティ: 対策
 
-- どれだけ注意しても少なからず脆弱性は存在する
-- クリティカルな脆弱性を作らないことが重要
-- どれだけプロトコルやライブラリがセキュア（堅牢）なものでも、開発者が理解していなければ脆弱性は生まれる
-
----
-
-# Webサービスセキュリティ入門
-
-- <span style="color:red">サーバー内の情報が流出しないように気を付ける</span>
-  - ログイン情報を漏らさない
-- たとえ流出してもわからないようにする
-  - ハッシュ化する
-- 他の人の攻撃を手伝わないようにする
+1. ログイン情報を漏らさない
+2. 不要なポートは閉じる
+3. ソフトウェアを最新に保つ
+4. 流出しても影響が無いようにする
 
 ---
 
-# OWASP Top 10:2021
+# ① ログイン情報を漏らさない
 
-- アクセス制御の不備
-- 不適切な暗号化
-- インジェクション
-- 設計の不備
-- セキュリティ上の設定ミス
-- 脆弱なコンポーネントの使用
-- 識別・認証の不備
-- ソフトウェアとデータの整合性の問題
-- セキュリティログとモニタリングの失敗
-- サーバーサイドリクエストフォージェリ
-
----
-
-# ログイン情報の流出
-
-- サーバーはインターネット上に公開されている
-  - 常に攻撃の可能性にさらされている
-- ログインされたら何でもできる
-- 対策
-  - ファイヤーウォールの導入
-  - 公開鍵認証方式の導入
-  - Fail2banの導入
-  - 適切なロギング・モニタリング
-  - sudoerの制限
-
----
-
-# ログイン情報の流出
+サーバーは常に攻撃されている
 
 ```log
-Jun 16 11:40:26 m011 sudo: hijiki51 : TTY=pts/1 ; PWD=/home/hijiki51 ; USER=root ; COMMAND=/usr/bin/cat /var/log/auth.log
-Jun 16 11:40:26 m011 sudo: pam_unix(sudo:session): session opened for user root by hijiki51(uid=0)
-Jun 16 11:40:27 m011 sudo: pam_unix(sudo:session): session closed for user root
-Jun 16 11:40:50 m011 sshd: Invalid user tickets from 27.101.120.70 port 51846
-Jun 16 11:40:51 m011 sshd: Received disconnect from 27.101.120.70 port 51846:11: Bye Bye [preauth]
-Jun 16 11:40:51 m011 sshd: Disconnected from invalid user tickets 27.101.120.70 port 51846 [preauth]
-Jun 16 11:41:05 m011 sshd: Received disconnect from 201.149.55.226 port 36193:11: Bye Bye [preauth]
-Jun 16 11:41:05 m011 sshd: Disconnected from authenticating user root 201.149.55.226 port 36193 [preauth]
-Jun 16 11:41:07 m011 sshd: Invalid user qt from 43.156.60.74 port 55154
-Jun 16 11:41:07 m011 sshd: Received disconnect from 43.156.60.74 port 55154:11: Bye Bye [preauth]
-Jun 16 11:41:07 m011 sshd: Disconnected from invalid user qt 43.156.60.74 port 55154 [preauth]
-Jun 16 11:41:09 m011 sshd: Received disconnect from 154.117.199.12 port 40538:11: Bye Bye [preauth]
-Jun 16 11:41:09 m011 sshd: Disconnected from authenticating user root 154.117.199.12 port 40538 [preauth]
-Jun 16 11:41:48 m011 sudo: hijiki51 : TTY=pts/1 ; PWD=/home/hijiki51 ; USER=root ; COMMAND=/usr/bin/less /var/log/auth.log
-Jun 16 11:41:48 m011 sudo: pam_unix(sudo:session): session opened for user root by hijiki51(uid=0)
+Disconnected from authenticating user root 80.94.93.119 port 19976 [preauth]
+Received disconnect from 80.94.93.119 port 19976:11:  [preauth]
+Connection closed by authenticating user root 185.156.73.233 port 56948 [preauth]
+Disconnected from authenticating user root 193.46.255.33 port 23924 [preauth]
+Received disconnect from 193.46.255.33 port 23924:11:  [preauth]
+Disconnected from authenticating user root 193.46.255.7 port 38508 [preauth]
+Received disconnect from 193.46.255.7 port 38508:11:  [preauth]
+Connection closed by invalid user git 194.0.234.18 port 47130 [preauth]
+Invalid user git from 194.0.234.18 port 47130
+Disconnected from authenticating user root 193.46.255.217 port 23786 [preauth]
+Received disconnect from 193.46.255.217 port 23786:11:  [preauth]
+Connection closed by invalid user a 80.94.95.115 port 59186 [preauth]
+Invalid user a from 80.94.95.115 port 59186
 ```
 
-### /var/log/auth.log などで確認できる
+---
+
+# ① ログイン情報を漏らさない
+
+## 対策
+
+- パスワードを長く複雑なものにする
+- パスワードよりも強力な認証方式を使う
+  - SSH: 公開鍵認証方式
+- ファイアウォールの導入
+- fail2banの導入
+  - 不正なログイン試行を検知してIPをブロック
+- ログを記録・監視
 
 ---
 
-# 権限は必要最小限に
+# ① ログイン情報を漏らさない
 
-ポートも、アクセス権も、できることが増えると
-脆弱性は生まれやすくなる
+DBの認証情報も同様
 
----
-
-# DBに直接アクセスされる
-
-- データベースの認証情報が流出
-  - 常に攻撃の可能性にさらされている
-- DBの中身を見放題・書き換え放題
-  - ユーザーの個人情報が…
-  - 各種認証情報も…
-  - もし金銭を扱っていたら…
-- 対策
-  - 適切な認証情報の管理
-  - 適切なアクセスコントロール
-    - 権限設定をちゃんとする
+- パスワードを長く複雑なものにする
+- GitHubに認証情報をpushしない
+- 漏れても影響を最小限に
+  - 適切な権限を設定
+  - アプリからのログインに管理者ユーザーを使わない
 
 ---
 
-# SQLi, OS Command Injection, etc
+# ① ログイン情報を漏らさない
 
-- 巧妙なリクエストを送って、不正にデータを取得したり、権限昇格をしたりする
-- 対策
-  - サニタイジングを行う
-  - OS側の機能を利用しない
+巧妙なリクエストを送って、不正にデータを取得したり、権限昇格をしたりする攻撃
+
+- <span class="underlined">SQL injection</span>
+- <span class="underlined">OS Command Injection</span>
 
 ---
 
-# SQL injection
+# ① ログイン情報を漏らさない
+
+## SQL injection
+
+脆弱なコード
 
 ```go
 cities := []City{}
-db.Select(&cities, fmt.Sprintf("SELECT * FROM city WHERE CountryCode='%s'", os.Args))
+db.Select(&cities, fmt.Sprintf("SELECT * FROM city WHERE CountryCode='%s'", os.Args[1]))
 
 fmt.Println("日本の都市一覧")
 for _, city := range cities {
@@ -195,13 +156,13 @@ for _, city := range cities {
 }
 ```
 
-### こういうコードを書くと……
-
 ---
 
-# SQL injection
+# ① ログイン情報を漏らさない
 
-**正常な入力**
+## SQL injection
+
+使い方
 
 ```bash
 $ go run main.go JPN
@@ -214,7 +175,27 @@ Connected!
 ...
 ```
 
-**攻撃**
+---
+
+# ① ログイン情報を漏らさない
+
+## SQL injection
+
+正しい動作
+
+```bash
+$ go run main.go "' OR 1 OR ''='"
+Connected!
+日本の都市一覧
+```
+
+---
+
+# ① ログイン情報を漏らさない
+
+## SQL injection
+
+実際には
 
 ```bash
 $ go run main.go "' OR 1 OR ''='"
@@ -229,14 +210,16 @@ Connected!
 
 ---
 
-# SQL injection
+# ① ログイン情報を漏らさない
 
-### 正しくはこう
+## SQL injection
+
+安全なコード
 
 ```go
 cities := []City{}
-// プレースホルダを使う
-db.Select(&cities, "SELECT * FROM city WHERE CountryCode=?", os.Args)
+// ライブラリの機能のプレースホルダを使う
+db.Select(&cities, "SELECT * FROM city WHERE CountryCode=?", os.Args[1])
 
 fmt.Println("日本の都市一覧")
 for _, city := range cities {
@@ -246,75 +229,53 @@ for _, city := range cities {
 
 ---
 
-# Webサービスセキュリティ入門
+# ② 不要なポートは閉じる
 
-- サーバー内の情報が流出しないように気を付ける
-  - 認証情報を守る
-  - ポートを閉じる
-  - ライブラリに頼る
-- <span style="color:red">たとえ流出してもわからないようにする</span>
-  - ハッシュ化する
-  - パスワードの痕跡を残さない
-- 他の人の攻撃を手伝わないようにする
-  - 不要なポートは閉じる
-  - パッチを当てる
+- ポートは必要最低限に
+- デフォルトのポートは避ける
+  - SSH: 22
+  - MySQL: 3306
+- ファイアウォールの導入
+  - 外部ネットワークからのアクセスを制限
 
 ---
 
-# 流出しても、認証情報は漏れないようにする
+# ② 不要なポートは閉じる
+
+デフォルトのポートは非常に攻撃されやすい
+
+SSHポートを22から変更した例
+
+<img src="assets/ssh_attack.png" alt="UFWの設定例" />
+
+---
+
+# ③ ソフトウェアを最新に保つ
+
+- どんなソフトウェアにも脆弱性がある
+- 定期的にアップデートする
+  - パッケージマネージャのアップデート機能
+  - Dockerイメージのアップデート
+
+---
+
+# ④ 流出しても影響が無いようにする
 
 - どんなに注意しても流出が起きてしまうことはある
   - どんなに大きな企業でもやらかすときはやらかす
 - 流出しても機密データは漏らさないように
   - 機密データはサーバーに保存しない
-
----
-
-# パスワードのハッシュ化
-
 - データベースに平文（そのままの状態）のパスワードを保存するのはNG
   - 漏洩すると大惨事になる
+
+---
+
+# ④ 流出しても影響が無いようにする
+
 - パスワードを元に一定の手順に従って求めたハッシュ値を代わりに保存する
-- 同じパスワードからは同じハッシュ値が得られるので、パスワードを保存せずにパスワードが検証できる
-- 必ずハッシュ化する
-  - bcrypt, PBKDF2, scrypt, Argon2などがよく用いられる
+  - ハッシュ化アルゴリズム: bcrypt, PBKDF2, scrypt, Argon2など
 - 単なるハッシュ化では、事前計算したハッシュの結果と比較することでパスワードが復元できてしまうことがある
   - ソルト（ランダムな値）をパスワードに付加してからハッシュ化することで事前計算を困難に出来る
-
----
-
-# Webサービスセキュリティ入門
-
-- サーバー内の情報が流出しないように気を付ける
-  - 認証情報を守る
-  - ポートを閉じる
-  - ライブラリに頼る
-- たとえ流出してもわからないようにする
-  - ハッシュ化する
-  - パスワードの痕跡を残さない
-- <span style="color:red">他の人の攻撃を手伝わないようにする</span>
-  - 不要なポートは閉じる
-  - パッチを当てる
-
----
-
-# 他の人の攻撃を手伝わないために
-
-- DDoS攻撃
-  - 複数人で一斉に攻撃
-  - バックドアやBotを仕込まれて知らぬ間に自分が攻撃者になる
-- リフレクション攻撃
-  - サーバーの設定をちゃんとする
-  - NXNSAttack
-- 単純に踏み台サーバーとして利用されることも
-
----
-
-# 参考資料
-
-- [安全なウェブサイトの運用管理に向けての20ヶ条 - IPA](https://www.ipa.go.jp/security/vuln/20point-website-operation.html)
-- [安全なウェブサイトの作り方 – IPA](https://www.ipa.go.jp/security/vuln/websecurity.html)
-- [脆弱性対策 - IPA](https://www.ipa.go.jp/security/vuln/index.html)
 
 ---
 
@@ -322,7 +283,7 @@ for _, city := range cities {
 
 - 座学
   - Webサービスセキュリティ入門
-  - <span style="color:red">ブラウザセキュリティ入門</span>
+  - <span class="red">ブラウザセキュリティ入門</span>
 - 実習
   - クライアントからAPIを呼び出す
 
@@ -339,16 +300,7 @@ for _, city := range cities {
 
 # 保存場所の一例
 
-（ブラウザの開発者ツール `Application` タブのスクリーンショット）
-
-- **Storage**
-  - Local Storage
-  - Session Storage
-  - IndexedDB
-  - Web SQL
-  - Cookies
-- **Cache**
-  - Cache Storage
+<img src="assets/browser.png" alt="ブラウザの保存場所の例" />
 
 ---
 
@@ -356,9 +308,6 @@ for _, city := range cities {
 
 - 悪意のあるWebページが、Local Storageに保存した他のWebページに関する情報を無制限に読み取れるなら…
 - 悪意のあるWebページAがiframeを用いて悪意のないWebページBを埋め込んでいる時、WebページAのJavaScriptが無制限にWebページBのDOMにアクセスできるなら…
-
----
-**→ 大切なデータを攻撃者に知られてしまう**
 
 ---
 
@@ -379,6 +328,11 @@ for _, city := range cities {
 - 次の2つのルールに従って、Webページ間の「やりとり」に制限を加える
   - 2つのページの Origin が一致していれば、無制限で「やりとり」を許す
   - 2つのページの Origin が異なっていれば、「やりとり」を原則禁止する
+
+---
+
+# Same-Origin Policy
+
 - やりとり：書き込み、埋め込み、読み込み
   - Cross-Originでの書き込み：基本的に許可（条件付きで禁止される）…「単純な」リクエストに限る
   - Cross-Originでの埋め込み：許可
@@ -554,10 +508,8 @@ Failed to load resource: net::ERR_FAILED
 
 ---
 
-# 目次
+# 参考資料
 
-- 座学
-  - Webサービスセキュリティ入門
-  - ブラウザセキュリティ入門
-- 実習
-  - <span style="color:red">クライアントからAPIを呼び出す</span>
+- [安全なウェブサイトの運用管理に向けての20ヶ条 - IPA](https://www.ipa.go.jp/security/vuln/20point-website-operation.html)
+- [安全なウェブサイトの作り方 – IPA](https://www.ipa.go.jp/security/vuln/websecurity.html)
+- [脆弱性対策 - IPA](https://www.ipa.go.jp/security/vuln/index.html)
