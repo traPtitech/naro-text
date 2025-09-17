@@ -13,7 +13,7 @@ Webエンジニアになろう講習会 第6回
 
 ---
 
-# 自己紹介
+# 講師
 
 <div class="columns">
   <div>
@@ -28,29 +28,70 @@ Webエンジニアになろう講習会 第6回
 
 ---
 
+<!--
+_class: section-head
+-->
+
 # 前回のおさらい
 
-// TODO
+## 認証・認可
 
 ---
 
-# 今日の内容は大事
+# 前回のおさらい
 
-外部にサービスを公開するときに、
-絶対に気をつけて欲しいことです。
-難しい内容ではないので、しっかり理解してください。
+<div class="columns">
+  <div>
+    <h3>認証(Authentication)</h3>
+    あなたが<span class="red">誰であるか</span>
+    <ul>
+      <li>ユーザーが本人であることを確認すること</li>
+      <li>例: ユーザーIDとパスワードの組み合わせ</li>
+    </ul>
+  </div>
+  <div>
+    <h3>認可(Authorization)</h3>
+    あなたが<span class="red">何をできるか(権限)</span>
+    <ul>
+      <li>ユーザーが特定の操作を行う権限があるか確認すること</li>
+      <li>例: 管理者権限を持つユーザーのみがアクセスできるページ</li>
+    </ul>
+  </div>
+</div>
 
 ---
 
-# 目次
+# 前回のおさらい
 
-- 座学
-  - Webサービスセキュリティ入門
-  - ブラウザセキュリティ入門
-- 実習
-  - vue-routerの設定
-  - プロキシの設定
-  - サーバーとの通信
+認証にはいくつか種類がある
+
+- パスワード認証
+  - IDとパスワードの組み合わせで認証を実現
+  - パスワードはハッシュ化して保存する
+- セッション認証
+  - セッションストアを参照することによって認証を実現
+- JWT認証
+  - JWTを検証することで認証を実現
+
+---
+
+# 前回のおさらい
+
+認証・認可には標準的な仕組みがある
+
+- OAuth 2.0
+  - 他のサービスに自分の情報へのアクセスを許可するための仕組み
+- OpenID Connect
+  - OAuth 2.0をベースにした認証の仕組み
+
+---
+
+# セキュリティ入門
+
+## 目次
+
+- サーバーセキュリティ入門
+- ブラウザセキュリティ入門
 
 ---
 
@@ -58,11 +99,11 @@ Webエンジニアになろう講習会 第6回
 _class: section-head
 -->
 
-# Webサービス<br />セキュリティ入門
+# サーバーセキュリティ入門
 
 ---
 
-# セキュリティ: 被害
+# サーバーのセキュリティ: 被害
 
 - サービスを公開する→サーバーが外部に公開される
 - サーバーに侵入されると...
@@ -71,11 +112,11 @@ _class: section-head
     - <span class="underlined">個人情報保護法</span>→<span class="underlined">報告義務</span>が発生する場合あり
     - 損害賠償、裁判沙汰にも
   - 攻撃に利用される
-    - DDoS攻撃、スパムメール
+    - 知らないうちにDDoS攻撃に加担
 
 ---
 
-# セキュリティ: 対策
+# サーバーのセキュリティ: 対策
 
 1. 不正なログインを防ぐ
 2. 不要なポートは閉じる
@@ -88,20 +129,19 @@ _class: section-head
 
 サーバーは常に攻撃されている
 
+例: traQが動いているサーバーのSSHログ（ログイン試行）
+
 ```log
-Invalid user a from 80.94.95.115 port 59186
-Connection closed by invalid user a 80.94.95.115 port 59186 [preauth]
-Received disconnect from 193.46.255.217 port 23786:11:  [preauth]
-Disconnected from authenticating user root 193.46.255.217 port 23786 [preauth]
-Invalid user git from 194.0.234.18 port 47130
-Connection closed by invalid user git 194.0.234.18 port 47130 [preauth]
-Received disconnect from 193.46.255.7 port 38508:11:  [preauth]
-Disconnected from authenticating user root 193.46.255.7 port 38508 [preauth]
-Received disconnect from 193.46.255.33 port 23924:11:  [preauth]
-Disconnected from authenticating user root 193.46.255.33 port 23924 [preauth]
-Connection closed by authenticating user root 185.156.73.233 port 56948 [preauth]
-Received disconnect from 80.94.93.119 port 19976:11:  [preauth]
-Disconnected from authenticating user root 80.94.93.119 port 19976 [preauth]
+Failed password for root from 36.212.31.122 port 41556 ssh2
+Received disconnect from 36.212.31.122 port 41556:11: Bye Bye [preauth]
+Disconnected from authenticating user root 36.212.31.122 port 41556 [preauth]
+Connection closed by 36.212.31.122 port 55696 [preauth]
+banner exchange: Connection from 143.198.30.148 port 51388: invalid format
+Invalid user ubuntu from 44.220.185.104 port 45026
+Connection closed by invalid user ubuntu 44.220.185.104 port 45026 [preauth]
+Connection reset by 45.140.17.26 port 57180
+Accepted publickey for kentaro1043 from 203.0.113.1 port 63036 ssh2: ED25519 SHA256:...
+pam_unix(sshd:session): session opened for user kentaro1043(uid=60053) by (uid=0)
 ```
 
 ---
@@ -140,7 +180,7 @@ DBの認証情報も同様
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 ## SQL injection
 
@@ -158,7 +198,7 @@ for _, city := range cities {
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 ## SQL injection
 
@@ -177,28 +217,28 @@ Connected!
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 ## SQL injection
 
 正しい動作
 
 ```bash
-$ go run main.go "' OR 1 OR ''='"
+$ go run main.go "' OR 1 OR '"
 Connected!
 日本の都市一覧
 ```
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 ## SQL injection
 
 実際には
 
 ```bash
-$ go run main.go "' OR 1 OR ''='"
+$ go run main.go "' OR 1 OR '"
 Connected!
 日本の都市一覧
 都市名: Kabul, 人口: 1780000人
@@ -210,7 +250,7 @@ Connected!
 
 ---
 
-# ① ログイン情報を漏らさない
+# ① 不正なログインを防ぐ
 
 ## SQL injection
 
@@ -244,272 +284,219 @@ for _, city := range cities {
 
 デフォルトのポートは非常に攻撃されやすい
 
-SSHポートを22から変更した例
+例: SSHポートを22から変更
 
-<img src="assets/ssh_attack.png" alt="UFWの設定例" />
+<img src="assets/ssh_attack.png" alt="SSHログの変遷" />
 
 ---
 
 # ③ ソフトウェアを最新に保つ
 
 - どんなソフトウェアにも脆弱性がある
+  - 脆弱性: セキュリティ上の欠陥
 - 定期的にアップデートする
+  - 手動アップデート
   - パッケージマネージャのアップデート機能
   - Dockerイメージのアップデート
+    - ベースイメージも忘れずに
+
+---
+
+# ③ ソフトウェアを最新に保つ
+
+例: Node.js(npm)
+
+<img src="assets/npm_install.png" alt="npm installを実行した例" />
 
 ---
 
 # ④ 流出しても影響が無いようにする
 
 - どんなに注意しても流出が起きてしまうことはある
-  - どんなに大きな企業でもやらかすときはやらかす
-- 流出しても機密データは漏らさないように
-  - 機密データはサーバーに保存しない
-- データベースに平文（そのままの状態）のパスワードを保存するのはNG
+- もし流出しても致命的なデータが漏れないようにする
+  - 機密データは極力サーバーに保存しない
+- データベースに平文のパスワードを保存するのはNG
   - 漏洩すると大惨事になる
+  - どうする？→<span class="underlined">ハッシュ化</span>
 
 ---
 
 # ④ 流出しても影響が無いようにする
 
-- パスワードを元に一定の手順に従って求めたハッシュ値を代わりに保存する
-  - ハッシュ化アルゴリズム: bcrypt, PBKDF2, scrypt, Argon2など
-- 単なるハッシュ化では、事前計算したハッシュの結果と比較することでパスワードが復元できてしまうことがある
-  - ソルト（ランダムな値）をパスワードに付加してからハッシュ化することで事前計算を困難に出来る
+## ハッシュ化
+
+- あるルールに従って変換した値→<span class="underlined">ハッシュ値</span>を保存する
+  - ハッシュアルゴリズム: bcrypt, PBKDF2, Argon2など
+  - 適切に選択する
+- <span class="underlined">レインボーテーブル攻撃</span>: 事前計算したハッシュの結果と比較することでパスワードを特定する攻撃
+  - 対策: ソルトを付与する
 
 ---
 
-# 目次
+<!--
+_class: section-head
+-->
 
-- 座学
-  - Webサービスセキュリティ入門
-  - <span class="red">ブラウザセキュリティ入門</span>
-- 実習
-  - クライアントからAPIを呼び出す
+# ブラウザセキュリティ入門
 
 ---
 
 # ブラウザのセキュリティ
 
-- さっきまではサーバーのセキュリティに関して
-  - ブラウザ自体にも重要なデータが保存されている
-- 加えてブラウザ自体も各端末で動くネイティブアプリケーション
-  - 攻撃者と端末とのインターフェースとなりうる
+- データはサーバーだけでなく、ブラウザにも保存される
+  → 攻撃者に狙われる
 
 ---
 
 # 保存場所の一例
 
-<img src="assets/browser.png" alt="ブラウザの保存場所の例" />
+<img src="assets/google_cookie.png" alt="Googleの開発者コンソール" height="550px" />
 
 ---
 
-# ブラウザの持つ情報
+# ブラウザのセキュリティ: 被害
 
-- 悪意のあるWebページが、Local Storageに保存した他のWebページに関する情報を無制限に読み取れるなら…
-- 悪意のあるWebページAがiframeを用いて悪意のないWebページBを埋め込んでいる時、WebページAのJavaScriptが無制限にWebページBのDOMにアクセスできるなら…
+情報漏洩が起きるシチュエーション
 
----
-
-# 境界の必要性
-
-- Webページの間には「ほどよい」境界が必要
-  - どのような境界が適切か？
-- **Origin**: URI中の「スキーム、ホスト、ポート」の組
-  - **Scheme**: HTTP, HTTPS
-  - **Host**: a.example.com, b.example.com, a.sample.com
-  - **Port**: 80, 443, 8080
+- あるWebページのLocalStorageを、他のWebページが読み取れてしまう
+- あるWebページを埋め込んている他のWebページが、埋め込まれたページをJavaScriptで操作できてしまう
 
 ---
 
-# Same-Origin Policy
+# **Origin**: どこで区切る？
 
-- SOP: Originに依拠した最も基本的なセキュリティ機構
-- 次の2つのルールに従って、Webページ間の「やりとり」に制限を加える
-  - 2つのページの Origin が一致していれば、無制限で「やりとり」を許す
-  - 2つのページの Origin が異なっていれば、「やりとり」を原則禁止する
-
----
-
-# Same-Origin Policy
-
-- やりとり：書き込み、埋め込み、読み込み
-  - Cross-Originでの書き込み：基本的に許可（条件付きで禁止される）…「単純な」リクエストに限る
-  - Cross-Originでの埋め込み：許可
-  - Cross-Originでの読み込み：基本的に禁止される
+- ここまではOK、ここからはNGという区切りが必要
+- <span class="underlined">Origin</span>: URI中の「スキーマ、ホスト、ポート」の組
+  - **スキーマ**: http, https
+  - **ホスト**: a.example.com, b.example.com
+  - **ポート**: 80, 443, 8080
 
 ---
 
-# Cross-Origin Resource Sharing
+# **Same-Origin Policy**(**SOP**)
 
+- <span class="underlined">SOP</span>: 最も基本的なセキュリティ機構
+- リソースへのアクセスをOriginに基づいて制限する
+  - Originが同じ(same)ならOK
+  - Originが異なるならNG
+
+---
+
+# **Cross-Origin Resource Sharing**(**CORS**)
+
+- <span class="underlined">CORS</span>: SOPの緩和
+- HTTPヘッダのやり取りを通じて、<br />Origin間でのリソースへのアクセスを許可する
+  - **Access-Control-Allow-Origin**: 許可するOrigin
+    - 例: `*`, `https://b.example.com`
+  - **Access-Control-Allow-Methods**: 許可するメソッド
+    - 例: GET, POST, PUT, DELETE
+
+---
+
+# **Cross-Origin Resource Sharing**(**CORS**)
+
+通常時（SOP）
+
+<img src="assets/sop.png" alt="通常のSOPの動作" height="480px" />
+
+---
+
+# **Cross-Origin Resource Sharing**(**CORS**)
+
+適切なヘッダーを付与した場合（CORS）
+
+<img src="assets/cors.png" alt="CORSを利用した場合の動作" height="480px" />
+
+---
+
+# **Cross-Site Scripting**(**XSS**)
+
+- SOPはOriginで不正アクセスを防ぐ
+- アクセスしたいOriginと同じOriginでスクリプトを実行できれば...？
+  - 攻撃者は何でもやり放題
+- <span class="underlined">XSS</span>: 悪意のあるスクリプトをWebページに注入する攻撃
+- ↓のような文字列を入力される
+
+```HTML
+<script type="text/javascript">for(;;){alert("おいすー");}</script>
 ```
-Access to XMLHttpRequest at 'https://play.google.com/log?...' from origin
-'https://drive.google.com' has been blocked by CORS policy: No
-'Access-Control-Allow-Origin' header is present on the requested resource.
 
-Failed to load resource: net::ERR_FAILED
+---
+
+# **Cross-Site Scripting**(**XSS**)
+
+対策
+
+- サニタイジング
+  - ユーザーの入力をコードとして解釈しないように変換
+  - `<script>`→`&lt;script&gt;`
+- 危険な機能の使用に注意する
+  - Vue.js: `v-html`ディレクティブ
+
+---
+
+# **Content Security Policy**(**CSP**)
+
+- <span class="underlined">CSP</span>: スクリプトの出所を制限するXSS対策
+- Webサイトが動かしたいスクリプトの場所は決まっている
+- **Content-Security-Policy**ヘッダーで許可するスクリプトの場所を指定する
+- 例: `default-src 'self'; script-src 'self' example.com`
+  - デフォルトはSOP
+  - スクリプトはexample.comからも許可
+
+---
+
+# **Subresource Integrity**(**SRI**)
+
+- <span class="underlined">SRI</span>: スクリプトが改ざんされていないことを確かめる
+- ファイルのハッシュ値を事前に計算し、一致しない場合はブロック
+
+```HTML
+<script
+  src="https://example.com/example-framework.js"
+  integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"
+  crossorigin="anonymous"></script>
 ```
 
-- CORS: SOPの緩和
-- SOPは時に善良な開発者の障害となる
-- HTTPヘッダのやり取りを通じて、リソースの読み出し・書き込みを行ってよいかすり合わせる
-
 ---
 
-# CORSの仕組み (1/5)
+# Cookieのセキュリティ
 
-1. ユーザーのブラウザが `http://a.example.com` のWebページにアクセスします。
+<span class="underlined">HttpOnly</span>属性
 
-![CORS Diagram 1](https://via.placeholder.com/600x300.png/FFFFFF/000000?text=User+->+a.example.com)
+- JavaScriptからCookieにアクセスできなくする
+- セッションIDやJWTなどに適用
+- XSSを仕掛けられても認証情報が盗まれない
 
----
+<span class="underlined">Secure</span>属性
 
-# CORSの仕組み (2/5)
-
-2. `a.example.com` のページで実行されたスクリプトが、別のオリジンである `http://b.example.com` にリクエストを送信しようとします。
-
-![CORS Diagram 2](https://via.placeholder.com/600x300.png/FFFFFF/000000?text=a.example.com+Script+->+b.example.com)
-
----
-
-# CORSの仕組み (3/5)
-
-3. しかし、オリジンが異なるため、ブラウザはSame-Origin Policyに基づき、このリクエストをブロックします。
-
-![CORS Diagram 3](https://via.placeholder.com/600x300.png/FFFFFF/000000?text=Browser+BLOCKS+Request)
-
----
-
-# CORSの仕組み (4/5)
-
-4. これを解決するため、`http://b.example.com` サーバー側で、予め「`http://a.example.com` からのリクエストを許可する」と設定しておきます。（`Access-Control-Allow-Origin` ヘッダなど）
-
-![CORS Diagram 4](https://via.placeholder.com/600x300.png/FFFFFF/000000?text=b.example.com+sets+CORS+policy)
-
----
-
-# CORSの仕組み (5/5)
-
-5. ブラウザは `b.example.com` の許可設定を確認し、リクエストを許可します。これで異なるオリジン間での通信が安全に実現できます。
-
-![CORS Diagram 5](https://via.placeholder.com/600x300.png/FFFFFF/000000?text=Request+is+now+Allowed!)
-
----
-
-# Cross-Site Scripting (XSS)
-
-- SOPは同一Origin内のリソースのやり取りに関して何ら制限を加えない
-- 攻撃者が何らかの方法で他のユーザーの閲覧ページに任意のScriptを挿入することができれば？
-  - 自身のサーバーに読み取った値を送信するような事ができる
-- 対策
-  - ユーザーが生成したコンテンツは必ずサニタイジングする
-  - 危ない関数を迂闊に使わない
-    - v-htmlディレクティブ
-    - render関数のdomPropsやdomPropsInnerHTML
-
----
-
-# Content Security Policy
-
-- CSP: XSS脆弱性の水際対策
-- 開発者は自身がブラウザ上で実行したいスクリプトを知っている
-  - それだけ読み込めれば良い
-- Inline Scriptを`.js`や`.css`にまとめて、信頼のできるOriginからのみ配信する
-  - それ以外のScriptはContent-Injectionによるもの
-- 信頼性担保にはSRI (SubResource Integrity)などが利用される
-
----
-
-# Cookie
-
-**HttpOnly属性**
-
-- セッションの実現だけに用いられるCookieはブラウザの実行するJavaScriptから参照する必要がない
-  - サーバーへの送信時以外参照できないように設定する
-
-**Secure属性**
-
-- HTTPSプロトコル上の暗号化されたリクエストでのみサーバーに送信できるようになる
+- HTTPS通信でのみCookieを送信する
+- 通信の盗聴を防ぐ
 
 ---
 
 # まとめ
 
----
+サーバーのセキュリティ
 
-# Webサービスセキュリティ入門
-
-- サーバー内の情報が流出しないように気を付ける
-  - 認証情報を守る
-  - ポートを閉じる
-  - ライブラリに頼る
-- たとえ流出してもわからないようにする
-  - ハッシュ化する
-  - パスワードの痕跡を残さない
-- 他の人の攻撃を手伝わないようにする
-  - 不要なポートは閉じる
-  - パッチを当てる
+1. 不正なログインを防ぐ
+2. 不要なポートは閉じる
+3. ソフトウェアを最新に保つ
+4. 流出しても影響が無いようにする
 
 ---
 
-# 境界の必要性
+# まとめ
 
-- Webページの間には「ほどよい」境界が必要
-  - どのような境界が適切か？
-- **Origin**: URI中の「スキーム、ホスト、ポート」の組
-  - **Scheme**: HTTP, HTTPS
-  - **Host**: a.example.com, b.example.com, a.sample.com
-  - **Port**: 80, 443, 8080
+ブラウザのセキュリティ
 
----
-
-# Same-Origin Policy
-
-- SOP: Originに依拠した最も基本的なセキュリティ機構
-- 次の2つのルールに従って、Webページ間の「やりとり」に制限を加える
-  - 2つのページの Origin が一致していれば、無制限で「やりとり」を許す
-  - 2つのページの Origin が異なっていれば、「やりとり」を原則禁止する
-- やりとり：書き込み、埋め込み、読み込み
-  - Cross-Originでの書き込み：基本的に許可（条件付きで禁止される）…「単純な」リクエストに限る
-  - Cross-Originでの埋め込み：許可
-  - Cross-Originでの読み込み：基本的に禁止される
+- SOPとCORSでOriginを制限
+- XSS対策: サニタイジング、CSP、SRI
+- Cookieのセキュリティ: HttpOnly、Secure属性
 
 ---
+<!--
+_class: section-head
+-->
 
-# Cross-Origin Resource Sharing
-
-- CORS: SOPの緩和
-- SOPは時に善良な開発者の障害となる
-- HTTPヘッダのやり取りを通じて、リソースの読み出し・書き込みを行ってよいかすり合わせる
-
----
-
-# Content Security Policy
-
-- CSP: XSS脆弱性の水際対策
-- 開発者は自身がブラウザ上で実行したいスクリプトを知っている
-  - それだけ読み込めれば良い
-- Inline Scriptを`.js`や`.css`にまとめて、信頼のできるOriginからのみ配信する
-  - それ以外のScriptはContent-Injectionによるもの
-- 信頼性担保にはSRI (SubResource Integrity)などが利用される
-
----
-
-# Cookie
-
-**HttpOnly属性**
-
-- セッションの実現だけに用いられるCookieはブラウザの実行するJavaScriptから参照する必要がない
-  - サーバーへの送信時以外参照できないように設定する
-
-**Secure属性**
-
-- HTTPSプロトコル上の暗号化されたリクエストでのみサーバーに送信できるようになる
-
----
-
-# 参考資料
-
-- [安全なウェブサイトの運用管理に向けての20ヶ条 - IPA](https://www.ipa.go.jp/security/vuln/20point-website-operation.html)
-- [安全なウェブサイトの作り方 – IPA](https://www.ipa.go.jp/security/vuln/websecurity.html)
-- [脆弱性対策 - IPA](https://www.ipa.go.jp/security/vuln/index.html)
+# 演習タイム
