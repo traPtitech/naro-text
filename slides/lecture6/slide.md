@@ -127,7 +127,7 @@ _class: section-head
 
 # ① 不正なログインを防ぐ
 
-サーバーは常に攻撃されている
+サーバーは**常に**攻撃されている
 
 例: traQが動いているサーバーのSSHログ（ログイン試行）
 
@@ -148,9 +148,18 @@ pam_unix(sshd:session): session opened for user kentaro1043(uid=60053) by (uid=0
 
 # ① 不正なログインを防ぐ
 
+IPv4アドレスの総数: 2³² ≒ 4.2 × 10⁹
+グローバルでないものを除けばもっと少ない
+
+プログラムを書けば全部調べられる
+
+---
+
+# ① 不正なログインを防ぐ
+
 ## 対策
 
-- パスワードを長く複雑なものにする
+- 公開サーバーではパスワード認証を可能な限り使わない
 - パスワードよりも強力な認証方式を使う
   - SSH: 公開鍵認証方式
 - fail2banの導入
@@ -164,6 +173,7 @@ pam_unix(sshd:session): session opened for user kentaro1043(uid=60053) by (uid=0
 DBの認証情報も同様
 
 - パスワードを長く複雑なものにする
+  - 可能なら使わない
 - GitHubに認証情報をpushしない
 - 漏れても影響を最小限に
   - 適切な権限を設定
@@ -221,7 +231,7 @@ Connected!
 
 ## SQL injection
 
-正しい動作
+期待した動作
 
 ```bash
 $ go run main.go "' OR 1 OR '"
