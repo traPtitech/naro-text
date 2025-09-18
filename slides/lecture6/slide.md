@@ -86,12 +86,10 @@ _class: section-head
 
 ---
 
-# セキュリティ入門
+# 目次
 
-## 目次
-
-- サーバーセキュリティ入門
-- ブラウザセキュリティ入門
+1. サーバーセキュリティ入門
+2. ブラウザセキュリティ入門
 
 ---
 
@@ -99,7 +97,7 @@ _class: section-head
 _class: section-head
 -->
 
-# サーバーセキュリティ入門
+# 1. サーバー<br />セキュリティ入門
 
 ---
 
@@ -308,7 +306,8 @@ for _, city := range cities {
   - 手動アップデート
   - パッケージマネージャのアップデート機能
   - Dockerイメージのアップデート
-    - ベースイメージも忘れずに
+  - Dependabot/Renovateの活用
+    - 自動でアップデートPRを作成してくれる
 
 ---
 
@@ -347,7 +346,7 @@ for _, city := range cities {
 _class: section-head
 -->
 
-# ブラウザセキュリティ入門
+# 2. ブラウザ<br />セキュリティ入門
 
 ---
 
@@ -368,7 +367,7 @@ _class: section-head
 
 情報漏洩が起きるシチュエーション
 
-- あるWebページのLocalStorageを、他のWebページが読み取れてしまう
+- あるWebページのlocalStorageを、他のWebページが読み取れてしまう  
 - あるWebページを埋め込んている他のWebページが、埋め込まれたページをJavaScriptで操作できてしまう
 
 ---
