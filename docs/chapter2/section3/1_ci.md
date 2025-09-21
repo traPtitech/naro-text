@@ -33,10 +33,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version: "1.25"
       - name: Run tests
         run: go test ./...
 ```
@@ -58,10 +58,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version: "1.25"
       - name: Run tests
         run: go test ./...
 ```
@@ -85,10 +85,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version: "1.25"
       - name: Run tests
         run: go test ./...
 ```
@@ -109,10 +109,10 @@ jobs: # [!code focus:11]
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version: "1.25"
       - name: Run tests
         run: go test ./...
 ```
@@ -134,10 +134,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest  # [!code focus]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version: "1.25"
       - name: Run tests
         run: go test ./...
 ```
@@ -162,10 +162,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps: # [!code focus:10]
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version: "1.25"
       - name: Run tests
         run: go test ./...
 ```
@@ -176,10 +176,10 @@ jobs:
 
 `uses`は、GitHub Actions で提供されているモジュールを利用するための設定です。
 
-例えば、`actions/checkout@v3`は、リポジトリをクローンし、指定したブランチに移動するモジュールです。
+例えば、`actions/checkout@v5`は、リポジトリをクローンし、指定したブランチに移動するモジュールです。
 デフォルトでは、Actions がトリガーされたブランチに移動します。
 
-同様に、`actions/setup-go@v4`は、Go の環境をセットアップするモジュールです。ここでは`with`を使って引数を渡すことで、Go のバージョンを指定しています。
+同様に、`actions/setup-go@v6`は、Go の環境をセットアップするモジュールです。ここでは`with`を使って引数を渡すことで、Go のバージョンを指定しています。
 
 #### `run`
 
@@ -200,10 +200,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    - uses: actions/checkout@v3
-    - uses: actions/setup-go@v4
+    - uses: actions/checkout@v5
+    - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version: "1.25"
     - run: go mod download
     - run: go build
 ```
