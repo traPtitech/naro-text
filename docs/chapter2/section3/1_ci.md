@@ -46,7 +46,7 @@ jobs:
 ## `name`
 
 ```yaml
-name: CI // [!code focus]
+name: CI # [!code focus]
 on: 
   push: 
     branches:
@@ -75,7 +75,7 @@ jobs:
 
 ```yaml
 name: CI
-on: // [!code focus:5]
+on: # [!code focus:5]
   push: 
     branches:
       - main
@@ -104,7 +104,7 @@ on:
     branches:
       - main
   pull_request:
-jobs: // [!code focus:11]
+jobs: # [!code focus:11]
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -132,7 +132,7 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-latest  // [!code focus]
+    runs-on: ubuntu-latest  # [!code focus]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
@@ -161,7 +161,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    steps: // [!code focus:10]
+    steps: # [!code focus:10]
       - uses: actions/checkout@v3
       - uses: actions/setup-go@v4
         with:
