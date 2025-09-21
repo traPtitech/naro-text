@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.25"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.25"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -88,7 +88,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.25"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -112,7 +112,7 @@ jobs: # [!code focus:11]
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.25"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -137,7 +137,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.25"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -165,7 +165,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.25"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -179,7 +179,8 @@ jobs:
 例えば、`actions/checkout@v5`は、リポジトリをクローンし、指定したブランチに移動するモジュールです。
 デフォルトでは、Actions がトリガーされたブランチに移動します。
 
-同様に、`actions/setup-go@v6`は、Go の環境をセットアップするモジュールです。ここでは`with`を使って引数を渡すことで、Go のバージョンを指定しています。
+同様に、`actions/setup-go@v6`は、Go の環境をセットアップするモジュールです。
+ここでは`with`を使って引数を渡すことで、`go.mod`に書かれたバージョンの Go が使われるように指定しています。
 
 #### `run`
 
@@ -203,7 +204,7 @@ jobs:
     - uses: actions/checkout@v5
     - uses: actions/setup-go@v6
         with:
-          go-version: "1.25"
+          go-version-file: go.mod
     - run: go mod download
     - run: go build
 ```
