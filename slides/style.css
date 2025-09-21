@@ -4,6 +4,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap');
+
 /* カラートークン */
 
 :root {
@@ -71,6 +73,10 @@ a {
   color: var(--primary);
   text-decoration: underline;
   font-weight: bold;
+}
+
+code {
+  font-family: 'Noto Sans Mono', monospace;
 }
 
 /* タイトルスライド */
@@ -159,32 +165,32 @@ section.end h1 {
   text-align: center;
 }
 
+.align-center {
+  align-items: center;
+}
+
 .columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-  align-items: center;
 }
 
 .columns-3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
-  align-items: center;
 }
 
 .columns-4 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
-  align-items: center;
 }
 
 .columns-6 {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 1rem;
-  align-items: center;
 }
 
 .span-2 {
