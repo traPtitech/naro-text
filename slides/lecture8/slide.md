@@ -197,8 +197,8 @@ _class: section-head
 - 仮想マシン、VM(Virtual Machine)とも
 - それぞれのコンピューターから独立した仮想的な環境
 - 実現方法
-  - ホスト型 ... VMware Player など
-  - ハイパーバイザー型 ... Hyper-V, VirtualBox など
+  - ホスト型 ... VMware Player, VirtualBox など
+  - ハイパーバイザー型 ... Hyper-V, Virtualization.framework など
   - コンテナ型 ... LXC/LXD, Docker, podman など
 
 ---
@@ -314,7 +314,17 @@ _class: section-head
 
 # プロセス
 
+<style>
+.dockerLogo {
+    position: absolute;
+    top: 200px;
+    left: 750px;
+}
+</style>
+
 <img src="assets/processDocker.png"></img>
+
+<img src="assets/docker.png" class="dockerLogo"></img>
 
 ---
 
