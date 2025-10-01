@@ -240,7 +240,7 @@ func main() {
 - 繰り返し同じコードを書くのは避ける（＝DRY原則）
   - 関数など処理のまとまりを使って繰り返す
 - デザインパターンとして研究対象にもなっている
-  - SOLIDの原則, Clean Architecture, DDD
+  - SOLID原則, Clean Architecture, DDD
 - 経験がものをいうのでたくさん見て、書いて、直そう
 
 ---
@@ -497,7 +497,7 @@ _class: section-head
   - フレームワークごとに実装の方法が異なる
 - 複雑な処理を簡潔に書ける
 - コンポーネントという単位でコードを再利用できる
-- 状態管理や描画の最適化も担う
+- 状態管理や描画の最適化を担うこともある
 
 ---
 
@@ -538,6 +538,7 @@ _class: section-head
 - もちろんブラウザもランタイム
   > 2008年 GoogleがChromeを発表：V8エンジン搭載
 - Node.jsやDenoにもV8エンジンは採用されている
+- V8以外で動くランタイムもある (JavaScriptCore, SpiderMonkey, etc.)
 
 ---
 
