@@ -157,7 +157,7 @@ _class: section-head
 
 <div class="dockerIconContainer">
 
-<img src="assets/docker.png" class="dockerIcon"></img>
+<img src="assets/docker.png" class="dockerIcon">
 
 </div>
 
@@ -171,7 +171,7 @@ _class: section-head
 
 <div class="dockerIconContainer">
 
-<img src="assets/docker.png" class="dockerIcon"></img>
+<img src="assets/docker.png" class="dockerIcon">
 
 </div>
 
@@ -205,7 +205,7 @@ _class: section-head
 
 # Dockerを使う理由
 
-<img src="assets/dockerDescription.png"></img>
+<img src="assets/dockerDescription.png">
 
 ---
 
@@ -250,7 +250,7 @@ _class: section-head
 
 <div class="dockerIconContainer">
 
-<img src="assets/docker.png" class="dockerIcon"></img>
+<img src="assets/docker.png" class="dockerIcon">
 
 </div>
 
@@ -276,7 +276,7 @@ _class: section-head
 
 <div class="virtualizeColumn">
 
-<img src="assets/containerAndHyperviser.png" class="virtualizeColumnImg"></img>
+<img src="assets/containerAndHyperviser.png" class="virtualizeColumnImg">
 
 <div>
 
@@ -296,19 +296,19 @@ _class: section-head
 
 # プロセス
 
-<img src="assets/process.png"></img>
+<img src="assets/process.png">
 
 ---
 
 # プロセス
 
-<img src="assets/processAccess.png"></img>
+<img src="assets/processAccess.png">
 
 ---
 
 # プロセス
 
-<img src="assets/processContainer.png"></img>
+<img src="assets/processContainer.png">
 
 ---
 
@@ -322,9 +322,9 @@ _class: section-head
 }
 </style>
 
-<img src="assets/processDocker.png"></img>
+<img src="assets/processDocker.png">
 
-<img src="assets/docker.png" class="dockerLogo"></img>
+<img src="assets/docker.png" class="dockerLogo">
 
 ---
 
@@ -349,13 +349,13 @@ _class: section-head
 }
 </style>
 
-<img src="assets/dockerContainer.png" class="containerImage"></img>
+<img src="assets/dockerContainer.png" class="containerImage">
 
 ---
 
 # Dockerでは？
 
-<img src="assets/dockerImage.png" class="containerImage"></img>
+<img src="assets/dockerImage.png" class="containerImage">
 
 ---
 
@@ -421,19 +421,19 @@ _class: section-head
 
 # Docker Image とは
 
-<img src="assets/dockerImageLayer.png"></img>
+<img src="assets/dockerImageLayer.png">
 
 ---
 
 # Docker Image とは
 
-<img src="assets/dockerImageLayers.png"></img>
+<img src="assets/dockerImageLayers.png">
 
 ---
 
 # Docker における コンテナ とは
 
-<img src="assets/dockerImageContainer.png"></img>
+<img src="assets/dockerImageContainer.png">
 
 ---
 
@@ -496,13 +496,13 @@ _class: section-head
 
 # Volume とは
 
-<img src="assets/volume.png" class="volumeImage"></img>
+<img src="assets/volume.png" class="volumeImage">
 
 ---
 
 # Volume とは
 
-<img src="assets/volumeSystem.png" class="volumeImage"></img>
+<img src="assets/volumeSystem.png" class="volumeImage">
 
 ---
 
@@ -556,7 +556,7 @@ _class: section-head
 
 # Network とは
 
-<img src="assets/network.png" class="networkImage"></img>
+<img src="assets/network.png" class="networkImage">
 
 ---
 
@@ -581,7 +581,7 @@ _class: section-head
 
 <div class="dockerIconContainer">
 
-<img src="assets/docker.png" class="dockerIcon"></img>
+<img src="assets/docker.png" class="dockerIcon">
 
 </div>
 
@@ -607,7 +607,7 @@ _class: section-head
 
 <div class="virtualizeColumn">
 
-<img src="assets/containerAndHyperviser.png" class="virtualizeColumnImg"></img>
+<img src="assets/containerAndHyperviser.png" class="virtualizeColumnImg">
 
 <div>
 
@@ -627,31 +627,31 @@ _class: section-head
 
 # コンテナ
 
-<img src="assets/dockerImage.png" class="containerImage"></img>
+<img src="assets/dockerImage.png" class="containerImage">
 
 ---
 
 # Docker Image とは
 
-<img src="assets/dockerImageLayer.png"></img>
+<img src="assets/dockerImageLayer.png">
 
 ---
 
 # Docker における コンテナ とは
 
-<img src="assets/dockerImageContainer.png"></img>
+<img src="assets/dockerImageContainer.png">
 
 ---
 
 # Volume とは
 
-<img src="assets/volumeSystem.png" class="volumeImage"></img>
+<img src="assets/volumeSystem.png" class="volumeImage">
 
 ---
 
 # Network とは
 
-<img src="assets/network.png" class="networkImage"></img>
+<img src="assets/network.png" class="networkImage">
 
 ---
 
