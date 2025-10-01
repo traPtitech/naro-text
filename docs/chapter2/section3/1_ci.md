@@ -33,10 +33,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -46,7 +46,7 @@ jobs:
 ## `name`
 
 ```yaml
-name: CI // [!code focus]
+name: CI # [!code focus]
 on: 
   push: 
     branches:
@@ -58,10 +58,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -75,7 +75,7 @@ jobs:
 
 ```yaml
 name: CI
-on: // [!code focus:5]
+on: # [!code focus:5]
   push: 
     branches:
       - main
@@ -85,10 +85,10 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -104,15 +104,15 @@ on:
     branches:
       - main
   pull_request:
-jobs: // [!code focus:11]
+jobs: # [!code focus:11]
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -132,12 +132,12 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-latest  // [!code focus]
+    runs-on: ubuntu-latest  # [!code focus]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -161,11 +161,11 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    steps: // [!code focus:10]
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+    steps: # [!code focus:10]
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version-file: go.mod
       - name: Run tests
         run: go test ./...
 ```
@@ -176,10 +176,11 @@ jobs:
 
 `uses`は、GitHub Actions で提供されているモジュールを利用するための設定です。
 
-例えば、`actions/checkout@v3`は、リポジトリをクローンし、指定したブランチに移動するモジュールです。
+例えば、`actions/checkout@v5`は、リポジトリをクローンし、指定したブランチに移動するモジュールです。
 デフォルトでは、Actions がトリガーされたブランチに移動します。
 
-同様に、`actions/setup-go@v4`は、Go の環境をセットアップするモジュールです。ここでは`with`を使って引数を渡すことで、Go のバージョンを指定しています。
+同様に、`actions/setup-go@v6`は、Go の環境をセットアップするモジュールです。
+ここでは`with`を使って引数を渡すことで、`go.mod`に書かれたバージョンの Go が使われるように指定しています。
 
 #### `run`
 
@@ -200,10 +201,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    - uses: actions/checkout@v3
-    - uses: actions/setup-go@v4
+    - uses: actions/checkout@v5
+    - uses: actions/setup-go@v6
         with:
-          go-version: "1.20"
+          go-version-file: go.mod
     - run: go mod download
     - run: go build
 ```
