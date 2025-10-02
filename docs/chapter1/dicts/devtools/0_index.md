@@ -93,7 +93,7 @@ Background servicesの項目では、キャッシュに関するテストを実�
 Frameの項目では、Webページを複数に分割し、個別に読み込んで確認することができます。
 
 ## 補足(Vue.js devtools)
-最後に補足として、Vue.js devtoolsについて触れておきます。これはVueでの開発体験をよりよくするために開発された拡張機能で、なろう講習会でも後々入れてもらうことになります。拡張機能の導入に際しては[公式ドキュメント](https://devtools.vuejs.org/guide/installation.html)も参照してください。
+最後に補足として、Vue.js devtoolsについて触れておきます。これはVueでの開発体験をよりよくするために開発された拡張機能で、なろう講習会でも後々入れてもらうことになります。拡張機能の導入に際しては[公式ドキュメント](https://devtools.vuejs.org/getting-started/installation)も参照してください。
 
 詳しい使い方は実際に使ってみるときに確認していただきたいのですが、例えばComponentsタブからは、コンポーネント間の親子関係を確認したり、各コンポーネントの親子関係を確認したり、コンポーネントが持っているデータを見たりすることができます。
 ![DevTools-vue-extention](./images/DevTools-vue-extention.png)
