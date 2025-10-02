@@ -3,6 +3,20 @@ marp: true
 theme: SysAd
 ---
 
+<style>
+.columns {
+  display: flex;
+  align-items: center;
+}
+.columns img {
+  width: 500px;
+  margin-right: 1em;
+}
+.columns .text {
+  flex: 1;
+}
+</style>
+
 <!--
 _class: title
 -->
@@ -13,19 +27,23 @@ Webエンジニアになろう講習会 第2回
 
 ---
 
+<!--
+_class: section-head
+-->
+
 # 前回のおさらい
 
 ---
 
 # traQ概念図
 
-<!--TODO: 図の挿入-->
+![w:1000](assets/traq-concept.png)
 
 ---
 
 # 今日の範囲
 
-<!--TODO: 図の挿入-->
+![w:1000](assets/traq-concept-grayscale.png)
 
 ---
 
@@ -65,29 +83,107 @@ _class: section-head
 
 # 汚いコード
 
-<!--TODO: 図の挿入-->
+```go
+var (
+  a = 4 // X1-X3
+  b = 7
+  c = 2
+  d = 5 // Y1-Y3
+  e = 1
+  f = 9
+) 
+func main() {
+  tmp_var := 252521.0
+  if tmp_var < math.Sqrt(float64((0-a)*(0-a)+(0-d)*(0-d))) {
+    tmp_var = math.Sqrt(float64((a-0)*(a-0) + (d-0)*(d-0)))
+  }
+  if tmp_var > math.Sqrt(float64((0-b)*(0-b)+(0-e)*(0-e))) {
+  } else {
+  tmp_var = math.Sqrt(float64((-b)*(-b) + (-e)*(-e)))
+  }
+  if tmp_var < math.Sqrt(float64((0-c)*(0-c)+(0-f)*(0-f))) { 
+  fmt.Println(math.Sqrt(float64((c)*(c) + (f)*(f))))} else { 
+  fmt.Println(tmp_var) }} 
+```
 
 ---
 
 # きれいなコード
 
-<!--TODO: 図の挿入-->
+```go
+type Point struct {
+  x int
+  y int
+} 
+var points = []Point{{4, 5}, {7, 1}, {2, 9}} 
+func distance(a, b Point) float64 {
+  dx := float64(a.x - b.x)
+  dy := float64(a.y - b.y)
+  return math.Sqrt(dx*dx + dy*dy) 
+} 
+func main() {
+  origin := Point{0, 0}
+  ans := math.MaxFloat64
+  for _, point := range points { 
+    dist := distance(origin, point) 
+    if dist < ans { 
+      ans = dist 
+    } 
+  } 
+  fmt.Println(ans)
+} 
+```
 
 ---
 
 # どちらも同じ処理が書かれているが……
 
-<!--TODO: 図の挿入-->
+<style>
+.clean-code {
+  width: 600px
+}
+</style>
 
-- どんな処理がされているかわかりやすい
+<div class="columns">
+
+<div class="clean-code">
+
+```go
+type Point struct {
+  x int
+  y int
+} 
+var points = []Point{{4, 5}, {7, 1}, {2, 9}} 
+func distance(a, b Point) float64 {
+  dx := float64(a.x - b.x)
+  dy := float64(a.y - b.y)
+  return math.Sqrt(dx*dx + dy*dy) 
+} 
+func main() {
+  origin := Point{0, 0}
+  ans := math.MaxFloat64
+  for _, point := range points { 
+    dist := distance(origin, point) 
+    if dist < ans { 
+      ans = dist 
+    } 
+  } 
+  fmt.Println(ans)
+} 
+```
+
+</div>
+
+<div>
+
+きれいなコードは
+- 処理がわかりやすい
 - 処理の変更がしやすい
-  - 距離の定義が変わっても関数内を書き換えるだけ
-  - ポイントの数が変わっても配列に追加するだけ
+  - 距離の定義の変更
+  - ポイントの追加
 
-- どんな処理がされているかわかりにくい
-- 処理の変更が難しい
-  - 距離の定義が変わると多くを書き換えないといけない
-  - ポイントの数が変わるとそれに応じてコードを追加しないといけない
+</div>
+</div>
 
 ---
 
@@ -101,7 +197,7 @@ _class: section-head
 # きれいなコードを書くために
 
 1. インデントを使おう
-2. 命名規則を守ろう
+2. コーディング規約を守ろう
 3. 適切に分割しよう
 
 もちろんこれらが全てではない
@@ -112,49 +208,60 @@ _class: section-head
 
 # その1: インデントを使おう
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
-- インデントを使うとプログラムの構造がわかりやすくなる
+![w:800](assets/good-indent.png)
+
+- プログラムの構造がわかりやすくなる
 - 基本的には括弧の中を一段ネスト (深く) する
   - 括弧のペアが同じ深さになるように
 
+</div>
+
 ---
 
-# その2: 命名規則を守ろう
+# その2: コーディング規約を守ろう
 
-- getCurrentTime ... キャメルケース（Lower camel case）
-- GetCurrentTime ... パスカルケース（Upper camel case）
+変数・関数の命名方法には主に4種類
+
+- getCurrentTime ... キャメルケース（lowerCamelCase）
+- GetCurrentTime ... パスカルケース（UpperCamelCase）
 - get_current_time ... スネークケース
 - get-current-time ... ケバブケース
-<br>
-- 変数・関数等を命名するときの規則
-- 言語などによって使われるものが違う
-- 分かりやすい名前を付けたり、統一感を持たせよう
+
+言語ごとに大まかな使い方の約束がある（＝ **命名規則**）
+- 例：Python「変数にはスネークケースを使おう！」
 
 ---
 
 # その3: 適切に分割しよう
 
-- 分割単位は人・プロジェクトによってさまざま
-- 繰り返し同じコードを書くのは避ける
+- 分割単位はプロジェクトによってさまざま
+- 繰り返し同じコードを書くのは避ける（＝DRY原則）
   - 関数など処理のまとまりを使って繰り返す
-  - DRY(Don’t Repeat Yourself)原則とか言われたりする
-- デザインパターン・アーキテクチャとして研究対象にもなっている
-  - SOLIDの原則、Clean Architecture, DDD
+- デザインパターンとして研究対象にもなっている
+  - SOLID原則, Clean Architecture, DDD
 - 経験がものをいうのでたくさん見て、書いて、直そう
-  - 講習会内でも色々話します
 
 ---
 
+
 # リーダブルコード
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
-- 「読みやすいコード」について詳しくまとまっている本
-- 変数名やコメントのつけ方など詳しく乗っている
-- 前半だけでも借りて読んでみるのを勧めます
+![](assets/readable-code.png)
+
+<div>
+
+「読みやすいコード」について詳しくまとまっている本
+- 変数名やコメントのつけ方など
+- 前半だけでも借りて読んでみよう
   - 部室に一冊おいてあります
-  - 持ってる部員も多い
+
+</div>
+
+</div>
 
 ---
 
@@ -192,12 +299,23 @@ _class: section-head
 
 # その1: Linter / Formatter を使おう
 
-<!--TODO: 図の挿入-->
+<style>
+.small {
+  font-size: 30px
+}
+</style>
 
-- コードを自動でチェック・フォーマットしてくれるツール
+<div class="columns">
+
+![w:200](assets/eslint.png)<span class="small">ESLint</span><br>
+![w:200](assets/prettier.png)<span class="small">Prettier</span>
+
+- コードを自動でチェック・フォーマット
   - インデントや括弧、命名などを指摘・修正してくれる
 - 設定ファイルでルールを変更・共有できます
-  - チーム・プロジェクト内で管理して統一された<br>フォーマットになるようにしよう
+  - チーム・プロジェクト内で管理して統一されたフォーマットになるようにしよう
+
+</div>
 
 ---
 
@@ -205,19 +323,26 @@ _class: section-head
 
 <!--TODO: 図の挿入-->
 
-- PR (プルリクエスト) を出したときにほかの人がコードをレビューする
-- 仕様に沿って実装されているか・コードが適切かなどをチェックする
+- チームメイトがプルリクエストを確認する作業
+  - 「これだとバグが出るからこう？」
+  - 「この部分はこう書いたほうが分かりやすいかも」
 - 実装をどうすべきかといった相談が行われることもある
-- この講習会でも行う予定
+- リポジトリの実例を見てみよう
 
 ---
 
 # その3: ペアプロ・モブプロをしよう
 
+<div class="columns">
+
 - 一つのコードを複数人で見ながらコーディングすること
 - リアルタイムコードレビューみたいな感じ
 - スキルや知識の共有、集中力の向上などの利点がある
-- **進捗部屋に積極的に来よう！ (講師陣も)**
+- **QSoC に参加しよう！ (講師もTAも)**
+
+![](assets/pair-programming.png)
+
+</div>
 
 ---
 
@@ -254,52 +379,65 @@ _class: section-head
 
 - ブラウザ黎明期、沢山の人が思い思いに、より良いWeb体験を実現しようと努力していた
   - 今もそうだけど
-- その中でWebページに動きを持たせるいくつかの技術が開発された
+- Webページに動きをもたせるいくつかの技術が開発された
   - Java Applet / Flash / JavaScript / Sliverlight ...
 
 ---
 
 # Java Applet
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
 - 1996年発表
 - ブラウザでJavaが動く
-- 重かった(数十秒から数分)ため、大手のブラウザに採用されなくなった
-- Java11以降Java Runtime Environmentからセキュリティ上の理由で廃止
+- 遅かった（数十秒から数分）ため、大手のブラウザに採用されなくなった
+- Java11〜 セキュリティ上の理由で廃止
+
+![](assets/java-applet.png)
+
+</div>
 
 ---
 
 # Flash
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
 - Flashゲームのフラッシュ
 - YouTubeやニコニコでも使われていた
-- 2020年末を目処に配布を終了し、同時にブラウザのサポートも終了
+- 2020年末に配布・ブラウザのサポートが終了
   - セキュリティ上の理由
   - [Ruﬄe](https://ruffle.rs/)というエミュレータが有志でつくられている
   - https://trap.jp/post/1124/
 
+![w:400](assets/adobe-flash.png)
+
+</div>
+
 ---
 
 # JavaScript
 
-<!--TODO: 図の挿入-->
+<div class="columns">
+
+![](assets/javascript.png)
 
 - 1995年登場
-- Webサイト・Webアプリ・バックエンド・デスクトップアプリ・モバイルアプリなど、ブラウザからサーバー、デスクトップからスマートフォンまで多岐に渡る
+- Web関係ならどこにでもいる（クライアント ＆ サーバー）
+- Webに無関係なアプリの開発にも使われる大人気言語
 - Ajax (非同期通信)の登場とともに広がりを見せる
+
+</div>
 
 ---
 
 # JavaScript
 
-<!--TODO: 図の挿入-->
-
-- Ecma InternaAonalと呼ばれる機関によって標準化が行われる
-  - 毎年、標準の仕様が策定され、各ブラウザベンダーによって独自の実装が行われる
-- V8エンジンから導入されたJITコンパイルによって、JSは遅いという常識から脱却
+- Ecma Internationalという機関によって仕様が策定される
+  - 実装は各ブラウザベンダーによって独自に行われる
+- 2008年 GoogleがChromeを発表：V8エンジン搭載
+  - それ以前のJavaScriptはFlashよりも遅かった
+  - JITコンパイルという技術がJavaScriptを爆速に
 
 ---
 
@@ -335,56 +473,84 @@ _class: section-head
 
 # Webフロント開発
 
-<!--TODO: 図の挿入 & 文字位置調整-->
-
-1. フレームワーク
-2. バンドラー
-3. HTML / CSS / JavaScript
-4. ランタイム
+![](assets/web-frontend-concept.png)
 
 ---
 
 # フレームワーク
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
-- 開発者がメインに書く部分
-- それぞれのフレームワークの機能を利用して複雑な処理を簡潔に書ける
+<span>　</span>
+
+![w:150](assets/react.png)
+
+![w:170](assets/vue.png)
+
+![w:200](assets/angular.png)
+
+![w:150](assets/svelte.png)
+
+</div>
+
+- Webサイトを開発する方法を提供してくれるもの
+  - フレームワークごとに実装の方法が異なる
+- 複雑な処理を簡潔に書ける
 - コンポーネントという単位でコードを再利用できる
-- 状態管理や描画の最適化を行う
+- 状態管理や描画の最適化を担うこともある
 
 ---
 
 # モジュールバンドラー
 
-<!--TODO: 図の挿入-->
+<div class="columns">
 
-- 依存する複数のファイルをまとめる
-- テンプレートエンジンの解釈やフレームワークのコンパイル、CSSのプリプロセッサや各種トランスパイルなど実際にHTML / CSS / JavaScriptとしてブラウザで動かすために必要なことをやってくれる
-- DevOpsの浸透とともに、そのパフォーマンスに焦点が当てられるようになり、最近は技術競争が激しい
+![w:150](assets/vite.png)
+
+![w:200](assets/parcel.png)
+
+![w:150](assets/esbuild.png)
+
+![w:200](assets/webpack.png)
+
+![w:100](assets/rollup.png)
+
+</div>
+
+- Webサイトは HTML + CSS + JavaScript で出来ている
+  - しかし、フレームワークを活用して書くソースコードはその組み合わせではない
+- 最後に HTML + CSS + JavaScript に変換するシステム\
+  ＝ **モジュールバンドラー**
 
 ---
 
 # ランタイム
 
-<!--TODO: 図の挿入-->
+<div class="columns">
+
+![w:500](assets/nodejs.png)
+
+![w:500](assets/deno.png)
+
+</div>
 
 - JavaScriptの実行環境 = JavaScriptを解釈して実行する
-- ChromeはランタイムシステムとしてV8エンジンを採用
-  - V8エンジンメモ: 2017年からWebAssemblyに対応
+- もちろんブラウザもランタイム
+  > 2008年 GoogleがChromeを発表：V8エンジン搭載
+- Node.jsやDenoにもV8エンジンは採用されている
+- V8以外で動くランタイムもある (JavaScriptCore, SpiderMonkey, etc.)
 
 ---
 
 # Webフロント開発雑多
 
-- フレームワークもバンドラーもまだまだある
-- 作るものの規模や特徴に合わせたツールを選ぶことが大事
+- フレームワークもバンドラーもたくさんある
+- 作るものの規模や特徴に合ったツールを選ぶことが大事
   - 大は小を兼ねない
-  - Web基礎講習会のカウンターなら生のJSでも書ける
-- 「設計思想」がある
+  - traPの中でまず触ってみるなら Vue.js + Vite？
+- それぞれに「設計思想」がある
 - パラダイムの移り変わりも速い
-- 時々立ち止まってセキュリティに意識を向ける必要がある
-- コツコツ積み上げていくしか無い
+- セキュリティにも意識を向ける必要がある
 
 ---
 
@@ -409,10 +575,10 @@ _class: section-head
 # Alt HTML
 
 - Markdown, Haml, Slim, Pug, EJS など
-  - Markdownの内部にHTML書くと動く (ものもある)
+  - Markdownの内部にHTMLを書くと動く（こともある）
   - ↑HackMDとかで試せる
 - HTMLテンプレートエンジンとも
-- ループや条件なども記述できる (ものもある)
+- ループや条件なども記述できる（ものもある）
 
 ---
 
@@ -455,7 +621,7 @@ _class: section-head
 # きれいなコードを書くために
 
 1. インデントを使おう
-2. 命名規則を守ろう
+2. コーディング規約を守ろう
 3. 適切に分割しよう
 
 ---
@@ -475,7 +641,7 @@ _class: section-head
 
 - ブラウザ黎明期、沢山の人が思い思いに、より良いWeb体験を実現しようと努力していた
   - 今もそうだけど
-- その中でWebページに動きを持たせるいくつかの技術が開発された
+- Webページに動きをもたせるいくつかの技術が開発された
   - Java Applet / Flash / JavaScript / Sliverlight ...
 
 ---
