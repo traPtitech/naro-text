@@ -23,7 +23,7 @@ section {
   font-family: 'Noto Sans JP';
   color: var(--text);
   background-color: var(--background);
-  font-weight: 500;
+  font-weight: 400;
   position: relative;
 }
 
@@ -72,7 +72,7 @@ li::marker {
 a {
   color: var(--primary);
   text-decoration: underline;
-  font-weight: bold;
+  font-weight: 400;
 }
 
 code {
@@ -216,7 +216,7 @@ section.end h1 {
 /* 装飾用 */
 
 strong {
-  font-weight: 800;
+  font-weight: 700;
   color: var(--primary);
 }
 
@@ -251,7 +251,7 @@ strong {
   text-emphasis-color: hsl(344, 90%, 60%);
   -webkit-text-emphasis-style: circle;
   text-emphasis-style: circle;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* マーカーで背景に線を引く */
@@ -259,7 +259,7 @@ strong {
   background: hsla(200, 80%, 60%, 0.6);
   display: inline;
   padding: 0 8px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 /* マーカーで下に線を引く */
@@ -267,7 +267,7 @@ strong {
   background: linear-gradient(transparent 70%, hsla(344, 90%, 60%, 0.6) 0) no-repeat;
   display: inline;
   padding: 0 4px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 
