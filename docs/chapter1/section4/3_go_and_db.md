@@ -101,8 +101,6 @@ $ go run main.go {都市の名前}
 
 と入力して、同様に人口を表示するようにしましょう。
 
-ヒント：[Go言語 - os.Argsでコマンドラインパラメータを受け取る - 覚えたら書く](https://blog.y-yuki.net/entry/2017/04/30/000000)
-
 :::details 答え
 <<< @/chapter1/section4/src/practice_basic1.go
 :::
