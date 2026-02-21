@@ -8,6 +8,8 @@ on:
 jobs:
   build-vitepress:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -19,30 +21,30 @@ jobs:
       - run: npm ci
       - run: npm run docs:build
       - name: Upload VitePress Result
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: vitepress-dist
           path: docs/.vitepress/dist
 
   build-marp:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
       - name: Marp Build
-        uses: marp-team/marp-cli-action@v3
-        with:
-          args: --input-dir ./slides --output marp-dist --extension html
+        run: |
+          npx @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --extension html
         env:
           MARP_USER: root:root
 
       - name: Copy Assets
-        # 画像などの静的ファイルを Marp 出力先にマージ
         run: |
-          rsync -av --exclude="*.md" --exclude=".git/" --exclude="node_modules/" --exclude="docs/" --exclude="marp-dist/" ./ marp-dist/
+          rsync -av --exclude="*.md" --exclude=".git/" ./slides/ marp-dist/
 
       - name: Upload Marp Result
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: marp-dist
           path: marp-dist
@@ -58,13 +60,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Download VitePress
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: vitepress-dist
           path: final-dist
 
       - name: Download Marp
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: marp-dist
           path: final-dist/slides
