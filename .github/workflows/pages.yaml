@@ -35,7 +35,8 @@ jobs:
 
       - name: Marp Build
         run: |
-          npx @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --extension html
+          npx @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --html
+          npx @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --pdf --allow-local-files
 
       - name: Copy Assets
         run: |
