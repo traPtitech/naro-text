@@ -1,18 +1,13 @@
-name: Deploy
+name: Deploy VitePress and Marp
 on:
   workflow_dispatch: {}
   push:
     branches:
       - main
+
 jobs:
-  deploy:
+  build-vitepress:
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -22,12 +17,63 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Build
-        run: npm run docs:build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - run: npm run docs:build
+      - name: Upload VitePress Result
+        uses: actions/upload-artifact@v4
         with:
+          name: vitepress-dist
           path: docs/.vitepress/dist
+
+  build-marp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Marp Build
+        uses: marp-team/marp-cli-action@v3
+        with:
+          args: --input-dir ./slides --output marp-dist --extension html
+        env:
+          MARP_USER: root:root
+
+      - name: Copy Assets
+        # 画像などの静的ファイルを Marp 出力先にマージ
+        run: |
+          rsync -av --exclude="*.md" --exclude=".git/" --exclude="node_modules/" --exclude="docs/" --exclude="marp-dist/" ./ marp-dist/
+
+      - name: Upload Marp Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: marp-dist
+          path: marp-dist
+
+  deploy:
+    needs: [build-vitepress, build-marp]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download VitePress
+        uses: actions/download-artifact@v4
+        with:
+          name: vitepress-dist
+          path: final-dist
+
+      - name: Download Marp
+        uses: actions/download-artifact@v4
+        with:
+          name: marp-dist
+          path: final-dist/slides
+
+      - name: Upload final artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: final-dist
+
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
