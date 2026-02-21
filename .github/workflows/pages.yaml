@@ -40,7 +40,7 @@ jobs:
 
       - name: Copy Assets
         run: |
-          rsync -av --exclude="*.md" --exclude=".git/" ./slides/ marp-dist/
+          rsync -av --exclude="*.md" ./slides/ marp-dist/
 
       - name: Upload Marp Result
         uses: actions/upload-artifact@v6
