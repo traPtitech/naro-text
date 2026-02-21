@@ -36,8 +36,6 @@ jobs:
       - name: Marp Build
         run: |
           npx @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --extension html
-        env:
-          MARP_USER: root:root
 
       - name: Copy Assets
         run: |
