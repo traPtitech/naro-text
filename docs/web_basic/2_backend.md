@@ -236,7 +236,10 @@ https://github.com/codespaces から前回作ったフロントエンドの GitH
 リクエストを投げるためには[Fetch API](https://developer.mozilla.org/ja/docs/Web/API/fetch)というものを使います。
 
 URL は、以下の画像にて赤で囲ったように、下の`PORTS`->コピーマークの順でクリックするとコピーできます。
-![alt text](images/port_copy.png)
+![port_copy](images/port_copy.png)
+
+また、フロントエンドの GitHub Codespaces リクエストが投げられるように、ポートの `Private` の部分を右クリックして、`ポートの表示範囲` から `Public` を選択しておきましょう。
+![port_public](images/port_public.png)
 
 ```javascript
 const httpGetRequest = async () => {
