@@ -275,6 +275,14 @@ index.html で読み込みます。
 Mac: control + shift + command + 4 で矩形選択でスクリーンショットが撮れます。traQ のメッセージ入力欄に Command+v で貼り付けられます。
 Windows: Win キー + shift + s で矩形選択でスクリーンショットが撮れます。traQ のメッセージ入力欄に ctrl+v で貼り付けられます。
 
+:::info
+GitHub Codespaces を使っている場合、自己紹介のページを他の人に対して公開できます。ポートタブを開いて、 Private になっている部分を右クリック、ポートの表示範囲から Public を選択してみましょう。左側に表示されているアドレスを共有すれば、他の人からもページを確認できるようになります！
+
+ただし、こうして共有された URL は、 **Codespaces を停止させるとアクセスできなくなる**ことに注意が必要です。
+
+![公開範囲をPublicにする](images/change_to_public.png)
+:::
+
 
 
 ## JavaScriptを書く
