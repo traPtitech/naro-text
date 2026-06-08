@@ -23,7 +23,7 @@ _class: title
 
 # プログラミング心得＆<br>フロントエンド基礎
 
-Webエンジニアになろう講習会 第2回
+Webエンジニアになろう講習会 第4回
 
 ---
 
@@ -237,7 +237,7 @@ func main() {
 # その3: 適切に分割しよう
 
 - 分割単位はプロジェクトによってさまざま
-- 繰り返し同じコードを書くのは避ける（＝DRY原則）
+- 繰り返し同じコードを書くのは避ける（＝DRY (Don't Repeat Yourself)原則）
   - 関数など処理のまとまりを使って繰り返す
 - デザインパターンとして研究対象にもなっている
   - SOLID原則, Clean Architecture, DDD
@@ -307,8 +307,11 @@ _class: section-head
 
 <div class="columns">
 
-![w:200](assets/lecture2/eslint.png)<span class="small">ESLint</span><br>
-![w:200](assets/lecture2/prettier.png)<span class="small">Prettier</span>
+![w:70](assets/lecture2/eslint.png)<span class="small">ESLint</span>
+![w:70](assets/lecture2/prettier.png)<span class="small">Prettier</span>
+![w:70](assets/lecture2/biome.png)<span class="small">biome</span>
+![w:70](assets/lecture2/oxlint_oxfmt.png)<span class="small">oxlint,oxfmt</span>
+
 
 - コードを自動でチェック・フォーマット
   - インデントや括弧、命名などを指摘・修正してくれる
