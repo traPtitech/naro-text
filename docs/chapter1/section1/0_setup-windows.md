@@ -96,7 +96,7 @@ mise use -g go@latest
 go version
 ```
 
-`go version go.1.26.4`と表示されればインストール完了です。
+`go version go1.26.4`と表示されればインストール完了です。
 
 ### Go のツールのインストール
 

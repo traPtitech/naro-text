@@ -106,7 +106,7 @@ mise use -g go@latest
 go version
 ```
 
-バージョン番号が表示されればインストール完了です。
+`go version go1.26.4`と表示されればインストール完了です。
 
 ### Go のツールのインストール
 
@@ -142,7 +142,7 @@ mise use -g node@lts
 node -v
 ```
 
-を実行して、バージョン番号が表示されれば OK。
+を実行して、`v24.16.0`のようにバージョンが表示されればOK。
 
 ## Docker Desktopのインストール
 
