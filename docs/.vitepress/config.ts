@@ -1,8 +1,5 @@
 import { defineConfig } from 'vitepress'
-import { chapter1SidebarItems } from './sidebarConfigs/chapters/chapter1/chapter1'
-import { chapter2SidebarItems } from './sidebarConfigs/chapters/chapter2/chapter2'
-import { chapter4SidebarItems } from './sidebarConfigs/chapters/chapter4/chapter4'
-import { webBasicSidebarItems } from './sidebarConfigs/chapters/webBasic/webBasic'
+import { buildSidebar } from './sidebarConfigs/buildSidebar'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -18,13 +15,14 @@ export default defineConfig({
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    siteTitle: 'なろう講習会',
     nav: [{ text: 'Home', link: '/' }],
 
     sidebar: {
-      '/web_basic/': webBasicSidebarItems,
-      '/chapter1/': chapter1SidebarItems,
-      '/chapter2/': chapter2SidebarItems,
-      '/chapter4/': chapter4SidebarItems
+      '/web_basic/': buildSidebar('web_basic'),
+      '/chapter1/': buildSidebar('chapter1'),
+      '/chapter2/': buildSidebar('chapter2'),
+      '/chapter4/': buildSidebar('chapter4')
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/traPtitech/naro-text' }],
     search: {
