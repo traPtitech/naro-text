@@ -231,14 +231,14 @@ type jsonData struct {
 ### 発展課題1
 
 今までは手動でリクエストを投げていましたが、フロントエンドから JS でリクエストを投げてみましょう。前回作ったフロントエンドを使います。
-https://github.com/codespaces から前回作ったフロントエンドの GitHub Codespaces を開いて追記していきましょう。
+https://github.com/codespacesから前回作ったフロントエンドの GitHub Codespaces を開いて追記していきましょう。
 
 リクエストを投げるためには[Fetch API](https://developer.mozilla.org/ja/docs/Web/API/fetch)というものを使います。
 
 URL は、以下の画像にて赤で囲ったように、下の`PORTS`->コピーマークの順でクリックするとコピーできます。
 ![port_copy](images/port_copy.png)
 
-また、フロントエンドの GitHub Codespaces からリクエストが投げられるように、ポートの `Private` の部分を右クリックして、`ポートの表示範囲` から `Public` を選択しておきましょう。
+また、フロントエンドの GitHub Codespaces からリクエストが投げられるように、ポートの`Private`の部分を右クリックして、`ポートの表示範囲`から`Public`を選択しておきましょう。
 ![port_public](images/port_public.png)
 
 ```javascript
