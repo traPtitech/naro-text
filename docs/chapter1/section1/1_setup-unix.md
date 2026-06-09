@@ -144,6 +144,31 @@ node -v
 
 を実行して、`v24.16.0`のようにバージョンが表示されればOK。
 
+### セキュリティ対策
+
+npm も mise と同様にサプライチェーン攻撃の対策をしておきましょう。
+
+ここでは、公開されたばかりのパッケージをインストールしない設定と、インストール時のスクリプトの実行を無効化する設定を行います。
+
+```bash
+npm config set min-release-age 3
+npm config set ignore-scripts true
+```
+
+設定が反映されているか確認します。
+
+```bash
+cat ~/.npmrc
+```
+
+これで以下のような内容が表示されれば成功です。
+
+```
+min-release-age=3
+ignore-scripts=true
+```
+
+
 ## Docker Desktopのインストール
 
 https://www.docker.com/products/docker-desktop/
