@@ -1,10 +1,10 @@
-# 環境構築 (windows)
+# 環境構築 (Windows)
 
 [[toc]]
 
 :::warning
-コマンドは手入力ではなく、コピー & ペースト で入力してください。  
-手入力だと写し間違いの可能性があります。  
+コマンドは手入力ではなく、コピー & ペースト で入力してください。
+手入力だと写し間違いの可能性があります。
 この際、1 行ずつコピーするようにしてください。
 :::
 
@@ -36,7 +36,7 @@ https://code.visualstudio.com/download
 
 ### 拡張機能の導入
 
-VSCode は拡張機能により様々な言語でのプログラミングをラクにすることができます。  
+VSCode は拡張機能により様々な言語でのプログラミングをラクにすることができます。
 次回以降に使うものも最初にまとめて導入しておきましょう。
 
 :::warning
@@ -50,21 +50,44 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
   - コードのフォーマットを整えてくれます。保存時に自動で実行されるような設定をしておくと便利です。
 - [Vue Language Features (Volar)](https://marketplace.visualstudio.com/items?itemName=vue.volar)
-  - VSCode の Vue3 向けの統合プラグイン。  
+  - VSCode の Vue3 向けの統合プラグイン。
 
 インストールが終わったら、反映させるために VSCode を 1 度閉じて開きなおしてください。
 
-## Go と Task のインストール
+## miseのインストール
+
+mise という開発ツールのバージョンを簡単に管理するためのツールをインストールします。
+
+```bash
+# mise のインストール
+curl https://mise.run | sh
+
+echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+インストールできているか確認します。
+```bash
+mise --version
+```
+`2026.x.x` のように表示されれば成功です。
+
+### セキュリティ対策
+
+最近、公開されたばかりの最新パッケージに悪意のあるコードを混入させる「サプライチェーン攻撃」が増えています。
+この対策として、パッケージが公開されてから一定期間(ここでは3日間)経過していないバージョンは、インストールしないように設定しておきましょう。
+
+```bash
+mise settings set minimum_release_age "3d"
+```
+
+## Go のインストール
 
 ここでは、Go というプログラミング言語の導入をします。
 この講習会では Go という言語でサーバーサイドの制作を行います。
 
 ``` bash
-sudo apt install tar git
-wget https://go.dev/dl/go1.24.4.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.4.linux-amd64.tar.gz
-echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
-source ~/.profile
+mise use -g go@latest
 ```
 
 ここまでで、以下のコマンドを実行して
@@ -73,24 +96,7 @@ source ~/.profile
 go version
 ```
 
-`go version go.1.24.4`と表示されればインストール完了です。
-ここまでできれば、次は以下のコマンドも実行して Task のインストールをしてください。
-
-```sh
-go install github.com/go-task/task/v3/cmd/task@latest
-```
-
-:::info 詳しく知りたい人向け。
-
-**`Task`って何だ。**
-
-Task は、Go で動いているタスクランナーです。これによって長いコマンドを短くできたり、複数のコマンドを 1 回で実行できたりと、開発においてとても便利なツールです。テンプレートリポジトリに`Taskfile.yaml`というファイルがありますが、このファイルによってコマンドの設定をしています。公式ドキュメントは英語しかありませんが、興味のある人は目を通してみてください。
-
-Task 公式ドキュメント [https://taskfile.dev/](https://taskfile.dev/)
-
-Task GitHub [https://github.com/go-task/task](https://github.com/go-task/task)
-
-:::
+`go version go.1.26.4`と表示されればインストール完了です。
 
 ### Go のツールのインストール
 
@@ -113,27 +119,24 @@ VSCode で `Ctrl`+`Shift`+`P` を押して出てくるコマンドパレット�
 
 ## Node.jsの導入
 
-Vue を使うために、Node.js を入れます。ここでは fnm という Node.js 専用のバージョンマネージャーを用いてインストールします。
-この講習会では、クライアントサイドを Vue を用いて制作します。
+この講習会では、クライアントサイド（フロントエンド）の制作に Vue を使用します。
+その開発環境を動かすための土台として、Node.js をインストールしましょう。
 
 ```bash
-curl -o- https://fnm.vercel.app/install | bash
-# もし必要なら指示に従って source コマンドを実行する
-fnm install --lts
+mise use -g node@lts
 ```
 
-これで、デフォルトで現在出ている最新のLTSバージョンが適用されるようになりました。
-ここで、インストールが正常にできているかを確認します。
+インストールできているか確認しましょう。
 
 ```bash
 node -v
 ```
 
-を実行して、バージョン番号が表示されれば OK。
+を実行して、`v24.16.0`のようにバージョンが表示されればOK。
 
 ## Docker Desktopのインストール
 
-https://www.docker.com/products/docker-desktop/  
+https://www.docker.com/products/docker-desktop/
 上のリンクからそれぞれの OS にあったものをダウンロードしてインストールしてください。
 
 ### WSL2の追加設定 - WSL Backend の有効化
