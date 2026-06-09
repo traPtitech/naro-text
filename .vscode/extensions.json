@@ -1,3 +1,6 @@
 {
-  "recommendations": ["3w36zj6.textlint"]
+  "recommendations": [
+    "3w36zj6.textlint",
+    "marp-team.marp-vscode"
+  ]
 }
