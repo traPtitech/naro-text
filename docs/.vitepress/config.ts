@@ -6,7 +6,18 @@ export default defineConfig({
   base: '/naro-text/',
   title: 'なろう講習会',
   description: 'Webエンジニアになろう講習会のテキスト',
-  head: [['link', { rel: 'icon', href: '/naro-text/favicon.ico' }]],
+  head: [
+    ['link', { rel: 'icon', href: '/naro-text/favicon.ico' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    [
+      'link',
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+Mono:wght@400;600&display=swap'
+      }
+    ]
+  ],
   markdown: {
     theme: {
       light: 'github-dark',
