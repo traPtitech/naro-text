@@ -153,7 +153,7 @@ cat ~/.npmrc
 
 これで以下のような内容が表示されれば成功です。
 
-```
+```text
 min-release-age=3
 ignore-scripts=true
 ```
