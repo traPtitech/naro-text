@@ -55,8 +55,9 @@ _class: section-head
   - JavaScriptの歴史
   - フロントエンド開発
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
 
 ---
 
@@ -68,8 +69,9 @@ _class: section-head
   - JavaScriptの歴史
   - フロントエンド開発
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
 
 ---
 
@@ -273,8 +275,9 @@ func main() {
   - JavaScriptの歴史
   - フロントエンド開発
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
 
 ---
 
@@ -365,8 +368,9 @@ _class: section-head
   - **JavaScriptの歴史 ⬅️**
   - フロントエンド開発
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
 
 ---
 
@@ -452,8 +456,9 @@ _class: section-head
   - JavaScriptの歴史
   - **フロントエンド開発 ⬅️**
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
 
 ---
 
@@ -675,5 +680,6 @@ _class: section-head
   - JavaScriptの歴史
   - フロントエンド開発
 - **実習 ⬅️**
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
