@@ -145,6 +145,14 @@ npm config set min-release-age 3
 npm config set ignore-scripts true
 ```
 
+:::warning
+npmのバージョンが低いとこの設定ができない可能性があります。
+その場合は、以下のコマンドで npm を最新バージョンにアップデートしてください。
+```bash
+npm install -g npm
+```
+:::
+
 設定が反映されているか確認します。
 
 ```bash
