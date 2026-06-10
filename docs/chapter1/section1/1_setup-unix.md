@@ -29,8 +29,14 @@ https://code.visualstudio.com/download
 VSCode は拡張機能により様々な言語でのプログラミングをラクにすることができます。
 次回以降に使うものも最初にまとめて導入しておきましょう。
 
-:::warning
+:::tip
 下記に書いてある拡張機能は必ず導入してください！ `⌘ + Shift + X` で拡張機能のインストール画面を開くことができます。
+:::
+
+:::warning
+昨今のVSCode の拡張機能に様々な脆弱性が報告されているため、以下のような対策をしておきましょう。
+- 信頼できる発行元のもの以外は利用しない
+- 気づかないうちに影響を受けないため、拡張機能の自動更新を止めて手作業で更新する
 :::
 
 - [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
