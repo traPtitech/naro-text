@@ -23,7 +23,7 @@ _class: title
 
 # プログラミング心得＆<br>フロントエンド基礎
 
-Webエンジニアになろう講習会 第2回
+Webエンジニアになろう講習会 第4回
 
 ---
 
@@ -49,18 +49,25 @@ _class: section-head
 
 # 目次
 
+<div class="small">
+
 - 座学
   - きれいなコードを書こう
   - きれいなコードを保つために
   - JavaScriptの歴史
   - フロントエンド開発
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
+
+</div>
 
 ---
 
 # 目次
+
+<div class="small">
 
 - 座学
   - **きれいなコードを書こう ⬅️**
@@ -68,8 +75,11 @@ _class: section-head
   - JavaScriptの歴史
   - フロントエンド開発
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
+
+</div>
 
 ---
 
@@ -237,7 +247,7 @@ func main() {
 # その3: 適切に分割しよう
 
 - 分割単位はプロジェクトによってさまざま
-- 繰り返し同じコードを書くのは避ける（＝DRY原則）
+- 繰り返し同じコードを書くのは避ける（＝DRY (Don't Repeat Yourself)原則）
   - 関数など処理のまとまりを使って繰り返す
 - デザインパターンとして研究対象にもなっている
   - SOLID原則, Clean Architecture, DDD
@@ -267,14 +277,19 @@ func main() {
 
 # 目次
 
+<div class="small">
+
 - 座学
   - きれいなコードを書こう
   - **きれいなコードを保つために ⬅️**
   - JavaScriptの歴史
   - フロントエンド開発
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
+
+</div>
 
 ---
 
@@ -307,8 +322,11 @@ _class: section-head
 
 <div class="columns">
 
-![w:200](assets/lecture2/eslint.png)<span class="small">ESLint</span><br>
-![w:200](assets/lecture2/prettier.png)<span class="small">Prettier</span>
+![w:70](assets/lecture2/eslint.png)<span class="small">ESLint</span>
+![w:70](assets/lecture2/prettier.png)<span class="small">Prettier</span>
+![w:70](assets/lecture2/biome.png)<span class="small">biome</span>
+![w:70](assets/lecture2/oxlint_oxfmt.png)<span class="small">oxlint,oxfmt</span>
+
 
 - コードを自動でチェック・フォーマット
   - インデントや括弧、命名などを指摘・修正してくれる
@@ -356,14 +374,19 @@ _class: section-head
 
 # 目次
 
+<div class="small">
+
 - 座学
   - きれいなコードを書こう
   - きれいなコードを保つために
   - **JavaScriptの歴史 ⬅️**
   - フロントエンド開発
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
+
+</div>
 
 ---
 
@@ -443,14 +466,19 @@ _class: section-head
 
 # 目次
 
+<div class="small">
+
 - 座学
   - きれいなコードを書こう
   - きれいなコードを保つために
   - JavaScriptの歴史
   - **フロントエンド開発 ⬅️**
 - 実習
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
+
+</div>
 
 ---
 
@@ -666,11 +694,16 @@ _class: section-head
 
 # 目次
 
+<div class="small">
+
 - 座学
   - きれいなコードを書こう
   - きれいなコードを保つために
   - JavaScriptの歴史
   - フロントエンド開発
 - **実習 ⬅️**
-  - Chrome Devtools 入門
   - Vue入門
+  - アプリをつくってみよう
+  - 制作物を公開してみよう
+
+</div>
