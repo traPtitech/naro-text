@@ -26,13 +26,13 @@ DB_DATABASE="world"
 
 このまま演習を始めてしまうとファイルが長くなりすぎてしまうので、ファイルを別のパッケージとして分割します。
 :::tip
-パッケージとは、関連する複数のファイルをまとめる単位のことです。  
-ディレクトリとパッケージは一対一に対応しています。原則的に、ディレクトリ名とパッケージ名は同じにします。    
-パッケージによって、機能を分離でき、変数や関数の公開範囲を最低限にできる等沢山の恩恵が得られます。  
-パッケージの外部に公開する変数や関数などのシンボルは、先頭を大文字にする必要があります。  
-逆に言えば、先頭が大文字でないシンボルは、パッケージの外部からはアクセスできません。  
+パッケージとは、関連する複数のファイルをまとめる単位のことです。
+ディレクトリとパッケージは一対一に対応しています。原則的に、ディレクトリ名とパッケージ名は同じにします。
+パッケージによって、機能を分離でき、変数や関数の公開範囲を最低限にできる等沢山の恩恵が得られます。
+パッケージの外部に公開する変数や関数などのシンボルは、先頭を大文字にする必要があります。
+逆に言えば、先頭が大文字でないシンボルは、パッケージの外部からはアクセスできません。
 詳しくは以下を参照してください。
-[A Tour of Go - Packages](https://go.dev/tour/basics/1)  
+[A Tour of Go - Packages](https://go.dev/tour/basics/1)
 [Effective Go - package-names](https://golang.org/doc/effective_go#package-names)
 :::
 各エンドポイントでの処理はハンドラーと呼ばれますが、それを `handler/handler.go` に移動してみましょう。手順は以下の通りです。
@@ -52,7 +52,7 @@ DB_DATABASE="world"
 
 <<<@/chapter2/section1/src/first/main.go{go:line-numbers}
 
-ファイルを編集したら、`go mod tidy` を実行しましょう。  
+ファイルを編集したら、`go mod tidy` を実行しましょう。
 ![](images/0/file-tree.png)
 ここまで出来たら、画像のようになっているはずです。
 
@@ -66,14 +66,14 @@ DB_DATABASE="world"
 
 それでは、`go run main.go` で実行してみましょう。
 :::tip
-`main package`を複数ファイルに分割した場合、`go run main.go`だと`main.go`のみがビルドされるため、  
-`go run .`や`go run main1.go main2.go`のようにして複数ファイルを読み込む必要があります。  
+`main package`を複数ファイルに分割した場合、`go run main.go`だと`main.go`のみがビルドされるため、
+`go run .`や`go run main1.go main2.go`のようにして複数ファイルを読み込む必要があります。
 詳しくは`go help run`を参照してください。
 :::
 
 ![](images/0/echo.png)
 
-無事起動が出来たら、ターミナルで`task up`を実行してデーターベースを起動し、<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスして実際に動いていることを確認しましょう。
+無事起動が出来たら、ターミナルで`mise run up`を実行してデーターベースを起動し、<a href="http://localhost:8080/cities/Tokyo">localhost:8080/cities/Tokyo</a>にアクセスして実際に動いていることを確認しましょう。
 
 ![](images/0/Tokyo.png)
 
