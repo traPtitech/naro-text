@@ -16,53 +16,6 @@
 `Control + Shift + Command + 4`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に` Command + V`で貼り付けられます。
 :::
 
-## Homebrew の導入
-
-ターミナルアプリを開いて、以下のコマンドを貼り付け、returnキーを押して実行してください。
-
-Homebrew とは、様々なアプリケーションをインストールしやすくし、アップデートなどもやりやすくするためのソフトです。
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-参考: [Homebrew 公式サイト](https://brew.sh/ja)
-
-
-## mise の導入
-
-mise は、Go や Node.js などの開発に必要なツールのバージョンをまとめて管理するためのソフトです。
-
-ターミナルで以下のコマンドを実行してインストールしてください。
-
-```bash
-brew install mise
-```
-
-インストールが完了したら、mise を有効化するために、以下のコマンドを実行してください。
-
-```bash
-echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
-source ~/.zshrc
-```
-
-インストールできているか確認します。
-
-```bash
-mise --version
-```
-
-`2026.x.x` のように表示されれば成功です。
-
-### セキュリティ対策
-
-最近、公開されたばかりの最新パッケージに悪意のあるコードを混入させる「サプライチェーン攻撃」が増えています。
-この対策として、パッケージが公開されてから一定期間(ここでは3日間)経過していないバージョンは、インストールしないように設定しておきましょう。
-
-```bash
-mise settings set minimum_release_age "3d"
-```
-
 ## VSCode の導入
 
 すでに VSCode をインストールしている方はこの手順を飛ばして大丈夫です。
@@ -90,6 +43,37 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
   - VSCode の Vue3 向けの統合プラグイン。
 
 インストールが終わったら、反映させるために VSCode を 1 度閉じて開きなおしてください。
+
+
+## mise の導入
+
+mise は、Go や Node.js などの開発に必要なツールのバージョンをまとめて管理するためのソフトです。
+
+ターミナルで以下のコマンドを実行してインストールしてください。
+
+```bash
+curl https://mise.run | sh
+
+echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+インストールできているか確認します。
+
+```bash
+mise --version
+```
+
+`2026.x.x` のように表示されれば成功です。
+
+### セキュリティ対策
+
+最近、公開されたばかりの最新パッケージに悪意のあるコードを混入させる「サプライチェーン攻撃」が増えています。
+この対策として、パッケージが公開されてから一定期間(ここでは3日間)経過していないバージョンは、インストールしないように設定しておきましょう。
+
+```bash
+mise settings set minimum_release_age "3d"
+```
 
 ## Go のインストール
 
