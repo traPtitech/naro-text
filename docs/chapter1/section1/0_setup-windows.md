@@ -51,6 +51,11 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 昨今のVSCode の拡張機能に様々な脆弱性が報告されているため、以下のような対策をしておきましょう。
 - 信頼できる発行元のもの以外は利用しない
 - 気づかないうちに影響を受けないため、拡張機能の自動更新を止めて手作業で更新する
+
+`Ctrl + , `で設定を開き、`Extensions: Auto Update`の項目を「なし (false)」にすることで自動更新を止めることができます
+![](./images/disable_autoupdate.png)
+
+![](./images/vscode_extensions.png)
 :::
 
 - [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
