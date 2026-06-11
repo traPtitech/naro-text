@@ -28,7 +28,7 @@ GitHub に SSH 鍵を登録していない人は以下を参考にしてまず�
 
 [SSH鍵の登録](../dicts/ssh/0_index.md)
 
-[traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend) にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
+[traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend)にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
 
 ![](images/0/use-template.png)
 
@@ -116,7 +116,7 @@ traP では、Web フロントフレームワークとして最も多く使わ�
 
 Vue では`.vue`という拡張子で単一ファイルコンポーネント(SFC, Single File Component)を作ることができます。
 
-なろう講習会の言葉で言うと、Vue では、**1 つの同じファイルに構造(HTML)・ロジック(JavaScript)・スタイル(CSS)** を記述できます。それぞれを別の巨大なファイルに書くのではなく、**見た目に対応した要素を各ファイルに分割して書く**ことで、それぞれの責任範囲をより直感的な形式で分けることができるわけです。このように分けられた要素をコンポーネントといいます。
+なろう講習会の言葉で言うと、Vue では、**1 つの同じファイルに構造(HTML)・ロジック(JavaScript)・スタイル(CSS)**を記述できます。それぞれを別の巨大なファイルに書くのではなく、**見た目に対応した要素を各ファイルに分割して書く**ことで、それぞれの責任範囲をより直感的な形式で分けることができるわけです。このように分けられた要素をコンポーネントといいます。
 
 ### Vue の書き方
 
@@ -169,9 +169,9 @@ Vite はここから参照されているファイルをたどってビルドを
 
 #### `node_modules`
 
-`npm install` でインストールされる依存ライブラリが保存されるディレクトリです。
+`npm install`でインストールされる依存ライブラリが保存されるディレクトリです。
 中を見ることは殆ど無いです。
-`.gitignore`に指定されています。(`package.json`, `package-lock.json` があれば `npm install` で再現できるためです)
+`.gitignore`に指定されています。(`package.json`, `package-lock.json`があれば`npm install`で再現できるためです)
 
 #### `package.json` `package-lock.json`
 
@@ -179,8 +179,8 @@ Vite はここから参照されているファイルをたどってビルドを
 
 #### `src/main.ts`
 
-`index.html` で読み込まれている ts ファイルです。
-ここでは Vue インスタンスを生成し、`index.html` の`<div id="app"></div>`部分にマウントしています。
+`index.html`で読み込まれている ts ファイルです。
+ここでは Vue インスタンスを生成し、`index.html`の`<div id="app"></div>`部分にマウントしています。
 
 #### `src/App.vue`
 
@@ -267,7 +267,7 @@ Vue のコンポーネントは 1 つのタグの中に収まっている必要�
 import ClickCounter from './components/ClickCounter.vue'
 ```
 
-`ClickCounter` コンポーネントを読み込む部分です。
+`ClickCounter`コンポーネントを読み込む部分です。
 
 ##### 4 行目
 
@@ -279,7 +279,7 @@ defineProps<{
 ```
 
 `msg`props を`string`型で定義してる部分です。  
-今回だと`App.vue`で `<WelcomeMessage msg="Webエンジニアになろう講習会へようこそ" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。 JavaScript でいう関数の引数のようなものです。
+今回だと`App.vue`で`<WelcomeMessage msg="Webエンジニアになろう講習会へようこそ" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。 JavaScript でいう関数の引数のようなものです。
 
 参考: [プロパティ | Vue](https://ja.vuejs.org/guide/components/props.html)
 
@@ -357,7 +357,7 @@ Vue では`ref`で`count`のような変数を定義するだけで、「値を�
 参考: [イベントハンドリング | Vue](https://ja.vuejs.org/guide/essentials/event-handling.html)
 
 :::tip
-`v-on:click` のショートハンドとして`@click` という書き方ができます(推奨)
+`v-on:click`のショートハンドとして`@click`という書き方ができます(推奨)
 :::
 
 ##### 5 行目
@@ -398,5 +398,5 @@ Vue ではそれがなくて嬉しいです。
 
 カウンターを 2 つ作りたくなった場合を考えます。  
 生 HTML・JS が書ける人はちょっとチャレンジしてみてください。関数名や変数名をかぶらないようにしたり、セレクタの名前を変更したりと結構めんどくさいです。  
-Vue ならば、`HelloWorld.vue` の`<ClickCounter />`をコピーして増やすだけで OK です。  
+Vue ならば、`HelloWorld.vue`の`<ClickCounter />`をコピーして増やすだけで OK です。  
 これは traQ のように同じ要素を沢山利用するような Web アプリで大きな利点となります。

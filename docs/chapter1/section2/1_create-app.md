@@ -62,8 +62,8 @@
 ### 商品のリストデータを表示する
 
 先ほど定義したリストの情報を表示していきます。  
-Vue ではリストデータを`template`タグ内で for 文のように書く `v-for` という構文があります。  
-`v-for` を使うときには`:key`を設定しなければいけません(理由(やや難): [優先度 A: 必須 | Vue](https://ja.vuejs.org/style-guide/rules-essential.html#use-keyed-v-for))。
+Vue ではリストデータを`template`タグ内で for 文のように書く`v-for`という構文があります。  
+`v-for`を使うときには`:key`を設定しなければいけません(理由(やや難): [優先度 A: 必須 | Vue](https://ja.vuejs.org/style-guide/rules-essential.html#use-keyed-v-for))。
 
 参考: [リストレンダリング | Vue](https://ja.vuejs.org/guide/essentials/list.html#v-for)
 
