@@ -47,19 +47,12 @@ GitHub に SSH 鍵を登録していない人は以下を参考にしてまず�
 `$ npm install`
 
 ```bash
-mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm i
+added 274 packages, and audited 275 packages in 7s
 
-added 130 packages, and audited 131 packages in 2s
-
-20 packages are looking for funding
+73 packages are looking for funding
   run `npm fund` for details
 
-1 moderate severity vulnerability
-
-To address all issues, run:
-  npm audit fix
-
-Run `npm audit` for details.
+found 0 vulnerabilities
 ```
 
 テンプレートは初期状態でビルド&配信できるようになっているので、以下のコマンドを実行してブラウザで確認してみましょう。
@@ -67,18 +60,16 @@ Run `npm audit` for details.
 `$ npm run dev`
 
 ```bash
-mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm run dev
-
-> todolist@0.0.0 dev
+> naro-template-frontend@0.0.0 dev
 > vite
 
 
-  VITE v4.3.8  ready in 611 ms
+  VITE v8.0.16  ready in 891 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
-  ➜  press h to show help
-
+  ➜  Vue DevTools: Open http://localhost:5173/__devtools__/ as a separate window
+  ➜  Vue DevTools: Press Alt(⌥)+Shift(⇧)+D in App to toggle the Vue DevTools
 ```
 
 この状態で、ブラウザから <a href='http://localhost:5173/' target="_blank" rel="noopener noreferrer">localhost:5173</a> にアクセスすると、以下のような画面が表示されるはずです。
@@ -86,6 +77,31 @@ mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm run dev
 ![](images/0/vite-start.png)
 
 止めるときは`Ctrl + C`で止めてください。
+
+## Vue を書く準備
+
+まず、以下の拡張機能をインストールしてください。
+
+#### Vue Dev tool
+
+Chrome Devtool に Vue 向けのデバッグ機能を追加してくれます。  
+[Vue devtools - Chrome ウェブストア](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=ja)
+
+### ソースコードの書き進め方
+
+`npm run dev`で起動していれば、ファイルの変更を自動で検知して表示が更新されます。
+
+:::tip
+ちゃんと保存しましょう。
+![](images/0/unsaved.png)
+
+画面上部のタブのファイル名の横に ● がついているときは保存できていません。
+
+![](images/0/saved.png)
+
+設定で自動保存されるようにしておくと便利です。  
+参考： [自動保存するように設定する](https://www.javadrive.jp/vscode/setting/index2.html)
+:::
 
 ## Vue 入門
 
@@ -112,7 +128,7 @@ Vue では`.vue`という拡張子で単一ファイルコンポーネント(SFC
 
 #### Sample.vue
 
-<<< @/chapter1/section2/src/0/Sample.vue
+<<< @/chapter1/section2/src/0/Sample.vue{vue}
 
 #### 使用例
 
@@ -138,12 +154,10 @@ traQ で 1 つ例を挙げると、メッセージの表示部分はコンポー
 ├── public
 │   └── favicon.ico         // 静的ファイル(ビルドされない)
 ├── src
-│   ├── App.vue             // main.jsから読まれる.vueファイル(Vueの処理開始点)
-│   ├── images              // Vueで使用したい画像など
-│   │　　└── logo.svg
+│   ├── App.vue             // main.tsから読まれる.vueファイル(Vueの処理開始点)
 │   ├── components          // 各種コンポーネント
-│   │　　└── HelloWorld.vue
-│   └── main.ts　　　　　　　　// index.htmlから読まれるscript(TSの処理開始点)
+│   │   └── WelcomeMessage.vue
+│   └── main.ts             // index.htmlから読まれるscript(TSの処理開始点)
 └── vite.config.ts
 ```
 
@@ -179,42 +193,17 @@ HelloWorld コンポーネントを読み込み → 登録 → 描画してい�
 `App.vue`で呼び出されています。  
 `components`内に他にも色々なコンポーネントがありますが、今回は使わないので省略します。
 
-## Vue を書く準備
-
-まず、以下の拡張機能をインストールしてください。
-
-#### Vue Dev tool
-
-Chrome Devtool に Vue 向けのデバッグ機能を追加してくれます。  
-[Vue devtools - Chrome ウェブストア](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=ja)
-
-### ソースコードの書き進め方
-
-`npm run dev`で起動していれば、ファイルの変更を自動で検知して表示が更新されます。
-
-:::tip
-ちゃんと保存しましょう。
-![](images/0/unsaved.png)
-
-画面上部のタブのファイル名の横に ● がついているときは保存できていません。
-
-![](images/0/saved.png)
-
-設定で自動保存されるようにしておくと便利です。  
-参考： [自動保存するように設定する](https://www.javadrive.jp/vscode/setting/index2.html)
-:::
-
 ## Vue を書く
 
 Web 基礎講習会で書いたカウンターのソースコードを再掲します。
 
 #### index.html(一部抜粋)
 
-<<< @/chapter1/section2/src/0/index.html{html:line-numbers}
+<<< @/chapter1/section2/src/0/index.html{html:line-numbers=0}
 
 #### counter.js
 
-<<< @/chapter1/section2/src/0/counter.js{js:line-numbers}
+<<< @/chapter1/section2/src/0/counter.js{js:line-numbers=0}
 
 :::info
 Go や C++などでは`""`と`''`が区別されますが、JavaScript では区別されません。
@@ -237,17 +226,17 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 `style`タグを丸ごと消します。
 
-<<< @/chapter1/section2/src/0/App.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/0/App.vue{vue:line-numbers=0}
 
-##### src/components/HelloWorld.vue
+##### src/components/WelcomeMessage.vue
 
 `script`タグ内で`ClickCounter.vue`を読み込み、`template`タグ内にカウンターを配置します。
 
-<<< @/chapter1/section2/src/0/HelloWorld.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/0/WelcomeMessage.vue{vue:line-numbers=0}
 
 ##### src/components/ClickCounter.vue
 
-<<< @/chapter1/section2/src/0/ClickCounter.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/0/ClickCounter.vue{vue:line-numbers=0}
 
 以下のように動けば OK です。
 
@@ -265,6 +254,7 @@ Vue のコンポーネントは 1 つのタグの中に収まっている必要�
 
 #### 1 行目
 ```vue
+<!-- src/components/WelcomeMessage.vue -->
 <script setup lang="ts">
 ```
 
@@ -273,7 +263,8 @@ Vue のコンポーネントは 1 つのタグの中に収まっている必要�
 ##### 2 行目
 
 ```ts
-import ClickCounter from "./ClickCounter.vue"
+// src/App.vue
+import ClickCounter from './components/ClickCounter.vue'
 ```
 
 `ClickCounter` コンポーネントを読み込む部分です。
@@ -281,13 +272,14 @@ import ClickCounter from "./ClickCounter.vue"
 ##### 4 行目
 
 ```ts
+// src/components/WelcomeMessage.vue
 defineProps<{
 	msg: string
 }>()
 ```
 
 `msg`props を`string`型で定義してる部分です。  
-今回だと`App.vue`で `<HelloWorld msg="Hello Vue 3 + Vite" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。 JavaScript でいう関数の引数のようなものです。
+今回だと`App.vue`で `<WelcomeMessage msg="Webエンジニアになろう講習会へようこそ" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。 JavaScript でいう関数の引数のようなものです。
 
 参考: [プロパティ | Vue](https://ja.vuejs.org/guide/components/props.html)
 
@@ -311,7 +303,8 @@ const { msg } = defineProps()
 
 ##### 12 行目
 
-```tsx
+```vue
+<!-- src/App.vue -->
 <ClickCounter />
 ```
 
@@ -326,6 +319,7 @@ const { msg } = defineProps()
 `ref`を使うことで、Vue が値の変更を検知して自動で再描画してくれるようになります。
 
 ```ts
+// src/components/ClickCounter.vue
 const count = ref<number>(0)
 ```
 
@@ -334,6 +328,7 @@ const count = ref<number>(0)
 :::info
 ここで`counter.js`の`countUp`を見てみましょう。
 ```js
+// counter.js
 const countUp = () => {
   count++
   const countElement = document.querySelector('#count')
@@ -353,6 +348,7 @@ Vue では`ref`で`count`のような変数を定義するだけで、「値を�
 
 
 ```vue
+<!-- src/components/ClickCounter.vue -->
 <button @click="count++">クリック！</button>
 <button @click="count = 0">リセット！</button>
 ```
@@ -372,6 +368,7 @@ Vue では`ref`で`count`のような変数を定義するだけで、「値を�
 リアクティブな値にアクセスする時、`<script setup>`の内部では`count.value`のように、変数名のあとに`.value`をつけてアクセスしてください。
 
 ```ts
+// src/components/ClickCounter.vue
 const countMessage = computed(() => "回数: " + count.value)
 ```
 

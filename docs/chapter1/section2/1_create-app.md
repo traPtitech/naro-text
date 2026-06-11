@@ -30,11 +30,11 @@
 
 中身はコンポーネントに最低限必要な部分だけ書きます。
 
-<<< @/chapter1/section2/src/1/ItemListInit.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/1/ItemListInit.vue{vue:line-numbers=0}
 
-#### HelloWorld.vue
+#### src/App.vue
 
-<<< @/chapter1/section2/src/1/HelloWorld.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/1/App.vue{vue:line-numbers=0}
 
 表示されました。
 こうすることで、後は`ItemList.vue`の中身を書き変えればよくなります。
@@ -51,7 +51,7 @@
 参考: [Array | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array)  
 参考：[JavaScript オブジェクトの基本 - ウェブ開発を学ぶ | MDN](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Objects/Basics)
 
-<<< @/chapter1/section2/src/1/ItemListItems.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/1/ItemListItems.vue{vue:line-numbers=0}
 
 4~7 行目は TypeScript の記法で、`Item`という型を`interface`を用いて定義しています。  
 そして ref のジェネリクスに`Item[]`を渡すことで、`items`変数を`Item`型の配列の`ref`として扱えるようにしています。
@@ -69,7 +69,7 @@ Vue ではリストデータを`template`タグ内で for 文のように書く 
 
 これを使ってデータを表示してみます。
 
-<<< @/chapter1/section2/src/1/ItemListList.vue
+<<< @/chapter1/section2/src/1/ItemListList.vue{vue:line-numbers=0}
 
 表示できました。
 
@@ -82,7 +82,7 @@ Vue では入力欄に入力された文字列とコンポーネントの変数�
 
 これを使って商品を追加できるようにしてみます。
 
-<<< @/chapter1/section2/src/1/ItemListAdd.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/1/ItemListAdd.vue{vue:line-numbers=0}
 
 参考: [アロー関数式 | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
 
@@ -107,7 +107,7 @@ Vue では、ある特定の条件が満たされたときに class を追加す
 参考: [CSS の基本 | MDN](https://developer.mozilla.org/ja/docs/Learn/Getting_started_with_the_web/CSS_basics)  
 参考: [クラスとスタイルのバインディング | Vue](https://ja.vuejs.org/guide/essentials/class-and-style.html#binding-html-classes)
 
-<<< @/chapter1/section2/src/1/ItemListRed.vue
+<<< @/chapter1/section2/src/1/ItemListRed.vue{vue:line-numbers=0}
 
 ![](images/1/red.png)
 
@@ -119,7 +119,7 @@ Vue では、ある特定の条件を満たした場合のみ、対象コンポ�
 
 これを使って商品の値段が 10000 円以上だったら「高額商品」と表示するという機能を実現してみましょう。
 
-<<< @/chapter1/section2/src/1/ItemListExpensive.vue
+<<< @/chapter1/section2/src/1/ItemListExpensive.vue{vue:line-numbers=0}
 
 ![](images/1/expensive.png)
 

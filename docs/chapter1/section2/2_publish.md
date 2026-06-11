@@ -51,13 +51,13 @@ GitHub Pages は GitHub に上げたコードから簡単に Web サイトを公
 参考：[静的サイトのデプロイ | Vite](https://ja.vitejs.dev/guide/static-deploy.html)  
 参考：[GitHub Actions のワークフロー構文 - GitHub Docs](https://docs.github.com/ja/actions/using-workflows/workflow-syntax-for-github-actions)
 
-<<< @/chapter1/section2/src/2/deploy.yml
+<<< @/chapter1/section2/src/2/deploy.yml{yaml:line-numbers=0}
 
 #### vite.config.ts
 
 `base`の項目を追加します。`{リポジトリ名}`の部分は自分のリポジトリ名を入れてください。
 
-<<< @/chapter1/section2/src/2/vite.config.ts
+<<< @/chapter1/section2/src/2/vite.config.ts{ts:line-numbers=0}
 
 これで設定は終わりです。main ブランチに push したら GitHub Actions が走り、GitHub Pages で公開されるはずです。
 

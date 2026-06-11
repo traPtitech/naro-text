@@ -1,3 +1,4 @@
+// counter.js
 let count = 0
 const countUp = () => {
   count++

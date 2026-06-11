@@ -1,15 +1,16 @@
+<!-- src/components/ItemList.vue -->
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue' // [!code ++]
 
-interface Item {
-  name: string
-  price: number
-}
+interface Item { // [!code ++]
+  name: string // [!code ++]
+  price: number // [!code ++]
+} // [!code ++]
 
-const items = ref<Item[]>([
-  { name: 'たまご', price: 100 },
-  { name: 'りんご', price: 160 }
-])
+const items = ref<Item[]>([ // [!code ++]
+  { name: 'たまご', price: 100 }, // [!code ++]
+  { name: 'りんご', price: 160 } // [!code ++]
+]) // [!code ++]
 </script>
 
 <template>

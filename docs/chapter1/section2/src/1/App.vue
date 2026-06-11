@@ -1,13 +1,15 @@
 <!-- src/App.vue -->
 <script setup lang="ts">
-import ClickCounter from './components/ClickCounter.vue' // [!code ++]
+import ClickCounter from './components/ClickCounter.vue'
+import ItemList from './components/ItemList.vue' // [!code ++]
 import WelcomeMessage from './components/WelcomeMessage.vue'
 </script>
 
 <template>
   <main>
     <WelcomeMessage msg="Webエンジニアになろう講習会へようこそ" />
-    <ClickCounter /><!-- [!code ++] -->
+    <ClickCounter />
+    <ItemList /><!-- [!code ++] -->
   </main>
 </template>
 

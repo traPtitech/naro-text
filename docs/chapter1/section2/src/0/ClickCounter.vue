@@ -1,5 +1,6 @@
+<!-- src/components/ClickCounter.vue -->
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const count = ref<number>(0)
 const countMessage = computed(() => '回数: ' + count.value)
