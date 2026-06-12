@@ -1,3 +1,4 @@
+<!-- Sample.vue -->
 <script>
 // ロジック
 </script>

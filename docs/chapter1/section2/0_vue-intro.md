@@ -28,7 +28,7 @@ GitHub に SSH 鍵を登録していない人は以下を参考にしてまず�
 
 [SSH鍵の登録](../dicts/ssh/0_index.md)
 
-[traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend) にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
+[traPtitech/naro-template-frontend](https://github.com/traPtitech/naro-template-frontend)にアクセスし、「Use this template」→「Create a new repository」をクリックしてください。
 
 ![](images/0/use-template.png)
 
@@ -47,19 +47,12 @@ GitHub に SSH 鍵を登録していない人は以下を参考にしてまず�
 `$ npm install`
 
 ```bash
-mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm i
+added 274 packages, and audited 275 packages in 7s
 
-added 130 packages, and audited 131 packages in 2s
-
-20 packages are looking for funding
+73 packages are looking for funding
   run `npm fund` for details
 
-1 moderate severity vulnerability
-
-To address all issues, run:
-  npm audit fix
-
-Run `npm audit` for details.
+found 0 vulnerabilities
 ```
 
 テンプレートは初期状態でビルド&配信できるようになっているので、以下のコマンドを実行してブラウザで確認してみましょう。
@@ -67,18 +60,16 @@ Run `npm audit` for details.
 `$ npm run dev`
 
 ```bash
-mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm run dev
-
-> todolist@0.0.0 dev
+> naro-template-frontend@0.0.0 dev
 > vite
 
 
-  VITE v4.3.8  ready in 611 ms
+  VITE v8.0.16  ready in 891 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
-  ➜  press h to show help
-
+  ➜  Vue DevTools: Open http://localhost:5173/__devtools__/ as a separate window
+  ➜  Vue DevTools: Press Alt(⌥)+Shift(⇧)+D in App to toggle the Vue DevTools
 ```
 
 この状態で、ブラウザから <a href='http://localhost:5173/' target="_blank" rel="noopener noreferrer">localhost:5173</a> にアクセスすると、以下のような画面が表示されるはずです。
@@ -86,6 +77,31 @@ mehm8128@DESKTOP-6F4C0KI ~/develop/todolist-mehm8128 (main)$ npm run dev
 ![](images/0/vite-start.png)
 
 止めるときは`Ctrl + C`で止めてください。
+
+## Vue を書く準備
+
+まず、以下の拡張機能をインストールしてください。
+
+#### Vue Dev tool
+
+Chrome Devtool に Vue 向けのデバッグ機能を追加してくれます。  
+[Vue devtools - Chrome ウェブストア](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=ja)
+
+### ソースコードの書き進め方
+
+`npm run dev`で起動していれば、ファイルの変更を自動で検知して表示が更新されます。
+
+:::tip
+ちゃんと保存しましょう。
+![](images/0/unsaved.png)
+
+画面上部のタブのファイル名の横に ● がついているときは保存できていません。
+
+![](images/0/saved.png)
+
+設定で自動保存されるようにしておくと便利です。  
+参考： [自動保存するように設定する](https://www.javadrive.jp/vscode/setting/index2.html)
+:::
 
 ## Vue 入門
 
@@ -100,7 +116,7 @@ traP では、Web フロントフレームワークとして最も多く使わ�
 
 Vue では`.vue`という拡張子で単一ファイルコンポーネント(SFC, Single File Component)を作ることができます。
 
-なろう講習会の言葉で言うと、Vue では、**1 つの同じファイルに構造(HTML)・ロジック(JavaScript)・スタイル(CSS)** を記述できます。それぞれを別の巨大なファイルに書くのではなく、**見た目に対応した要素を各ファイルに分割して書く**ことで、それぞれの責任範囲をより直感的な形式で分けることができるわけです。このように分けられた要素をコンポーネントといいます。
+なろう講習会の言葉で言うと、Vue では、**1 つの同じファイルに構造(HTML)・ロジック(JavaScript)・スタイル(CSS)**を記述できます。それぞれを別の巨大なファイルに書くのではなく、**見た目に対応した要素を各ファイルに分割して書く**ことで、それぞれの責任範囲をより直感的な形式で分けることができるわけです。このように分けられた要素をコンポーネントといいます。
 
 ### Vue の書き方
 
@@ -112,7 +128,7 @@ Vue では`.vue`という拡張子で単一ファイルコンポーネント(SFC
 
 #### Sample.vue
 
-<<< @/chapter1/section2/src/0/Sample.vue
+<<< @/chapter1/section2/src/0/Sample.vue{vue}
 
 #### 使用例
 
@@ -138,12 +154,10 @@ traQ で 1 つ例を挙げると、メッセージの表示部分はコンポー
 ├── public
 │   └── favicon.ico         // 静的ファイル(ビルドされない)
 ├── src
-│   ├── App.vue             // main.jsから読まれる.vueファイル(Vueの処理開始点)
-│   ├── images              // Vueで使用したい画像など
-│   │　　└── logo.svg
+│   ├── App.vue             // main.tsから読まれる.vueファイル(Vueの処理開始点)
 │   ├── components          // 各種コンポーネント
-│   │　　└── HelloWorld.vue
-│   └── main.ts　　　　　　　　// index.htmlから読まれるscript(TSの処理開始点)
+│   │   └── WelcomeMessage.vue
+│   └── main.ts             // index.htmlから読まれるscript(TSの処理開始点)
 └── vite.config.ts
 ```
 
@@ -151,13 +165,13 @@ traQ で 1 つ例を挙げると、メッセージの表示部分はコンポー
 
 Vite はここから参照されているファイルをたどってビルドを進めていきます。
 ここに必要なものを書き加えることもありますが、基本的には書き換えません。
-マウント用の`<div id="app"></div>`と`main.js`の読み込みが書かれています。
+マウント用の`<div id="app"></div>`と`main.ts`の読み込みが書かれています。
 
 #### `node_modules`
 
-`npm install` でインストールされる依存ライブラリが保存されるディレクトリです。
+`npm install`でインストールされる依存ライブラリが保存されるディレクトリです。
 中を見ることは殆ど無いです。
-`.gitignore`に指定されています。(`package.json`, `package-lock.json` があれば `npm install` で再現できるためです)
+`.gitignore`に指定されています。(`package.json`, `package-lock.json`があれば`npm install`で再現できるためです)
 
 #### `package.json` `package-lock.json`
 
@@ -165,44 +179,17 @@ Vite はここから参照されているファイルをたどってビルドを
 
 #### `src/main.ts`
 
-`index.html` で読み込まれている ts ファイルです。
-ここでは Vue インスタンスを生成し、`index.html` の`<div id="app"></div>`部分にマウントしています。
+`index.html`で読み込まれている ts ファイルです。
+ここでは Vue インスタンスを生成し、`index.html`の`<div id="app"></div>`部分にマウントしています。
 
 #### `src/App.vue`
 
 Vue としてのエントリーポイントです。
-HelloWorld コンポーネントを読み込み → 登録 → 描画しています。
+WelcomeMessage コンポーネントを読み込み → 登録 → 描画しています。
 
-#### `src/components/HelloWorld.vue`
+#### `src/components/WelcomeMessage.vue`
 
-ここと似たようなものをどんどん書いていきます。
-`App.vue`で呼び出されています。  
-`components`内に他にも色々なコンポーネントがありますが、今回は使わないので省略します。
-
-## Vue を書く準備
-
-まず、以下の拡張機能をインストールしてください。
-
-#### Vue Dev tool
-
-Chrome Devtool に Vue 向けのデバッグ機能を追加してくれます。  
-[Vue devtools - Chrome ウェブストア](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=ja)
-
-### ソースコードの書き進め方
-
-`npm run dev`で起動していれば、ファイルの変更を自動で検知して表示が更新されます。
-
-:::tip
-ちゃんと保存しましょう。
-![](images/0/unsaved.png)
-
-画面上部のタブのファイル名の横に ● がついているときは保存できていません。
-
-![](images/0/saved.png)
-
-設定で自動保存されるようにしておくと便利です。  
-参考： [自動保存するように設定する](https://www.javadrive.jp/vscode/setting/index2.html)
-:::
+`App.vue`で呼び出されています。ウェブアプリで使用する部品を、この`components`ディレクトリ内にどんどん書いていきます。
 
 ## Vue を書く
 
@@ -210,11 +197,11 @@ Web 基礎講習会で書いたカウンターのソースコードを再掲し�
 
 #### index.html(一部抜粋)
 
-<<< @/chapter1/section2/src/0/index.html{html:line-numbers}
+<<< @/chapter1/section2/src/0/index.html{html:line-numbers=0}
 
 #### counter.js
 
-<<< @/chapter1/section2/src/0/counter.js{js:line-numbers}
+<<< @/chapter1/section2/src/0/counter.js{js:line-numbers=0}
 
 :::info
 Go や C++などでは`""`と`''`が区別されますが、JavaScript では区別されません。
@@ -233,19 +220,15 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 #### ソースコードの変更
 
-#### src/App.vue
+##### src/App.vue
 
-`style`タグを丸ごと消します。
+`App.vue`で、`ClickCounter.vue`を読み込んで、表示します。
 
-<<< @/chapter1/section2/src/0/App.vue{vue:line-numbers}
-
-##### src/components/HelloWorld.vue
-
-`script`タグ内で`ClickCounter.vue`を読み込み、`template`タグ内にカウンターを配置します。
-
-<<< @/chapter1/section2/src/0/HelloWorld.vue{vue:line-numbers}
+<<< @/chapter1/section2/src/0/App.vue{vue:line-numbers=0}
 
 ##### src/components/ClickCounter.vue
+
+新しく作成した空のファイルに、次の内容を書きます。
 
 <<< @/chapter1/section2/src/0/ClickCounter.vue{vue:line-numbers}
 
@@ -255,39 +238,48 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 ### ソースコード解説
 
-#### src/components/HelloWorld.vue
-
-##### 9~14 行目
-
-テンプレート部分です。  
-Vue のコンポーネントは 1 つのタグの中に収まっている必要があります。  
-そのため、多くの場合 div タグで囲まれています。(`ClickCounter.vue`も)
-
-#### 1 行目
-```vue
-<script setup lang="ts">
-```
-
-`lang="ts"`に注目してください。実は今回は script タグ内では JavaScript なくて、TypeScirpt を書いています。TypeSciript は JavaScript に型がついたもので、SysAd のほぼ全てのプロジェクトで用いられています。型をつけることでバグを防ぐことができるので、この講習会でも TypeScript を使っていきます。
+#### src/App.vue
 
 ##### 2 行目
 
 ```ts
-import ClickCounter from "./ClickCounter.vue"
+// src/App.vue
+import ClickCounter from './components/ClickCounter.vue'
 ```
 
-`ClickCounter` コンポーネントを読み込む部分です。
+`ClickCounter`コンポーネントを読み込む部分です。
 
-##### 4 行目
+##### 9 行目
+
+```vue
+<!-- src/App.vue -->
+<ClickCounter />
+```
+
+読み込んだコンポーネントを利用しています。
+
+#### src/components/WelcomeMessage.vue
+
+##### 1 行目
+
+```vue
+<!-- src/components/WelcomeMessage.vue -->
+<script setup lang="ts">
+```
+
+`lang="ts"`に注目してください。script タグ内では JavaScript ではなく、TypeScript を書いています。TypeScript は JavaScript に型がついたもので、SysAd のほぼすべてのプロジェクトで使われています。型をつけることでバグを防げるので、この講習会でも TypeScript を使っていきます。
+
+##### 2~4 行目
 
 ```ts
+// src/components/WelcomeMessage.vue
 defineProps<{
-	msg: string
+  msg: string
 }>()
 ```
 
 `msg`props を`string`型で定義してる部分です。  
-今回だと`App.vue`で `<HelloWorld msg="Hello Vue 3 + Vite" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。 JavaScript でいう関数の引数のようなものです。
+今回だと`App.vue`で`<WelcomeMessage msg="Webエンジニアになろう講習会へようこそ" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。JavaScript でいう関数の引数のようなものです。
 
 参考: [プロパティ | Vue](https://ja.vuejs.org/guide/components/props.html)
 
@@ -309,15 +301,13 @@ const { msg } = defineProps()
 
 :::
 
-##### 12 行目
-
-```tsx
-<ClickCounter />
-```
-
-読み込んだコンポーネントを利用しています。
-
 #### src/components/ClickCounter.vue
+
+##### 9~14 行目
+
+テンプレート部分です。  
+Vue のコンポーネントは 1 つのタグの中に収まっている必要があります。  
+そのため、多くの場合 div タグで囲まれています。
 
 ##### 4 行目
 
@@ -326,6 +316,7 @@ const { msg } = defineProps()
 `ref`を使うことで、Vue が値の変更を検知して自動で再描画してくれるようになります。
 
 ```ts
+// src/components/ClickCounter.vue
 const count = ref<number>(0)
 ```
 
@@ -334,6 +325,7 @@ const count = ref<number>(0)
 :::info
 ここで`counter.js`の`countUp`を見てみましょう。
 ```js
+// counter.js
 const countUp = () => {
   count++
   const countElement = document.querySelector('#count')
@@ -346,24 +338,6 @@ Vue では`ref`で`count`のような変数を定義するだけで、「値を�
 
 :::
 
-##### 11・12 行目
-
-ボタンが押されたイベントに対する処理を書いています。  
-`@click`では、今回のように直接 JavaScript を記述するだけでなく、`<script setup>`内で定義した関数の呼び出しもできます。
-
-
-```vue
-<button @click="count++">クリック！</button>
-<button @click="count = 0">リセット！</button>
-```
-
-参考: [イベントへの入門 - ウェブ開発を学ぶ | MDN](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Building_blocks/Events)  
-参考: [イベントハンドリング | Vue](https://ja.vuejs.org/guide/essentials/event-handling.html)
-
-:::tip
-`v-on:click` のショートハンドとして`@click` という書き方ができます(推奨)
-:::
-
 ##### 5 行目
 
 `computed`という機能を使って、表示するメッセージを生成します。  
@@ -372,15 +346,33 @@ Vue では`ref`で`count`のような変数を定義するだけで、「値を�
 リアクティブな値にアクセスする時、`<script setup>`の内部では`count.value`のように、変数名のあとに`.value`をつけてアクセスしてください。
 
 ```ts
+// src/components/ClickCounter.vue
 const countMessage = computed(() => "回数: " + count.value)
 ```
 
 参考: [テンプレート構文 | Vue](https://ja.vuejs.org/guide/essentials/template-syntax.html)  
 参考: [算出プロパティ | Vue](https://ja.vuejs.org/guide/essentials/computed.html#writable-computed)
 
+##### 11・12 行目
+
+ボタンが押されたイベントに対する処理を書いています。  
+`@click`では、今回のように直接 JavaScript を記述するだけでなく、`<script setup>`内で定義した関数の呼び出しもできます。
+
+```vue
+<!-- src/components/ClickCounter.vue -->
+<button @click="count++">クリック！</button>
+<button @click="count = 0">リセット！</button>
+```
+
+参考: [イベントへの入門 - ウェブ開発を学ぶ | MDN](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Building_blocks/Events)  
+参考: [イベントハンドリング | Vue](https://ja.vuejs.org/guide/essentials/event-handling.html)
+
+:::tip
+`v-on:click`のショートハンドとして`@click`という書き方ができます(推奨)
+:::
 
 今回のカウンターの全体像は以下のブランチに入っているので、参考にしてみてください。  
-[traPtitech/naro-template-frontend at example/counter](https://github.com/traPtitech/naro-template-frontend/tree/example/counter)
+[traPtitech/naro-template-frontend at counter-sample](https://github.com/traPtitech/naro-template-frontend/tree/counter-sample)
 
 ### Vue の嬉しさを実感する
 
@@ -401,5 +393,5 @@ Vue ではそれがなくて嬉しいです。
 
 カウンターを 2 つ作りたくなった場合を考えます。  
 生 HTML・JS が書ける人はちょっとチャレンジしてみてください。関数名や変数名をかぶらないようにしたり、セレクタの名前を変更したりと結構めんどくさいです。  
-Vue ならば、`HelloWorld.vue` の`<ClickCounter />`をコピーして増やすだけで OK です。  
+Vue ならば、`App.vue`の`<ClickCounter />`をコピーして増やすだけで OK です。  
 これは traQ のように同じ要素を沢山利用するような Web アプリで大きな利点となります。
