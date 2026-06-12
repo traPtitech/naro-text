@@ -15,8 +15,10 @@
 - 商品のリストデータを保存する
 - 商品のリストデータを表示する
 - 商品を追加できる
+- 商品を削除できる
+- 同じ名前の商品は登録できない
 - 商品の値段が 500 円以上だったら赤くする
-- 商品の値段が 1000 円以上だったら「高額商品」と表示する
+- 商品の値段が 10000 円以上だったら「高額商品」と表示する
 
 こんな感じでしょうか。  
 それでは上から順番に実装していきましょう。
@@ -99,9 +101,40 @@ Vue では入力欄に入力された文字列とコンポーネントの変数�
 
 を追加してみましょう。
 
+### 追加した商品を削除する
+
+各商品に削除ボタンを追加します。`deleteItem`関数では、`filter`を使って指定した名前以外の商品だけを残すことで削除を実現しています。
+
+参考: [Array.prototype.filter() | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
+
+<<< @/chapter1/section2/src/1/ItemListDelete.vue{vue:line-numbers=0}
+
+![](images/1/delete.gif)
+
+#### 同じ名前が複数あるとどうなるか
+
+Vue は`v-for`でリストを描画するとき、`:key`の値を使って各要素を識別します。  
+`:key`に重複した値が渡されると Vue はそれぞれの要素を区別できなくなるため、意図しない動作を引き起こす可能性があります。
+
+`:key="item.name"`としているため、同じ名前の商品が 2 つ存在すると`:key`が重複してしまいます。また、`deleteItem`も名前で検索して見つかった項目を削除しているため、削除ボタンを押すと同名の商品が全部消えてしまいます。
+
+試しに同じ名前の商品を 2 つ追加して削除してみましょう。
+
+### 同じ名前の商品を登録できないようにする
+
+`Array.prototype.some`を使って、追加しようとしている商品名がすでにリストに存在するか確認します。存在する場合は`return`で追加処理を中断します。
+
+参考: [Array.prototype.some() | MDN](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/some)
+
+<<< @/chapter1/section2/src/1/ItemListUnique.vue{vue:line-numbers=0}
+
+:::tip
+他の方法として、アイテムが追加されたときに自動で一意な ID を振る方法もあります。興味がある人は実装してみてください。
+:::
+
 ### 商品の値段が 500 円以上だったら赤くする
 
-Vue では、ある特定の条件が満たされたときに class を追加するという機構を持たせることできます。  
+Vue では、ある特定の条件が満たされたときに class を追加するという機構を持たせることができます。  
 これを使って、条件が満たされたときだけ CSS を当てるといったことができます。
 
 参考: [CSS の基本 | MDN](https://developer.mozilla.org/ja/docs/Learn/Getting_started_with_the_web/CSS_basics)  
@@ -133,7 +166,7 @@ Vue では、ある特定の条件を満たした場合のみ、対象コンポ�
 ここまで紹介してきた機能を使うことで Todo リストが作れるはずです。
 頑張りましょう！
 
-#### 練習問題 2：Todo リストを作る
+### 練習問題 2：Todo リストを作る
 
 Todo リストを作りましょう。
 
