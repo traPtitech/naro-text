@@ -165,7 +165,7 @@ traQ で 1 つ例を挙げると、メッセージの表示部分はコンポー
 
 Vite はここから参照されているファイルをたどってビルドを進めていきます。
 ここに必要なものを書き加えることもありますが、基本的には書き換えません。
-マウント用の`<div id="app"></div>`と`main.js`の読み込みが書かれています。
+マウント用の`<div id="app"></div>`と`main.ts`の読み込みが書かれています。
 
 #### `node_modules`
 
@@ -185,13 +185,11 @@ Vite はここから参照されているファイルをたどってビルドを
 #### `src/App.vue`
 
 Vue としてのエントリーポイントです。
-HelloWorld コンポーネントを読み込み → 登録 → 描画しています。
+WelcomeMessage コンポーネントを読み込み → 登録 → 描画しています。
 
-#### `src/components/HelloWorld.vue`
+#### `src/components/WelcomeMessage.vue`
 
-ここと似たようなものをどんどん書いていきます。
-`App.vue`で呼び出されています。  
-`components`内に他にも色々なコンポーネントがありますが、今回は使わないので省略します。
+`App.vue`で呼び出されています。ウェブアプリで使用する部品を、この`components`ディレクトリ内にどんどん書いていきます。
 
 ## Vue を書く
 
@@ -222,21 +220,17 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 #### ソースコードの変更
 
-#### src/App.vue
+##### src/App.vue
 
-`style`タグを丸ごと消します。
+`App.vue`で、`ClickCounter.vue`を読み込んで、表示します。
 
 <<< @/chapter1/section2/src/0/App.vue{vue:line-numbers=0}
 
-##### src/components/WelcomeMessage.vue
-
-`script`タグ内で`ClickCounter.vue`を読み込み、`template`タグ内にカウンターを配置します。
-
-<<< @/chapter1/section2/src/0/WelcomeMessage.vue{vue:line-numbers=0}
-
 ##### src/components/ClickCounter.vue
 
-<<< @/chapter1/section2/src/0/ClickCounter.vue{vue:line-numbers=0}
+新しく作成した空のファイルに、次の内容を書きます。
+
+<<< @/chapter1/section2/src/0/ClickCounter.vue{vue:line-numbers}
 
 以下のように動けば OK です。
 
@@ -244,21 +238,7 @@ Go や C++などでは`""`と`''`が区別されますが、JavaScript では区
 
 ### ソースコード解説
 
-#### src/components/HelloWorld.vue
-
-##### 9~14 行目
-
-テンプレート部分です。  
-Vue のコンポーネントは 1 つのタグの中に収まっている必要があります。  
-そのため、多くの場合 div タグで囲まれています。(`ClickCounter.vue`も)
-
-#### 1 行目
-```vue
-<!-- src/components/WelcomeMessage.vue -->
-<script setup lang="ts">
-```
-
-`lang="ts"`に注目してください。実は今回は script タグ内では JavaScript なくて、TypeScirpt を書いています。TypeSciript は JavaScript に型がついたもので、SysAd のほぼ全てのプロジェクトで用いられています。型をつけることでバグを防ぐことができるので、この講習会でも TypeScript を使っていきます。
+#### src/App.vue
 
 ##### 2 行目
 
@@ -269,17 +249,37 @@ import ClickCounter from './components/ClickCounter.vue'
 
 `ClickCounter`コンポーネントを読み込む部分です。
 
-##### 4 行目
+##### 9 行目
+
+```vue
+<!-- src/App.vue -->
+<ClickCounter />
+```
+
+読み込んだコンポーネントを利用しています。
+
+#### src/components/WelcomeMessage.vue
+
+##### 1 行目
+
+```vue
+<!-- src/components/WelcomeMessage.vue -->
+<script setup lang="ts">
+```
+
+`lang="ts"`に注目してください。script タグ内では JavaScript ではなく、TypeScript を書いています。TypeScript は JavaScript に型がついたもので、SysAd のほぼすべてのプロジェクトで使われています。型をつけることでバグを防げるので、この講習会でも TypeScript を使っていきます。
+
+##### 2~4 行目
 
 ```ts
 // src/components/WelcomeMessage.vue
 defineProps<{
-	msg: string
+  msg: string
 }>()
 ```
 
 `msg`props を`string`型で定義してる部分です。  
-今回だと`App.vue`で`<WelcomeMessage msg="Webエンジニアになろう講習会へようこそ" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。 JavaScript でいう関数の引数のようなものです。
+今回だと`App.vue`で`<WelcomeMessage msg="Webエンジニアになろう講習会へようこそ" />`のような形で`msg`に値を指定することで、コンポーネントを使う側から値を渡しています。JavaScript でいう関数の引数のようなものです。
 
 参考: [プロパティ | Vue](https://ja.vuejs.org/guide/components/props.html)
 
@@ -301,16 +301,13 @@ const { msg } = defineProps()
 
 :::
 
-##### 12 行目
-
-```vue
-<!-- src/App.vue -->
-<ClickCounter />
-```
-
-読み込んだコンポーネントを利用しています。
-
 #### src/components/ClickCounter.vue
+
+##### 9~14 行目
+
+テンプレート部分です。  
+Vue のコンポーネントは 1 つのタグの中に収まっている必要があります。  
+そのため、多くの場合 div タグで囲まれています。
 
 ##### 4 行目
 
@@ -341,25 +338,6 @@ Vue では`ref`で`count`のような変数を定義するだけで、「値を�
 
 :::
 
-##### 11・12 行目
-
-ボタンが押されたイベントに対する処理を書いています。  
-`@click`では、今回のように直接 JavaScript を記述するだけでなく、`<script setup>`内で定義した関数の呼び出しもできます。
-
-
-```vue
-<!-- src/components/ClickCounter.vue -->
-<button @click="count++">クリック！</button>
-<button @click="count = 0">リセット！</button>
-```
-
-参考: [イベントへの入門 - ウェブ開発を学ぶ | MDN](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Building_blocks/Events)  
-参考: [イベントハンドリング | Vue](https://ja.vuejs.org/guide/essentials/event-handling.html)
-
-:::tip
-`v-on:click`のショートハンドとして`@click`という書き方ができます(推奨)
-:::
-
 ##### 5 行目
 
 `computed`という機能を使って、表示するメッセージを生成します。  
@@ -375,9 +353,26 @@ const countMessage = computed(() => "回数: " + count.value)
 参考: [テンプレート構文 | Vue](https://ja.vuejs.org/guide/essentials/template-syntax.html)  
 参考: [算出プロパティ | Vue](https://ja.vuejs.org/guide/essentials/computed.html#writable-computed)
 
+##### 11・12 行目
+
+ボタンが押されたイベントに対する処理を書いています。  
+`@click`では、今回のように直接 JavaScript を記述するだけでなく、`<script setup>`内で定義した関数の呼び出しもできます。
+
+```vue
+<!-- src/components/ClickCounter.vue -->
+<button @click="count++">クリック！</button>
+<button @click="count = 0">リセット！</button>
+```
+
+参考: [イベントへの入門 - ウェブ開発を学ぶ | MDN](https://developer.mozilla.org/ja/docs/Learn/JavaScript/Building_blocks/Events)  
+参考: [イベントハンドリング | Vue](https://ja.vuejs.org/guide/essentials/event-handling.html)
+
+:::tip
+`v-on:click`のショートハンドとして`@click`という書き方ができます(推奨)
+:::
 
 今回のカウンターの全体像は以下のブランチに入っているので、参考にしてみてください。  
-[traPtitech/naro-template-frontend at example/counter](https://github.com/traPtitech/naro-template-frontend/tree/example/counter)
+[traPtitech/naro-template-frontend at counter-sample](https://github.com/traPtitech/naro-template-frontend/tree/counter-sample)
 
 ### Vue の嬉しさを実感する
 
@@ -398,5 +393,5 @@ Vue ではそれがなくて嬉しいです。
 
 カウンターを 2 つ作りたくなった場合を考えます。  
 生 HTML・JS が書ける人はちょっとチャレンジしてみてください。関数名や変数名をかぶらないようにしたり、セレクタの名前を変更したりと結構めんどくさいです。  
-Vue ならば、`HelloWorld.vue`の`<ClickCounter />`をコピーして増やすだけで OK です。  
+Vue ならば、`App.vue`の`<ClickCounter />`をコピーして増やすだけで OK です。  
 これは traQ のように同じ要素を沢山利用するような Web アプリで大きな利点となります。
