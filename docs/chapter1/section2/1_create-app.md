@@ -159,7 +159,7 @@ Vue では、ある特定の条件を満たした場合のみ、対象コンポ�
 これで商品リストが完成しました！
 
 今回の商品リストの全体像は以下のブランチに入っているので、参考にしてみてください。  
-[traPtitech/naro-template-frontend at example/itemlist](https://github.com/traPtitech/naro-template-frontend/tree/example/itemlist)
+[traPtitech/naro-template-frontend at itemlist-sample](https://github.com/traPtitech/naro-template-frontend/tree/itemlist-sample)
 
 ## Todo リストを作る
 
@@ -181,5 +181,4 @@ Todo リストを作りましょう。
 以上の機能が実現されていれば後は自由です。
 スタイルが気になる人は CSS なども書きましょう。
 
-一応作成例は以下のブランチに作ってみましたが、できるだけ自力で頑張ってみてください。分からないことなどあれば遠慮なく TA に質問してください。  
-[traPtitech/naro-template-frontend at example/todolist](https://github.com/traPtitech/naro-template-frontend/tree/example/todolist)
+分からないことがあれば遠慮なく TA に質問してください。
