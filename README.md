@@ -7,8 +7,8 @@ https://vitepress.dev/guide/markdown
 - `{index}_{name}.md`
   - 例: `0_index.md`
 - 画像
-  - `images`ディレクトリを切って配置 
-  - 画像の名前で何の画像かわかるようにしてください 
+  - `images`ディレクトリを切って配置
+  - 画像の名前で何の画像かわかるようにしてください
 
 ## 記入の注意点
 - 内輪ネタは避けましょう
@@ -32,6 +32,10 @@ https://vitepress.dev/guide/markdown
 | バックエンド   | 8080       |
 | Adminer        | 8081       |
 
-## workflow - slides.ymlについて
-- スライドのビルドとアップロードを行う GitHub Actions のワークフローです。
-- リリース時に自動で実行され、スライドが該当するReleaseのAssetsにアップロードされます。
+## workflow - pages.yamlについて
+`main` ブランチに push されると、GitHub Actions (`pages.yaml`) が実行され、ドキュメント（VitePress）とスライド（Marp）が GitHub Pages に自動デプロイされます
+
+※ `lecture1` の部分を適宜、`lecture2`, `lecture3` などの回に応じたファイル名に置き換えてアクセスしてください
+
+- **HTML**: `https://traptitech.github.io/naro-text/slides/lecture1.html`
+- **PDF**: `https://traptitech.github.io/naro-text/slides/lecture1.pdf`
