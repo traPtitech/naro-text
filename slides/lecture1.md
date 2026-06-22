@@ -14,9 +14,17 @@ img:not(.emoji) {
 _class: title
 -->
 
-# オリエンテーション＆Webアプリ概論
+# 導入・Webアプリ概論
 
 Webエンジニアになろう講習会 第1回
+
+---
+
+# 本日のゴール
+
+- 講習会の概要を理解する
+- 講習会で使う言語を知る
+- 環境構築をする
 
 ---
 
@@ -24,11 +32,12 @@ Webエンジニアになろう講習会 第1回
 
 - 座学
   - この講習会について
-  - 受けるにあたって
-  - Web技術概論
+  - 講習会の心構え
+  - 講習会で使う言語の紹介
 - 実習
   - 環境構築
-  - GolangでHello World!
+  - Golang で Hello World!
+  - Web サイトを起動してみる
 
 ---
 
@@ -36,11 +45,12 @@ Webエンジニアになろう講習会 第1回
 
 - 座学
   - **この講習会について ⬅️**
-  - 受けるにあたって
-  - Web技術概論
+  - 講習会の心構え
+  - 講習会で使う言語の紹介
 - 実習
   - 環境構築
-  - GolangでHello World!
+  - Golang で Hello World!
+  - Web サイトを起動してみる
 
 ---
 
@@ -55,17 +65,34 @@ _class: section-head
 # この講習会について
 
 ## <span class="underlined">つよつよエンジニアになるための講習会</span>
+
 - お金が取れるクオリティを目指しています！
-- フロントからインフラ、監視まで全部やります！
+- 半年以上の時間をかけて、一から Web をすべて教えこみます！
 - 複数部で構成されています
-  - 0→1 講習会 (新入部員向け) では1,2部を実施します
+  - 0→1 講習会期間では第一部を実施します
+  - 夏に第二部、秋に第三部を実施します
 
 ---
 
 # 第一部の目標
 
 ## <span class="underlined">ハッカソンで活躍する！</span>
-- 一つでもいいので、自分で機能を実装できる状態に！
+
+- ハッカソンで楽しむために必要な基礎知識を学ぶ
+- ひとつでもいいので、自分で機能を実装できる状態に！
+
+---
+
+# 参考：第二部以降
+
+## 第二部: 一人で開発できるようになる！
+
+- 完成させきるのに必要な、コード以外の知識を学ぶ
+- セキュリティ、公開のやり方などなど
+
+## 第三部: 一人前と呼べるレベルの知識を！
+
+- ただ開発できるだけではなく「つよつよエンジニア」に
 
 ---
 
@@ -73,11 +100,11 @@ _class: section-head
 
 - 座学
   - この講習会について
-  - **受けるにあたって ⬅️**
-  - Web技術概論
+  - **講習会の心構え ⬅️**
+  - Web 技術概論
 - 実習
   - 環境構築
-  - GolangでHello World!
+  - Golang でHello World!
 
 ---
 
@@ -85,7 +112,7 @@ _class: section-head
 _class: section-head
 -->
 
-# 受けるにあたって
+# 講習会の心構え
 
 ---
 
@@ -136,9 +163,27 @@ https://twitter.com/motcho_tw/status/870589211832795136
 
 ---
 
+# 生成 AI との向き合い方
+
+（正直釈迦に説法かもとは思いつつ…）
+
+<span class="underlined">「AI に依存しない」</span> を心がける！
+
+- ぜひ自分の手でコードを書いて学んでください
+- 結局生成 AI に任せられない部分が出てくる
+  - 細かいコード修正
+  - 複雑なロジック
+
+- こうなったときは自分の知識に頼るしかない
+- "基本的なロジック・概念・仕組み" を学ぶことに集中すると良い
+- 生成 AI の利活用は 2 部で話します
+
+---
+
 # いろいろな情報源
 
 - X (Twitter)
+
   - どんどんフォローするのがよい
 - 技術知見共有サイト(Zenn, Stackoverflow等)
 - その他テックブログ
@@ -184,6 +229,7 @@ img {
 # いろいろな情報源
 
 - 公式ドキュメント
+
   - 慣れてきたらこれをまず見てほしい
   - ここに載っている情報は普通正しい
   - <span class="underlined">基本的に英語</span> (日本語対応のものも)
@@ -222,8 +268,8 @@ img {
 - 古い記事は現在の状況に当てはまらないことがある
   - バージョンアップなどで変更されている可能性
   - 記事の投稿日時を確認する
-- 生成AIの出力は信用しない
-  - 正しいとは限らないので、あくまで補助程度に
+- 生成 AI の出力は信用しない
+  - 裏を取ること
 - <span class="underlined">必ず自分で裏を取る</span>
   - 一次ソースを読む
 
@@ -241,244 +287,11 @@ img {
 
 ---
 
-# 目次
-
-- 座学
-  - この講習会について
-  - 受けるにあたって
-  - **Web技術概論 ⬅️**
-- 実習
-  - 環境構築
-  - GolangでHello World!
-
----
-
 <!--
 _class: section-head
 -->
 
-# Web技術概論
-
----
-
-# この座学の目標
-
-## Webサービスがどんな技術で<br>作られているかを<span class="dotted">なんとなく</span>知ること
-
-<span class="gray">全部理解するのは無理 (できるならこの講習会はいらない)</span>
-
----
-
-# 頭の中に地図を作る
-
-- 個々の要素よりも<span class="underlined">全体像をイメージできる</span>ことを重視
-  - 全体像をイメージしつつ、自分の言葉や図を使って<br>ほかの人に教えられるようになる
-- <span class="underlined">細かい名前や用語を覚える必要はない</span>
-  - 後で調べればいい
-  - 知ってそうな人に聞いてもいい
-  - 聞き覚えがあったらこのスライドを見返してみよう
-
----
-
-# 今日の題材
-
-## <span class="underlined">traQを通してWebサービスについて知る</span>
-
-<div class="image-container">
-  <img src="assets/lecture1/traq-mobile.png">
-  <img src="assets/lecture1/traq-pc.png">
-</div>
-
-<style scoped>
-.image-container {
-  display: flex;
-  justify-content: center;
-}
-
-.image-container img {
-  max-height: 400px;
-  object-fit: contain;
-}
-</style>
-
----
-
-# traQ概念図
-
-![height:400px](assets/lecture1/traq-concept-1.png)
-
----
-
-# 登場人物1　フロントエンド
-
-![height:200px](assets/lecture1/traq-frontend.png)
-
-- 別名：クライアント、Web UIなど
-- 私達 (= エンドユーザー) が直接見て操作する部分
-- 情報の表示や操作の受付を担当
-
----
-
-# 登場人物2　ネットワーク
-
-![height:200px](assets/lecture1/traq-network.png)
-
-- いわゆるインターネット (通信)
-- 様々なデータを決められたやり方でやり取りするパイプ
-- 今日は詳しく説明しませんが、第3回で取り扱います
-
----
-
-# traQ概念図（再掲）
-
-![height:400px](assets/lecture1/traq-concept-1.png)
-
----
-
-# 疑問1
-
-![height:200px](assets/lecture1/traq-frontend.png)
-
-## いろんなクライアントから同じデータが見られるのはなぜ？
-
-ログインさえすればPCでもスマホでもクライアントを問わず、同じユーザーとして自分向けの表示を見ることができます。
-
-それが可能なのはなぜでしょうか？
-
----
-
-# 登場人物3　サーバーアプリケーション
-
-![height:200px](assets/lecture1/traq-server-app.png)
-
-- サーバー（鯖）、バックエンドなどとも
-- 接続してきたクライアントや**リクエストの内容に応じて**色々処理する
-  - データを受け取ったり・返したりする
-  - 許可したり・拒否したり（ログインなど）
-  - その他にもいろいろ
-
----
-
-# 登場人物4　物理サーバー
-
-![height:200px](assets/lecture1/traq-physical-server.png)
-
-- サーバー（鯖）、インスタンス、サーバーマシンなどとも
-- サーバーアプリケーションのプログラムが実際に動くマシン
-- 世界中のどこかにある
-  - 「クラウド」上に存在
-  - 基本仮想化されている
-  - その他にもいろいろ
-
----
-
-# 注意
-
-<div class="image-container">
-  <img src="assets/lecture1/traq-server-app.png">
-  <img src="assets/lecture1/traq-physical-server.png">
-</div>
-
-- 物理サーバーとサーバーアプリケーションは紛らわしい！
-- どちらもサーバー、バックエンドなどと呼ばれる
-- 気を付けますが、混乱したときは聞いてください
-
-
-<style scoped>
-.image-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.image-container img {
-  max-height: 200px;
-  object-fit: contain;
-}
-</style>
-
----
-
-# traQ概念図
-
-![height:500px](assets/lecture1/traq-concept-2.png)
-
----
-
-# 用語解説: リクエスト
-
-## <span class="underlined">リクエスト</span>
-
-- こういうデータがほしい・こういう操作をしてほしいという要求
-- クライアント **→** サーバー
-- 例: 「#randomのメッセージがほしい」「『〇〇』というメッセージを送信したい」
-
----
-
-# 用語解説: レスポンス
-
-## <span class="underlined">レスポンス</span>
-
-- リクエストに対する返答
-- クライアント **←** サーバー
-- 例: 「#randomのメッセージは『〇〇』です」「メッセージが正常に送信されました」
-
----
-
-# 疑問2
-
-## メッセージをどこに保管する？
-
-traQには多くのメッセージなどの情報が保管されていますが、サーバーアプリケーションは実行が終了すると、メモリに保存されているデータは消えてしまいます。
-
-では、メッセージなどをどのように保存し、取り出しているのでしょうか？
-
----
-
-# 登場人物5　データベース
-
-![height:200px](assets/lecture1/traq-database.png)
-
-- DB（**D**ata**B**ase）と略されることも
-- <span class="underlined">データの保存に特化した</span>アプリケーション
-- 様々なデータ管理方式、アプリケーションがある
-  - traPではMariaDB(MySQL)を使用しています。
-  - MongoDB, PostgreSQL, DynamoDB, Redis, etc...
-
----
-
-# データの永続化
-
-- 情報は主に**メモリ**か**ストレージ**に保持される
-- <span class="underlined">メモリ</span><span class="gray"> → 変数の値やキャッシュなど</span>
-  - プログラムの実行中のみ保持するデータが置かれる
-- <span class="underlined">ストレージ</span> (HDD, SSD)<span class="gray"> → ファイルなど</span>
-  - プログラムが終了したり、PCの電源を切っても永続的にデータを保持し続けられる
-- プレイ中のゲームの状態とセーブデータのような関係
-  - ゲームをやめるとゲームの状態は消えるけど、<br>セーブデータは参照できる
-
----
-
-# traQ概念図
-
-![bg contain](assets/lecture1/traq-concept-3.png)
-
----
-
-# traQ概念図
-
-![bg contain blur opacity:.5](assets/lecture1/traq-concept-3.png)
-
-基本的な**構成**はこんな感じ
-Webサービスを考えるにあたっての**主役**になる5要素
-
----
-
-<!--
-_class: section-head
--->
-
-# おまけ
+# 心構え - FAQ など
 
 ---
 
@@ -511,63 +324,64 @@ _class: section-head
 
 ---
 
-# 言語とか
-
-## <span class="underlined">クライアント</span>
-
-- 基本的に HTML / CSS / JavaScript からは逃げられない
-  - Wasmというものもあるが、普通のWebアプリでは<br>わざわざ使うメリットがあまりない
-- React (近年のプロダクトに多い), Vue (traP内最大手) など
-- JavaScriptの代わりにTypeScriptを使っての開発が多い
-
----
-
-# 言語とか
-
-## <span class="underlined">サーバーサイド</span>
-
-- Go, Rust, Java, JavaScript, TypeScript, Python, Ruby(Ruby on Rails), PHPなどなど
-- モダンな言語だとGo（採用企業も多い）, Rust（最近増えてる）
-- traQのサーバーもGo
-
----
-
-# 今熱いこと
-
-- AI関連
-  - エディタ (Cursorなど) / エージェント
-  - Model Context Protocol (MCP)
-- React Server Components (RSC)
-- TypeScriptコンパイラのGo移植
-- GraphQL Federation
-- WebGPU
-- DuckDB
-
----
-
 # 結局何から始めればいいの？
 
-- 自分の**やりたいこと**から始めると続く
-- なければ**SysAd**はどうですか？
+- 自分の **やりたいこと** から始めると続く
+- なければ **SysAd** はどうですか？
 - ISUCONなどの大会を目標にするのは？
-- **Git**はスムーズに使えるようになろう
+- **Git** はスムーズに使えるようになろう
 
 ---
 
-# 今日話したこと
+<!--
+_class: section-head
+-->
 
-![height:500px](assets/lecture1/traq-concept-3.png)
+# 座学: ファイルとディレクトリ
 
 ---
 
-# マスタリングTCP/IP
+# ファイルとディレクトリ
 
-![height:250px](assets/lecture1/mastering-tcp-ip.png)
+- **ディレクトリ** (Directory)
 
-- 今日話さなかったデータのやり取りについてよくまとまった本
-- これを覚えておけば困らない
-- 事前知識を要求しない
-- JK/JCのネットワーク科目の教科書
+  - フォルダのこと
+
+- **ファイル** (File)
+
+  - データの本体
+  - `.pdf` とか `.docx` とか
+
+---
+
+# ファイルのパス
+
+- **パス** (Path)
+    - フォルダ・ファイルの住所
+    - `/` (Mac or Linux) または `¥` (Windows) で区切られている
+
+    - 例
+        - `/home/zoi_dayo/kadai/toukei/mid.pdf`
+        - `home`, `zoi_dayo`, `kadai`, `toukei` がディレクトリ
+        - `mid.pdf` がファイル
+
+---
+
+# ファイルの種類
+
+## 拡張子
+
+- ファイルを識別するために付ける文字列
+- 別に任意に付けられるもので、必須ではない
+
+## テキストファイルとバイナリファイル
+
+- **テキストファイル**
+
+  - 文字だけ含まれるファイル
+  - ソースコードとか
+- **バイナリファイル**
+  - それ以外のファイル（画像とか）
 
 ---
 
@@ -603,6 +417,17 @@ _class: section-head
   object-fit: contain;
 }
 </style>
+
+---
+
+# TypeScript
+
+![height:200px](assets/lecture1/gopher.png)
+
+- Microsoft 製
+- Javascript のスーパーセット
+- フロントエンドは基本これを使う
+- 詳細は次回説明します
 
 ---
 

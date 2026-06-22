@@ -15,6 +15,10 @@ theme: SysAd
 .columns .text {
   flex: 1;
 }
+img:not(.emoji) {
+  display: block;
+  margin: 0 auto;
+}
 </style>
 
 <!--
@@ -27,36 +31,19 @@ Webエンジニアになろう講習会 第2回
 
 ---
 
-<!--
-_class: section-head
--->
-
-# 前回のおさらい
-
----
-
-# traQ概念図
-
-![w:1000](assets/lecture2/traq-concept.png)
-
----
-
-# 今日の範囲
-
-![w:1000](assets/lecture2/traq-concept-grayscale.png)
-
----
-
 # 目次
 
-- 座学
-  - きれいなコードを書こう
-  - きれいなコードを保つために
-  - JavaScriptの歴史
-  - フロントエンド開発
-- 実習
-  - Chrome Devtools 入門
-  - Vue入門
+- おさらい・フロントエンド
+  - HTML / CSS / JS
+- Web サービスの仕組み
+  - traQ を題材にして知る
+  - バックエンド・フロント・DB を知ってもらう
+- Vue について　（座学編）
+  - なぜ HTML JS じゃないのか
+- Vite npm node
+- Alt 〇〇
+- Vue について（実習編）
+- フロントエンドのデバッグ　（実習編）
 
 ---
 
@@ -77,191 +64,231 @@ _class: section-head
 _class: section-head
 -->
 
-# きれいな<br>コードを書こう
+# Web技術概論
 
 ---
 
-# 汚いコード
+# この座学の目標
 
-```go
-var (
-  a = 4 // X1-X3
-  b = 7
-  c = 2
-  d = 5 // Y1-Y3
-  e = 1
-  f = 9
-) 
-func main() {
-  tmp_var := 252521.0
-  if tmp_var < math.Sqrt(float64((0-a)*(0-a)+(0-d)*(0-d))) {
-    tmp_var = math.Sqrt(float64((a-0)*(a-0) + (d-0)*(d-0)))
-  }
-  if tmp_var > math.Sqrt(float64((0-b)*(0-b)+(0-e)*(0-e))) {
-  } else {
-  tmp_var = math.Sqrt(float64((-b)*(-b) + (-e)*(-e)))
-  }
-  if tmp_var < math.Sqrt(float64((0-c)*(0-c)+(0-f)*(0-f))) { 
-  fmt.Println(math.Sqrt(float64((c)*(c) + (f)*(f))))} else { 
-  fmt.Println(tmp_var) }} 
-```
+## Webサービスがどんな技術で<br>作られているかを<span class="dotted">なんとなく</span>知ること
+
+<span class="gray">全部理解するのは無理</span>
 
 ---
 
-# きれいなコード
+# 頭の中に地図を作る
 
-```go
-type Point struct {
-  x int
-  y int
-} 
-var points = []Point{{4, 5}, {7, 1}, {2, 9}} 
-func distance(a, b Point) float64 {
-  dx := float64(a.x - b.x)
-  dy := float64(a.y - b.y)
-  return math.Sqrt(dx*dx + dy*dy) 
-} 
-func main() {
-  origin := Point{0, 0}
-  ans := math.MaxFloat64
-  for _, point := range points { 
-    dist := distance(origin, point) 
-    if dist < ans { 
-      ans = dist 
-    } 
-  } 
-  fmt.Println(ans)
-} 
-```
+- 個々の要素よりも<span class="underlined">全体像をイメージできる</span>ことを重視
+  - 全体像をイメージしつつ、自分の言葉や図を使って<br>ほかの人に教えられるようになる
+- <span class="underlined">細かい名前や用語を覚える必要はない</span>
+  - 後で調べればいい
+  - 知ってそうな人に聞いてもいい
+  - 聞き覚えがあったらこのスライドを見返してみよう
 
 ---
 
-# どちらも同じ処理が書かれているが……
+# 今日の題材
 
-<style>
-.clean-code {
-  width: 600px
+## <span class="underlined">traQを通してWebサービスについて知る</span>
+
+<div class="image-container">
+  <img src="assets/lecture1/traq-mobile.png">
+  <img src="assets/lecture1/traq-pc.png">
+</div>
+
+<style scoped>
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.image-container img {
+  max-height: 400px;
+  object-fit: contain;
 }
 </style>
 
-<div class="columns">
+---
 
-<div class="clean-code">
+# traQ概念図
 
-```go
-type Point struct {
-  x int
-  y int
-} 
-var points = []Point{{4, 5}, {7, 1}, {2, 9}} 
-func distance(a, b Point) float64 {
-  dx := float64(a.x - b.x)
-  dy := float64(a.y - b.y)
-  return math.Sqrt(dx*dx + dy*dy) 
-} 
-func main() {
-  origin := Point{0, 0}
-  ans := math.MaxFloat64
-  for _, point := range points { 
-    dist := distance(origin, point) 
-    if dist < ans { 
-      ans = dist 
-    } 
-  } 
-  fmt.Println(ans)
-} 
-```
-
-</div>
-
-<div>
-
-きれいなコードは
-- 処理がわかりやすい
-- 処理の変更がしやすい
-  - 距離の定義の変更
-  - ポイントの追加
-
-</div>
-</div>
+![height:400px](assets/lecture1/traq-concept-1.png)
 
 ---
 
-# きれいなコードとは
+# 登場人物1　フロントエンド
 
-- 他人 (将来の自分) が見てもわかりやすいコード
-- 追加・変更・修正が容易にできるコード
+![height:200px](assets/lecture1/traq-frontend.png)
 
----
-
-# きれいなコードを書くために
-
-1. インデントを使おう
-2. コーディング規約を守ろう
-3. 適切に分割しよう
-
-もちろんこれらが全てではない
-
-<span class="gray">検索すると色々出てくるので調べてみよう！</span>
+- 別名：クライアント、Web UIなど
+- 私達 (= エンドユーザー) が直接見て操作する部分
+- 情報の表示や操作の受付を担当
 
 ---
 
-# その1: インデントを使おう
+# 登場人物2　ネットワーク
 
-<div class="columns">
+![height:200px](assets/lecture1/traq-network.png)
 
-![w:800](assets/lecture2/good-indent.png)
+- いわゆるインターネット (通信)
+- 様々なデータを決められたやり方でやり取りするパイプ
+- 今日は詳しく説明しませんが、第3回で取り扱います
 
-- プログラムの構造がわかりやすくなる
-- 基本的には括弧の中を一段ネスト (深く) する
-  - 括弧のペアが同じ深さになるように
+---
 
+# traQ概念図（再掲）
+
+![height:400px](assets/lecture1/traq-concept-1.png)
+
+---
+
+# 疑問1
+
+![height:200px](assets/lecture1/traq-frontend.png)
+
+## いろんなクライアントから同じデータが見られるのはなぜ？
+
+ログインさえすればPCでもスマホでもクライアントを問わず、同じユーザーとして自分向けの表示を見ることができます。
+
+それが可能なのはなぜでしょうか？
+
+---
+
+# 登場人物3　サーバーアプリケーション
+
+![height:200px](assets/lecture1/traq-server-app.png)
+
+- サーバー（鯖）、バックエンドなどとも
+- 接続してきたクライアントや**リクエストの内容に応じて**色々処理する
+  - データを受け取ったり・返したりする
+  - 許可したり・拒否したり（ログインなど）
+  - その他にもいろいろ
+
+---
+
+# 登場人物4　物理サーバー
+
+![height:200px](assets/lecture1/traq-physical-server.png)
+
+- サーバー（鯖）、インスタンス、サーバーマシンなどとも
+- サーバーアプリケーションのプログラムが実際に動くマシン
+- 世界中のどこかにある
+  - 「クラウド」上に存在
+  - 基本仮想化されている
+  - その他にもいろいろ
+
+---
+
+# 注意
+
+<div class="image-container">
+  <img src="assets/lecture1/traq-server-app.png">
+  <img src="assets/lecture1/traq-physical-server.png">
 </div>
 
----
+- 物理サーバーとサーバーアプリケーションは紛らわしい！
+- どちらもサーバー、バックエンドなどと呼ばれる
+- 気を付けますが、混乱したときは聞いてください
 
-# その2: コーディング規約を守ろう
 
-変数・関数の命名方法には主に4種類
+<style scoped>
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
 
-- getCurrentTime ... キャメルケース（lowerCamelCase）
-- GetCurrentTime ... パスカルケース（UpperCamelCase）
-- get_current_time ... スネークケース
-- get-current-time ... ケバブケース
-
-言語ごとに大まかな使い方の約束がある（＝ **命名規則**）
-- 例：Python「変数にはスネークケースを使おう！」
-
----
-
-# その3: 適切に分割しよう
-
-- 分割単位はプロジェクトによってさまざま
-- 繰り返し同じコードを書くのは避ける（＝DRY原則）
-  - 関数など処理のまとまりを使って繰り返す
-- デザインパターンとして研究対象にもなっている
-  - SOLID原則, Clean Architecture, DDD
-- 経験がものをいうのでたくさん見て、書いて、直そう
+.image-container img {
+  max-height: 200px;
+  object-fit: contain;
+}
+</style>
 
 ---
 
+# traQ概念図
 
-# リーダブルコード
+![height:500px](assets/lecture1/traq-concept-2.png)
 
-<div class="columns">
+---
 
-![](assets/lecture2/readable-code.png)
+# 用語解説: リクエスト
 
-<div>
+## <span class="underlined">リクエスト</span>
 
-「読みやすいコード」について詳しくまとまっている本
-- 変数名やコメントのつけ方など
-- 前半だけでも借りて読んでみよう
-  - 部室に一冊おいてあります
+- こういうデータがほしい・こういう操作をしてほしいという要求
+- クライアント **→** サーバー
+- 例: 「#randomのメッセージがほしい」「『〇〇』というメッセージを送信したい」
 
-</div>
+---
 
-</div>
+# 用語解説: レスポンス
+
+## <span class="underlined">レスポンス</span>
+
+- リクエストに対する返答
+- クライアント **←** サーバー
+- 例: 「#randomのメッセージは『〇〇』です」「メッセージが正常に送信されました」
+
+---
+
+# 疑問2
+
+## メッセージをどこに保管する？
+
+traQには多くのメッセージなどの情報が保管されていますが、サーバーアプリケーションは実行が終了すると、メモリに保存されているデータは消えてしまいます。
+
+では、メッセージなどをどのように保存し、取り出しているのでしょうか？
+
+---
+
+# 登場人物5　データベース
+
+![height:200px](assets/lecture1/traq-database.png)
+
+- DB（**D**ata**B**ase）と略されることも
+- <span class="underlined">データの保存に特化した</span>アプリケーション
+- 様々なデータ管理方式、アプリケーションがある
+  - traPではMariaDB(MySQL)を使用しています。
+  - MongoDB, PostgreSQL, DynamoDB, Redis, etc...
+
+---
+
+# データの永続化
+
+- 情報は主に**メモリ**か**ストレージ**に保持される
+- <span class="underlined">メモリ</span><span class="gray"> → 変数の値やキャッシュなど</span>
+  - プログラムの実行中のみ保持するデータが置かれる
+- <span class="underlined">ストレージ</span> (HDD, SSD)<span class="gray"> → ファイルなど</span>
+  - プログラムが終了したり、PCの電源を切っても永続的にデータを保持し続けられる
+- プレイ中のゲームの状態とセーブデータのような関係
+  - ゲームをやめるとゲームの状態は消えるけど、<br>セーブデータは参照できる
+
+---
+
+# traQ概念図
+
+![bg contain](assets/lecture1/traq-concept-3.png)
+
+---
+
+# traQ概念図
+
+![bg contain blur opacity:.5](assets/lecture1/traq-concept-3.png)
+
+基本的な**構成**はこんな感じ
+Webサービスを考えるにあたっての**主役**になる5要素
+
+---
+
+# マスタリングTCP/IP
+
+![height:250px](assets/lecture1/mastering-tcp-ip.png)
+
+- 今日話さなかったデータのやり取りについてよくまとまった本
+- これを覚えておけば困らない
+- 事前知識を要求しない
+- JK/JCのネットワーク科目の教科書
 
 ---
 
@@ -282,175 +309,7 @@ func main() {
 _class: section-head
 -->
 
-# きれいなコードを<br>保つために
-
----
-
-# きれいなコードに保つために
-
-1. Linter / Formatter を使おう
-2. コードレビューをしよう
-3. ペアプロ・モブプロをしよう
-
-自分一人で維持するのは難しい
-どんどん道具や人の力を借りていこう
-
----
-
-# その1: Linter / Formatter を使おう
-
-<style>
-.small {
-  font-size: 30px
-}
-</style>
-
-<div class="columns">
-
-![w:200](assets/lecture2/eslint.png)<span class="small">ESLint</span><br>
-![w:200](assets/lecture2/prettier.png)<span class="small">Prettier</span>
-
-- コードを自動でチェック・フォーマット
-  - インデントや括弧、命名などを指摘・修正してくれる
-- 設定ファイルでルールを変更・共有できます
-  - チーム・プロジェクト内で管理して統一されたフォーマットになるようにしよう
-
-</div>
-
----
-
-# その2: コードレビューをしよう
-
-<!--TODO: 図の挿入-->
-
-- チームメイトがプルリクエストを確認する作業
-  - 「これだとバグが出るからこう？」
-  - 「この部分はこう書いたほうが分かりやすいかも」
-- 実装をどうすべきかといった相談が行われることもある
-- リポジトリの実例を見てみよう
-
----
-
-# その3: ペアプロ・モブプロをしよう
-
-<div class="columns">
-
-- 一つのコードを複数人で見ながらコーディングすること
-- リアルタイムコードレビューみたいな感じ
-- スキルや知識の共有、集中力の向上などの利点がある
-- **QSoC に参加しよう！ (講師もTAも)**
-
-![](assets/lecture2/pair-programming.png)
-
-</div>
-
----
-
-<!--
-_class: section-head
--->
-
 # ちょっと休憩
-
----
-
-# 目次
-
-- 座学
-  - きれいなコードを書こう
-  - きれいなコードを保つために
-  - **JavaScriptの歴史 ⬅️**
-  - フロントエンド開発
-- 実習
-  - Chrome Devtools 入門
-  - Vue入門
-
----
-
-<!--
-_class: section-head
--->
-
-# JavaScriptの歴史
-
----
-
-# JavaScriptの歴史
-
-- ブラウザ黎明期、沢山の人が思い思いに、より良いWeb体験を実現しようと努力していた
-  - 今もそうだけど
-- Webページに動きをもたせるいくつかの技術が開発された
-  - Java Applet / Flash / JavaScript / Sliverlight ...
-
----
-
-# Java Applet
-
-<div class="columns">
-
-- 1996年発表
-- ブラウザでJavaが動く
-- 遅かった（数十秒から数分）ため、大手のブラウザに採用されなくなった
-- Java11〜 セキュリティ上の理由で廃止
-
-![](assets/lecture2/java-applet.png)
-
-</div>
-
----
-
-# Flash
-
-<div class="columns">
-
-- Flashゲームのフラッシュ
-- YouTubeやニコニコでも使われていた
-- 2020年末に配布・ブラウザのサポートが終了
-  - セキュリティ上の理由
-  - [Ruﬄe](https://ruffle.rs/)というエミュレータが有志でつくられている
-  - https://trap.jp/post/1124/
-
-![w:400](assets/lecture2/adobe-flash.png)
-
-</div>
-
----
-
-# JavaScript
-
-<div class="columns">
-
-![](assets/lecture2/javascript.png)
-
-- 1995年登場
-- Web関係ならどこにでもいる（クライアント ＆ サーバー）
-- Webに無関係なアプリの開発にも使われる大人気言語
-- Ajax (非同期通信)の登場とともに広がりを見せる
-
-</div>
-
----
-
-# JavaScript
-
-- Ecma Internationalという機関によって仕様が策定される
-  - 実装は各ブラウザベンダーによって独自に行われる
-- 2008年 GoogleがChromeを発表：V8エンジン搭載
-  - それ以前のJavaScriptはFlashよりも遅かった
-  - JITコンパイルという技術がJavaScriptを爆速に
-
----
-
-# 目次
-
-- 座学
-  - きれいなコードを書こう
-  - きれいなコードを保つために
-  - JavaScriptの歴史
-  - **フロントエンド開発 ⬅️**
-- 実習
-  - Chrome Devtools 入門
-  - Vue入門
 
 ---
 
@@ -462,7 +321,109 @@ _class: section-head
 
 ---
 
+# traQ概念図
+
+![w:1000](assets/lecture2/traq-concept.png)
+
+---
+
+# 今日の実習の範囲
+
+![w:1000](assets/lecture2/traq-concept-grayscale.png)
+
+
+---
+
+# HTML / CSS / JavaScript
+
+- <span class="orange-lined">HTML</span>
+    - ページの <span class="blue-lined">構造</span> を書く
+- <span class="orange-lined">CSS</span>
+    - ページの <span class="blue-lined">スタイル</span> を書く
+- <span class="orange-lined">JavaScript</span>
+    - ページの <span class="blue-lined">ロジック</span> を書く
+
+...ための言語
+
+---
+
+# HTML
+
+![bg right](./assets/lecture2/code-html.png)
+
+- ページの <span class="underlined">構造</span> を書く
+- `<hoge>` 〜 `</hoge>` を
+セットで使う
+
+---
+
+# CSS
+
+![bg right](./assets/lecture2/code-css.png)
+
+- ページの <span class="underlined">スタイル</span> を書く
+- 色からフォント、
+アニメーションまでなんでも
+- `hoge { fuga: piyo; ... }`
+みたいな構造
+
+---
+
+# JavaScript
+
+![bg right](./assets/lecture2/code-js.png)
+
+- ページの <span class="underlined">ロジック</span> を書く
+- バックエンドとの通信、並べ替え、マウス操作の取得も
+- プログラムっぽい見た目
+
+---
+
+# フロントエンドの要素
+
+- <span class="underlined">HTML</span>
+    - ページの **構造** を書く
+- <span class="underlined">CSS</span>
+    - ページの **スタイル** を書く
+- <span class="underlined">JavaScript</span>
+    - ページの **ロジック** を書く
+
+---
+
+<!--
+_class: section-head
+-->
+
+# Alt(ernative) 〇〇
+
+---
+
+# Alt 〇〇
+
+- 素のHTML / CSS / JavaScriptを書くのは嫌だ！
+- もっと簡潔な・もっと楽な・もっと開発体験の良い言語で書きたい
+  - 型のついた
+  - 関数型の
+  - 自分が慣れた
+- ちょっとだけ例を紹介します
+
+---
+
+# Markdown
+
+Alt **HTML**
+
+---
+
+# TypeScript
+
+Alt **JavaScript**
+
+
+---
+
 # 現代のWebフロントエンド
+
 - 様々な要素技術がひしめき合っている
 - いろんなカオスをどうにかしようと日々新たなカオスが生み出されてる
 - 流行の流れが早い
@@ -477,80 +438,13 @@ _class: section-head
 
 ---
 
-# フレームワーク
+# 解説
 
-<div class="columns">
+![h:380](assets/lecture2/web-frontend-concept.png)
 
-<span>　</span>
-
-![w:150](assets/lecture2/react.png)
-
-![w:170](assets/lecture2/vue.png)
-
-![w:200](assets/lecture2/angular.png)
-
-![w:150](assets/lecture2/svelte.png)
-
-</div>
-
-- Webサイトを開発する方法を提供してくれるもの
-  - フレームワークごとに実装の方法が異なる
-- 複雑な処理を簡潔に書ける
-- コンポーネントという単位でコードを再利用できる
-- 状態管理や描画の最適化を担うこともある
-
----
-
-# モジュールバンドラー
-
-<div class="columns">
-
-![w:150](assets/lecture2/vite.png)
-
-![w:200](assets/lecture2/parcel.png)
-
-![w:150](assets/lecture2/esbuild.png)
-
-![w:200](assets/lecture2/webpack.png)
-
-![w:100](assets/lecture2/rollup.png)
-
-</div>
-
-- Webサイトは HTML + CSS + JavaScript で出来ている
-  - しかし、フレームワークを活用して書くソースコードはその組み合わせではない
-- 最後に HTML + CSS + JavaScript に変換するシステム\
-  ＝ **モジュールバンドラー**
-
----
-
-# ランタイム
-
-<div class="columns">
-
-![w:500](assets/lecture2/nodejs.png)
-
-![w:500](assets/lecture2/deno.png)
-
-</div>
-
-- JavaScriptの実行環境 = JavaScriptを解釈して実行する
-- もちろんブラウザもランタイム
-  > 2008年 GoogleがChromeを発表：V8エンジン搭載
-- Node.jsやDenoにもV8エンジンは採用されている
-- V8以外で動くランタイムもある (JavaScriptCore, SpiderMonkey, etc.)
-
----
-
-# Webフロント開発雑多
-
-- フレームワークもバンドラーもたくさんある
-- 作るものの規模や特徴に合ったツールを選ぶことが大事
-  - 大は小を兼ねない
-  - traPの中でまず触ってみるなら Vue.js + Vite？
-- それぞれに「設計思想」がある
-- パラダイムの移り変わりも速い
-- セキュリティにも意識を向ける必要がある
+- **フレームワーク**: Web サイトの開発方法を提供してくれるもの
+- **モジュールバンドラー**: 最後に HTML + CSS + JS に変換するシステム
+- **ランタイム**: JavaScript の実行環境
 
 ---
 
@@ -558,55 +452,11 @@ _class: section-head
 _class: section-head
 -->
 
-# Alt(ernative) 〇〇
+# Vue 入門（座学）
 
 ---
 
-# Alt 〇〇
-
-- フレームワークを使ってちょっとは良くなったとしても素のHTML / CSS / JavaScriptを書くのは嫌だ！
-- もっと簡潔な・もっと楽な・もっと開発体験の良い言語で書きたい
-  - 型のついた
-  - 関数型の
-  - 自分が慣れた
-
----
-
-# Alt HTML
-
-- Markdown, Haml, Slim, Pug, EJS など
-  - Markdownの内部にHTMLを書くと動く（こともある）
-  - ↑HackMDとかで試せる
-- HTMLテンプレートエンジンとも
-- ループや条件なども記述できる（ものもある）
-
----
-
-# Alt CSS
-
-- Sass, Less, Stylus など
-- 変数が使えたり、ネストができたり、コメントが楽だったり、条件式が使えたりする
-- 今はCSSで変数もネストも条件式もサポートされている
-  - <span class="gray">ただし色々と制約はある</span>
-
----
-
-# Alt JS
-
-- めっちゃ多い
-- みんなそれぞれ自分の好きな言語っぽく書きたい
-- TypeScript, PureScript, CoffeeScript ...
-- 今はTypeScriptが一番人気
-  - 静的な型がついている
-  - JavaScriptのスーパーセットとして開発された
-
----
-
-# Alt 〇〇
-
-- どれもそのままではブラウザ上で動かない
-- 処理自体に呼び方は色々あるが、どれも素のHTML / CSS / JSに変換しなければならない
-- バンドラーがいい感じにしてくれる
+TODO 基本的な機能の説明をここに詰める
 
 ---
 
@@ -618,59 +468,6 @@ _class: section-head
 
 ---
 
-# きれいなコードを書くために
-
-1. インデントを使おう
-2. コーディング規約を守ろう
-3. 適切に分割しよう
+TODO
 
 ---
-
-# きれいなコードに保つために
-
-1. Linter / Formatter を使おう
-2. コードレビューをしよう
-3. ペアプロ・モブプロをしよう
-
-自分一人で維持するのは難しい
-どんどん道具や人の力を借りていこう
-
----
-
-# JavaScriptの歴史
-
-- ブラウザ黎明期、沢山の人が思い思いに、より良いWeb体験を実現しようと努力していた
-  - 今もそうだけど
-- Webページに動きをもたせるいくつかの技術が開発された
-  - Java Applet / Flash / JavaScript / Sliverlight ...
-
----
-
-# 現代のWebフロントエンド
-- 様々な要素技術がひしめき合っている
-- いろんなカオスをどうにかしようと日々新たなカオスが生み出されてる
-- 流行の流れが早い
-  - 数年前まで主流だったものが今では見ないこともザラ
-
----
-
-# Alt 〇〇
-
-- フレームワークを使ってちょっとは良くなったとしても素のHTML / CSS / JavaScriptを書くのは嫌だ！
-- もっと簡潔な・もっと楽な・もっと開発体験の良い言語で書きたい
-  - 型のついた
-  - 関数型の
-  - 自分が慣れた
-
----
-
-# 目次
-
-- 座学
-  - きれいなコードを書こう
-  - きれいなコードを保つために
-  - JavaScriptの歴史
-  - フロントエンド開発
-- **実習 ⬅️**
-  - Chrome Devtools 入門
-  - Vue入門

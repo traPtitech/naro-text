@@ -1,0 +1,46 @@
+## What's Changed
+* optimize: VueUse を用いてグローバルなイベント監視を効率化する by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/4890
+* fix: ドラッグの終了判定を緩和する by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/4998
+* chore(deps): bump systeminformation and cypress by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/4981
+* chore(deps): bump zod from 4.1.13 to 4.3.4 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5018
+* chore(deps-dev): bump @types/node from 24.10.1 to 25.0.3 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5017
+* chore(deps): bump firebase from 12.6.0 to 12.7.0 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5015
+* chore(deps-dev): bump jsdom from 27.2.0 to 27.4.0 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5014
+* chore(deps): bump actions/download-artifact from 6.0.0 to 7.0.0 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5008
+* chore(deps): bump actions/upload-artifact from 5 to 6 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5009
+* chore(deps-dev): bump vue-tsc from 3.1.5 to 3.2.1 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5011
+* chore(deps-dev): bump sass from 1.95.0 to 1.97.1 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5013
+* chore(deps-dev): bump @typescript-eslint/parser from 8.48.1 to 8.51.0 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5016
+* chore(deps): bump actions/cache from 4 to 5 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5007
+* chore(deps): bump the patches group with 10 updates by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5010
+* chore(deps-dev): bump vite from 7.2.6 to 7.3.0 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5012
+* chore(deps): bump the non-majors group across 1 directory with 2 updates by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/4961
+* chore(CI): cache and refactor by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/5006
+* build(deps): downgrade Caddy by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/5021
+* fix(channel-view): 短時間での通知設定の再変更がイベントログに複数の記録を残さないようにする by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/4826
+* refactor: store が生の promise を返せるようにする by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/5022
+* fix(stamp-element): スタンプホバー時の表示が残り続ける問題を修正 by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/4936
+* fix(suggestion): 補完候補リストのキーボード操作および UI の改善 by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/4836
+* fix(routing): チャンネルパスの解決とフォールバックの強化 by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/5019
+* fix(UI): カーソルスタイルをクリック可能領域全体に適用する by @Kiri-Nakuni in https://github.com/traPtitech/traQ_S-UI/pull/4723
+* fix: `ChannelHeaderRelationButton` のスタイルを改善 by @uni-kakurenbo in https://github.com/traPtitech/traQ_S-UI/pull/5025
+* feat: 検索の際に入力内容が同じでも再検索が走るように by @mumumu6 in https://github.com/traPtitech/traQ_S-UI/pull/5045
+* fix: UserModal のグループやタグの詳細を開いてからモーダルに戻ったときに、前に開いていたタブが保持されないバグを修正 by @mumumu6 in https://github.com/traPtitech/traQ_S-UI/pull/5044
+* refactor: `useChannelView` (不要だった) を消した by @Sakura2-3 in https://github.com/traPtitech/traQ_S-UI/pull/5046
+* refactor:embededのスペルミス修正 by @Sakura2-3 in https://github.com/traPtitech/traQ_S-UI/pull/5055
+* fix: アーカイブされたチャンネルの下書きは自動で消す by @YuHima03 in https://github.com/traPtitech/traQ_S-UI/pull/5052
+* chore(deps): bump livekit-client from 2.16.1 to 2.17.0 by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5059
+* chore(deps): bump the patches group with 13 updates by @dependabot[bot] in https://github.com/traPtitech/traQ_S-UI/pull/5057
+* chore: PR templateのbefore/afterをtableにする by @ras0q in https://github.com/traPtitech/traQ_S-UI/pull/5074
+* ui: モバイルで画像が小さくなりがちな問題を修正
+ by @ras0q in https://github.com/traPtitech/traQ_S-UI/pull/5073
+* 2文字のチャンネルまではそのまま表示するように by @Takeno-hito in https://github.com/traPtitech/traQ_S-UI/pull/5076
+* アーカイブされたチャンネルの表示/非表示を切り替えられるトグルを実装 by @yas-ako in https://github.com/traPtitech/traQ_S-UI/pull/5068
+
+## New Contributors
+* @Kiri-Nakuni made their first contribution in https://github.com/traPtitech/traQ_S-UI/pull/4723
+* @mumumu6 made their first contribution in https://github.com/traPtitech/traQ_S-UI/pull/5045
+* @Sakura2-3 made their first contribution in https://github.com/traPtitech/traQ_S-UI/pull/5046
+* @YuHima03 made their first contribution in https://github.com/traPtitech/traQ_S-UI/pull/5052
+
+**Full Changelog**: https://github.com/traPtitech/traQ_S-UI/compare/v3.31.2...aaa

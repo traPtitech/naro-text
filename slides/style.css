@@ -14,7 +14,7 @@
   --gray: #808080;
   --primary: #14a39e;
   --secondary: #ff9800;
-  font-size: 40px;
+  font-size: 29px;
 }
 
 /* スライド全体 */
@@ -50,7 +50,7 @@ section:not(.title, .section-head, .emphasize, .end) h1 {
   border-bottom: 8px dotted var(--primary);
   margin: 0;
   padding: 0;
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
   padding: 2px 8px;
 }
