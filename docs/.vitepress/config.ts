@@ -27,7 +27,10 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     siteTitle: 'なろう講習会',
-    nav: [{ text: 'Home', link: '/' }],
+    nav: [
+      { text: 'Home', link: '/' },
+      { text: '座学編', link: '/lectures/' }
+    ],
 
     sidebar: {
       '/web_basic/': buildSidebar('web_basic'),
