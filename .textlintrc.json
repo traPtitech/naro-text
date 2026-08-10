@@ -33,7 +33,7 @@
           "/Web(サイト|アプリ|エンジニア|フロント|バックエンド)/"
         ]
       },
-      "ja-spacing/ja-no-space-around-slash": false
+      "ja-no-space-around-slash": false
     },
     "spellcheck-tech-word": true,
     "prh": {
