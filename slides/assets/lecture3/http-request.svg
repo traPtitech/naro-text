@@ -45,7 +45,7 @@
       }
 
       .cls-11 {
-        font-family: PTMono-Regular, 'PT Mono';
+        font-family: 'Noto Sans Mono', PTMono-Regular, 'PT Mono', monospace;
         font-size: 48px;
       }
 
@@ -54,7 +54,7 @@
       }
 
       .cls-12 {
-        font-family: PA1GothicStd-Regular-83pv-RKSJ-H, 'A P-OTF A1Gothic Std';
+        font-family: 'Noto Sans JP', sans-serif;
         font-size: 24px;
       }
 

@@ -5,6 +5,13 @@ layout: home
 hero:
   name: "Webエンジニアになろう講習会"
   tagline: traP SysAd班
+  actions:
+    - theme: brand
+      text: 座学編を見る
+      link: /lectures/
+    - theme: alt
+      text: 実習編を読む
+      link: /chapter1/
 features:
   - title: Web開発の基礎
     details: Web開発の基礎的な知識を学びます。
@@ -21,4 +28,3 @@ features:
     details: インターネットがどのように動いているかを学びます。
     link: /chapter4/0_index.md
 ---
-

@@ -12,22 +12,32 @@ export const chapter1SidebarItems: DefaultTheme.SidebarItem[] = [
       { text: 'はじめに', link: '/chapter1/index' },
       ...dictSidebarItems,
       {
-        text: '実習編',
+        text: '第3回 | 環境構築',
         collapsed: false,
-        items: [
-          ...section1SidebarItems,
-          ...section2SidebarItems,
-          ...section3SidebarItems,
-          ...section4SidebarItems,
-          {
-            text: 'React入門',
-            link: '/chapter1/dicts/react/0_react-intro'
-          },
-          {
-            text: 'アプリを作ってみよう(React)',
-            link: '/chapter1/dicts/react/1_create-app'
-          }
-        ]
+        items: section1SidebarItems
+      },
+      {
+        text: '第4回 | フロントエンド',
+        collapsed: false,
+        items: section2SidebarItems
+      },
+      {
+        text: '第5回 | サーバー',
+        collapsed: false,
+        items: section3SidebarItems
+      },
+      {
+        text: '第6回 | データベース',
+        collapsed: false,
+        items: section4SidebarItems
+      },
+      {
+        text: 'React入門',
+        link: '/chapter1/dicts/react/0_react-intro'
+      },
+      {
+        text: 'アプリを作ってみよう(React)',
+        link: '/chapter1/dicts/react/1_create-app'
       }
     ]
   }

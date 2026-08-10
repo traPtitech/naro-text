@@ -9,21 +9,21 @@ _class: title
 
 # データベース入門
 
-Webエンジニアになろう講習会 第4回
+Webエンジニアになろう講習会 第6回
 
 ---
 
 # 自己紹介
 
-<div class="columns"> 
+<div class="columns">
   <div>
     <img src="assets/lecture4/icon.png"/>
   </div>
   <div>
-    <h2>Kentaro1043</h2>
-    <div>数理・計算科学系</div>
+    <h2>renkon</h2>
+    <div>情報通信系</div>
+    <div>おすすめのエディター募集中です</div>
     <div>インフラやってます</div>
-    <div>Kubernetesが好きです</div>
   </div>
 </div>
 
@@ -38,8 +38,8 @@ _class: section-head
 
 # HTTPって何だったっけ？
 
-- <span class="underlined">お願い (リクエスト)</span> と <span class="underlined">お返事 (レスポンス)</span> で<br>やりとりをする仕組み  
-- リソースを取得・編集・削除するやりとりができる  
+- <span class="underlined">お願い (リクエスト)</span> と <span class="underlined">お返事 (レスポンス)</span> で<br>やりとりをする仕組み
+- リソースを取得・編集・削除するやりとりができる
 
 ---
 
@@ -69,10 +69,10 @@ _class: section-head
 
 ---
 
-# レスポンスの構造  
+# レスポンスの構造
 
 <div class="center">
-  <img src="assets/lecture4/http-response.svg" width="80%"/>
+  <img src="assets/lecture4/http-response.svg" width="70%"/>
 </div>
 
 ---
@@ -86,7 +86,7 @@ HTTPが依存するプロトコル
 ---
 
 # TCP
-  
+
 HTTPが依存する通信プロトコル．
   - 通信が確実に/正しい順序で届くことを保証する．
   - あらゆるデジタルなデータの伝送をすることができる．
@@ -101,6 +101,17 @@ HTTPが依存する通信プロトコル．
 - 機械に番号を振る
 - ものすごく良い感じに機械に番号を振ることで、機械同士が直接つながっていなくてもデータが届くようになっている
 
+---
+
+# 目次
+
+- 座学
+  - データベース ◀️
+  - 環境変数
+- 実習
+  - SQLで遊ぶ
+  - Goでデータベースを扱う
+  - サーバーからデータベースを扱う
 ---
 
 <!--
@@ -136,25 +147,13 @@ _class: section-head
 
 ---
 
-# SQL
-
-**S**tructured **Q**uery **L**anguage
-
-例: `member` テーブルから<br>`Id`, `Name`, `Team` の3カラムを選択する
-
-```sql
-SELECT Id, Name, Team FROM member;
-```
-
----
-
 # DBMS  (**D**ata**B**ase **M**anagement **S**ystem)
 
 - データベースの情報管理を行うアプリ
 - <span class="underlined">データの整合性</span>を保つ役割
 - 整合性を保つ: **ACID特性**
+  - **A**tomicity（原子性）、**C**onsistency（整合性）、**I**solation（独立性）、**D**urability（永続性）
   - 関係が壊れたりデータが勝手に無くなったりしない
-  - 気になった方は調べてみてください
 
 <div class="columns-3">
   <img src="assets/lecture4/mysql.png"/>
@@ -168,8 +167,9 @@ SELECT Id, Name, Team FROM member;
 # RDBMS（Relational DBMS）（1/2）
 
 - 表形式でデータを格納 （テーブル）
-- 管理する情報の種類を列（カラム）にする  
+- 管理する情報の種類を列（カラム）にする
 - 1つのデータを1行（レコード）で管理
+- **ACID**特性を持つ
 
 <div class="center">
   <img src="assets/lecture4/table.png"/>
@@ -187,6 +187,21 @@ SELECT Id, Name, Team FROM member;
   <img src="assets/lecture4/relation.png" width="80%"/>
 </div>
 
+
+---
+
+# SQL
+
+**S**tructured **Q**uery **L**anguage
+
+例: `member` テーブルから<br>`Id`, `Name`, `Team` の3カラムを選択する
+
+```sql
+SELECT Id, Name, Team FROM member;
+```
+
+
+
 ---
 
 # NoSQL
@@ -199,42 +214,52 @@ SELECT Id, Name, Team FROM member;
 
 ---
 
-# NewSQL
-
-- NoSQLの利点を取り入れたRDBMS
-- 高パフォーマンス、サーバー分散
-- SQLを使える、整合性を保つ
-- まだ新しく情報が少ない
-
----
-
 # 様々なDBMS
 
 ![](assets/lecture4/db.png)
 
 ---
 
-# 環境変数の話（1/2）
+# 目次
 
-- データベースを使うには？
-  - ユーザー名、パスワードが必要
-  - 漏洩するとデータが盗まれる
+- 座学
+  - データベース
+  - 環境変数　◀️
+- 実習
+  - SQLで遊ぶ
+  - Goでデータベースを扱う
+  - サーバーからデータベースを扱う
+
+---
+
+# 環境変数って何？ (1/2)
+
+- **定義**: プロセスに紐づく名前付きの設定（Key=Valueの形で書く）
+- **特徴**:
+  - アプリは通常「ひとつの実行プロセス」として動く。環境変数はそのプロセスの設定であり、プロセスごとに値が決まる
+  - 実行時に読み取って挙動を変える（起動前に設定を用意する）
+
+---
+# 環境変数って何？ (2/2)
+
+- 例えば
+  - **環境によって変わる設定**: DBのホスト/ポート、サービスのURL
+  - **機密情報**: DBのユーザー名・パスワード、APIキー、シークレット
 
 <div class="center">
   <img src="assets/lecture4/password.png" width="80%"/>
 </div>
 
-
 ---
 
-# 環境変数の話（2/2）
+# 注意点・運用の基本
 
 - どこに書く？
   - ❌️ ソースコード
     - Gitでコミットしたら漏洩
     - 手元のパソコンとサーバーで設定が異なる
   - ⭕️ 環境変数（よく`.env`ファイルに記述）
-    - `.gitignore`で、認証情報のみGitから除外
+    - `.gitignore`で、認証情報を含むファイルのみGitから除外
     - 環境ごとに設定を切り替えられる
 
 ---

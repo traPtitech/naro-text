@@ -1,0 +1,124 @@
+/**
+ * 座学編のスライド一覧
+ * -------------------------------------------------------------------------- */
+.lecture-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.lecture-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.lecture-card:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.lecture-card__number {
+  margin: 0 0 8px;
+  color: var(--vp-c-brand-1);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.lecture-card h3 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.lecture-card > p:not(.lecture-card__number) {
+  flex: 1;
+  margin: 12px 0 20px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.lecture-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lecture-card__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none !important;
+  transition:
+    color 0.2s,
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.lecture-card__button--primary {
+  color: var(--vp-button-brand-text) !important;
+  background-color: var(--vp-button-brand-bg);
+}
+
+.lecture-card__button--primary:hover {
+  background-color: var(--vp-button-brand-hover-bg);
+}
+
+.lecture-card__button--secondary {
+  border-color: var(--vp-c-divider);
+  color: var(--vp-c-text-1) !important;
+  background-color: var(--vp-c-bg);
+}
+
+.lecture-card__button--secondary:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1) !important;
+}
+
+.lecture-card__button:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .lecture-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lecture-card {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lecture-card,
+  .lecture-card__button {
+    transition: none;
+  }
+
+  .lecture-card:hover {
+    transform: none;
+  }
+}

@@ -16,7 +16,21 @@ _class: title
 
 # オリエンテーション＆Webアプリ概論
 
-Webエンジニアになろう講習会 第1回
+Webエンジニアになろう講習会 第3回
+
+---
+# 自己紹介
+
+<div class="columns"> 
+    <div>
+        <img src="assets/lecture1/mamo.png"/>
+    </div>
+    <div>
+    <h2>mamo</h2>
+    工学院情報通信系、普段バックエンドを担当しています
+    </div>
+</div>
+
 
 ---
 
@@ -532,18 +546,6 @@ _class: section-head
 
 ---
 
-# 今熱いこと
-
-- AI関連
-  - エディタ (Cursorなど) / エージェント
-  - Model Context Protocol (MCP)
-- React Server Components (RSC)
-- TypeScriptコンパイラのGo移植
-- GraphQL Federation
-- WebGPU
-- DuckDB
-
----
 
 # 結局何から始めればいいの？
 
@@ -560,16 +562,6 @@ _class: section-head
 
 ---
 
-# マスタリングTCP/IP
-
-![height:250px](assets/lecture1/mastering-tcp-ip.png)
-
-- 今日話さなかったデータのやり取りについてよくまとまった本
-- これを覚えておけば困らない
-- 事前知識を要求しない
-- JK/JCのネットワーク科目の教科書
-
----
 
 <!--
 _class: section-head
@@ -621,6 +613,6 @@ _class: section-head
 - A tour of GoのBasicsまでを読んでくる
   - https://go-tour-jp.appspot.com/list からできます
   - コードも実行してみてください
-- 期限: 第3回まで
+- 期限: 第5回まで
 - わからないこと、もっと知りたいことがあれば質問！！
   - 講習会時間外でも #event/workshop/webapp/sodan にぜひ聞いて下さい

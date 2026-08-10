@@ -1,3 +1,4 @@
 *.md
 docs/.vitepress/cache
 *.yaml
+docs/chapter1/section2/src/

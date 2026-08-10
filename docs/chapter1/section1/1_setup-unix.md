@@ -2,10 +2,14 @@
 
 [[toc]]
 
-:::warning
-コマンドは手入力ではなく、コピー & ペースト で入力してください。  
-手入力だと写し間違いの可能性があります。  
+:::tip
+コマンドは手入力ではなく、コピー & ペースト で入力してください。
+手入力だと写し間違いの可能性があります。
 この際、1 行ずつコピーするようにしてください。
+:::
+:::warning
+今回は、信頼できるものなのでコピー&ペーストで実行してよいですが、インターネット上のコマンドを安易にコピペして実行するのは危険です。
+必ず信頼できるサイトなのか安全なコマンドなのかを確認してから実行するようにしましょう。
 :::
 
 ## 事前準備
@@ -15,18 +19,6 @@
 
 `Control + Shift + Command + 4`を押すと、矩形選択でスクリーンショットが撮れます。 traQ のメッセージ入力欄に` Command + V`で貼り付けられます。
 :::
-
-### Homebrew の導入
-
-`ターミナル`アプリを開いて、以下のコマンドを貼り付け、`return`キーを押して実行してください。
-
-Homebrew とは、様々なアプリケーションをインストールしやすくし、アップデートなどもやりやすくするためのソフトです。
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-参考: https://brew.sh/ja/
 
 ## VSCode の導入
 
@@ -38,11 +30,22 @@ https://code.visualstudio.com/download
 
 ### 拡張機能の導入
 
-VSCode は拡張機能により様々な言語でのプログラミングをラクにすることができます。  
+VSCode は拡張機能により様々な言語でのプログラミングをラクにすることができます。
 次回以降に使うものも最初にまとめて導入しておきましょう。
 
-:::warning
+:::tip
 下記に書いてある拡張機能は必ず導入してください！ `⌘ + Shift + X` で拡張機能のインストール画面を開くことができます。
+:::
+
+:::warning
+昨今のVSCode の拡張機能に様々な脆弱性が報告されているため、以下のような対策をしておきましょう。
+- 信頼できる発行元のもの以外は利用しない
+- 気づかないうちに影響を受けないため、拡張機能の自動更新を止めて手作業で更新する
+
+`⌘ + , `で設定を開き、`Extensions: Auto Update`の項目を「なし (false)」にすることで自動更新を止めることができます
+![](./images/disable_autoupdate.png)
+
+![](./images/vscode_extensions.png)
 :::
 
 - [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
@@ -52,19 +55,48 @@ VSCode は拡張機能により様々な言語でのプログラミングをラ�
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
   - コードのフォーマットを整えてくれます。保存時に自動で実行されるような設定をしておくと便利です。
 - [Vue Language Features (Volar)](https://marketplace.visualstudio.com/items?itemName=vue.volar)
-  - VSCode の Vue3 向けの統合プラグイン。  
+  - VSCode の Vue3 向けの統合プラグイン。
 
 インストールが終わったら、反映させるために VSCode を 1 度閉じて開きなおしてください。
 
-## Go と Task のインストール
+
+## mise の導入
+
+mise は、Go や Node.js などの開発に必要なツールのバージョンをまとめて管理するためのソフトです。
+
+ターミナルで以下のコマンドを実行してインストールしてください。
+
+```bash
+curl https://mise.run | sh
+
+echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+インストールできているか確認します。
+
+```bash
+mise --version
+```
+
+`2026.x.x` のように表示されれば成功です。
+
+### セキュリティ対策
+
+最近、パッケージの公開プロセスを乗っ取って不正なものを公開する「サプライチェーン攻撃」が増えています。
+コミュニティやセキュリティ企業が気づく前にダウンロードしてしまうことを防ぐために、パッケージが公開されてから一定期間(ここでは3日間)経過していないバージョンは、インストールしないように設定しておきましょう。
+
+```bash
+mise settings set minimum_release_age "3d"
+```
+
+## Go のインストール
 
 ここでは、Go というプログラミング言語の導入をします。
 この講習会では Go という言語でサーバーサイドの制作を行います。
 
-先ほど導入した Homebrew を用いてインストールします。
-
 ```bash
-brew install go
+mise use -g go@latest
 ```
 
 ここまでで、以下のコマンドを実行して
@@ -73,24 +105,7 @@ brew install go
 go version
 ```
 
-バージョン番号が表示されればインストール完了です。
-ここまでできれば、次は以下のコマンドも実行して Task のインストールをしてください。
-
-```sh
-go install github.com/go-task/task/v3/cmd/task@latest
-```
-
-:::info 詳しく知りたい人向け。
-
-**`Task`って何だ。**
-
-Task は、Go で動いているタスクランナーです。これによって長いコマンドを短くできたり、複数のコマンドを 1 回で実行できたりと、開発においてとても便利なツールです。テンプレートリポジトリに`Taskfile.yaml`というファイルがありますが、このファイルによってコマンドの設定をしています。公式ドキュメントは英語しかありませんが、興味のある人は目を通してみてください。
-
-Task 公式ドキュメント [https://taskfile.dev/](https://taskfile.dev/)
-
-Task GitHub [https://github.com/go-task/task](https://github.com/go-task/task)
-
-:::
+`go version go1.26.4`と表示されればインストール完了です。
 
 ### Go のツールのインストール
 
@@ -113,27 +128,63 @@ VSCode で `Command`+`Shift`+`P` を押して出てくるコマンドパレッ�
 
 ## Node.jsの導入
 
-Vue を使うために、Node.js を入れます。ここでは fnm という Node.js 専用のバージョンマネージャーを用いてインストールします。
-この講習会では、クライアントサイドを Vue を用いて制作します。
+この講習会では、クライアントサイド（フロントエンド）の制作に Vue を使用します。
+その開発環境を動かすための土台として、Node.js をインストールしましょう。
 
 ```bash
-curl -o- https://fnm.vercel.app/install | bash
-# もし必要なら指示に従って source コマンドを実行する
-fnm install --lts
+mise use -g node@lts
 ```
 
 これで、デフォルトで現在出ている最新のLTSバージョンが適用されるようになりました。
+
+:::info
+LTSは "Long Term Support" の略で、長く安全に使えることが約束されてます。
+:::
+
 ここで、インストールが正常にできているかを確認します。
 
 ```bash
 node -v
 ```
 
-を実行して、バージョン番号が表示されれば OK。
+を実行して、`v24.16.0`のようにバージョンが表示されればOK。
+
+### セキュリティ対策
+
+npm も mise と同様にサプライチェーン攻撃の対策をしておきましょう。
+
+ここでは、公開されたばかりのパッケージをインストールしない設定と、インストール時のスクリプトの実行を無効化する設定を行います。
+
+```bash
+npm config set min-release-age 3
+npm config set ignore-scripts true
+```
+
+:::warning
+npmのバージョンが低いとこの設定ができない可能性があります。
+その場合は、以下のコマンドで npm を最新バージョンにアップデートしてください。
+```bash
+npm install -g npm
+```
+:::
+
+設定が反映されているか確認します。
+
+```bash
+cat ~/.npmrc
+```
+
+これで以下のような内容が表示されれば成功です。
+
+```text
+min-release-age=3
+ignore-scripts=true
+```
+
 
 ## Docker Desktopのインストール
 
-https://www.docker.com/products/docker-desktop/  
+https://www.docker.com/products/docker-desktop/
 上のリンクからそれぞれの OS にあったものをダウンロードしてインストールしてください。
 
 :::info

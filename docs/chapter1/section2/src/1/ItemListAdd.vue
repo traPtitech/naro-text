@@ -1,3 +1,4 @@
+<!-- src/components/ItemList.vue -->
 <script setup lang="ts">
 import { ref } from 'vue'
 
@@ -10,12 +11,12 @@ const items = ref<Item[]>([
   { name: 'たまご', price: 100 },
   { name: 'りんご', price: 160 }
 ])
-const newItemName = ref('')
-const newItemPrice = ref(0)
+const newItemName = ref('') // [!code ++]
+const newItemPrice = ref(0) // [!code ++]
 
-const addItem = () => {
-  items.value.push({ name: newItemName.value, price: newItemPrice.value })
-}
+const addItem = () => { // [!code ++]
+  items.value.push({ name: newItemName.value, price: newItemPrice.value }) // [!code ++]
+} // [!code ++]
 </script>
 
 <template>
@@ -27,17 +28,17 @@ const addItem = () => {
         <div>{{ item.price }} 円</div>
       </li>
     </ul>
-    <div>
-      <label>
-        名前
-        <input v-model="newItemName" type="text" />
-      </label>
-      <label>
-        価格
-        <input v-model="newItemPrice" type="number" />
-      </label>
-      <button @click="addItem">追加</button>
-    </div>
+    <div><!-- [!code ++] -->
+      <label><!-- [!code ++] -->
+        名前<!-- [!code ++] -->
+        <input v-model="newItemName" type="text" /><!-- [!code ++] -->
+      </label><!-- [!code ++] -->
+      <label><!-- [!code ++] -->
+        価格<!-- [!code ++] -->
+        <input v-model="newItemPrice" type="number" /><!-- [!code ++] -->
+      </label><!-- [!code ++] -->
+      <button @click="addItem">追加</button><!-- [!code ++] -->
+    </div><!-- [!code ++] -->
   </div>
 </template>
 

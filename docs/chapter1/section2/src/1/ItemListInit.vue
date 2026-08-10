@@ -1,3 +1,4 @@
+<!-- src/components/ItemList.vue -->
 <script setup lang="ts"></script>
 
 <template>
