@@ -17,7 +17,7 @@ Webエンジニアになろう講習会 第8回
 
 <div class="columns">
   <div>
-    <img src="assets/lecture8/icon.png"/>
+    <img src="assets/lecture8/icon.png" alt="renkonのプロフィール画像"/>
   </div>
   <div>
     <h2>renkon</h2>
@@ -41,8 +41,10 @@ _class: section-head
 ## テスト
 
 - コードの品質・仕様書どおりの動作を保証
-- 正常系 と 準正常系 と 異常系  / ブラックボックステスト と ホワイトボックステスト
-- Unit test / Integration test / End-to-End test
+- テストの分類
+  - 正常系 / 準正常系 / 異常系
+  - ブラックボックステスト / ホワイトボックステスト
+  - Unit test / Integration test / End-to-End test
 
 ---
 
