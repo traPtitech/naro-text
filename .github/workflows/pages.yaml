@@ -36,10 +36,17 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+
       - name: Marp Build
         run: |
-          npx @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --html
-          npx @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --pdf --allow-local-files
+          npm exec --offline -- @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --html
+          npm exec --offline -- @marp-team/marp-cli --input-dir ./slides/ --theme-set ./slides/style.css --output marp-dist --pdf --allow-local-files
 
       - name: Copy Assets
         run: |
