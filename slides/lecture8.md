@@ -13,6 +13,21 @@ Webエンジニアになろう講習会 第8回
 
 ---
 
+# 自己紹介
+
+<div class="columns">
+  <div>
+    <img src="assets/lecture8/icon.png"/>
+  </div>
+  <div>
+    <h2>renkon</h2>
+    <div>dotfiles入門しました</div>
+    <div>インフラやってます</div>
+  </div>
+</div>
+
+---
+
 <!--
 _class: section-head
 -->
@@ -26,13 +41,8 @@ _class: section-head
 ## テスト
 
 - コードの品質・仕様書どおりの動作を保証
-- 正常系 と 異常系 / ブラックボックステスト と ホワイトボックステスト
-
-## テストの規模（一例）
-
-- Unit test（単体テスト）
-- Integration test（統合テスト）
-- End-to-End test（E2Eテスト）
+- 正常系 と 準正常系 と 異常系  / ブラックボックステスト と ホワイトボックステスト
+- Unit test / Integration test / End-to-End test
 
 ---
 
@@ -106,7 +116,7 @@ _class: section-head
 
 ## 実習
 - Dockerfile の書き方
-- compose.yml の書き方
+- compose.yaml の書き方
 
 </div>
 
@@ -133,7 +143,7 @@ _class: section-head
 
 ## 実習
 - Dockerfile の書き方
-- compose.yml の書き方
+- compose.yaml の書き方
 
 </div>
 
@@ -145,13 +155,18 @@ _class: section-head
 
 <style>
 .dockerIconContainer {
-    width: 100%;
-    padding-left: 700px;
-    height: 240px;
+  position: absolute;
+  top: 120px;
+  right: 72px;
+  width: 180px;
+  height: auto;
+  padding: 0;
 }
 
 .dockerIcon {
-    transform: translateY(-80px);
+  display: block;
+  width: 100%;
+  transform: translateY(-90px);
 }
 </style>
 
@@ -161,7 +176,7 @@ _class: section-head
 
 </div>
 
-- コンテナ型の仮想環境を作成・実行するツール
+- コンテナ型の仮想環境を作成・配布・実行するツール
 - 言語やフレームワーク、アーキテクチャ、そして様々なツール間の連携といった複雑化する開発環境を簡略化し、開発体験を向上するために開発
 - 標準化された規格やソフトウェア群、それらを支えるためのサービス、ドキュメントやコミュニティを総称して Docker という
 
@@ -175,7 +190,7 @@ _class: section-head
 
 </div>
 
-- コンテナ型の<span class="underlined">仮想環境</span>を作成・実行するツール
+- コンテナ型の<span class="underlined">仮想環境</span>を作成・配布・実行するツール
 - 言語やフレームワーク、アーキテクチャ、そして様々なツール間の連携といった複雑化する開発環境を簡略化し、開発体験を向上するために開発
 - 標準化された規格やソフトウェア群、それらを支えるためのサービス、ドキュメントやコミュニティを総称して Docker という
 
@@ -195,12 +210,11 @@ _class: section-head
 
 # 仮想環境とは
 
-- 仮想マシン、VM(Virtual Machine)とも
 - それぞれのコンピューターから独立した仮想的な環境
 - 実現方法
   - ホスト型 ... VMware Player, VirtualBox など
   - ハイパーバイザー型 ... Hyper-V, Virtualization.framework など
-  - コンテナ型 ... LXC/LXD, Docker, podman など
+  - コンテナ型 ... LXC/LXD, Docker, Podman など
 
 ---
 
@@ -239,7 +253,7 @@ _class: section-head
 
 ## 実習
 - Dockerfile の書き方
-- compose.yml の書き方
+- compose.yaml の書き方
 
 </div>
 
@@ -251,11 +265,9 @@ _class: section-head
 
 <div class="dockerIconContainer">
 
-<img src="assets/lecture8/docker.png" class="dockerIcon">
-
 </div>
 
-- <span class="underlined">コンテナ</span>型の仮想環境を作成・実行するツール
+- アプリケーションを<span class="underlined">コンテナ</span>として作成・配布・実行するためのツール群
 - 言語やフレームワーク、アーキテクチャ、そして様々なツール間の連携といった複雑化する開発環境を簡略化し、開発体験を向上するために開発
 - 標準化された規格やソフトウェア群、それらを支えるためのサービス、ドキュメントやコミュニティを総称して Docker という
 
@@ -282,8 +294,23 @@ _class: section-head
 <div>
 
 ## コンテナ型
-- OS をエミュレートしない分軽量 (MB 単位)
-- ボトルネックも小さい
+- ホストのカーネルを共有する
+- 起動が早く、実行時のオーバーヘッドが小さい
+- プロセスから見える資源を分離・制限する
+
+</div>
+
+</div>
+
+---
+
+# 仮想化技術
+
+<div class="virtualizeColumn">
+
+<img src="assets/lecture8/containerAndHyperviser.png" class="virtualizeColumnImg">
+
+<div>
 
 ## ハイパーバイザー型
 - OS のフルコピーを一つのハードウェア上で動かす
@@ -295,11 +322,19 @@ _class: section-head
 
 ---
 
+<!--
+_class: no-caption
+-->
+
 # プロセス
 
 <img src="assets/lecture8/process.png">
 
 ---
+
+<!--
+_class: no-caption
+-->
 
 # プロセス
 
@@ -307,11 +342,19 @@ _class: section-head
 
 ---
 
+<!--
+_class: no-caption
+-->
+
 # プロセス
 
 <img src="assets/lecture8/processContainer.png">
 
 ---
+
+<!--
+_class: no-caption
+-->
 
 # プロセス
 
@@ -329,14 +372,18 @@ _class: section-head
 
 ---
 
+<!--
+_class: no-caption
+-->
+
 # コンテナとは
 
 - 特別な状態で実行されるプロセス群
-- Linuxカーネルの一部であるnamespaceやcgroupなどを用いて実現される
-- namespace
+- Linuxカーネルの一部であるnamespacesやcgroupsなどを用いて実現される
+- namespaces
   - PID・ファイルシステム・ネットワーク・ホスト名・UID/GIDなどの分離
-- cgroup
-  - CPU・メモリ・I/O・ディスク容量などの制限
+- cgroups
+  - CPU・メモリ・I/O・プロセス数など、使用できる資源を制限する
 
 ---
 
@@ -363,12 +410,16 @@ _class: section-head
 # Docker について
 
 - Linux の機能をベースにしている
-  - Mac や Windows のネイティブでは動かない
+  - macOS や Windows のネイティブでは動かない
   - 仮想マシンを立てて動かしている
 - Docker (dockerd) が仲介
   - コンテナの起動や操作
 
 ---
+
+<!--
+_class: no-caption
+-->
 
 # パッケージ化した利点
 
@@ -401,7 +452,7 @@ _class: section-head
 
 ## 実習
 - Dockerfile の書き方
-- compose.yml の書き方
+- compose.yaml の書き方
 
 </div>
 
@@ -430,6 +481,16 @@ _class: section-head
 
 <img src="assets/lecture8/dockerImageLayers.png">
 
+
+---
+
+# レイヤー構造になっている利点
+
+- 変更されていないレイヤーを再利用できる
+  - ビルドキャッシュを利用できる
+  - 複数のイメージ間で同じレイヤーを共有できる
+  - 配布時に必要なレイヤーだけ取得できる
+
 ---
 
 # Docker における コンテナ とは
@@ -441,11 +502,12 @@ _class: section-head
 # コンテナの利用方法
 
 1. イメージ を用意
-2. 読み込む環境変数・設定ファイル等を準備
-3. イメージ から コンテナ を起動
+    - Dockerfile からビルドする
+    - レジストリから pull する
+2. 読み込む環境変数・設定ファイル等を指定する
+3. イメージ から コンテナ を作成・起動
 
 イメージとコンテナの関係はクラスとインスタンスみたいなもの
-更にわかりやすく言うとテンプレと実際のスライド的な感じ
 
 ---
 
@@ -468,7 +530,7 @@ _class: section-head
 
 ## 実習
 - Dockerfile の書き方
-- compose.yml の書き方
+- compose.yaml の書き方
 
 </div>
 
@@ -479,11 +541,10 @@ _class: section-head
 # Volume とは
 
 ## Docker コンテナ内のデータを永続化する手段
-- 仮想環境は一度消すとデータも全部消える
+- Container の書き込み可能なレイヤーとは別にデータを保存する
+- Container を削除しても、Volume は削除されずに残る
 - サーバーアプリケーションに対する DB と似た関係性
-## ホストマシンのディレクトリとコンテナをつなぐ
-- ホストのファイルシステムの一部をコンテナに対して露出
-- コンテナ側のファイルシステムにマウントする
+- Volume の他にも Bind Mount, tmpfs Mount などがある
 
 ---
 
@@ -526,7 +587,7 @@ _class: section-head
 
 ## 実習
 - Dockerfile の書き方
-- compose.yml の書き方
+- compose.yaml の書き方
 
 </div>
 
@@ -536,14 +597,11 @@ _class: section-head
 
 # Network とは
 
-- コンテナ内のアプリをインターネットとつなぐ手段
+- コンテナ同士や、コンテナとホスト・外部ネットワークをつなぐ仕組み
 - 標準ネットワークモデルは以下の 3 つ
-  - **bridge**
-    - ブリッジでコンテナ側のポートとホストのポートをマッピング
-  - **host**
-    - コンテナでポートを開くと直接ホストの公開ポートを利用
-  - **none**
-    - 疎通しない
+  - **bridge:** ブリッジでコンテナ側のポートとホストのポートをマッピング
+  - **host:** コンテナでポートを開くと直接ホストの公開ポートを利用
+  - **none:** 疎通しない
 
 ---
 
@@ -613,12 +671,12 @@ _class: section-head
 <div>
 
 ## コンテナ型
-- OS をエミュレートしない分軽量 (MB 単位)
-- ボトルネックも小さい
+- 軽量で起動が早い
+- namespaces, cgroups で資源を隔離
 
 ## ハイパーバイザー型
-- OS のフルコピーを一つのハードウェア上で動かす
-- 容量が大きい (GB 単位)
+- OSのフルコピーを動かす
+- 容量が大きく起動が遅い
 
 </div>
 
@@ -675,7 +733,7 @@ _class: section-head
 
 ## <span class="underlined">実習</span>
 - Dockerfile の書き方
-- compose.yml の書き方
+- compose.yaml の書き方
 
 </div>
 
