@@ -267,9 +267,11 @@ _class: section-head
 
 <div class="dockerIconContainer">
 
+<img src="assets/lecture8/docker.png" class="dockerIcon">
+
 </div>
 
-- アプリケーションを<span class="underlined">コンテナ</span>として作成・配布・実行するためのツール群
+- <span class="underlined">コンテナ</span>型の仮想環境を作成・配布・実行するツール
 - 言語やフレームワーク、アーキテクチャ、そして様々なツール間の連携といった複雑化する開発環境を簡略化し、開発体験を向上するために開発
 - 標準化された規格やソフトウェア群、それらを支えるためのサービス、ドキュメントやコミュニティを総称して Docker という
 
