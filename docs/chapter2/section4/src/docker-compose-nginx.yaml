@@ -9,4 +9,4 @@ services:
     ports:
       - "127.0.0.1:3000:80"
     volumes:
-      - ./nginx/conf.d/:/etc/nginx/conf.d
+      - ./nginx/conf.d/:/etc/nginx/conf.d:ro
