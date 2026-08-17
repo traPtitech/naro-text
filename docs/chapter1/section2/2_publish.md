@@ -51,13 +51,13 @@ GitHub Pages は GitHub に上げたコードから簡単に Web サイトを公
 参考：[静的サイトのデプロイ | Vite](https://ja.vitejs.dev/guide/static-deploy.html)  
 参考：[GitHub Actions のワークフロー構文 - GitHub Docs](https://docs.github.com/ja/actions/using-workflows/workflow-syntax-for-github-actions)
 
-<<< @/chapter1/section2/src/2/deploy.yml
+<<< @/chapter1/section2/src/2/deploy.yml{yaml:line-numbers=0}
 
 #### vite.config.ts
 
 `base`の項目を追加します。`{リポジトリ名}`の部分は自分のリポジトリ名を入れてください。
 
-<<< @/chapter1/section2/src/2/vite.config.ts
+<<< @/chapter1/section2/src/2/vite.config.ts{ts:line-numbers=0}
 
 これで設定は終わりです。main ブランチに push したら GitHub Actions が走り、GitHub Pages で公開されるはずです。
 
@@ -71,12 +71,9 @@ GitHub Pages で公開された URL は GitHub Actions の実行が終わり次�
 ![](images/2/site-url.png)
 
 今回の設定ファイルを入れたものは以下のブランチに入っています。参考にしてみてください。  
-[traPtitech/naro-template-frontend at example/deploy](https://github.com/traPtitech/naro-template-frontend/tree/example/deploy)
+[traPtitech/naro-template-frontend at deploy-sample](https://github.com/traPtitech/naro-template-frontend/tree/deploy-sample)
 
 ### まとめ
 お疲れさまでした！  
 これで Vue に入門して Todo リストを作り、GitHub Pages で公開するところまで一通りの流れを掴むことができました。この流れをしっかり理解し、発展させていくことでフロントエンドは自由に書くことができるようになります。  
-今回書いたコードを全てまとめたものを以下に公開してあるので、ソースコードとともに参考にしてみてください。
-
 - サイト：https://traptitech.github.io/naro-template-frontend/
-- ソースコード：https://github.com/traPtitech/naro-template-frontend/tree/example/sample

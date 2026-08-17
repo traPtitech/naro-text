@@ -25,6 +25,7 @@ const chapterOrder: ChapterKey[] = ['web_basic', 'chapter1', 'chapter2', 'chapte
 export function buildSidebar(current: ChapterKey): DefaultTheme.SidebarItem[] {
   return [
     { text: 'トップページ', link: '/' },
+    { text: '座学編（スライド）', link: '/lectures/' },
     ...chapterOrder.flatMap((chapter) =>
       chapter === current ? chapterFullItems[chapter] : [chapterLinks[chapter]]
     )

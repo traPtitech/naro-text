@@ -2,7 +2,8 @@
 
 ## Hello, Docker
 
-ここからはコンテナ型仮想環境の Docker を扱っていきます。今までも MySQL や Adminer を使うために Docker を使って来ましたが、これからは自分でコンテナを立てて動かします。
+ここからはコンテナ型の実行環境を提供する Docker
+を扱っていきます。今までも MySQL や Adminer を使うために Docker を使ってきましたが、これからは自分でコンテナを立てて動かします。
 
 まずは Docker Desktop が起動している状態で、このコマンドを実行してください。
 
@@ -60,7 +61,7 @@ Docker を扱う上でよく使うコマンドを紹介していきます。基�
 
 (`docker container run [オプション] {イメージ名}`)
 
-イメージを指定してコンテナを起動します。先ほど`docker run hello-world`というコマンドを実行しましたが、これは「`hello-world`というイメージでコンテナを起動する」という意味です。ローカルに該当するイメージが無い場合は Docker の公式イメージや [Docker Hub](https://hub.docker.com/)などから探して起動してくれます。
+イメージを指定してコンテナを起動します。先ほど`docker run hello-world`というコマンドを実行しましたが、これは「`hello-world`というイメージでコンテナを起動する」という意味です。ローカルに該当するイメージが無い場合は Docker の公式イメージや [Docker Hub](https://hub.docker.com/)などのレジストリから指定したイメージをPullして起動してくれます。
 
 `hello-world`イメージではテキストを表示するだけなのであまり意味がないですが、コンテナを起動し、そのままコンテナ内に接続する場合は`docker run -it {イメージ名}`のように実行します。
 
@@ -72,7 +73,7 @@ https://docs.docker.jp/engine/reference/commandline/run.html
 
 (`docker container stop [オプション] {コンテナid / コンテナ名}`)
 
-docker コンテナを停止します。コンテナ id は下の`docker ps`で確認できます。
+Docker コンテナを停止します。コンテナ id は下の`docker ps`で確認できます。
 
 https://docs.docker.jp/engine/reference/commandline/stop.html
 
@@ -165,7 +166,7 @@ CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS       
 cbe509e0c99f   nginx     "/docker-entrypoint.…"   44 minutes ago   Up 5 minutes   127.0.0.1:3000->80/tcp   naro_nginx
 ```
 
-確認出来たらコンテナの停止、削除をしましょう。
+確認できたらコンテナの停止、削除をしましょう。
 
 ```sh
 docker stop naro_nginx

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 70">
+  <defs>
+    <style>
+      .label {
+        font-family: 'Noto Sans JP', sans-serif;
+        font-size: 20px;
+        dominant-baseline: middle;
+        text-anchor: middle;
+      }
+    </style>
+  </defs>
+  <rect x="10" y="5" width="220" height="60" rx="7" stroke="#171c1c" fill="#fff" stroke-width="2"/>
+  <rect x="230" y="5" width="460" height="60" rx="7" fill="#fff" stroke="#171c1c" stroke-width="2"/>
+  <text class="label" x="120" y="35">ヘッダ</text>
+  <text class="label" x="460" y="35">データ</text>
+</svg>

@@ -1,6 +1,6 @@
 # Docker Composeを使う
 
-Docker Compose を使うことで、複数のコンテナをまとめてあつかったり、コンテナを接続したりすることが簡単になります。
+Docker Compose を使うことで、複数のコンテナをまとめて扱ったり、コンテナを接続したりすることが簡単になります。
 
 https://docs.docker.jp/compose/toc.html
 
@@ -12,7 +12,7 @@ https://docs.docker.jp/compose/toc.html
 
 <<< @/chapter2/section4/src/docker-compose-1.yaml
 
-yaml ファイルは、インデントでオブジェクト(ひとまとまりの情報)を表現します。
+YAML ファイルは、インデントでオブジェクト(ひとまとまりの情報)を表現します。
 
 `services`以下を増やしていくことで、複数のコンテナを一度に制御できます。
 
@@ -28,7 +28,7 @@ docker compose up
 
 `Ctrl+C`でコンテナを停止できますが、削除は行われません。
 
-`-d`オプションを追加することで、デタッチモードで起動でき、バックグラウンドでコンテナを実行できます。実際のサーバーなどで運用する場合はバックグラウンドで起動することになります。
+`-d`オプションを追加することで、デタッチモードで起動でき、バックグラウンドでコンテナを実行できます。
 
 コンテナを一括で停止・削除するためには、`down`を実行します。
 
@@ -58,8 +58,8 @@ docker compose down
 
 - 2 つのコンテナを起動する。
 - どちらも前のページで作った `Dockerfile`を用いる。
-- 1 つ目のコンテナは`greeting1`という名前で、<a href="http://localhost:3000/greeting">localhost:3000/greeting</a>にアクセスすると「こんにちは」と表示される。
-- 2 つ目のコンテナは`greeting2`という名前で、<a href="http://localhost:3001/greeting">localhost:3001/greeting</a>にアクセスすると「Hello」と表示される。
+- 1 つ目のコンテナは`greeting1`というサービス名で、<a href="http://localhost:3000/greeting">localhost:3000/greeting</a>にアクセスすると「こんにちは」と表示される。
+- 2 つ目のコンテナは`greeting2`というサービス名で、<a href="http://localhost:3001/greeting">localhost:3001/greeting</a>にアクセスすると「Hello」と表示される。
 
 試してみる前に`docker compose down`を実行して既存のコンテナを削除しておきましょう。
 
@@ -79,7 +79,7 @@ https://docs.docker.jp/storage/bind-mounts.html
 
 nginx の設定ファイルをバインドマウントして、リバースプロキシしてみましょう。
 
-リバースプロキシとは、サーバーへのアクセスを受け取り、サーバーアプリケーションに振り分けて中継することです。リクエスト内容に応じて異なるサーバーアプリケーションにリクエストを振り分けることができるので、負荷の軽減につながります。
+リバースプロキシとは、サーバーへのアクセスを受け取り、サーバーアプリケーションに振り分けて中継することです。ルーティングのほか、構成によっては負荷分散、TLS 終端、キャッシュなども担当できます。
 
 DockerHub にある nginx の公式イメージを使います。
 https://hub.docker.com/_/nginx/
@@ -100,6 +100,15 @@ nginx の設定ファイルとして、**`./nginx/conf.d/greeting.conf`** を下
 
 `reverse_proxy`コンテナで`nginx`イメージを使って、`volumes`から設定ファイルのディレクトリをマウントしています。`volumes`は`{ホスト側のパス}:{コンテナ側のパス}`のように、コロンで区切って指定します。
 
+:::warning
+nginx は設定ファイルを書き換える必要がないため `:ro` (readonly)をつけるのがおすすめです。
+```yaml
+volumes:
+  - ./nginx/conf.d/:/etc/nginx/conf.d:ro
+```
+バインドマウントはデフォルトでホスト側ファイルへの書き込みが可能なので、読み取り専用で十分なものには `ro` を付けるとより安全です。
+:::
+
 `greeting`コンテナは nginx 経由のアクセス経路を作ったので、ポートの開放設定を消しています。`reverse_proxy`コンテナのコンテナ側ポートが`80`なのは、http プロトコルのデフォルトのポートが`80`であり、 nginx もそれに従っているからです。
 
 ここまでやったらコンテナを立ち上げて`curl`コマンドでリクエストを送ってみましょう。
@@ -112,8 +121,8 @@ curl -H "Host:hello.local" http://localhost:3000/greeting
 （DNS が解決できないので、サーバーに到達できないため。`/etc/hosts` とかに書いてやるのでも良かったのですが、結構概念が難しいので今回は見送りました）
 
 ```txt
-ikura-hamu@Laptop-hk:~/naro_server$ curl -H "Host:hello.local" http://localhost:3000/greeting
-こんにちはikura-hamu@Laptop-hk:~/naro_server$
+$ curl -H "Host:hello.local" http://localhost:3000/greeting
+こんにちは
 ```
 
 このように挨拶が表示されたら成功です。
