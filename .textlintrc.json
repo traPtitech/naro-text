@@ -32,7 +32,8 @@
           "SysAd班",
           "/Web(サイト|アプリ|エンジニア|フロント|バックエンド)/"
         ]
-      }
+      },
+      "ja-no-space-around-slash": false
     },
     "spellcheck-tech-word": true,
     "prh": {
