@@ -17,12 +17,12 @@ Webエンジニアになろう講習会 第6回
 
 <div class="columns">
   <div>
-    <img src="assets/lecture6/icon.png" alt="Kentaro1043のアイコン" />
+    <img src="assets/lecture6/icon.png" alt="quarantineeeeeeeeeeのアイコン" style="width: 400px;" />
   </div>
   <div>
-    <h2>Kentaro1043</h2>
-    <div>数理・計算科学系</div>
-    <div>k8sが好きです☸</div>
+    <h2>quarantineeeeeeeeee</h2>
+    <div>情報通信系</div>
+    <div>Webフロントとセキュリティをやっています</div>
   </div>
 </div>
 
@@ -89,7 +89,8 @@ _class: section-head
 # 目次
 
 1. サーバーセキュリティ入門
-2. ブラウザセキュリティ入門
+2. 開発・サプライチェーンセキュリティ入門
+3. ブラウザセキュリティ入門
 
 ---
 
@@ -335,7 +336,7 @@ for _, city := range cities {
 ## ハッシュ化
 
 - あるルールに従って変換した値→<span class="underlined">ハッシュ値</span>を保存する
-  - ハッシュアルゴリズム: bcrypt, PBKDF2, Argon2など
+  - ハッシュアルゴリズム: Argon2id, bcrypt, PBKDF2など
   - 適切に選択する
 - <span class="underlined">レインボーテーブル攻撃</span>: 事前計算したハッシュの結果と比較することでパスワードを特定する攻撃
   - 対策: ソルトを付与する
@@ -346,7 +347,103 @@ for _, city := range cities {
 _class: section-head
 -->
 
-# 2. ブラウザ<br />セキュリティ入門
+# 2. 開発・<br />サプライチェーン<br />セキュリティ入門
+
+---
+
+# アプリだけでなく、開発も狙われる
+
+- Webアプリの開発では、多くの外部パッケージやツールを利用する
+  - npmパッケージ、Go Modules、GitHub Actionsなど
+- それらの配布・更新経路に、悪意のあるコードが入り込むこともある
+- 開発から公開までの流れを狙う攻撃
+  →<span class="underlined">サプライチェーン攻撃</span>
+
+---
+
+# npmのセキュリティ
+
+- `package-lock.json`をGitで管理
+  - CIやclone直後は`npm ci`
+- 公開直後のバージョンをすぐに取り込まない
+  - `min-release-age`などを設定（pnpm 11以降はデフォルトで1日）
+- npmでは`preinstall`や`postinstall`などで任意のコードを実行できる（Puppeteerなどではこれが必要）
+- `ignore-scripts`や`allowScripts`を設定
+
+---
+
+# Go Modulesのセキュリティ
+
+- `go.mod`と`go.sum`をGitで管理
+  - Moduleのバージョンとハッシュ値を記録
+- Moduleの改ざんを検知
+  - `go mod verify`
+
+---
+
+# CI/CDのセキュリティ
+
+- GitHub Actionsも外部のソフトウェア
+  - `actions/checkout@v4`の`v4`は変更可能
+- Actionは<span class="underlined">commit SHA</span>で固定
+  - 実行するコードを一意に指定できる
+  - バージョンをコメントに残すと更新しやすい
+- Dependabot/Renovateで定期的に更新
+
+<div class="center">
+
+`actions/checkout@v4` → `actions/checkout@COMMIT_SHA`
+
+</div>
+
+---
+
+# CI/CDのセキュリティ
+
+<div class="center">
+  <img src="assets/lecture6/cd_workflow.png" alt="このテキストのCDワークフロー" height="540px" />
+</div>
+
+---
+
+# 侵害されても被害を広げない
+
+<div class="columns">
+  <div>
+
+ビルド時
+
+```yaml
+permissions:
+  contents: read
+```
+
+  </div>
+  <div>
+
+デプロイ時
+
+```yaml
+permissions:
+  pages: write
+  id-token: write
+```
+
+  </div>
+</div>
+
+- 必要な処理に、必要な権限だけを与える
+- 長期間有効なキーを避ける
+  - OIDCで短期間の認証情報を取得
+- 信頼できないコードにSecretsを渡さない
+
+---
+
+<!--
+_class: section-head
+-->
+
+# 3. ブラウザ<br />セキュリティ入門
 
 ---
 
@@ -492,6 +589,16 @@ _class: section-head
 2. 不要なポートは閉じる
 3. ソフトウェアを最新に保つ
 4. 流出しても影響が無いようにする
+
+---
+
+# まとめ
+
+開発・サプライチェーンのセキュリティ
+
+- npm: lockfile、release age、install script
+- Go: `go.mod`、`go.sum`
+- CI/CD: ActionのSHA固定、権限の最小化
 
 ---
 
