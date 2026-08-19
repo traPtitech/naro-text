@@ -7,6 +7,12 @@ theme: SysAd
 * {
   tab-size: 4;
 }
+
+.icon {
+  width: 300px !important;
+  max-width: 300px !important;
+  height: auto !important;
+}
 </style>
 
 <!--
@@ -20,13 +26,16 @@ Webエンジニアになろう講習会
 
 # 自己紹介
 
-## あきも
-
-24B 数理・計算科学系
-rucQ開発がんばった
-traQチームにもいるよ
-
-![bg right:40% 80%](assets/lecture7/akimo.webp)
+<div class="columns">
+  <div>
+    <img src="assets/lecture7/genMira.png" alt="genMiraのアイコン" class="icon" />
+  </div>
+  <div>
+    <h2>genMira</h2>
+    <div>情報工学系</div>
+    <div>サーバーとゲームなど</div>
+  </div>
+</div>
 
 ---
 
@@ -72,7 +81,7 @@ _class: section-head
 # テストとは
 
 - コードが期待した動きをするか調べること
-- 期待する動きは**仕様書**等に残す
+  - 期待する動きは**仕様書**等に残す
 
 ---
 
@@ -312,6 +321,7 @@ _class: section-head
 - 継続的インテグレーション
 - PRを出した時に自動で整合性や挙動をチェックする
   - テストが通るか
+  - ビルドが通るか
   - Linter / Formatterがかかっているか
 - CIをパスしないとマージできないようにすることも可能
 
@@ -321,8 +331,17 @@ _class: section-head
 
 - 継続的デプロイ
   - デプロイ：外部サーバー上でアプリを起動させること（Webサービスを公開すること）
+- CI後に自動で本番環境にデプロイ
 - 継続的に最新のソフトウェアを提供する
-- Continuous Delivery（継続的デリバリー）を指すこともある
+
+---
+
+# Continuous Delivery (CD)
+
+- 継続的デリバリー
+- 本番環境へのリリースは手動操作が必要
+  - ゲームのバージョンアップデートや修正パッチなど
+- DeploymentとDeliveryを総称してCD
 
 ---
 
