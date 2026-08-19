@@ -11,20 +11,7 @@ _class: title
 
 Webエンジニアになろう講習会 第5回
 
----
-# 自己紹介
 
-<div class="columns align-center"> 
-    <div class="center">
-        <img src="assets/lecture5/matsun.png"/>
-    </div>
-    <div>
-    <h2>matsun</h2>
-    数理計算科学系B2です．SysAd．JIZI(ネットワーク局)で色々やってます．好きな言語はRust🦀
-    </div>
-</div>
-
----
 
 # 目次
 
