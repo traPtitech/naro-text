@@ -29,14 +29,16 @@ export default defineConfig({
     siteTitle: 'なろう講習会',
     nav: [
       { text: 'Home', link: '/' },
-      { text: '座学編', link: '/lectures/' }
+      { text: '座学編', link: '/lectures/' },
+      { text: 'Docker・Kubernetes', link: '/docker_kubernetes/0_index' }
     ],
 
     sidebar: {
       '/web_basic/': buildSidebar('web_basic'),
       '/chapter1/': buildSidebar('chapter1'),
       '/chapter2/': buildSidebar('chapter2'),
-      '/chapter4/': buildSidebar('chapter4')
+      '/chapter4/': buildSidebar('chapter4'),
+      '/docker_kubernetes/': buildSidebar('docker_kubernetes')
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/traPtitech/naro-text' }],
     search: {

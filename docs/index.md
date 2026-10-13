@@ -13,6 +13,9 @@ hero:
       text: 実習編を読む
       link: /chapter1/
 features:
+  - title: Docker・Kubernetes講習会
+    details: コンテナの基礎から、Kubernetesでの配置・通信・設定変更までを学びます。
+    link: /docker_kubernetes/0_index
   - title: Web開発の基礎
     details: Web開発の基礎的な知識を学びます。
     link: /web_basic/0_index.md
