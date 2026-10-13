@@ -1,0 +1,11 @@
+name: naro-containers
+services:
+  web:
+    image: nginx:1.28.0-alpine
+    ports:
+      - '127.0.0.1:8088:80'
+    volumes:
+      - ./html:/usr/share/nginx/html:ro
+  client:
+    image: curlimages/curl:8.14.1
+    profiles: [tools]
